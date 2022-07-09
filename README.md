@@ -5,6 +5,8 @@ The initial purpose of this fork is to modify the source code so that it can use
 
 With more memory and a faster CPU, there are additional features that can be added that could benefit uBitx owners.
 
+I am calling this V2.0 which is a little audacious given that I do not have Ian's permission. Hope he doesn't mind!
+
 73
 Mark
 AJ6CU
