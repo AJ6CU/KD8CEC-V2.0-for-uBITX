@@ -1,4 +1,18 @@
 #NOTICE
+This is a fork of Ian KD8CEC's uBitx firmware. 
+
+The initial purpose of this fork is to modify the source code so that it can use newer processors with more memory and faster CPU's. In particular, the new Nano 33 IOT and BLE processors will be supported by the intial efforts. Since neither of these processors include onboard EEPROM's, porting this software will require providing an option for off-processor EEPROM's that are accessed via I2C bus. 
+
+With more memory and a faster CPU, there are additional features that can be added that could benefit uBitx owners.
+
+73
+Mark
+AJ6CU
+
+What follows are the last Releases notes provided by Ian.
+
+
+#NOTICE
 ----------------------------------------------------------------------------
 - Now Release Version 1.20 on my blog (http://www.hamskey.com)
 - You can download and compiled hex file and uBITX Manager application on release section (https://github.com/phdlee/ubitx/releases)
