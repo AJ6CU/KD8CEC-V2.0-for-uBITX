@@ -7,7 +7,7 @@
 //    This firmware has been gradually changed based on the original firmware created by Farhan, Jack, Jerry and others.
 
 #define FIRMWARE_VERSION_INFO F("+v2.000")  
-#define FIRMWARE_VERSION_NUM 0x05       //1st Complete Project : 1 (Version 1.061), 2st Project : 2, 1.08: 3, 1.09 : 4 2.0 5
+#define FIRMWARE_VERSION_NUM 0x04       //1st Complete Project : 1 (Version 1.061), 2st Project : 2, 1.08: 3, 1.09 : 4 2.0 5
 
 /**
  Cat Suppoort uBITX CEC Version
@@ -49,8 +49,12 @@
  *  Si5351 object to control the clocks.
  */
 #include <Wire.h>
-#include <EEPROM.h>
 #include "ubitx.h"
+
+#ifndef USE_I2C_EEPROM
+   #include <EEPROM.h>
+#endif
+
 #include "ubitx_eemap.h"
 
 /**
@@ -1381,7 +1385,11 @@ void setup()
     I2C_LCD_SECOND_ADDRESS = I2C_LCD_SECOND_ADDRESS_DEFAULT;
 #endif  
   
-  //Serial.begin(9600);
+  Serial.begin(9600);
+
+Wire.begin();
+
+  
   LCD_Init();
   //printLineF(1, FIRMWARE_VERSION_INFO);
   DisplayVersionInfo(FIRMWARE_VERSION_INFO);

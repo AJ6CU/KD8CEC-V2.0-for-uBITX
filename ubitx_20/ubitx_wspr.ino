@@ -21,8 +21,11 @@ Thanks for testing
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************************/
 
-#include <EEPROM.h>
 #include "ubitx.h"
+
+#ifndef USE_I2C_EEPROM
+   #include <EEPROM.h>
+#endif
 
 //begin of test
 byte WsprToneCode[164];
@@ -195,4 +198,3 @@ void SendWSPRManage()
     //delay_background(50, 1);
   } //end of while
 }
-

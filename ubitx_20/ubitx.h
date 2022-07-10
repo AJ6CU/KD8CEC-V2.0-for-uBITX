@@ -23,7 +23,18 @@
 // Compile Option
 //==============================================================================
 //Ubitx Board Version
-#define UBITX_BOARD_VERSION 2           //v1 ~ v4 : 4, v5: 5
+#define UBITX_BOARD_VERSION 4           //v1 ~ v4 : 4, v5: 5
+
+//Use Internal or External EEPROM
+//#define USE_INTERNAL_EEPROM           // Use EEPROM on MCU
+#define USE_I2C_EEPROM                // Use external EEPROM connected on I2C bus
+
+#ifdef USE_I2C_EEPROM
+  #include <SparkFun_External_EEPROM.h>
+  ExternalEEPROM I2C_EEPROM;
+  #define EEPROM  I2C_EEPROM
+#endif
+  
 
 //Depending on the type of LCD mounted on the uBITX, uncomment one of the options below.
 //You must select only one.
@@ -59,6 +70,7 @@ extern byte I2C_LCD_SECOND_ADDRESS;     //only using Dual LCD Mode
 // User Select feather list
 //==============================================================================
 //Enable all features
+/*
 #define FN_BAND         1 //592
 #define FN_VFO_TOGGLE   1 //78
 #define FN_MODE         1 //20
@@ -81,7 +93,7 @@ extern byte I2C_LCD_SECOND_ADDRESS;     //only using Dual LCD Mode
 #define FN_KEYTYPE      1 //168
 #define FN_ADCMONITOR   1 //516
 #define FN_TXONOFF      1 //58
-
+*/
 /*
 //Test Configuration  (88%)
 #define FN_BAND         0 //592
@@ -134,7 +146,7 @@ extern byte I2C_LCD_SECOND_ADDRESS;     //only using Dual LCD Mode
 #define FN_TXONOFF      1 //58
 */
 
-/*
+
 //Recommended for Nextion, TJC LCD 88%
 #define FN_BAND         1 //600
 #define FN_VFO_TOGGLE   1 //90
@@ -158,7 +170,7 @@ extern byte I2C_LCD_SECOND_ADDRESS;     //only using Dual LCD Mode
 #define FN_KEYTYPE      0 //294
 #define FN_ADCMONITOR   0 //526 //not available with Nextion or Serial UI
 #define FN_TXONOFF      1 //70
-*/
+
 //==============================================================================
 // End of User Select Mode and Compil options
 //==============================================================================
