@@ -51,9 +51,13 @@
 #include <Wire.h>
 #include "ubitx.h"
 
-#ifndef USE_I2C_EEPROM
+#ifdef USE_I2C_EEPROM
+  #include <SparkFun_External_EEPROM.h>
+  ExternalEEPROM I2C_EEPROM;
+#else
    #include <EEPROM.h>
 #endif
+
 
 #include "ubitx_eemap.h"
 
@@ -290,7 +294,7 @@ void setNextHamBandFreq(unsigned long f, char moveDirection)
   if (findedIndex == -1)
     findedIndex = (moveDirection == 1 ? 0 : useHamBandCount -1);
 
-  EEPROM.get(HAM_BAND_FREQS + 4 * findedIndex, resultFreq);
+  EEPROMTYPE.get(HAM_BAND_FREQS + 4 * findedIndex, resultFreq);
   
   //loadMode = (byte)(resultFreq >> 30);
   //resultFreq = resultFreq & 0x3FFFFFFF;
@@ -306,8 +310,8 @@ void setNextHamBandFreq(unsigned long f, char moveDirection)
 
 void saveBandFreqByIndex(unsigned long f, unsigned long mode, char bandIndex) {
   if (bandIndex >= 0)
-    //EEPROM.put(HAM_BAND_FREQS + 4 * bandIndex, (f & 0x3FFFFFFF) | (mode << 30) );
-    EEPROM.put(HAM_BAND_FREQS + 4 * bandIndex, (f & 0x1FFFFFFF) | (mode << 29) );
+    //EEPROMTYPE.put(HAM_BAND_FREQS + 4 * bandIndex, (f & 0x3FFFFFFF) | (mode << 30) );
+    EEPROMTYPE.put(HAM_BAND_FREQS + 4 * bandIndex, (f & 0x1FFFFFFF) | (mode << 29) );
 }
 
 /*
@@ -762,7 +766,7 @@ void checkButton(){
         if (++tuneStepIndex > 5)
           tuneStepIndex = 1;
   
-        EEPROM.put(TUNING_STEP, tuneStepIndex);
+        EEPROMTYPE.put(TUNING_STEP, tuneStepIndex);
         printLine2ClearAndUpdate();
         break;
 
@@ -910,12 +914,12 @@ void storeFrequencyAndMode(byte saveType)
   if (saveType == 0 || saveType == 1) //vfoA
   {
       if (vfoA != vfoA_eeprom) {
-        EEPROM.put(VFO_A, vfoA);
+        EEPROMTYPE.put(VFO_A, vfoA);
         vfoA_eeprom = vfoA;
       }
       
       if (vfoA_mode != vfoA_mode_eeprom) {
-        EEPROM.put(VFO_A_MODE, vfoA_mode);
+        EEPROMTYPE.put(VFO_A_MODE, vfoA_mode);
         vfoA_mode_eeprom = vfoA_mode;
       }
   }
@@ -923,12 +927,12 @@ void storeFrequencyAndMode(byte saveType)
   if (saveType == 0 || saveType == 2) //vfoB
   {
       if (vfoB != vfoB_eeprom) {
-        EEPROM.put(VFO_B, vfoB);
+        EEPROMTYPE.put(VFO_B, vfoB);
         vfoB_eeprom = vfoB;
       }
       
       if (vfoB_mode != vfoB_mode_eeprom) {
-          EEPROM.put(VFO_B_MODE, vfoB_mode);
+          EEPROMTYPE.put(VFO_B_MODE, vfoB_mode);
           vfoB_mode_eeprom = vfoB_mode;
       }
   }
@@ -959,12 +963,12 @@ void initSettings(){
   //read the settings from the eeprom and restore them
   //if the readings are off, then set defaults
   //for original source Section ===========================
-  EEPROM.get(MASTER_CAL, calibration); 
-  EEPROM.get(USB_CAL, usbCarrier);
-  EEPROM.get(VFO_A, vfoA);
-  EEPROM.get(VFO_B, vfoB);
-  EEPROM.get(CW_SIDETONE, sideTone);
-  EEPROM.get(CW_SPEED, cwSpeed);
+  EEPROMTYPE.get(MASTER_CAL, calibration); 
+  EEPROMTYPE.get(USB_CAL, usbCarrier);
+  EEPROMTYPE.get(VFO_A, vfoA);
+  EEPROMTYPE.get(VFO_B, vfoB);
+  EEPROMTYPE.get(CW_SIDETONE, sideTone);
+  EEPROMTYPE.get(CW_SPEED, cwSpeed);
   //End of original code
   
   //----------------------------------------------------------------
@@ -973,28 +977,28 @@ void initSettings(){
   //ID & Version Check from EEProm 
   //if found different firmware, erase eeprom (32
   #define FIRMWAR_ID_ADDR 776 //776 : 0x59, 777 :0x58, 778 : 0x68 : Id Number, if not found id, erase eeprom(32~1023) for prevent system error.
-  if (EEPROM.read(FIRMWAR_ID_ADDR) != 0x59 || 
-    EEPROM.read(FIRMWAR_ID_ADDR + 1) != 0x58 || 
-    EEPROM.read(FIRMWAR_ID_ADDR + 2) != 0x68 ) {
+  if (EEPROMTYPE.read(FIRMWAR_ID_ADDR) != 0x59 || 
+    EEPROMTYPE.read(FIRMWAR_ID_ADDR + 1) != 0x58 || 
+    EEPROMTYPE.read(FIRMWAR_ID_ADDR + 2) != 0x68 ) {
       
     printLineF(1, F("Init EEProm...")); 
       //initial all eeprom 
     for (unsigned int i = 64; i < 1024; i++) //protect Master_cal, usb_cal
-      EEPROM.write(i, 0);
+      EEPROMTYPE.write(i, 0);
 
     //Write Firmware ID
-    EEPROM.write(FIRMWAR_ID_ADDR, 0x59);
-    EEPROM.write(FIRMWAR_ID_ADDR + 1, 0x58);
-    EEPROM.write(FIRMWAR_ID_ADDR + 2, 0x68);
+    EEPROMTYPE.write(FIRMWAR_ID_ADDR, 0x59);
+    EEPROMTYPE.write(FIRMWAR_ID_ADDR + 1, 0x58);
+    EEPROMTYPE.write(FIRMWAR_ID_ADDR + 2, 0x68);
   }
   
   //Version Write for Memory Management Software
-  if (EEPROM.read(VERSION_ADDRESS) != FIRMWARE_VERSION_NUM)
-    EEPROM.write(VERSION_ADDRESS, FIRMWARE_VERSION_NUM);
+  if (EEPROMTYPE.read(VERSION_ADDRESS) != FIRMWARE_VERSION_NUM)
+    EEPROMTYPE.write(VERSION_ADDRESS, FIRMWARE_VERSION_NUM);
 
   //SI5351 I2C Address
   //I2C_ADDR_SI5351
-  SI5351BX_ADDR = EEPROM.read(I2C_ADDR_SI5351);
+  SI5351BX_ADDR = EEPROMTYPE.read(I2C_ADDR_SI5351);
   if (SI5351BX_ADDR < 0x10 || SI5351BX_ADDR > 0xF0)
   {
     SI5351BX_ADDR = 0x60;
@@ -1003,26 +1007,26 @@ void initSettings(){
 
   //Backup Calibration Setting from Factory Setup
   //Check Factory Setting Backup Y/N
-  if (EEPROM.read(FACTORY_BACKUP_YN) != 0x13) {
-    EEPROM.write(FACTORY_BACKUP_YN, 0x13);  //Set Backup Y/N
+  if (EEPROMTYPE.read(FACTORY_BACKUP_YN) != 0x13) {
+    EEPROMTYPE.write(FACTORY_BACKUP_YN, 0x13);  //Set Backup Y/N
     
     for (unsigned int i = 0; i < 32; i++) //factory setting range
-      EEPROM.write(FACTORY_VALUES + i, EEPROM.read(i)); //0~31 => 65~96
+      EEPROMTYPE.write(FACTORY_VALUES + i, EEPROMTYPE.read(i)); //0~31 => 65~96
   }
 
-  EEPROM.get(CW_CAL, cwmCarrier);
+  EEPROMTYPE.get(CW_CAL, cwmCarrier);
 
   //for Save VFO_A_MODE to eeprom
   //0: default, 1:not use, 2:LSB, 3:USB, 4:CW, 5:AM, 6:FM
-  EEPROM.get(VFO_A_MODE, vfoA_mode);
-  EEPROM.get(VFO_B_MODE, vfoB_mode);
+  EEPROMTYPE.get(VFO_A_MODE, vfoA_mode);
+  EEPROMTYPE.get(VFO_B_MODE, vfoB_mode);
 
   //CW DelayTime
-  EEPROM.get(CW_DELAY, cwDelayTime);
+  EEPROMTYPE.get(CW_DELAY, cwDelayTime);
 
   //CW interval between TX and CW Start
-  EEPROM.get(CW_START, delayBeforeCWStartTime);
-  EEPROM.get(CW_KEY_TYPE, cwKeyType);
+  EEPROMTYPE.get(CW_START, delayBeforeCWStartTime);
+  EEPROMTYPE.get(CW_KEY_TYPE, cwKeyType);
   if (cwKeyType > 2)
     cwKeyType = 0;
 
@@ -1037,24 +1041,24 @@ void initSettings(){
       keyerControl |= IAMBICB;
   }
 
-  EEPROM.get(COMMON_OPTION0, commonOption0);
-  EEPROM.get(DISPLAY_OPTION1, displayOption1);
-  EEPROM.get(DISPLAY_OPTION2, displayOption2);
+  EEPROMTYPE.get(COMMON_OPTION0, commonOption0);
+  EEPROMTYPE.get(DISPLAY_OPTION1, displayOption1);
+  EEPROMTYPE.get(DISPLAY_OPTION2, displayOption2);
 
   for (byte i = 0; i < 8; i++) {
-    sMeterLevels[i + 1] = EEPROM.read(S_METER_LEVELS + i);
+    sMeterLevels[i + 1] = EEPROMTYPE.read(S_METER_LEVELS + i);
   }
 
   //KeyValues
   for (byte i = 0; i < 16; i++) {
-    KeyValues[i][0] = EEPROM.read(EXTENDED_KEY_RANGE + (i * 3));        //RANGE : Start Value
-    KeyValues[i][1] = EEPROM.read(EXTENDED_KEY_RANGE + (i * 3) + 1);    //RANGE : End Value
-    KeyValues[i][2] = EEPROM.read(EXTENDED_KEY_RANGE + (i * 3) + 2);    //KEY TYPE 
+    KeyValues[i][0] = EEPROMTYPE.read(EXTENDED_KEY_RANGE + (i * 3));        //RANGE : Start Value
+    KeyValues[i][1] = EEPROMTYPE.read(EXTENDED_KEY_RANGE + (i * 3) + 1);    //RANGE : End Value
+    KeyValues[i][2] = EEPROMTYPE.read(EXTENDED_KEY_RANGE + (i * 3) + 2);    //KEY TYPE 
   }
 
 #ifdef USE_CUSTOM_LPF_FILTER 
   //Custom Filters
-  EEPROM.get(CUST_LPF_ENABLED, isCustomFilter);
+  EEPROMTYPE.get(CUST_LPF_ENABLED, isCustomFilter);
   if (isCustomFilter == 0x58)
   {
     isCustomFilter_A7 = 1;
@@ -1062,8 +1066,8 @@ void initSettings(){
   isCustomFilter = (isCustomFilter == 0x58 || isCustomFilter == 0x57);
   
   for (byte i = 0; i < 7; i++) {
-    CustFilters[i][0] = EEPROM.read(CUST_LPF_START + (i * 2));        //LPF (To) Mhz
-    CustFilters[i][1] = EEPROM.read(CUST_LPF_START + (i * 2) + 1);    //Enabled I/O
+    CustFilters[i][0] = EEPROMTYPE.read(CUST_LPF_START + (i * 2));        //LPF (To) Mhz
+    CustFilters[i][1] = EEPROMTYPE.read(CUST_LPF_START + (i * 2) + 1);    //Enabled I/O
   }
 //char isCustomFilter = 0;
 //char isCustomFilter_A7 = 0;
@@ -1071,25 +1075,25 @@ void initSettings(){
 #endif
 
   //User callsign information
-  if (EEPROM.read(USER_CALLSIGN_KEY) == 0x59)
-    userCallsignLength = EEPROM.read(USER_CALLSIGN_LEN);  //MAXIMUM 18 LENGTH
+  if (EEPROMTYPE.read(USER_CALLSIGN_KEY) == 0x59)
+    userCallsignLength = EEPROMTYPE.read(USER_CALLSIGN_LEN);  //MAXIMUM 18 LENGTH
 
   //Ham Band Count
-  EEPROM.get(HAM_BAND_COUNT, useHamBandCount);
-  EEPROM.get(TX_TUNE_TYPE, tuneTXType);
+  EEPROMTYPE.get(HAM_BAND_COUNT, useHamBandCount);
+  EEPROMTYPE.get(TX_TUNE_TYPE, tuneTXType);
 
   byte findedValidValueCount = 0;
     
   //Read band Information
   for (byte i = 0; i < useHamBandCount; i++) {
     unsigned int tmpReadValue = 0;
-    EEPROM.get(HAM_BAND_RANGE + 4 * i, tmpReadValue);
+    EEPROMTYPE.get(HAM_BAND_RANGE + 4 * i, tmpReadValue);
     hamBandRange[i][0] = tmpReadValue;
 
     if (tmpReadValue > 1 && tmpReadValue < 55000)
       findedValidValueCount++;
 
-    EEPROM.get(HAM_BAND_RANGE + 4 * i + 2, tmpReadValue);
+    EEPROMTYPE.get(HAM_BAND_RANGE + 4 * i + 2, tmpReadValue);
     hamBandRange[i][1] = tmpReadValue;
   }
 
@@ -1115,9 +1119,9 @@ void initSettings(){
 
   //Read Tuning Step Index, and steps
   findedValidValueCount = 0;
-  EEPROM.get(TUNING_STEP, tuneStepIndex);
+  EEPROMTYPE.get(TUNING_STEP, tuneStepIndex);
   for (byte i = 0; i < 5; i++) {
-    arTuneStep[i] = byteToSteps(EEPROM.read(TUNING_STEP + i + 1));
+    arTuneStep[i] = byteToSteps(EEPROMTYPE.read(TUNING_STEP + i + 1));
     if (arTuneStep[i] >= 1 && arTuneStep[i] <= 60000) //Maximum 650 for check valid Value
        findedValidValueCount++;
   }
@@ -1139,20 +1143,20 @@ void initSettings(){
   //CW Key ADC Range ======= adjust set value for reduce cw keying error
   //by KD8CEC
   unsigned int tmpMostBits = 0;
-  tmpMostBits = EEPROM.read(CW_ADC_MOST_BIT1);
-  cwAdcSTFrom = EEPROM.read(CW_ADC_ST_FROM)   | ((tmpMostBits & 0x03) << 8);
-  cwAdcSTTo = EEPROM.read(CW_ADC_ST_TO)       | ((tmpMostBits & 0x0C) << 6);
-  cwAdcDotFrom = EEPROM.read(CW_ADC_DOT_FROM) | ((tmpMostBits & 0x30) << 4);
-  cwAdcDotTo = EEPROM.read(CW_ADC_DOT_TO)     | ((tmpMostBits & 0xC0) << 2);
+  tmpMostBits = EEPROMTYPE.read(CW_ADC_MOST_BIT1);
+  cwAdcSTFrom = EEPROMTYPE.read(CW_ADC_ST_FROM)   | ((tmpMostBits & 0x03) << 8);
+  cwAdcSTTo = EEPROMTYPE.read(CW_ADC_ST_TO)       | ((tmpMostBits & 0x0C) << 6);
+  cwAdcDotFrom = EEPROMTYPE.read(CW_ADC_DOT_FROM) | ((tmpMostBits & 0x30) << 4);
+  cwAdcDotTo = EEPROMTYPE.read(CW_ADC_DOT_TO)     | ((tmpMostBits & 0xC0) << 2);
   
-  tmpMostBits = EEPROM.read(CW_ADC_MOST_BIT2);
-  cwAdcDashFrom = EEPROM.read(CW_ADC_DASH_FROM) | ((tmpMostBits & 0x03) << 8);
-  cwAdcDashTo = EEPROM.read(CW_ADC_DASH_TO)     | ((tmpMostBits & 0x0C) << 6);
-  cwAdcBothFrom = EEPROM.read(CW_ADC_BOTH_FROM) | ((tmpMostBits & 0x30) << 4);
-  cwAdcBothTo = EEPROM.read(CW_ADC_BOTH_TO)     | ((tmpMostBits & 0xC0) << 2);
+  tmpMostBits = EEPROMTYPE.read(CW_ADC_MOST_BIT2);
+  cwAdcDashFrom = EEPROMTYPE.read(CW_ADC_DASH_FROM) | ((tmpMostBits & 0x03) << 8);
+  cwAdcDashTo = EEPROMTYPE.read(CW_ADC_DASH_TO)     | ((tmpMostBits & 0x0C) << 6);
+  cwAdcBothFrom = EEPROMTYPE.read(CW_ADC_BOTH_FROM) | ((tmpMostBits & 0x30) << 4);
+  cwAdcBothTo = EEPROMTYPE.read(CW_ADC_BOTH_TO)     | ((tmpMostBits & 0xC0) << 2);
 
   //Display Type for CW mode
-  isShiftDisplayCWFreq = EEPROM.read(CW_DISPLAY_SHIFT);
+  isShiftDisplayCWFreq = EEPROMTYPE.read(CW_DISPLAY_SHIFT);
 
   //Enable / Diable Check for CW Display Cofiguration Group 
   if ((commonOption0 & 0x80) != 0x00)
@@ -1174,26 +1178,26 @@ void initSettings(){
    //Stored IF Shift Option
   if ((commonOption0 & 0x40) != 0x00)
   {
-    EEPROM.get(IF_SHIFTVALUE, ifShiftValue);
+    EEPROMTYPE.get(IF_SHIFTVALUE, ifShiftValue);
     isIFShift = ifShiftValue != 0;
   }
 
   //Advanced Freq control
-  EEPROM.get(ADVANCED_FREQ_OPTION1, advancedFreqOption1);
+  EEPROMTYPE.get(ADVANCED_FREQ_OPTION1, advancedFreqOption1);
 
   //byte advancedFreqOption1;     //255 : Bit0: use IFTune_Value, Bit1 : use Stored enabled SDR Mode, Bit2 : dynamic sdr frequency0, Bit3 : dynamic sdr frequency1, bit 7: IFTune_Value Reverse for DIY uBITX
   if ((advancedFreqOption1 & 0x01) != 0x00)
   {
-    EEPROM.get(IF1_CAL, if1TuneValue);
+    EEPROMTYPE.get(IF1_CAL, if1TuneValue);
 
     //Stored Enabled SDR Mode
     if ((advancedFreqOption1 & 0x02) != 0x00)
     {
-      EEPROM.get(ENABLE_SDR, sdrModeOn);
+      EEPROMTYPE.get(ENABLE_SDR, sdrModeOn);
     }
   }
   
-  EEPROM.get(SDR_FREQUNCY, SDR_Center_Freq);
+  EEPROMTYPE.get(SDR_FREQUNCY, SDR_Center_Freq);
   //if (SDR_Center_Freq == 0)
   //  SDR_Center_Freq = 32000000;
 
@@ -1326,7 +1330,7 @@ void initPorts(){
 //Recovery Factory Setting Values 
 void factory_Recovery()
 {
-  if (EEPROM.read(FACTORY_BACKUP_YN) != 0x13)
+  if (EEPROMTYPE.read(FACTORY_BACKUP_YN) != 0x13)
     return;
 
   if (digitalRead(PTT) == 0)  //Do not proceed if PTT is pressed to prevent malfunction.
@@ -1348,7 +1352,7 @@ void factory_Recovery()
   if (digitalRead(PTT) == 0)
   {
     for (unsigned int i = 0; i < 32; i++) //factory setting range
-      EEPROM.write(i, EEPROM.read(FACTORY_VALUES + i)); //65~96 => 0~31
+      EEPROMTYPE.write(i, EEPROMTYPE.read(FACTORY_VALUES + i)); //65~96 => 0~31
 
     //printLineF2(F("CompleteRecovery"));
     printLineF1(F("Power Reset!"));
@@ -1364,7 +1368,7 @@ void setup()
   //please remove remark for others.
   //for (int i = 0; i < 1024; i++)
   for (int i = 16; i < 1024; i++) //protect Master_cal, usb_cal
-    EEPROM.write(i, 0xFF);
+    EEPROMTYPE.write(i, 0xFF);
   lcd.begin(16, 2);
   printLineF(1, F("Complete Erase")); 
   sleep(1000);
@@ -1375,8 +1379,8 @@ void setup()
   //Load I2C LCD Address for I2C LCD 
   //I2C LCD Parametere
 #ifdef USE_I2C_LCD  
-  EEPROM.get(I2C_LCD_MASTER, I2C_LCD_MASTER_ADDRESS);
-  EEPROM.get(I2C_LCD_SECOND, I2C_LCD_SECOND_ADDRESS);
+  EEPROMTYPE.get(I2C_LCD_MASTER, I2C_LCD_MASTER_ADDRESS);
+  EEPROMTYPE.get(I2C_LCD_SECOND, I2C_LCD_SECOND_ADDRESS);
 
   if (I2C_LCD_MASTER_ADDRESS < 0x10 || I2C_LCD_MASTER_ADDRESS > 0xF0)
     I2C_LCD_MASTER_ADDRESS = I2C_LCD_MASTER_ADDRESS_DEFAULT;

@@ -21,8 +21,11 @@ Thanks for testing
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************************/
 
-#include <EEPROM.h>
 #include "ubitx.h"
+
+#ifndef USE_I2C_EEPROM
+   #include <EEPROM.h>
+#endif
 
 //begin of test
 byte WsprToneCode[164];
@@ -86,7 +89,7 @@ void SendWSPRManage()
         //Read Tone Code
         for (int i = 0; i < 41; i++)
         {
-          byte readData = EEPROMTYPE.read(WSPR_MESSAGE1 + 5 + (wsprMessageBuffIndex) + i);  //NAME TAG 5, MESSAGE 41 = 46
+          byte readData = EEPROM.read(WSPR_MESSAGE1 + 5 + (wsprMessageBuffIndex) + i);  //NAME TAG 5, MESSAGE 41 = 46
           WsprToneCode[i * 4 + 0] = readData & 3;
           WsprToneCode[i * 4 + 1] = (readData >> 2) & 3;
           WsprToneCode[i * 4 + 2] = (readData >> 4) & 3;
@@ -109,15 +112,15 @@ void SendWSPRManage()
         selectedWsprBandIndex = nowSelectedIndex;
         int bandBuffIndex = WSPR_BAND1 + selectedWsprBandIndex * 14;
         
-        EEPROMTYPE.get(bandBuffIndex, WsprTXFreq); 
-        EEPROMTYPE.get(bandBuffIndex + 4, WsprMultiChan); 
+        EEPROM.get(bandBuffIndex, WsprTXFreq); 
+        EEPROM.get(bandBuffIndex + 4, WsprMultiChan); 
 
         for (loopIndex = 3; loopIndex < 8; loopIndex++)
-          Wspr_Reg1[loopIndex] = EEPROMTYPE.read(bandBuffIndex + loopIndex + 3);
+          Wspr_Reg1[loopIndex] = EEPROM.read(bandBuffIndex + loopIndex + 3);
 
         //2, 3, 4
         for (loopIndex = 2; loopIndex < 5; loopIndex++)
-          Wspr_Reg2[loopIndex] = EEPROMTYPE.read(bandBuffIndex + loopIndex + 9);
+          Wspr_Reg2[loopIndex] = EEPROM.read(bandBuffIndex + loopIndex + 9);
 
         TX_MSNB_P2 = ((unsigned long)Wspr_Reg1[5] & 0x0F) << 16 | ((unsigned long)Wspr_Reg1[6]) << 8 | Wspr_Reg1[7];
       }

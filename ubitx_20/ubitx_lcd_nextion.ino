@@ -29,11 +29,19 @@
   Nextion Library for uBItX
   KD8CEC
 **************************************************************************/
-extern void SWSerial_Begin(long speedBaud);
-extern void SWSerial_Write(uint8_t b);
-extern int SWSerial_Available(void);
-extern int SWSerial_Read(void);
-extern void SWSerial_Print(uint8_t *b);
+
+
+#include <SoftwareSerial.h>
+
+#define RX_PIN 8
+#define TX_PIN 9
+
+#define SS_MAX_RX_BUFF 35 // RX buffer size
+#define PRINT_MAX_LENGTH 30
+static uint8_t swr_receive_buffer[SS_MAX_RX_BUFF];
+
+SoftwareSerial sSerial(RX_PIN, TX_PIN); // RX, TX
+
 
 #define TEXT_LINE_LENGTH 20
 char softBuffLines[2][TEXT_LINE_LENGTH + 1];
@@ -46,7 +54,7 @@ char softTemp[20];
 
 void LCDNextion_Init()
 {
-  SWSerial_Begin(9600);
+  sSerial.begin(9600);
   memset(softBuffLines[0], ' ', TEXT_LINE_LENGTH); 
   softBuffLines[0][TEXT_LINE_LENGTH + 1] = 0x00;
   memset(softBuffLines[1], ' ', TEXT_LINE_LENGTH);
@@ -220,13 +228,13 @@ void SendHeader(char varType, char varIndex)
   {
     softSTRHeader[4] = varIndex;
     for (int i = 0; i < 11; i++)
-      SWSerial_Write(softSTRHeader[i]);
+      sSerial.write(softSTRHeader[i]);
   }
   else
   {
     softINTHeader[4] = varIndex;
     for (int i = 0; i < 10; i++)
-      SWSerial_Write(softINTHeader[i]);
+      sSerial.write(softINTHeader[i]);
   }
 }
 
@@ -242,16 +250,16 @@ void SendCommandETX(char etxType)
 {
   if (etxType == 2)
   {
-    SWSerial_Print(softTemp);
+    sSerial.print(softTemp);
   }
   else if (etxType == 1)
   {
-    SWSerial_Print("\"");
+    sSerial.print("\"");
   }
   
-  SWSerial_Write(0xff);
-  SWSerial_Write(0xff);
-  SWSerial_Write(0xff);
+  sSerial.write(0xff);
+  sSerial.write(0xff);
+  sSerial.write(0xff);
 }
 
 void SendCommandUL(char varIndex, unsigned long sendValue)
@@ -276,7 +284,7 @@ void SendCommandStr(char varIndex, char* sendValue)
 {
   SendHeader(SWS_HEADER_STR_TYPE, varIndex);
   
-  SWSerial_Print(sendValue);
+  sSerial.print(sendValue);
   SendCommandETX(STR_ETX);
 }
 
@@ -288,7 +296,7 @@ void SendTextLineBuff(char lineNumber)
   {
     SendHeader(SWS_HEADER_STR_TYPE, lineNumber + 0x30);  //s0.txt, s1.txt
   
-    SWSerial_Print(softBuffLines[lineNumber]);
+    sSerial.print(softBuffLines[lineNumber]);
     SendCommandETX(STR_ETX);
     
     strcpy(softBuffSended[lineNumber], softBuffLines[lineNumber]);
@@ -321,7 +329,7 @@ void SendEEPromData(char varIndex, int eepromStartIndex, int eepromEndIndex, cha
   
   for (int i = eepromStartIndex; i <= eepromEndIndex; i++)
   {
-      SWSerial_Write(EEPROM.read((offsetTtype == 0 ? USER_CALLSIGN_DAT : WSPR_MESSAGE1) + i));
+      sSerial.write(EEPROMTYPE.read((offsetTtype == 0 ? USER_CALLSIGN_DAT : WSPR_MESSAGE1) + i));
   }
 
   SendCommandETX(STR_ETX);
@@ -334,7 +342,7 @@ void SendCommand1Num(char varType, char sendValue) //0~9 : Mode, nowDisp, Active
   softBuff1Num[10] = sendValue + 0x30;
 
   for (int i = 0; i < 14; i++)
-    SWSerial_Write(softBuff1Num[i]);
+    sSerial.write(softBuff1Num[i]);
 }
 
 void SetSWActivePage(char newPageIndex)
@@ -351,6 +359,7 @@ void SetSWActivePage(char newPageIndex)
 
 // The generic routine to display one line on the LCD 
 void printLine(unsigned char linenmbr, const char *c) {
+  
   SendTextLineStr(linenmbr, c);
 }
 
@@ -377,7 +386,7 @@ void printLineFromEEPRom(char linenmbr, char lcdColumn, byte eepromStartIndex, b
   for (byte i = eepromStartIndex; i <= eepromEndIndex; i++)
   {
     if (++lcdColumn <= LCD_MAX_COLUMN)
-      softBuffLines[linenmbr][colIndex++] = EEPROM.read((offsetTtype == 0 ? USER_CALLSIGN_DAT : WSPR_MESSAGE1) + i);
+      softBuffLines[linenmbr][colIndex++] = EEPROMTYPE.read((offsetTtype == 0 ? USER_CALLSIGN_DAT : WSPR_MESSAGE1) + i);
     else
       break;
   }
@@ -680,7 +689,7 @@ void sendResponseData(int protocolType, unsigned long startFreq, unsigned int se
   for (int si = 0; si < sendCount; si++)
   {
     for (int i = 0; i < 11; i++)
-      SWSerial_Write(ResponseHeader[i]);
+      sSerial.write(ResponseHeader[i]);
       
     for (k = 0; k < readCount; k ++)
     {
@@ -713,17 +722,17 @@ void sendResponseData(int protocolType, unsigned long startFreq, unsigned int se
       }
       else
       {
-        readedValue = EEPROM.read(((sendOption2 == RESPONSE_EEPROM_HEX_R) ? (readCount - k - 1) : k) + sendOption1);
+        readedValue = EEPROMTYPE.read(((sendOption2 == RESPONSE_EEPROM_HEX_R) ? (readCount - k - 1) : k) + sendOption1);
       }
 
       if (protocolType == RESPONSE_EEPROM && sendOption2 == RESPONSE_EEPROM_STR) //None HEX
       {
-        SWSerial_Write(readedValue);
+        sSerial.write(readedValue);
       }
       else
       {
-        SWSerial_Write(HexCodes[readedValue >> 4]);
-        SWSerial_Write(HexCodes[readedValue & 0xf]);
+        sSerial.write(HexCodes[readedValue >> 4]);
+        sSerial.write(HexCodes[readedValue & 0xf]);
       }
     }
     
@@ -738,19 +747,65 @@ int spectrumSendCount = 10;   //count of full scan and Send
 int spectrumOffset = 0;    //offset position
 int spectrumScanCount = 100;  //Maximum 200
 unsigned int spectrumIncStep = 1000;   //Increaase Step
-extern uint8_t receivedCommandLength;
-extern void SWSerial_Read(uint8_t * receive_cmdBuffer);
-uint8_t swr_buffer[20];
+
+uint8_t receivedCommandLength;
+int8_t receiveIndex = 0;
+int8_t ffCount = 0;
+
+uint8_t d = 0;
 
 //SoftwareSerial_Process
 void SWS_Process(void)
 {
-  //Received Command from touch screen
+  //Serial.println("SWS_Process Entered");
+  if(sSerial.available())
+  {
+        d=sSerial.read();
+        
+        //Store Received Data
+        swr_receive_buffer[receiveIndex++] = d;
+
+        //Did we find a command?
+        if (d == 0x73 && ffCount > 1 && receiveIndex > 6)
+        {
+          receivedCommandLength = receiveIndex;
+          receiveIndex = 0;
+          ffCount = 0;
+        }
+        else if (receiveIndex > SS_MAX_RX_BUFF)
+        {
+          //Buffer Overflow
+          receiveIndex = 0;
+          ffCount = 0;
+        }
+        else if (d == 0xFF)
+        {
+          ffCount++;
+        }
+        else
+        {
+          ffCount = 0;
+        }
+  
+  }
+  
+  
+  //Received Command from touch screen, now process it
   if (receivedCommandLength > 0)
   {
-    SWSerial_Read(swr_buffer);
 
+#ifdef COMMANDDEBUG
+    for(int i=0;i<receivedCommandLength;i++)
+        Serial.print(swr_receive_buffer[i],HEX);
+    Serial.println("****");
+#endif
     int8_t comandLength = receivedCommandLength;
+
+#ifdef COMMANDDEBUG
+    Serial.print("receivedCommandLength=");
+    Serial.println(receivedCommandLength);
+#endif
+    
     int8_t commandStartIndex = -1;
     receivedCommandLength = 0;
 
@@ -758,26 +813,32 @@ void SWS_Process(void)
     //comandLength //Find start Length
     for (int i = 0; i < comandLength - 3; i++)
     {
-      if (swr_buffer[i] == 0x59 && swr_buffer[i+ 1] == 0x58 && swr_buffer[i + 2] == 0x68)
+      if (swr_receive_buffer[i] == 0x59 && swr_receive_buffer[i+ 1] == 0x58 && swr_receive_buffer[i + 2] == 0x68)
       {
         commandStartIndex = i;
         break;
       }
     } //end of for
 
+#ifdef COMMANDDEBUG
+    Serial.print(commandStartIndex);
+    Serial.print(",");
+    Serial.println(comandLength);
+#endif    
+
     if (commandStartIndex != -1)
     {
       //Complete received command from touch screen
-      uint8_t commandType = swr_buffer[commandStartIndex + 3];
+      uint8_t commandType = swr_receive_buffer[commandStartIndex + 3];
 
       if (commandType == TS_CMD_MODE)
       {
-        byteToMode(swr_buffer[commandStartIndex + 4], 1);
+        byteToMode(swr_receive_buffer[commandStartIndex + 4], 1);
       }
       else if (commandType == TS_CMD_FREQ)
       {
         unsigned long *tempFreq;
-        tempFreq = (unsigned long *)(&swr_buffer[commandStartIndex + 4]);
+        tempFreq = (unsigned long *)(&swr_receive_buffer[commandStartIndex + 4]);
         //if (*tempFreq > 3000)  //for loss protcol
         //{
           frequency = *tempFreq;
@@ -795,7 +856,7 @@ void SWS_Process(void)
             saveBandFreqByIndex(frequency, modeToByte(), currentBandIndex);
           }
         }
-        setNextHamBandFreq(frequency, swr_buffer[commandStartIndex + 4] == 1 ? -1 : 1);  //Prior Band      
+        setNextHamBandFreq(frequency, swr_receive_buffer[commandStartIndex + 4] == 1 ? -1 : 1);  //Prior Band      
       }
       else if (commandType == TS_CMD_VFO)
       {
@@ -826,7 +887,7 @@ void SWS_Process(void)
       }
       else if (commandType == TS_CMD_ATT)
       {
-        attLevel = swr_buffer[commandStartIndex + 4];
+        attLevel = swr_receive_buffer[commandStartIndex + 4];
       }
       else if (commandType == TS_CMD_IFS)
       {
@@ -834,16 +895,16 @@ void SWS_Process(void)
       }
       else if (commandType == TS_CMD_IFSVALUE)
       {
-        ifShiftValue = *(long *)(&swr_buffer[commandStartIndex + 4]);
+        ifShiftValue = *(long *)(&swr_receive_buffer[commandStartIndex + 4]);
       }
       else if (commandType == TS_CMD_STARTADC)
       {
-        int startIndex = swr_buffer[commandStartIndex + 4];
-        int endIndex = swr_buffer[commandStartIndex + 5];
-        int adcCheckInterval = swr_buffer[commandStartIndex + 6] * 10;
+        int startIndex = swr_receive_buffer[commandStartIndex + 4];
+        int endIndex = swr_receive_buffer[commandStartIndex + 5];
+        int adcCheckInterval = swr_receive_buffer[commandStartIndex + 6] * 10;
         int nowCheckIndex = startIndex;
         
-        while(1 == 1)
+        while(1 == 1)      //MJH not going to work because not in isr... Fix later
         {
           if (receivedCommandLength > 0)
           {
@@ -868,31 +929,31 @@ void SWS_Process(void)
       {
         //sendSpectrumData(unsigned long startFreq, unsigned int incStep, int scanCount, int delayTime, int sendCount)
         //sendSpectrumData(frequency - (1000L * 50), 1000, 100, 0, 10);
-        //sendSpectrumData(*(long *)(&swr_buffer[commandStartIndex + 4]), spectrumIncStep, spectrumScanCount, spectrumDelayTime, spectrumSendCount);
+        //sendSpectrumData(*(long *)(&swr_receive_buffer[commandStartIndex + 4]), spectrumIncStep, spectrumScanCount, spectrumDelayTime, spectrumSendCount);
         unsigned long beforeFreq = frequency;
-        sendResponseData(RESPONSE_SPECTRUM, *(long *)(&swr_buffer[commandStartIndex + 4]), spectrumIncStep, spectrumScanCount, spectrumOffset, spectrumSendCount);
+        sendResponseData(RESPONSE_SPECTRUM, *(long *)(&swr_receive_buffer[commandStartIndex + 4]), spectrumIncStep, spectrumScanCount, spectrumOffset, spectrumSendCount);
         frequency = beforeFreq;
       }
       else if (commandType == TS_CMD_SPECTRUMOPT)
       {
         //sendSpectrumData(unsigned long startFreq, unsigned int incStep, int scanCount, int delayTime, int sendCount)
         //sendSpectrumData(frequency - (1000L * 50), 1000, 100, 0, 10);
-        spectrumSendCount = swr_buffer[commandStartIndex + 4];          //count of full scan and Send
-        spectrumOffset = swr_buffer[commandStartIndex + 5];             //Scan interval time
-        spectrumScanCount = swr_buffer[commandStartIndex + 6];          //Maximum 120
-        spectrumIncStep = swr_buffer[commandStartIndex + 7] * 20;       //Increaase Step
+        spectrumSendCount = swr_receive_buffer[commandStartIndex + 4];          //count of full scan and Send
+        spectrumOffset = swr_receive_buffer[commandStartIndex + 5];             //Scan interval time
+        spectrumScanCount = swr_receive_buffer[commandStartIndex + 6];          //Maximum 120
+        spectrumIncStep = swr_receive_buffer[commandStartIndex + 7] * 20;       //Increaase Step
       }
       else if (commandType == TS_CMD_TUNESTEP)      //Set Tune Step
       {
-        tuneStepIndex = swr_buffer[commandStartIndex + 4];    //Tune Step Index
+        tuneStepIndex = swr_receive_buffer[commandStartIndex + 4];    //Tune Step Index
       }
       else if (commandType == TS_CMD_WPM)      //Set WPM
       {
-        cwSpeed = swr_buffer[commandStartIndex + 4];    //
+        cwSpeed = swr_receive_buffer[commandStartIndex + 4];    //
       }
       else if (commandType == TS_CMD_KEYTYPE)                 //Set Key Type
       {
-        cwKeyType = swr_buffer[commandStartIndex + 4];
+        cwKeyType = swr_receive_buffer[commandStartIndex + 4];
 
         //for reduce program memory
         Iambic_Key = cwKeyType != 0;
@@ -912,9 +973,9 @@ void SWS_Process(void)
       }
       else if (commandType == TS_CMD_READMEM ) //Read Mem
       {
-       uint16_t eepromIndex    = *(uint16_t *)(&swr_buffer[commandStartIndex + 4]);
-        byte eepromReadLength   = swr_buffer[commandStartIndex + 6];
-        byte eepromDataType     = swr_buffer[commandStartIndex + 7];  //0 : Hex, 1 : String
+       uint16_t eepromIndex    = *(uint16_t *)(&swr_receive_buffer[commandStartIndex + 4]);
+        byte eepromReadLength   = swr_receive_buffer[commandStartIndex + 6];
+        byte eepromDataType     = swr_receive_buffer[commandStartIndex + 7];  //0 : Hex, 1 : String
         
         sendResponseData(RESPONSE_EEPROM, 0, eepromIndex, eepromReadLength, eepromDataType, 1);
       }
@@ -926,13 +987,13 @@ void SWS_Process(void)
           Checksum : (Addr0+Addr1+Len) %256
           Data      : Variable (Max 23)
          */
-        uint16_t eepromIndex = *(uint16_t *)(&swr_buffer[commandStartIndex + 4]);
-        byte writeLength     = swr_buffer[commandStartIndex + 6];
-        byte writeCheckSum   = swr_buffer[commandStartIndex + 7];
+        uint16_t eepromIndex = *(uint16_t *)(&swr_receive_buffer[commandStartIndex + 4]);
+        byte writeLength     = swr_receive_buffer[commandStartIndex + 6];
+        byte writeCheckSum   = swr_receive_buffer[commandStartIndex + 7];
 
         //Check Checksum
-        if (writeCheckSum == (swr_buffer[commandStartIndex + 4] + swr_buffer[commandStartIndex + 5] + swr_buffer[commandStartIndex + 6]))
-        //if (writeCheckSum == (swr_buffer[commandStartIndex + 4] + swr_buffer[commandStartIndex + 5] + writeLength))
+        if (writeCheckSum == (swr_receive_buffer[commandStartIndex + 4] + swr_receive_buffer[commandStartIndex + 5] + swr_receive_buffer[commandStartIndex + 6]))
+        //if (writeCheckSum == (swr_receive_buffer[commandStartIndex + 4] + swr_receive_buffer[commandStartIndex + 5] + writeLength))
         {
             //if (eepromIndex > 64) //Safe #1
 #ifdef UBITX_DISPLAY_NEXTION_SAFE
@@ -947,7 +1008,7 @@ void SWS_Process(void)
 #endif
             {
               for (int i = 0; i < writeLength; i++)
-                EEPROM.write(eepromIndex + i , swr_buffer[commandStartIndex + 8 + i]);
+                EEPROMTYPE.write(eepromIndex + i , swr_receive_buffer[commandStartIndex + 8 + i]);
             }
         }
         else
@@ -959,13 +1020,13 @@ void SWS_Process(void)
       //else if (TS_CMD_LOOPBACK0 <= commandType && commandType <= TS_CMD_LOOPBACK5)  //Loop back Channel 0 ~ 5 Loop back Channel 1~5 : Reserve
       else if (TS_CMD_LOOPBACK0 == commandType)    //Loop back Channel 0 ~ 5
       {
-        SendCommandUL('v', *(unsigned long *)&swr_buffer[commandStartIndex + 4]);     //Return data
+        SendCommandUL('v', *(unsigned long *)&swr_receive_buffer[commandStartIndex + 4]);     //Return data
         SendCommandUL('g', commandType);                                               //Index Input
         //return;
       }
       else if (commandType == TS_CMD_FACTORYRESET || commandType == TS_CMD_UBITX_REBOOT)
       {
-        if (*(unsigned long *)&swr_buffer[commandStartIndex + 4] == 1497712748)
+        if (*(unsigned long *)&swr_receive_buffer[commandStartIndex + 4] == 1497712748)
         {
           if (commandType == TS_CMD_UBITX_REBOOT)
           {
@@ -975,7 +1036,7 @@ void SWS_Process(void)
           else
           {
             for (unsigned int i = 0; i < 32; i++) //factory setting range
-              EEPROM.write(i, EEPROM.read(FACTORY_VALUES + i)); //65~96 => 0~31
+              EEPROMTYPE.write(i, EEPROMTYPE.read(FACTORY_VALUES + i)); //65~96 => 0~31
           }
         }
       }
@@ -985,6 +1046,7 @@ void SWS_Process(void)
       updateDisplay(); 
     }
   }
+
 }
 
 char checkCount = 0;
@@ -1038,28 +1100,28 @@ void SendUbitxData(void)
   SendCommandL(CMD_DISP_OPTION1, displayOption1);  
 
   unsigned long nextionDisplayOption;
-  EEPROM.get(EXTERNAL_DEVICE_OPT1, nextionDisplayOption); 
+  EEPROMTYPE.get(EXTERNAL_DEVICE_OPT1, nextionDisplayOption); 
   SendCommandUL(CMD_DISP_OPTION2, nextionDisplayOption);
 
-  SendCommandStr(CMD_VERSION, (char *)("+v1.200")); //Version
+  SendCommandStr(CMD_VERSION, (char *)("+v1.122")); //Version
   SendEEPromData(CMD_CALLSIGN, 0, userCallsignLength -1, 0);
 
   /*
   //Frequency of Bands
   for (int i = 0; i < 11; i++)
-    SWSerial_Write(SpectrumHeader[i]);
+    sSerial.write(SpectrumHeader[i]);
 
   byte *tmpByte;
   tmpByte = (byte *)hamBandRange;
   for (byte i = 0; i < (useHamBandCount -1) * 4; i++) 
   {
-    SWSerial_Write(HexCodes[*tmpByte >> 4]);
-    SWSerial_Write(HexCodes[*tmpByte & 0xf]);
+    sSerial.write(HexCodes[*tmpByte >> 4]);
+    sSerial.write(HexCodes[*tmpByte & 0xf]);
     tmpByte++;
   }
       
   for (int i = 0; i < 4; i++)
-    SWSerial_Write(SpectrumFooter[i]);
+    sSerial.write(SpectrumFooter[i]);
   */    
     
   //Complte Send Info

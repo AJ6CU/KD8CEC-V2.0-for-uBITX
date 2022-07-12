@@ -150,7 +150,7 @@ void sendCWChar(char cwKeyChar)
     else if (cwKeyChar == '<')  //replace qso callsign
     {
       //ReadLength
-      callsignEndIndex = EEPROM.read(CW_STATION_LEN);
+      callsignEndIndex = EEPROMTYPE.read(CW_STATION_LEN);
       if (callsignEndIndex > 0)
       {
         callsignStartIndex = CW_STATION_LEN - callsignEndIndex - USER_CALLSIGN_DAT;
@@ -163,7 +163,7 @@ void sendCWChar(char cwKeyChar)
 
     for (uint16_t i = callsignStartIndex; i <= callsignEndIndex; i++)
     {
-      sendCWChar(EEPROM.read(USER_CALLSIGN_DAT + i));
+      sendCWChar(EEPROMTYPE.read(USER_CALLSIGN_DAT + i));
       autoSendPTTCheck(); //for reserve and cancel next CW Text
       if (changeReserveStatus == 1)
       {
@@ -260,8 +260,8 @@ void controlAutoCW(){
       if ((beforeCWTextIndex != selectedCWTextIndex) || 
         (isNeedScroll == 1 && beforeCWTextIndex == selectedCWTextIndex && scrollDispayTime < millis())) {
           //Read CW Text Data Position From EEProm
-          EEPROM.get(CW_AUTO_DATA + (selectedCWTextIndex * 2), cwStartIndex);
-          EEPROM.get(CW_AUTO_DATA + (selectedCWTextIndex * 2 + 1), cwEndIndex);
+          EEPROMTYPE.get(CW_AUTO_DATA + (selectedCWTextIndex * 2), cwStartIndex);
+          EEPROMTYPE.get(CW_AUTO_DATA + (selectedCWTextIndex * 2 + 1), cwEndIndex);
 
           if (beforeCWTextIndex == selectedCWTextIndex)
           {
@@ -348,7 +348,7 @@ void controlAutoCW(){
             startTx(TX_CW, 0);  //disable updateDisplay Command for reduce latency time
           }
           
-          sendCWChar(EEPROM.read(CW_AUTO_DATA + autoCWSendCharIndex++));
+          sendCWChar(EEPROMTYPE.read(CW_AUTO_DATA + autoCWSendCharIndex++));
 
           if (autoCWSendCharIndex > autoCWSendCharEndIndex) {          //finish auto cw send
             //check reserve status
@@ -360,8 +360,8 @@ void controlAutoCW(){
               for (i = 0; i < AUTO_CW_RESERVE_MAX -1; i++)
                 autoCWSendReserv[i] = autoCWSendReserv[i + 1];
 
-              EEPROM.get(CW_AUTO_DATA + (sendingCWTextIndex * 2), cwStartIndex);
-              EEPROM.get(CW_AUTO_DATA + (sendingCWTextIndex * 2 + 1), cwEndIndex);
+              EEPROMTYPE.get(CW_AUTO_DATA + (sendingCWTextIndex * 2), cwStartIndex);
+              EEPROMTYPE.get(CW_AUTO_DATA + (sendingCWTextIndex * 2 + 1), cwEndIndex);
 
               //Information about Auto Send CW Text
               autoCWSendCharEndIndex = cwEndIndex;                  //length of CW Text     //ianlee
@@ -397,4 +397,3 @@ void controlAutoCW(){
       delay_background(1000, 0);
     }
 }
-

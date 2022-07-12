@@ -275,7 +275,7 @@ void ReadEEPRom() //for remove warnings.
   {
     for (uint16_t i = 0; i < eepromReadLength; i++)
     {
-      read1Byte = EEPROM.read(eepromStartIndex + i);
+      read1Byte = EEPROMTYPE.read(eepromStartIndex + i);
       checkSum += read1Byte;
       Serial.write(read1Byte);
     }
@@ -311,7 +311,7 @@ void WriteEEPRom(void)  //for remove warning
     }
     else
     {
-      EEPROM.write(eepromStartIndex, write1Byte);
+      EEPROMTYPE.write(eepromStartIndex, write1Byte);
     }
     
     Serial.write(0x77); //OK  
@@ -543,7 +543,7 @@ void WriteEEPRom_FT817(byte fromType)
       {
         sideTone = (sideTonePitch * 50 + 300) + sideToneSub;
         printLineF2(F("Sidetone set! CAT"));
-        EEPROM.put(CW_SIDETONE, sideTone);
+        EEPROMTYPE.put(CW_SIDETONE, sideTone);
         delay(300);                       //If timeout errors occur in the calling software, remove them
         clearLine2();
       }
@@ -555,7 +555,7 @@ void WriteEEPRom_FT817(byte fromType)
       {
         sideTone = (sideTonePitch * 50 + 300) + sideToneSub;
         printLineF2(F("Sidetone set! CAT"));
-        EEPROM.put(CW_SIDETONE, sideTone);
+        EEPROMTYPE.put(CW_SIDETONE, sideTone);
         delay(300);                   //If timeout errors occur in the calling software, remove them
         clearLine2();
         line2DisplayStatus = 0;
@@ -576,7 +576,7 @@ void WriteEEPRom_FT817(byte fromType)
       //CAT_BUFF[0] = 0x19;
       cwDelayTime = CAT_BUFF[2];
       printLineF2(F("CW Speed set!"));
-      EEPROM.put(CW_DELAY, cwDelayTime);
+      EEPROMTYPE.put(CW_DELAY, cwDelayTime);
       delay(300);
       clearLine2();
       break;
@@ -585,7 +585,7 @@ void WriteEEPRom_FT817(byte fromType)
       //7-6  Batt-Chg (6/8/10 Hours (#11)  00 = 6 Hours, 01 = 8 Hours, 10 = 10 Hours
       cwSpeed = 1200 / ((CAT_BUFF[2] & 0x3F) + 4);
       printLineF2(F("CW Speed set!"));
-      EEPROM.put(CW_SPEED, cwSpeed);
+      EEPROMTYPE.put(CW_SPEED, cwSpeed);
       delay(300);
       clearLine2();
 
@@ -890,4 +890,3 @@ void Init_Cat(long baud, int portConfig)
   Serial.begin(baud, portConfig);
   Serial.flush();
 }
-

@@ -197,16 +197,16 @@ void menuCHMemory(int btn, byte isMemoryToVfo){
         else
         {
           //Read Frequency from eeprom
-          EEPROM.get(CHANNEL_FREQ + 4 * selectChannel, resultFreq);
+          EEPROMTYPE.get(CHANNEL_FREQ + 4 * selectChannel, resultFreq);
           
           loadMode = (byte)(resultFreq >> 29);
           resultFreq = resultFreq & 0x1FFFFFFF;
 
           //display channel description
-          if (selectChannel < 10 && EEPROM.read(CHANNEL_DESC + 6 * selectChannel) == 0x03) {  //0x03 is display Chnnel Name
+          if (selectChannel < 10 && EEPROMTYPE.read(CHANNEL_DESC + 6 * selectChannel) == 0x03) {  //0x03 is display Chnnel Name
             //display Channel Name
             for (int i = 0; i < 5; i++)
-              c[i] = EEPROM.read(CHANNEL_DESC + 6 * selectChannel + i + 1);
+              c[i] = EEPROMTYPE.read(CHANNEL_DESC + 6 * selectChannel + i + 1);
 
            c[5] = ':';
           }
@@ -279,7 +279,7 @@ void menuCHMemory(int btn, byte isMemoryToVfo){
       else
       {
         //Save current Frequency to Channel (selectChannel)
-        EEPROM.put(CHANNEL_FREQ + 4 * selectChannel, (frequency & 0x1FFFFFFF) | (((unsigned long)modeToByte()) << 29) );
+        EEPROMTYPE.put(CHANNEL_FREQ + 4 * selectChannel, (frequency & 0x1FFFFFFF) | (((unsigned long)modeToByte()) << 29) );
         printLine2("Saved Frequency");
       }
     }
@@ -484,7 +484,7 @@ void menuSDROnOff(int btn)
         printLineF2(F("SDR MODE"));
       }
 
-    EEPROM.put(ENABLE_SDR, sdrModeOn);
+    EEPROMTYPE.put(ENABLE_SDR, sdrModeOn);
     setFrequency(frequency);
     SetCarrierFreq();
 
@@ -510,8 +510,8 @@ void menuCWAutoKey(int btn){
     }
     
     //Check CW_AUTO_MAGIC_KEY and CW Text Count
-    EEPROM.get(CW_AUTO_COUNT, cwAutoTextCount);
-    if (EEPROM.read(CW_AUTO_MAGIC_KEY) != 0x73 || cwAutoTextCount < 1)
+    EEPROMTYPE.get(CW_AUTO_COUNT, cwAutoTextCount);
+    if (EEPROMTYPE.read(CW_AUTO_MAGIC_KEY) != 0x73 || cwAutoTextCount < 1)
     {
       displayEmptyData();
      return;
@@ -532,7 +532,7 @@ void menuWSPRSend(int btn){
      return;
   }
 
-  WsprMSGCount = EEPROM.read(WSPR_COUNT);
+  WsprMSGCount = EEPROMTYPE.read(WSPR_COUNT);
 
   if (WsprMSGCount < 1)
   {
@@ -582,7 +582,7 @@ void menuSetupCWCarrier(int btn){
   //save the setting
   if (digitalRead(PTT) == LOW){
     printLineF2(F("Carrier set!"));
-    EEPROM.put(CW_CAL, cwmCarrier);
+    EEPROMTYPE.put(CW_CAL, cwmCarrier);
     delay_background(1000, 0);
   }
   else 
@@ -750,7 +750,7 @@ void menuCWSpeed(int btn){
   //save the setting
   //printLineF2(F("CW Speed set!"));
   cwSpeed = 1200 / wpm;
-  EEPROM.put(CW_SPEED, cwSpeed);
+  EEPROMTYPE.put(CW_SPEED, cwSpeed);
   //menuClearExit(1000);
 #ifdef USE_SW_SERIAL
     menuOn = 0;
@@ -782,7 +782,7 @@ void menuSetupCwTone(int btn){
     noTone(CW_TONE);
     
     printLineF2(F("Sidetone set!"));
-    EEPROM.put(CW_SIDETONE, sideTone);
+    EEPROMTYPE.put(CW_SIDETONE, sideTone);
 
     //delay_background(2000, 0);
     //menuClearExit(0);
@@ -809,7 +809,7 @@ void menuSetupCwDelay(int btn){
 
     //save the setting
     cwDelayTime = tmpCWDelay / 10;
-    EEPROM.put(CW_DELAY, cwDelayTime);
+    EEPROMTYPE.put(CW_DELAY, cwDelayTime);
    //menuClearExit(1000);
 #ifdef USE_SW_SERIAL
     menuOn = 0;
@@ -836,7 +836,7 @@ void menuSetupTXCWInterval(int btn){
     tmpTXCWInterval = getValueByKnob(0, tmpTXCWInterval, 0, 500, 2, "Delay", 2); //0 : Generate Tone, targetValue, minKnobValue, maxKnobValue, stepSize
 
    delayBeforeCWStartTime = tmpTXCWInterval / 2;
-   EEPROM.put(CW_START, delayBeforeCWStartTime);
+   EEPROMTYPE.put(CW_START, delayBeforeCWStartTime);
    //menuClearExit(1000);
 
 #ifdef USE_SW_SERIAL
@@ -875,7 +875,7 @@ void menuIFSSetup(int btn){
       }
 
       //Store IF Shiift
-      EEPROM.put(IF_SHIFTVALUE, ifShiftValue);
+      EEPROMTYPE.put(IF_SHIFTVALUE, ifShiftValue);
       //menuClearExit(0);
 #ifdef USE_SW_SERIAL
     menuOn = 0;
@@ -992,7 +992,7 @@ void menuSetupKeyType(int btn){
 
     printLineF2(F("CW Key Type set!"));
     cwKeyType = selectedKeyType;
-    EEPROM.put(CW_KEY_TYPE, cwKeyType);
+    EEPROMTYPE.put(CW_KEY_TYPE, cwKeyType);
 
     if (cwKeyType == 0)
       Iambic_Key = false;
@@ -1104,7 +1104,7 @@ void doMenu(){
       }
     } //end of while
 
-    EEPROM.put(TUNING_STEP, tuneStepIndex);
+    EEPROMTYPE.put(TUNING_STEP, tuneStepIndex);
     delay_background(500, 0);
     printLine2ClearAndUpdate();
     return;
@@ -1554,7 +1554,7 @@ void factoryCalibration(int btn){
   stopTx();
 
   printLineF2(F("Calibration set!"));
-  EEPROM.put(MASTER_CAL, calibration);
+  EEPROMTYPE.put(MASTER_CAL, calibration);
   initOscillators();
   setFrequency(frequency);
   updateDisplay();
@@ -1617,7 +1617,7 @@ void menuSetupCalibration(int btn){
   if (digitalRead(PTT) == LOW){
     printLineF1(F("Calibration set!"));
     printLineF2(F("Set Carrier now"));
-    EEPROM.put(MASTER_CAL, calibration);
+    EEPROMTYPE.put(MASTER_CAL, calibration);
     delay_background(2000, 0);
   }
   else
@@ -1697,7 +1697,7 @@ void menuSetupCarrier(int btn){
   //save the setting
   if (digitalRead(PTT) == LOW){
     printLineF2(F("Carrier set!"));
-    EEPROM.put(USB_CAL, usbCarrier);
+    EEPROMTYPE.put(USB_CAL, usbCarrier);
     delay_background(1000, 0);
   }
   else 

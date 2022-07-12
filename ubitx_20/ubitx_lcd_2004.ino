@@ -332,7 +332,7 @@ void printLineFromEEPRom(char linenmbr, char lcdColumn, byte eepromStartIndex, b
   for (byte i = eepromStartIndex; i <= eepromEndIndex; i++)
   {
     if (++lcdColumn <= LCD_MAX_COLUMN)
-      LCD_Write(EEPROM.read((offsetTtype == 0 ? USER_CALLSIGN_DAT : WSPR_MESSAGE1) + i));
+      LCD_Write(EEPROMTYPE.read((offsetTtype == 0 ? USER_CALLSIGN_DAT : WSPR_MESSAGE1) + i));
     else
       break;
   }

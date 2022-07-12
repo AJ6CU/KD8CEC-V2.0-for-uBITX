@@ -27,13 +27,19 @@
 
 //Use Internal or External EEPROM
 //#define USE_INTERNAL_EEPROM           // Use EEPROM on MCU
+
 #define USE_I2C_EEPROM                // Use external EEPROM connected on I2C bus
 
 #ifdef USE_I2C_EEPROM
-  #include <SparkFun_External_EEPROM.h>
-  ExternalEEPROM I2C_EEPROM;
-  #define EEPROM  I2C_EEPROM
+  #define EEPROMTYPE  I2C_EEPROM
+#else
+  #define EEPROMTYPE  EEPROM
 #endif
+
+#define USE_SOFTWARESERIAL               //Use the standard Softwareserial library
+//#define USE_TINYSOFTWARESERIAL          //Use the slim down "tiny" Softwareserial library (classic nano only)
+
+//#define COMMANDDEBUG
   
 
 //Depending on the type of LCD mounted on the uBITX, uncomment one of the options below.
