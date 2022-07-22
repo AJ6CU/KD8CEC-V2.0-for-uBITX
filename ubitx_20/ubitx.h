@@ -25,10 +25,50 @@
 //Ubitx Board Version
 #define UBITX_BOARD_VERSION 4           //v1 ~ v4 : 4, v5: 5
 
-//Use Internal or External EEPROM
-//#define USE_INTERNAL_EEPROM           // Use EEPROM on MCU
+//Define which Nano is used
+//#define NANO        //includes nano every
+//#define NANOEVERY
+#define NANO33IOT
+//#define NANOBLE
+//#define NANORP2040
 
-#define USE_I2C_EEPROM                // Use external EEPROM connected on I2C bus
+//Set values related to specific nano
+
+#ifdef NANO
+  #define ANALOGCHIPDEFAULT DEFAULT
+  #define USE_SOFTWARESERIAL 
+#else
+  #ifdef NANOEVERY
+    #define ANALOGCHIPDEFAULT DEFAULT
+    #define USE_SOFTWARESERIAL 
+    #define USE_I2C_EEPROM                // Use external EEPROM connected on I2C bus
+  #else
+     #ifdef NANO33IOT
+      #define ANALOGCHIPDEFAULT AR_DEFAULT
+      #define USE_HARDWARESERIAL
+      #define USE_I2C_EEPROM                // Use external EEPROM connected on I2C bus
+     #else
+        #ifdef NANOBLE
+          #define ANALOGCHIPDEFAULT AR_VDD
+          #define INTEGERS_ARE_32_BIT
+          #define USE_HARDWARESERIAL
+          #define USE_I2C_EEPROM                // Use external EEPROM connected on I2C bus
+        #else
+          #ifdef NANORP2040   
+            #define USE_HARDWARESERIAL
+            #define INTEGERS_ARE_32_BIT
+            #include <WiFiNINA.h>
+            #define USE_I2C_EEPROM                // Use external EEPROM connected on I2C bus
+          #endif
+      #endif
+    #endif
+  #endif
+#endif
+
+
+//Use Internal or External EEPROM
+
+
 
 #ifdef USE_I2C_EEPROM
   #define EEPROMTYPE  I2C_EEPROM
@@ -36,10 +76,10 @@
   #define EEPROMTYPE  EEPROM
 #endif
 
-#define USE_SOFTWARESERIAL               //Use the standard Softwareserial library
-//#define USE_TINYSOFTWARESERIAL          //Use the slim down "tiny" Softwareserial library (classic nano only)
-
 //#define COMMANDDEBUG
+//#define DEBUGENCODER
+
+
   
 
 //Depending on the type of LCD mounted on the uBITX, uncomment one of the options below.
@@ -165,8 +205,8 @@ extern byte I2C_LCD_SECOND_ADDRESS;     //only using Dual LCD Mode
 #define FN_VFOTOMEM     0 //276
 #define FN_MEMTOVFO     0 //234
 #define FN_MEMORYKEYER  1 //168
-#define FN_WSPR         1 //1130
-#define FN_SDRMODE      1 //70
+#define FN_WSPR         0 //1130          //mjh temp
+#define FN_SDRMODE      0 //70            //mjh turned off to fit into nano
 #define FN_CALIBRATION  0 //790
 #define FN_CARRIER      0 //500
 #define FN_CWCARRIER    0 //464
@@ -233,9 +273,9 @@ extern byte I2C_LCD_SECOND_ADDRESS;     //only using Dual LCD Mode
 #define ENC_B         (A1)
 #define FBUTTON       (A2)
 #define PTT           (A3)
-#define ANALOG_KEYER  (A6)
-#define ANALOG_SPARE  (A7)
-#define ANALOG_SMETER (A7)  //by KD8CEC
+#define ANALOG_KEYER  A6
+#define ANALOG_SPARE  A7
+#define ANALOG_SMETER A7  //by KD8CEC
 
 /** 
  *  The second set of 16 pins on the Raduino's bottom connector are have the three clock outputs and the digital lines to control the rig.

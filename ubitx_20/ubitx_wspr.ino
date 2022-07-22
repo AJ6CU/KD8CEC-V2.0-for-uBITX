@@ -21,7 +21,7 @@ Thanks for testing
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **********************************************************************************/
 
-#include <EEPROM.h>
+//#include <EEPROM.h>
 #include "ubitx.h"
 
 //begin of test

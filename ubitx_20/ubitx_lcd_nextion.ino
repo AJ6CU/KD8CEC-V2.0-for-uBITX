@@ -1,3 +1,4 @@
+
 /*************************************************************************
   KD8CEC's uBITX Display Routine for Nextion LCD
   
@@ -30,17 +31,24 @@
   KD8CEC
 **************************************************************************/
 
+#ifdef USE_SOFTWARESERIAL  
+  #include <SoftwareSerial.h>
 
-#include <SoftwareSerial.h>
+  #define RX_PIN 8
+  #define TX_PIN 9
+  #define SERIALPORT sSERIAL
+  SoftwareSerial SERIALPORT(RX_PIN, TX_PIN); // RX, TX
+#else
+  #ifdef USE_HARDWARESERIAL
+     #define SERIALPORT Serial1
+  #endif
+#endif  
 
-#define RX_PIN 8
-#define TX_PIN 9
-
-#define SS_MAX_RX_BUFF 35 // RX buffer size
+#define SS_MAX_RX_BUFF 50 // RX buffer size  was 35
 #define PRINT_MAX_LENGTH 30
 static uint8_t swr_receive_buffer[SS_MAX_RX_BUFF];
 
-SoftwareSerial sSerial(RX_PIN, TX_PIN); // RX, TX
+
 
 
 #define TEXT_LINE_LENGTH 20
@@ -54,7 +62,7 @@ char softTemp[20];
 
 void LCDNextion_Init()
 {
-  sSerial.begin(9600);
+  SERIALPORT.begin(9600);
   memset(softBuffLines[0], ' ', TEXT_LINE_LENGTH); 
   softBuffLines[0][TEXT_LINE_LENGTH + 1] = 0x00;
   memset(softBuffLines[1], ' ', TEXT_LINE_LENGTH);
@@ -216,10 +224,10 @@ char nowdisp = 0;
 #define SWS_HEADER_INT_TYPE  'v'  //Numeric Protocol Prefex
 #define SWS_HEADER_STR_TYPE  's'  //for TEXT Line compatiable Character LCD Control
 
+
 //Control must have prefix 'v' or 's'
 char softSTRHeader[11] = {'p', 'm', '.', 's', '0', '.', 't', 'x', 't', '=', '\"'};
 char softINTHeader[10] = {'p', 'm', '.', 'v', '0', '.', 'v', 'a', 'l', '='};
-const byte ADCIndex[6] = {A0, A1, A2, A3, A6, A7};
 
 //send data for Nextion LCD
 void SendHeader(char varType, char varIndex)
@@ -228,13 +236,13 @@ void SendHeader(char varType, char varIndex)
   {
     softSTRHeader[4] = varIndex;
     for (int i = 0; i < 11; i++)
-      sSerial.write(softSTRHeader[i]);
+      SERIALPORT.write(softSTRHeader[i]);
   }
   else
   {
     softINTHeader[4] = varIndex;
     for (int i = 0; i < 10; i++)
-      sSerial.write(softINTHeader[i]);
+      SERIALPORT.write(softINTHeader[i]);
   }
 }
 
@@ -250,16 +258,16 @@ void SendCommandETX(char etxType)
 {
   if (etxType == 2)
   {
-    sSerial.print(softTemp);
+    SERIALPORT.print(softTemp);
   }
   else if (etxType == 1)
   {
-    sSerial.print("\"");
+    SERIALPORT.print("\"");
   }
   
-  sSerial.write(0xff);
-  sSerial.write(0xff);
-  sSerial.write(0xff);
+  SERIALPORT.write(0xff);
+  SERIALPORT.write(0xff);
+  SERIALPORT.write(0xff);
 }
 
 void SendCommandUL(char varIndex, unsigned long sendValue)
@@ -267,7 +275,13 @@ void SendCommandUL(char varIndex, unsigned long sendValue)
   SendHeader(SWS_HEADER_INT_TYPE, varIndex);
 
   memset(softTemp, 0, 20);
+
+#ifdef INTEGERS_ARE_32_BIT
+  utoa(sendValue, softTemp, DEC);
+#else
   ultoa(sendValue, softTemp, DEC);
+#endif
+
   SendCommandETX(TMP_ETX);
 }
 
@@ -276,7 +290,14 @@ void SendCommandL(char varIndex, long sendValue)
   SendHeader(SWS_HEADER_INT_TYPE, varIndex);
 
   memset(softTemp, 0, 20);
+
+#ifdef INTEGERS_ARE_32_BIT
+  utoa(sendValue, softTemp, DEC);
+#else
   ltoa(sendValue, softTemp, DEC);
+#endif
+  
+ 
   SendCommandETX(TMP_ETX);
 }
 
@@ -284,7 +305,7 @@ void SendCommandStr(char varIndex, char* sendValue)
 {
   SendHeader(SWS_HEADER_STR_TYPE, varIndex);
   
-  sSerial.print(sendValue);
+  SERIALPORT.print(sendValue);
   SendCommandETX(STR_ETX);
 }
 
@@ -296,14 +317,14 @@ void SendTextLineBuff(char lineNumber)
   {
     SendHeader(SWS_HEADER_STR_TYPE, lineNumber + 0x30);  //s0.txt, s1.txt
   
-    sSerial.print(softBuffLines[lineNumber]);
+    SERIALPORT.print(softBuffLines[lineNumber]);
     SendCommandETX(STR_ETX);
     
     strcpy(softBuffSended[lineNumber], softBuffLines[lineNumber]);
   }
 }
 
-void SendTextLineStr(char lineNumber, char* sendValue)
+void SendTextLineStr(char lineNumber, const char* sendValue)
 {
   int i = 0;
   for (i = 0; i < 16; i++)
@@ -329,7 +350,7 @@ void SendEEPromData(char varIndex, int eepromStartIndex, int eepromEndIndex, cha
   
   for (int i = eepromStartIndex; i <= eepromEndIndex; i++)
   {
-      sSerial.write(EEPROMTYPE.read((offsetTtype == 0 ? USER_CALLSIGN_DAT : WSPR_MESSAGE1) + i));
+      SERIALPORT.write(EEPROMTYPE.read((offsetTtype == 0 ? USER_CALLSIGN_DAT : WSPR_MESSAGE1) + i));
   }
 
   SendCommandETX(STR_ETX);
@@ -342,7 +363,7 @@ void SendCommand1Num(char varType, char sendValue) //0~9 : Mode, nowDisp, Active
   softBuff1Num[10] = sendValue + 0x30;
 
   for (int i = 0; i < 14; i++)
-    sSerial.write(softBuff1Num[i]);
+    SERIALPORT.write(softBuff1Num[i]);
 }
 
 void SetSWActivePage(char newPageIndex)
@@ -689,7 +710,7 @@ void sendResponseData(int protocolType, unsigned long startFreq, unsigned int se
   for (int si = 0; si < sendCount; si++)
   {
     for (int i = 0; i < 11; i++)
-      sSerial.write(ResponseHeader[i]);
+      SERIALPORT.write(ResponseHeader[i]);
       
     for (k = 0; k < readCount; k ++)
     {
@@ -727,12 +748,12 @@ void sendResponseData(int protocolType, unsigned long startFreq, unsigned int se
 
       if (protocolType == RESPONSE_EEPROM && sendOption2 == RESPONSE_EEPROM_STR) //None HEX
       {
-        sSerial.write(readedValue);
+        SERIALPORT.write(readedValue);
       }
       else
       {
-        sSerial.write(HexCodes[readedValue >> 4]);
-        sSerial.write(HexCodes[readedValue & 0xf]);
+        SERIALPORT.write(HexCodes[readedValue >> 4]);
+        SERIALPORT.write(HexCodes[readedValue & 0xf]);
       }
     }
     
@@ -756,11 +777,12 @@ uint8_t d = 0;
 
 //SoftwareSerial_Process
 void SWS_Process(void)
+ 
 {
-  //Serial.println("SWS_Process Entered");
-  if(sSerial.available())
+
+  if(SERIALPORT.available())
   {
-        d=sSerial.read();
+        d=SERIALPORT.read();
         
         //Store Received Data
         swr_receive_buffer[receiveIndex++] = d;
@@ -837,8 +859,16 @@ void SWS_Process(void)
       }
       else if (commandType == TS_CMD_FREQ)
       {
+#ifdef COMMANDDEBUG
+    Serial.println("changing frequency");
+#endif
         unsigned long *tempFreq;
         tempFreq = (unsigned long *)(&swr_receive_buffer[commandStartIndex + 4]);
+#ifdef COMMANDDEBUG
+    for(int jj=0; jj<4; jj++)
+      Serial.print(swr_receive_buffer[commandStartIndex+4+jj],HEX);
+    Serial.println("**");
+#endif        
         //if (*tempFreq > 3000)  //for loss protcol
         //{
           frequency = *tempFreq;
@@ -904,7 +934,7 @@ void SWS_Process(void)
         int adcCheckInterval = swr_receive_buffer[commandStartIndex + 6] * 10;
         int nowCheckIndex = startIndex;
         
-        while(1 == 1)      //MJH not going to work because not in isr... Fix later
+        while(1 == 1)      
         {
           if (receivedCommandLength > 0)
           {
@@ -912,14 +942,46 @@ void SWS_Process(void)
           }
           
           SendCommandL('n', nowCheckIndex);    //Index Input
-          SendCommandL('x', analogRead(ADCIndex[nowCheckIndex++]));
+//
+//MJH     The following was written much more elegantly originally using an array of pins and a simple loop to get the data.
+//        However, because R6 and R7 are NinaPins (i.e. assigned to the Nina co-processor) on RP Connect, there was no way
+//        I could figure out how to put a NinaPin in this array. Kept throwing a compile error...  Although, not elegant, an perhaps
+//        a maintenance issue that someone will face in the future, this at least works on all processors.
+//        Also note the pinMode(pin, INPUT_PULLUPS) that are required because some processors turn off the pullups after an analog read.
+//
+          switch(nowCheckIndex){
+          case 0:
+                SendCommandL('x', analogRead(ENC_A));
+                pinMode(ENC_A, INPUT_PULLUP);
+                break;
+          case 1:
+                SendCommandL('x', analogRead(ENC_B));
+                pinMode(ENC_B, INPUT_PULLUP);
+                break;
+          case 2:
+                SendCommandL('x', analogRead(FBUTTON));
+                pinMode(ENC_B, INPUT_PULLUP);
+                break;
+          case 3:    
+                SendCommandL('x', analogRead(PTT));
+                pinMode(PTT,INPUT_PULLUP); 
+                break;
+          case 4:
+                SendCommandL('x', analogRead(ANALOG_KEYER));
+                pinMode(ANALOG_KEYER,INPUT_PULLUP);
+                break;
+          case 5:
+                SendCommandL('x', analogRead(ANALOG_SMETER));
+                break;
+          }
+          nowCheckIndex++;
           
           if (nowCheckIndex > endIndex)
             nowCheckIndex = startIndex;
             
           delay(adcCheckInterval);
-        } //end of while
-      }
+        } //end of while 
+      }  
       else if (commandType == TS_CMD_STOPADC)
       {
           //None Action
@@ -1031,7 +1093,11 @@ void SWS_Process(void)
           if (commandType == TS_CMD_UBITX_REBOOT)
           {
             FrequencyToVFO(1);  //Save current Frequency and Mode to eeprom
-            asm volatile ("  jmp 0");
+             #if defined(NANO33IOT)  || defined(NANOBLE)|| defined(NANORP2040)
+                NVIC_SystemReset();
+             #else
+                asm volatile ("  jmp 0");
+             #endif
           }
           else
           {
@@ -1109,19 +1175,19 @@ void SendUbitxData(void)
   /*
   //Frequency of Bands
   for (int i = 0; i < 11; i++)
-    sSerial.write(SpectrumHeader[i]);
+    SERIALPORT.write(SpectrumHeader[i]);
 
   byte *tmpByte;
   tmpByte = (byte *)hamBandRange;
   for (byte i = 0; i < (useHamBandCount -1) * 4; i++) 
   {
-    sSerial.write(HexCodes[*tmpByte >> 4]);
-    sSerial.write(HexCodes[*tmpByte & 0xf]);
+    SERIALPORT.write(HexCodes[*tmpByte >> 4]);
+    SERIALPORT.write(HexCodes[*tmpByte & 0xf]);
     tmpByte++;
   }
       
   for (int i = 0; i < 4; i++)
-    sSerial.write(SpectrumFooter[i]);
+    SERIALPORT.write(SpectrumFooter[i]);
   */    
     
   //Complte Send Info

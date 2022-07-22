@@ -59,7 +59,10 @@
 #endif
 
 
+
 #include "ubitx_eemap.h"
+
+
 
 /**
  * The uBITX is an upconnversion transceiver. The first IF is at 45 MHz.
@@ -257,9 +260,10 @@ byte tuneTXType = 0;        //0 : use full range, 1 : just Change Dial speed, 2 
 unsigned int hamBandRange[MAX_LIMIT_RANGE][2];  // =  //Khz because reduce use memory
 
 //-1 : not found, 0 ~ 9 : Hamband index
-char getIndexHambanBbyFreq(unsigned long f)
+int getIndexHambanBbyFreq(unsigned long f)
 {
   f = f / 1000;
+
   for (byte i = 0; i < useHamBandCount; i++)
     if (hamBandRange[i][0] <= f && f < hamBandRange[i][1])
       return i;
@@ -269,11 +273,13 @@ char getIndexHambanBbyFreq(unsigned long f)
 
 //when Band change step = just hamband
 //moveDirection : 1 = next, -1 : prior
-void setNextHamBandFreq(unsigned long f, char moveDirection)
+
+void setNextHamBandFreq(unsigned long f, int moveDirection)
 {
   unsigned long resultFreq = 0;
   byte loadMode = 0;
-  char findedIndex = getIndexHambanBbyFreq(f);
+  
+  int findedIndex = getIndexHambanBbyFreq(f);
 
   if (findedIndex == -1) {  //out of hamband
     f = f / 1000;
@@ -290,23 +296,28 @@ void setNextHamBandFreq(unsigned long f, char moveDirection)
   }
   else
     findedIndex = -1;
-    
-  if (findedIndex == -1)
-    findedIndex = (moveDirection == 1 ? 0 : useHamBandCount -1);
 
+
+    
+  if (findedIndex == -1) {
+    findedIndex = (moveDirection == 1 ? 0 : useHamBandCount -1);
+  }
+  
   EEPROMTYPE.get(HAM_BAND_FREQS + 4 * findedIndex, resultFreq);
   
   //loadMode = (byte)(resultFreq >> 30);
   //resultFreq = resultFreq & 0x3FFFFFFF;
   loadMode = (byte)(resultFreq >> 29);
   resultFreq = resultFreq & 0x1FFFFFFF;
-  
-  if ((resultFreq / 1000) < hamBandRange[(unsigned char)findedIndex][0] || (resultFreq / 1000) > hamBandRange[(unsigned char)findedIndex][1])
-    resultFreq = (unsigned long)(hamBandRange[(unsigned char)findedIndex][0]) * 1000;
+
+  if ((resultFreq / 1000) < hamBandRange[findedIndex][0] || (resultFreq / 1000) > hamBandRange[findedIndex][1])
+    resultFreq = (unsigned long)(hamBandRange[findedIndex][0]) * 1000;
 
   byteToMode(loadMode, 1);
   setFrequency(resultFreq);
 }
+
+//mjh need to fix this one too to be integer???
 
 void saveBandFreqByIndex(unsigned long f, unsigned long mode, char bandIndex) {
   if (bandIndex >= 0)
@@ -562,7 +573,7 @@ void startTx(byte txMode, byte isDisplayUpdate){
 
   if ((isTxType & 0x01) != 0x01)
     digitalWrite(TX_RX, 1);
-
+    
   inTx = 1;
   
   if (ritOn){
@@ -695,8 +706,9 @@ void checkPTT(){
     delay(50); //debounce the PTT
   }
   
-  if (digitalRead(PTT) == 1 && inTx == 1)
+  if (digitalRead(PTT) == 1 && inTx == 1){
     stopTx();
+  }
 }
 #ifdef EXTEND_KEY_GROUP1  
 void checkButton(){
@@ -838,12 +850,15 @@ byte lastMovedirection = 0; //0 : stop, 1 : cw, 2 : ccw
 #define encodeTimeOut 1000
 
 void doTuningWithThresHold(){
+
   int s = 0;
   unsigned long prev_freq;
 
   if ((vfoActive == VFO_A && ((isDialLock & 0x01) == 0x01)) ||
     (vfoActive == VFO_B && ((isDialLock & 0x02) == 0x02)))
+    {
     return;
+    }
 
   s = enc_read();
 
@@ -855,7 +870,7 @@ void doTuningWithThresHold(){
 
     lastMovedirection = 0;
     return;
-  }
+  } 
   lastEncInputtime = millis();
 
   //for check moving direction
@@ -865,7 +880,10 @@ void doTuningWithThresHold(){
   //not use continues changing by Threshold
   //if ((lastTunetime < (millis() - skipThresholdTime)) && ((encodedSumValue *  encodedSumValue) <= (threshold * threshold)))
   if (((encodedSumValue *  encodedSumValue) <= (threshold * threshold)))
+  {
     return;
+  }
+
 
   lastTunetime = millis();
 
@@ -882,7 +900,6 @@ void doTuningWithThresHold(){
     
   if (prev_freq > 10000000l && frequency < 10000000l)
     isUSB = false;
-    
   setFrequency(frequency);
   updateDisplay();
 }
@@ -936,6 +953,7 @@ void storeFrequencyAndMode(byte saveType)
           vfoB_mode_eeprom = vfoB_mode;
       }
   }
+
 }
 
 //calculate step size from 1 byte, compatible uBITX Manager, by KD8CEC
@@ -1144,7 +1162,7 @@ void initSettings(){
   //by KD8CEC
   unsigned int tmpMostBits = 0;
   tmpMostBits = EEPROMTYPE.read(CW_ADC_MOST_BIT1);
-  cwAdcSTFrom = EEPROMTYPE.read(CW_ADC_ST_FROM)   | ((tmpMostBits & 0x03) << 8);
+  cwAdcSTFrom = EEPROMTYPE.read(CW_ADC_DOT_TO)   | ((tmpMostBits & 0x03) << 8);
   cwAdcSTTo = EEPROMTYPE.read(CW_ADC_ST_TO)       | ((tmpMostBits & 0x0C) << 6);
   cwAdcDotFrom = EEPROMTYPE.read(CW_ADC_DOT_FROM) | ((tmpMostBits & 0x30) << 4);
   cwAdcDotTo = EEPROMTYPE.read(CW_ADC_DOT_TO)     | ((tmpMostBits & 0xC0) << 2);
@@ -1221,8 +1239,10 @@ void initSettings(){
   }
   if (cwAdcDashFrom >= cwAdcDashTo)
   {
+    //mjh cwAdcDashFrom = 601;
+    //mjh cwAdcDashTo = 800;
     cwAdcDashFrom = 601;
-    cwAdcDashTo = 800;
+    cwAdcDashTo = 700;
   }
   //end of CW Keying Variables
   
@@ -1285,17 +1305,15 @@ void initSettings(){
 }
 
 void initPorts(){
-  analogReference(DEFAULT);
+
+#ifndef NANORP2040                          //Nano RP Connect does not have an analogReference function
+  analogReference(ANALOGCHIPDEFAULT);
+#endif
 
   //??
-  pinMode(ENC_A, INPUT_PULLUP);
-  pinMode(ENC_B, INPUT_PULLUP);
+  pinMode(ENC_A, INPUT_PULLUP);         
+  pinMode(ENC_B, INPUT_PULLUP);         
   pinMode(FBUTTON, INPUT_PULLUP);
-  
-  //configure the function button to use the external pull-up
-//  pinMode(FBUTTON, INPUT);
-//  digitalWrite(FBUTTON, HIGH);
-
   pinMode(PTT, INPUT_PULLUP);
   pinMode(ANALOG_KEYER, INPUT_PULLUP);
   pinMode(ANALOG_SMETER, INPUT); //by KD8CEC
@@ -1378,6 +1396,7 @@ void setup()
 
   //Load I2C LCD Address for I2C LCD 
   //I2C LCD Parametere
+  
 #ifdef USE_I2C_LCD  
   EEPROMTYPE.get(I2C_LCD_MASTER, I2C_LCD_MASTER_ADDRESS);
   EEPROMTYPE.get(I2C_LCD_SECOND, I2C_LCD_SECOND_ADDRESS);
@@ -1389,9 +1408,10 @@ void setup()
     I2C_LCD_SECOND_ADDRESS = I2C_LCD_SECOND_ADDRESS_DEFAULT;
 #endif  
   
-  Serial.begin(9600);
+Serial.begin(38400);  //mjh
 
-Wire.begin();
+Wire.begin();  //MJH is this needed?
+
 
   
   LCD_Init();
@@ -1432,7 +1452,7 @@ Wire.begin();
   frequency = vfoA;
   saveCheckFreq = frequency;  //for auto save frequency
   setFrequency(vfoA);
-
+  
 #ifdef USE_SW_SERIAL
   SendUbitxData();
 #endif

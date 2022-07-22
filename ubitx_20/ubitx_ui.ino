@@ -175,8 +175,10 @@ void drawMeter(int needle)
 //returns true if the button is pressed
 int btnDown(void){
 #ifdef EXTEND_KEY_GROUP1  
-  if (analogRead(FBUTTON) > FUNCTION_KEY_ADC)
+  if (analogRead(FBUTTON) > FUNCTION_KEY_ADC) {
+    pinMode(FBUTTON,INPUT_PULLUP);                //mjh pullups are disabled with analogRead on IOT and RP connect, need to reset here
     return 0;
+  }
   else
     return 1;
 
@@ -191,9 +193,12 @@ int btnDown(void){
 #ifdef EXTEND_KEY_GROUP1  
 int getBtnStatus(void){
   int readButtonValue = analogRead(FBUTTON);
+  pinMode(FBUTTON,INPUT_PULLUP);                //mjh pullups are disabled with analogRead on IOT and RP connect, need to reset here
 
-  if (analogRead(FBUTTON) < FUNCTION_KEY_ADC)
+  if (analogRead(FBUTTON) < FUNCTION_KEY_ADC) {
+    pinMode(FBUTTON,INPUT_PULLUP);            //mjh pullups are disabled with analogRead on IOT and RP connect, need to reset here
     return FKEY_PRESS;
+  }
   else
   {
     readButtonValue = readButtonValue / 4;
@@ -208,7 +213,7 @@ int getBtnStatus(void){
 }
 #endif
 
-int enc_prev_state = 3;
+byte enc_prev_state = 3;
 
 /**
  * The A7 And A6 are purely analog lines on the Arduino Nano
@@ -227,9 +232,24 @@ int enc_prev_state = 3;
  * were in the clockwise directions. Higher the pulses, greater the speed
  * at which the enccoder was spun
  */
-
 byte enc_state (void) {
-    return (analogRead(ENC_A) > 500 ? 1 : 0) + (analogRead(ENC_B) > 500 ? 2: 0);
+  int encoderA, encoderB;
+  encoderA=analogRead(ENC_A);
+  encoderB=analogRead(ENC_B);
+
+  // reset pullups because some MCU's turn them off after analogRead
+  pinMode(ENC_A,INPUT_PULLUP);
+  pinMode(ENC_B,INPUT_PULLUP);
+
+  #ifdef DEBUGENCODER
+    Serial.print("ENC_A="); Serial.print(encoderA); Serial.print(" ENC_B="); Serial.println(encoderB);
+  #endif
+  
+#if defined(NANO)  || defined(NANOEVERY)  || defined(NANOBLE)
+    return (encoderA > 500 ? 1 : 0) + (encoderB > 500 ? 2: 0);
+#else
+    return (encoderA > 200 ? 1 : 0) + (encoderB > 200 ? 2: 0);
+#endif
 }
 
 int enc_read(void) {
@@ -239,7 +259,8 @@ int enc_read(void) {
   
   unsigned long start_at = millis();
   
-  while (millis() - start_at < 50) { // check if the previous state was stable
+
+ while (millis() - start_at < 50) { // check if the previous state was stable
     newState = enc_state(); // Get current state  
     
     if (newState != enc_prev_state)
@@ -295,5 +316,3 @@ int GetI2CSmeterValue(int valueType)
     return 0;
   }
 }
-
-

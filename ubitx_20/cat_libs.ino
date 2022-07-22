@@ -47,7 +47,7 @@
 #define CAT_MODE_PKT            0x0C
 #define CAT_MODE_FMN            0x88
 
-#define ACK 0
+#define ACK 0x00                    //mjh change to make unambitious. was 0
 
 unsigned int skipTimeCount = 0;
 byte CAT_BUFF[5];
@@ -56,7 +56,7 @@ byte CAT_SNDBUFF[5];
 void SendCatData(byte sendCount)
 {
   for (byte i = 0; i < sendCount; i++)
-    Serial.write(CAT_BUFF[i]);
+    Serial.write((byte)CAT_BUFF[i]);
   //Serial.flush();
 }
 
@@ -69,7 +69,7 @@ void CatSetFreq(byte fromType)
   unsigned long tempFreq = 0;
 
   if (fromType == 2 || fromType == 3) {
-    Serial.write(ACK);  
+    Serial.write((byte)ACK);  
     return;  
   }
 
@@ -103,7 +103,7 @@ void CatSetFreq(byte fromType)
     }
   }
 
-  Serial.write(ACK);  
+  Serial.write((byte)ACK);  
 }
 
 //#define BCD_LEN 9
@@ -158,14 +158,14 @@ void CatSetSplit(boolean isSplit) //for remove warning messages
   else
     splitOn = 0;
     
-  Serial.write(ACK);
+  Serial.write((byte)ACK);
 }
 
 void CatSetPTT(boolean isPTTOn, byte fromType)
 {
   //
   if ((!inTx) && (fromType == 2 || fromType == 3)) {
-    Serial.write(ACK);  
+    Serial.write((byte)ACK);  
     return;  
   }
   
@@ -175,7 +175,6 @@ void CatSetPTT(boolean isPTTOn, byte fromType)
     if (!inTx)
     {
       txCAT = true;
-
       startTx(TX_SSB, 1);
       //Exit menu, Memory Keyer... ETC
       if (isCWAutoMode > 0) {
@@ -194,7 +193,7 @@ void CatSetPTT(boolean isPTTOn, byte fromType)
     }
   }
 
-  Serial.write(ACK);
+  Serial.write((byte)ACK);
 }
 
 void CatVFOToggle(boolean isSendACK, byte fromType)
@@ -204,13 +203,13 @@ void CatVFOToggle(boolean isSendACK, byte fromType)
   }  
 
   if (isSendACK)
-    Serial.write(ACK);  //Time 
+    Serial.write((byte)ACK);  //Time 
 }
 
 void CatSetMode(byte tmpMode, byte fromType)
 {
   if (fromType == 2 || fromType == 3) {
-    Serial.write(ACK);  
+    Serial.write((byte)ACK);  
     return;  
   }  
   
@@ -235,7 +234,7 @@ void CatSetMode(byte tmpMode, byte fromType)
     updateDisplay();
   }
   
-  Serial.write(ACK);
+  Serial.write((byte)ACK);
 }
 
 //Read EEProm by uBITX Manager Software
@@ -250,7 +249,7 @@ void ReadEEPRom() //for remove warnings.
   byte checkSum = 0;
   byte read1Byte = 0;
 
-  Serial.write(0x02); //STX
+  Serial.write((byte)0x02); //STX
   checkSum = 0x02;
   //I2C Scanner
   //Magic Key Start 59414, Length : 48583
@@ -263,11 +262,11 @@ void ReadEEPRom() //for remove warnings.
       read1Byte = Wire.endTransmission();
       if (read1Byte == 0)
       {
-        Serial.write(i);
+        Serial.write((byte)i);
       }
       else
       {
-        Serial.write(0);
+        Serial.write((byte)0);
       }
     }
   }
@@ -277,12 +276,12 @@ void ReadEEPRom() //for remove warnings.
     {
       read1Byte = EEPROMTYPE.read(eepromStartIndex + i);
       checkSum += read1Byte;
-      Serial.write(read1Byte);
+      Serial.write((byte)read1Byte);
     }
   }
   
-  Serial.write(checkSum);
-  Serial.write(ACK);
+  Serial.write((byte)checkSum);
+  Serial.write((byte)ACK);
 }
 
 //Write just proecess 1byes
@@ -296,8 +295,8 @@ void WriteEEPRom(void)  //for remove warning
   //Check Checksum
   if (CAT_BUFF[3] != ((CAT_BUFF[0] + CAT_BUFF[1] + CAT_BUFF[2]) % 256))
   {
-    Serial.write(0x56); //CHECK SUM ERROR
-    Serial.write(ACK);
+    Serial.write((byte)0x56); //CHECK SUM ERROR
+    Serial.write((byte)ACK);
   }
   else
   {
@@ -306,7 +305,11 @@ void WriteEEPRom(void)  //for remove warning
     {
       if (write1Byte == 0x51) //Restart
       {
-        asm volatile ("  jmp 0");
+        #if defined(NANO33IOT)  || defined(NANOBLE) || defined(NANORP2040)
+          NVIC_SystemReset();
+        #else
+          asm volatile ("  jmp 0");
+        #endif
       }
     }
     else
@@ -314,8 +317,8 @@ void WriteEEPRom(void)  //for remove warning
       EEPROMTYPE.write(eepromStartIndex, write1Byte);
     }
     
-    Serial.write(0x77); //OK  
-    Serial.write(ACK);
+    Serial.write((byte)0x77); //OK  
+    Serial.write((byte)ACK);
   }
 }
 
@@ -480,7 +483,7 @@ void WriteEEPRom_FT817(byte fromType)
 
   if (fromType == 2 || fromType == 3) {
     SendCatData(2);
-    Serial.write(ACK);
+    Serial.write((byte)ACK);
     return;  
   }
   switch (temp1)
@@ -643,10 +646,8 @@ void WriteEEPRom_FT817(byte fromType)
 
   // sent the data
   SendCatData(2);
-  Serial.write(ACK);
+  Serial.write((byte)ACK);
 }
-
-const byte anlogPinIndex[6] = {A0, A1, A2, A3, A6, A7};
 
 //Read ADC Value by uBITX Manager Software
 void ReadADCValue(void)
@@ -656,12 +657,46 @@ void ReadADCValue(void)
   //5BYTES
   //CAT_BUFF[0] [1] [2] [3] [4] //4 COMMAND
   //0 READ ADDRESS
-  readedADCValue = analogRead(anlogPinIndex[CAT_BUFF[0]]);
+  //
+  //MJH     The following was written much more elegantly originally using an array of pins and a simple loop to get the data.
+  //        However, because R6 and R7 are NinaPins (i.e. assigned to the Nina co-processor) on RP Connect, there was no way
+  //        I could figure out how to put a NinaPin in this array. Kept throwing a compile error...  Although, not elegant, an perhaps
+  //        a maintenance issue that someone will face in the future, this at least works on all processors.
+  //        Also note the pinMode(pin, INPUT_PULLUPS) that are required because some processors turn off the pullups after an analog read.
+
+   switch(CAT_BUFF[0]){
+          case 0:
+                readedADCValue = analogRead(ENC_A);
+                pinMode(ENC_A, INPUT_PULLUP);
+                break;
+          case 1:
+                readedADCValue = analogRead(ENC_B);
+                pinMode(ENC_B, INPUT_PULLUP);
+                break;
+          case 2:
+                readedADCValue = analogRead(FBUTTON);
+                pinMode(ENC_B, INPUT_PULLUP);
+                break;
+          case 3:    
+                readedADCValue = analogRead(PTT);
+                pinMode(PTT,INPUT_PULLUP); 
+                break;
+          case 4:
+                readedADCValue = analogRead(ANALOG_KEYER);
+                pinMode(ANALOG_KEYER,INPUT_PULLUP);
+                break;
+          case 5:
+                readedADCValue = analogRead(ANALOG_SMETER);
+                break;
+          }
+
   CAT_BUFF[0] = readedADCValue >> 8;
   CAT_BUFF[1] = readedADCValue;
   SendCatData(2);
-  Serial.write(ACK);
+  Serial.write((byte)ACK);
 }
+
+
 
 void SetIFSValue(void)
 {
@@ -671,7 +706,7 @@ void SetIFSValue(void)
   setFrequency(frequency);
   SetCarrierFreq();
   updateLine2Buffer(1); //option, perhap not need
-  Serial.write(ACK);
+  Serial.write((byte)ACK);
 }
 
 //void CatRxStatus(byte fromType) 
@@ -805,7 +840,7 @@ void Check_Cat(byte fromType)
           CAT_BUFF[0] = 0x00; 
           setDialLock(1, fromType);
         }
-        Serial.write(CAT_BUFF[0]);  //Time 
+        Serial.write((byte)CAT_BUFF[0]);  //Time 
         break;
       case 0x80 :   //Lock Off
         if (isDialLock == 0)  //This command returns 00 if the '817 was already locked, and F0 (HEX) if already unlocked.
@@ -814,7 +849,7 @@ void Check_Cat(byte fromType)
           CAT_BUFF[0] = 0x00; 
           setDialLock(0, fromType);
         }
-        Serial.write(CAT_BUFF[0]);  //Time 
+        Serial.write((byte)CAT_BUFF[0]);  //Time 
         break;
      */
 
@@ -878,7 +913,7 @@ void Check_Cat(byte fromType)
       sprintf(buff, "DEFAULT : %x", CAT_BUFF[4]);
       printLine2(buff);
     */
-      Serial.write(ACK);
+      Serial.write((byte)ACK);
       break;
   } //end of switch
 

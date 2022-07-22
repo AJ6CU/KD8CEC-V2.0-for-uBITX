@@ -40,8 +40,9 @@ char lastPaddle = 0;
 //reads the analog keyer pin and reports the paddle
 byte getPaddle(){
   int paddle = analogRead(ANALOG_KEYER);
+  pinMode(ANALOG_KEYER,INPUT_PULLUP);                         //mjh IOT and RP reset pullups after analogRead
 
-  if (paddle > 800)         // above 4v is up
+if (paddle > 800)         // above 4v is up
     return 0;
     
   if (paddle > 600)    // 4-3v is dot
@@ -89,15 +90,21 @@ void cwKeyUp(){
 #define DIT_PROC 0x04 // DIT is being processed
 #define PDLSWAP 0x08 // 0 for normal, 1 for swap
 #define IAMBICB 0x10 // 0 for Iambic A, 1 for Iambic B
+
 enum KSTYPE {IDLE, CHK_DIT, CHK_DAH, KEYED_PREP, KEYED, INTER_ELEMENT };
+enum KSTYPE keyerState = IDLE;
+
 static unsigned long ktimer;
-unsigned char keyerState = IDLE;
+
 
 //Below is a test to reduce the keying error. do not delete lines
 //create by KD8CEC for compatible with new CW Logic
 char update_PaddleLatch(byte isUpdateKeyState) {
   unsigned char tmpKeyerControl = 0;
   int paddle = analogRead(ANALOG_KEYER);
+  pinMode(ANALOG_KEYER,INPUT_PULLUP);                //mjh pullups are disabled with analogRead on IOT and RP connect, need to reset here
+
+ //mjh Serial.print("analog read of paddle ="); Serial.println(paddle);
 
   if (paddle >= cwAdcDashFrom && paddle <= cwAdcDashTo)
     tmpKeyerControl |= DAH_L;
@@ -235,6 +242,7 @@ void cwKeyer(void){
           
           keyDown = 0;
           cwTimeout = millis() + cwDelayTime * 10;  //+ CW_TIMEOUT; 
+
           startTx(TX_CW, 1);
         }
         cwKeydown();
@@ -365,5 +373,3 @@ void cwKeyer(){
   }
 }
 */
-
-

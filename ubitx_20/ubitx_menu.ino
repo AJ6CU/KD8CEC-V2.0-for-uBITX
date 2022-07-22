@@ -1,3 +1,4 @@
+
 /*
 This source code started with Farhan's original source. The license rules are followed as well.
 Calibration related functions kept the original source except for the minor ones. 
@@ -216,8 +217,13 @@ void menuCHMemory(int btn, byte isMemoryToVfo){
             strcpy(c, "CH");
             if (selectChannel < 9)
               c[2] = '0';
-            
+              
+#ifdef INTEGERS_ARE_32_BIT
+            utoa(selectChannel + 1, b, 10);
+#else
             ltoa(selectChannel + 1, b, 10);
+#endif                    
+            
             strcat(c, b); //append channel Number;
             strcat(c, " :"); //append channel Number;
           }
@@ -312,12 +318,20 @@ void menuADCMonitor(int btn){
   delay_background(3000, 0);
   
   while (true) {
-    adcPinA0 = analogRead(A0);  //A0(BLACK, EncoderA)
-    adcPinA1 = analogRead(A1);  //A1(BROWN, EncoderB)
-    adcPinA2 = analogRead(A2);  //A2(RED, Function Key)
-    adcPinA3 = analogRead(A3);  //A3(PTT)
-    adcPinA6 = analogRead(A6);  //A6(KEYER)
-    adcPinA7 = analogRead(A7);  //A7(VIOLET, Spare)
+    adcPinA0 = analogRead(ENC_A);  //A0(BLACK, EncoderA)
+    adcPinA1 = analogRead(ENC_B);  //A1(BROWN, EncoderB)
+    adcPinA2 = analogRead(FBUTTON);  //A2(RED, Function Key)
+    adcPinA3 = analogRead(PTT);  //A3(PTT)
+    adcPinA6 = analogRead(ANALOG_KEYER);  //A6(KEYER)
+    adcPinA7 = analogRead(ANALOG_SMETER);  //A7(VIOLET, Spare)
+    //
+    //  Need to reset pullups after analogReads because IOT and RP disable pullups
+    //
+    pinMode(ENC_A, INPUT_PULLUP);   //Encoder A
+    pinMode(ENC_B, INPUT_PULLUP);   //Encoder B
+    pinMode(FBUTTON, INPUT_PULLUP); //FBUTTON
+    pinMode(PTT,INPUT_PULLUP);       //PTT
+    pinMode(ANALOG_KEYER,INPUT_PULLUP);       //ANALOG_KEYER
 
     if (adcPinA3 < 50) {
       if (pressKeyTime == 0)
@@ -1520,7 +1534,13 @@ void factoryCalibration(int btn){
   si5351bx_setfreq(2, 10000000l); 
   
   strcpy(b, "#1 10 MHz cal:");
+  
+#ifdef INTEGERS_ARE_32_BIT
+  utoa(calibration/8750, c, 10);
+#else
   ltoa(calibration/8750, c, 10);
+#endif        
+
   strcat(b, c);
   printLine2(b);     
 
@@ -1544,7 +1564,14 @@ void factoryCalibration(int btn){
     si5351_set_calibration(calibration);
     si5351bx_setfreq(2, 10000000l);
     strcpy(b, "#1 10 MHz cal:");
+    
+#ifdef INTEGERS_ARE_32_BIT
+    utoa(calibration/8750, c, 10);
+#else
     ltoa(calibration/8750, c, 10);
+#endif
+    
+    
     strcat(b, c);
     printLine2(b);     
   }
@@ -1584,7 +1611,13 @@ void menuSetupCalibration(int btn){
   setFrequency(frequency);    
   
   strcpy(b, "cal:");
-  ltoa(calibration/8750, c, 10);
+  
+#ifdef INTEGERS_ARE_32_BIT
+    utoa(calibration/8750, c, 10);
+#else
+    ltoa(calibration/8750, c, 10);
+#endif
+  
   strcat(b, c);
   printLine2(b);     
 
@@ -1608,7 +1641,14 @@ void menuSetupCalibration(int btn){
     setFrequency(frequency);    
 
     strcpy(b, "cal:");
-    ltoa(calibration/8750, c, 10);
+    
+#ifdef INTEGERS_ARE_32_BIT
+  utoa(calibration/8750, c, 10);
+#else
+  ltoa(calibration/8750, c, 10);
+#endif        
+    
+    
     strcat(b, c);
     printLine2(b);     
   }
@@ -1636,7 +1676,11 @@ void printCarrierFreq(unsigned long freq){
   memset(c, 0, sizeof(c));
   memset(b, 0, sizeof(b));
 
-  ultoa(freq, b, DEC);
+#ifdef INTEGERS_ARE_32_BIT
+    utoa(freq, b, DEC);
+#else
+    ultoa(freq, b, DEC);
+#endif
   
   strncat(c, b, 2);
   strcat(c, ".");
