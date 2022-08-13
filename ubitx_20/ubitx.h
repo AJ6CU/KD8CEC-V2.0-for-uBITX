@@ -23,7 +23,7 @@
 // Compile Option
 //==============================================================================
 //Ubitx Board Version
-#define UBITX_BOARD_VERSION 4           //v1 ~ v4 : 4, v5: 5
+#define UBITX_BOARD_VERSION 5           //v1 ~ v4 : 4, v5: 5
 
 //Define which Nano is used
 //#define NANO        //includes nano every
@@ -79,7 +79,8 @@
 //#define COMMANDDEBUG
 //#define DEBUGENCODER
 
-
+#define conv2BytesToInt32(lsb,msb) (int)((int16_t)((msb<<8) + lsb));
+#define conv4BytesToLong(lsb,lsb1,lsb2,msb) (unsigned long)(((int)(msb<<24)) + ((int)(lsb2<<16)) + ((int)(lsb1<<8))+lsb);
   
 
 //Depending on the type of LCD mounted on the uBITX, uncomment one of the options below.

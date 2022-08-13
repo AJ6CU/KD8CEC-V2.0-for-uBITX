@@ -987,6 +987,20 @@ void initSettings(){
   EEPROMTYPE.get(VFO_B, vfoB);
   EEPROMTYPE.get(CW_SIDETONE, sideTone);
   EEPROMTYPE.get(CW_SPEED, cwSpeed);
+  //mjh
+ /* Serial.begin(38400);
+  delay(5000);
+  Serial.print("MASTER_CAL="); Serial.print(calibration);Serial.println("*");
+  Serial.print("USB_CAL="); Serial.print(usbCarrier);Serial.println("*");
+  Serial.print("VFO_AL="); Serial.print(vfoA);Serial.println("*");
+  Serial.print("VFO_B="); Serial.print(vfoB);Serial.println("*");
+  Serial.print("CW_SIDETONE="); Serial.print(sideTone);Serial.println("*");
+  Serial.print("CW_SPEED="); Serial.print(cwSpeed);Serial.println("*");
+  */
+
+
+
+  
   //End of original code
   
   //----------------------------------------------------------------
@@ -995,9 +1009,19 @@ void initSettings(){
   //ID & Version Check from EEProm 
   //if found different firmware, erase eeprom (32
   #define FIRMWAR_ID_ADDR 776 //776 : 0x59, 777 :0x58, 778 : 0x68 : Id Number, if not found id, erase eeprom(32~1023) for prevent system error.
+
+//MJH
+ /*Serial.print("Firmware 776="); Serial.print(EEPROMTYPE.read(FIRMWAR_ID_ADDR),HEX);Serial.println("*");
+ Serial.print("Firmware 777="); Serial.print(EEPROMTYPE.read(FIRMWAR_ID_ADDR+1),HEX);Serial.println("*");
+ Serial.print("Firmware 778="); Serial.print(EEPROMTYPE.read(FIRMWAR_ID_ADDR+2),HEX);Serial.println("*");
+*/
+  
   if (EEPROMTYPE.read(FIRMWAR_ID_ADDR) != 0x59 || 
     EEPROMTYPE.read(FIRMWAR_ID_ADDR + 1) != 0x58 || 
     EEPROMTYPE.read(FIRMWAR_ID_ADDR + 2) != 0x68 ) {
+
+      //MJH
+      //Serial.println("no match on FIRMWar_ID");
       
     printLineF(1, F("Init EEProm...")); 
       //initial all eeprom 
@@ -1410,7 +1434,7 @@ void setup()
   
 Serial.begin(38400);  //mjh
 
-Wire.begin();  //MJH is this needed?
+Wire.begin();  
 
 
   

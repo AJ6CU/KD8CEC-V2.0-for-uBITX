@@ -35,7 +35,7 @@
 #include "ubitx.h"
 
 //for broken protocol
-#define CAT_RECEIVE_TIMEOUT 500
+#define CAT_RECEIVE_TIMEOUT 500 
 
 #define CAT_MODE_LSB            0x00
 #define CAT_MODE_USB            0x01
@@ -251,6 +251,7 @@ void ReadEEPRom() //for remove warnings.
 
   Serial.write((byte)0x02); //STX
   checkSum = 0x02;
+
   //I2C Scanner
   //Magic Key Start 59414, Length : 48583
   //if (eepromStartIndex == 59414 && eepromReadLength == 48583)
@@ -271,7 +272,7 @@ void ReadEEPRom() //for remove warnings.
     }
   }
   else
-  {
+  { 
     for (uint16_t i = 0; i < eepromReadLength; i++)
     {
       read1Byte = EEPROMTYPE.read(eepromStartIndex + i);
@@ -828,6 +829,8 @@ void Check_Cat(byte fromType)
   isProcessCheck_Cat = 1;
 
   //reference : http://www.ka7oei.com/ft817_meow.html
+ 
+
   switch(CAT_BUFF[4])
   {
       //The stability has not been verified and there seems to be no need. so i remarked codes,
@@ -882,6 +885,7 @@ void Check_Cat(byte fromType)
     case 0xDB:  //Read uBITX EEPROM Data
       ReadEEPRom(); //Call by uBITX Manager Program
       break;
+      
     case 0xBB:  //Read FT-817 EEPROM Data  (for comfirtable)
       ReadEEPRom_FT817();
       break;
