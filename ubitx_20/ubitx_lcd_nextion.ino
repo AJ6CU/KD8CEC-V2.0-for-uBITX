@@ -30,7 +30,7 @@
   Nextion Library for uBItX
   KD8CEC
 **************************************************************************/
-
+#define NEXTIONBAUD 115200      //must match that in tft file
 #ifdef USE_SOFTWARESERIAL  
   #include <SoftwareSerial.h>
 
@@ -62,7 +62,7 @@ char softTemp[20];
 
 void LCDNextion_Init()
 {
-  SERIALPORT.begin(115200);
+  SERIALPORT.begin(NEXTIONBAUD);
   memset(softBuffLines[0], ' ', TEXT_LINE_LENGTH); 
   softBuffLines[0][TEXT_LINE_LENGTH + 1] = 0x00;
   memset(softBuffLines[1], ' ', TEXT_LINE_LENGTH);

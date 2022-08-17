@@ -7,6 +7,20 @@ With more memory and a faster CPU, there are additional features that can be add
 
 I am calling this V2.0 which is a little audacious given that I do not have Ian's permission. Hope he doesn't mind!
 
+Release Notes:
+August 17, 2022 Status
+The code appears to mostly work (see Issues on Github). The S-Meter and SWR have not yet worked. Not sure if this is a problem in the ported code or the ported code in the standalone processor. I am concerned that I get a high pitched screech at low volumes and that the white noise on some platforms is higher than I would expect. However, this could be a calibration issue to resolve. The EEPROM area can use more work to be flexibile to deal with onboard vs offboard EEPROM.
+
+The other worry is that KD8CEC's uBITX Manager seems to not work on Arduino BLE, RP Connect and Nano Every. Weird it does work on Arduino IOT. I can see the CAT request going down, but the firmware just never sends anything back if there is a BLE, RP Connect or Nano Every on the other end...
+
+The CPU board appears to work except that the Nextion RX/TX is reversed depending on whether it uses softwareserial or hardware serial. Known problem and already corrected for the V3 board. The SSI351A needs more "elbow room" to avoid noise and the offboard connectors need more thought.
+
+The standalone daughter board for S-meter (and also ++digital and ++analog pins) is a mess. Will need to rethink that one.
+
+The powersupply board works, but the connection to the inbound 12v power can be rethought to minimize wiring (I am currently forced to use wire nuts...) 
+
+One side note.... I am using 115200 baud for my Nextion connection. This required mods to the Nextion code too.  Search for "NEXTIONBAUD" to reset this.
+
 73
 Mark
 AJ6CU
