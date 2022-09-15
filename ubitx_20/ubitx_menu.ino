@@ -203,6 +203,7 @@ void menuCHMemory(int btn, byte isMemoryToVfo){
           loadMode = (byte)(resultFreq >> 29);
           resultFreq = resultFreq & 0x1FFFFFFF;
 
+
           //display channel description
           if (selectChannel < 10 && EEPROMTYPE.read(CHANNEL_DESC + 6 * selectChannel) == 0x03) {  //0x03 is display Chnnel Name
             //display Channel Name

@@ -56,8 +56,8 @@ byte CAT_SNDBUFF[5];
 void SendCatData(byte sendCount)
 {
   for (byte i = 0; i < sendCount; i++)
-    Serial.write((byte)CAT_BUFF[i]);
-  //Serial.flush();
+      Serial.write((byte)CAT_BUFF[i]);
+  Serial.flush();  //mjh
 }
 
 //PROTOCOL : 0x01
@@ -309,7 +309,11 @@ void WriteEEPRom(void)  //for remove warning
         #if defined(NANO33IOT)  || defined(NANOBLE) || defined(NANORP2040)
           NVIC_SystemReset();
         #else
-          asm volatile ("  jmp 0");
+          #if defined(TEENSY)
+            SCB_AIRCR = 0x05FA0004;
+          #else
+            asm volatile ("  jmp 0");
+          #endif
         #endif
       }
     }
@@ -926,6 +930,8 @@ void Check_Cat(byte fromType)
 
 void Init_Cat(long baud, int portConfig)
 {
-  Serial.begin(baud, portConfig);
-  Serial.flush();
+  #ifndef TEENSY
+    Serial.begin(baud, portConfig);
+    Serial.flush();
+  #endif
 }

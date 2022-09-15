@@ -30,7 +30,7 @@
   Nextion Library for uBItX
   KD8CEC
 **************************************************************************/
-#define NEXTIONBAUD 115200      //must match that in tft file
+
 #ifdef USE_SOFTWARESERIAL  
   #include <SoftwareSerial.h>
 
@@ -62,6 +62,7 @@ char softTemp[20];
 
 void LCDNextion_Init()
 {
+  delay(3000);
   SERIALPORT.begin(NEXTIONBAUD);
   memset(softBuffLines[0], ' ', TEXT_LINE_LENGTH); 
   softBuffLines[0][TEXT_LINE_LENGTH + 1] = 0x00;
@@ -344,7 +345,7 @@ void SendTextLineStr(char lineNumber, const char* sendValue)
   SendTextLineBuff(lineNumber);
 }
 
-void SendEEPromData(char varIndex, int eepromStartIndex, int eepromEndIndex, char offsetTtype) 
+void SendEEPromData(char varIndex, int16_t eepromStartIndex, int16_t eepromEndIndex, char offsetTtype) 
 {
   SendHeader(SWS_HEADER_STR_TYPE, varIndex);
   
@@ -1111,11 +1112,15 @@ void SWS_Process(void)
           if (commandType == TS_CMD_UBITX_REBOOT)
           {
             FrequencyToVFO(1);  //Save current Frequency and Mode to eeprom
-             #if defined(NANO33IOT)  || defined(NANOBLE)|| defined(NANORP2040)
-                NVIC_SystemReset();
-             #else
+            #if defined(NANO33IOT)  || defined(NANOBLE) || defined(NANORP2040)
+              NVIC_SystemReset();
+            #else
+              #if defined(TEENSY)
+                SCB_AIRCR = 0x05FA0004;
+              #else
                 asm volatile ("  jmp 0");
-             #endif
+              #endif
+            #endif
           }
           else
           {

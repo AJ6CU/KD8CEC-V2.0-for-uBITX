@@ -31,7 +31,7 @@
 #define NANO33IOT
 //#define NANOBLE
 //#define NANORP2040
-
+//#define TEENSY
 //Set values related to specific nano
 
 #ifdef NANO
@@ -59,12 +59,20 @@
             #define INTEGERS_ARE_32_BIT
             #include <WiFiNINA.h>
             #define USE_I2C_EEPROM                // Use external EEPROM connected on I2C bus
+          #else
+            #ifdef TEENSY
+              #define USE_HARDWARESERIAL
+              #define INTEGERS_ARE_32_BIT
+              #define USE_I2C_EEPROM 
+            #endif
           #endif
       #endif
     #endif
   #endif
 #endif
 
+//If using a Nextion, must keep this in synch with speed selected in Nextion editor
+#define NEXTIONBAUD 9600    //must match that in tft file
 
 //Use Internal or External EEPROM
 

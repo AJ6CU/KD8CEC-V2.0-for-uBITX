@@ -52,10 +52,10 @@
 #include "ubitx.h"
 
 #ifdef USE_I2C_EEPROM
-  #include <SparkFun_External_EEPROM.h>
+  #include <SparkFun_External_EEPROM.h>  //https://github.com/sparkfun/SparkFun_External_EEPROM_Arduino_Library
   ExternalEEPROM I2C_EEPROM;
 #else
-   #include <EEPROM.h>
+   #include <EEPROM.h>   //standard EEPROM library
 #endif
 
 
@@ -135,7 +135,7 @@ unsigned long vfoA=7150000L, vfoB=14200000L, sideTone=800, usbCarrier, cwmCarrie
 unsigned long vfoA_eeprom, vfoB_eeprom; //for protect eeprom life
 unsigned long frequency, ritRxFrequency, ritTxFrequency;  //frequency is the current frequency on the dial
 
-unsigned int cwSpeed = 100; //this is actuall the dot period in milliseconds
+uint16_t cwSpeed = 100; //this is actually the dot period in milliseconds
 extern int32_t calibration;
 
 //for store the mode in eeprom
@@ -236,7 +236,7 @@ byte I2C_LCD_SECOND_ADDRESS;         //only using Dual LCD Mode
 byte KeyValues[16][3];
 
 byte isIFShift = 0;     //1 = ifShift, 2 extend
-int ifShiftValue = 0;   //
+int16_t ifShiftValue = 0;   //
 
 byte TriggerBySW = 0;   //Action Start from Nextion LCD, Other MCU
 
@@ -257,7 +257,8 @@ char CustFilters[7][2];
 byte useHamBandCount = 0;   //0 use full range frequency
 byte tuneTXType = 0;        //0 : use full range, 1 : just Change Dial speed, 2 : just ham band change, but can general band by tune, 3 : only ham band (just support 0, 2 (0.26 version))
                           //100 : use full range but not TX on general band, 101 : just change dial speed but.. 2 : jut... but.. 3 : only ham band  (just support 100, 102 (0.26 version))
-unsigned int hamBandRange[MAX_LIMIT_RANGE][2];  // =  //Khz because reduce use memory
+//mjh  unsigned int hamBandRange[MAX_LIMIT_RANGE][2];  // =  //Khz because reduce use memory
+uint16_t hamBandRange[MAX_LIMIT_RANGE][2];  // =  //Khz because reduce use memory
 
 //-1 : not found, 0 ~ 9 : Hamband index
 int getIndexHambanBbyFreq(unsigned long f)
@@ -894,7 +895,7 @@ void doTuningWithThresHold(){
   //incdecValue = tuningStep * s;
   //frequency += (arTuneStep[tuneStepIndex -1] * s * (s * s < 10 ? 1 : 3));  //appield weight (s is speed)
   frequency += (arTuneStep[tuneStepIndex -1] * s);  //appield weight (s is speed) //if want need more increase size, change step size
-    
+  //frequency += (arTuneStep[tuneStepIndex -1] * (s * s < 10 ? 1 : 3));  //mjh
   if (prev_freq < 10000000l && frequency > 10000000l)
     isUSB = true;
     
@@ -1128,7 +1129,8 @@ void initSettings(){
     
   //Read band Information
   for (byte i = 0; i < useHamBandCount; i++) {
-    unsigned int tmpReadValue = 0;
+    //mjh unsigned int tmpReadValue = 0;
+    uint16_t tmpReadValue = 0;
     EEPROMTYPE.get(HAM_BAND_RANGE + 4 * i, tmpReadValue);
     hamBandRange[i][0] = tmpReadValue;
 
@@ -1186,7 +1188,7 @@ void initSettings(){
   //by KD8CEC
   unsigned int tmpMostBits = 0;
   tmpMostBits = EEPROMTYPE.read(CW_ADC_MOST_BIT1);
-  cwAdcSTFrom = EEPROMTYPE.read(CW_ADC_DOT_TO)   | ((tmpMostBits & 0x03) << 8);
+  cwAdcSTFrom = EEPROMTYPE.read(CW_ADC_ST_FROM)   | ((tmpMostBits & 0x03) << 8);
   cwAdcSTTo = EEPROMTYPE.read(CW_ADC_ST_TO)       | ((tmpMostBits & 0x0C) << 6);
   cwAdcDotFrom = EEPROMTYPE.read(CW_ADC_DOT_FROM) | ((tmpMostBits & 0x30) << 4);
   cwAdcDotTo = EEPROMTYPE.read(CW_ADC_DOT_TO)     | ((tmpMostBits & 0xC0) << 2);
@@ -1330,7 +1332,7 @@ void initSettings(){
 
 void initPorts(){
 
-#ifndef NANORP2040                          //Nano RP Connect does not have an analogReference function
+#if !defined(TEENSY) && !defined(NANORP2040)                       //Nano RP Connect and teensy do not have/use an analogReference function
   analogReference(ANALOGCHIPDEFAULT);
 #endif
 

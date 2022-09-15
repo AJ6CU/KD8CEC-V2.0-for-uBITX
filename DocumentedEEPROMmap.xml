@@ -1,0 +1,3301 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<data>
+  <EEPROM_DEFINE DEF_CONST="MASTER_CAL">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Master calibration</label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>0</EEPROMStart>
+    <sizeInBytes>4</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="LSB_CAL">
+    <active>false</active>
+    <writeable>false</writeable>
+    <value></value>
+    <label></label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>4</EEPROMStart>
+    <sizeInBytes>4</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="USB_CAL">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value>BFO</value>
+    <label></label>
+    <userHints />
+    <implementionDetails>A key calibration factor. If you get this wrong, your radio will be "deaf". Make sure you know what you are doing before you change this.</implementionDetails>
+    <EEPROMStart>8</EEPROMStart>
+    <sizeInBytes>4</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="SIDE_TONE">
+    <active>false</active>
+    <writeable>false</writeable>
+    <value></value>
+    <label></label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>12</EEPROMStart>
+    <sizeInBytes>4</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="VFO_A">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>VFO A Start Freq</label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>16</EEPROMStart>
+    <sizeInBytes>4</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>BOOT</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="VFO_B">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>VFO B Start Freq</label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>20</EEPROMStart>
+    <sizeInBytes>4</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>BOOT</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CW_SIDETONE">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>CW Sidetone(HZ)</label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>24</EEPROMStart>
+    <sizeInBytes>4</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>CW</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CW_SPEED">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>CW Speed</label>
+    <userHints>1200/value = wpm</userHints>
+    <implementionDetails />
+    <EEPROMStart>28</EEPROMStart>
+    <sizeInBytes>2</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>CW</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="RESERVE_FOR_FACTORY1">
+    <active>false</active>
+    <writeable>false</writeable>
+    <value></value>
+    <label></label>
+    <userHints />
+    <implementionDetails>32-62 were originally unused by HF Signals. Dr Lee uses it for custom filter control</implementionDetails>
+    <EEPROMStart>32</EEPROMStart>
+    <sizeInBytes>16</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CUST_LPF_ENABLED">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Enable Custom LPF</label>
+    <userHints>0=disabled; 0x57=Use the three OEM relays; 0x58=Use OEM relays + D10,11,12,13. NOTE: Uses A7 and so incompatible with single Nano S-meter solution.</userHints>
+    <implementionDetails>This feature was developed by Dr. Lee to enable experimenting with different filter settings to address some of the spurs found in early uBITX. If you enter 0x57, you can reset where the different OEM relays (on D3,D4,D5) switch by frequency. If you have a Nextion or I2C LCD, you can enter 0x58 and use the 3 original relay signals along with D10, D11, D12, D13 to control 7 switchable filters. Using D10-D13 requires hardware modifications. See: http://www.hamskey.com/2018/09/ubitx-setting-for-custmizedhacked-or.html</implementionDetails>
+    <EEPROMStart>48</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>CUSTOM LPF</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CUST_LPF_START">
+    <active>true</active>
+    <writeable>false</writeable>
+    <value></value>
+    <label></label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>49</EEPROMStart>
+    <sizeInBytes>14</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+	</EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CUST_LPF_FILTER1_ENDFREQ">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Ending frequency (MHZ) of LPF1</label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>49</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>CUSTOM LPF</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CUST_LPF_FILTER1_CONTROL_LINES">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Control Lines</label>
+    <userHints>0x01=TX_LPF_A; 0x02=TX_LPF_B; 0x04=TX_LPF_C; 0x08=D10; 0x10=D11; 0x20=D12; 0x40=D13</userHints>
+    <implementionDetails />
+    <EEPROMStart>50</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>CUSTOM LPF</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CUST_LPF_FILTER2_ENDFREQ">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Ending frequency (MHZ) of LPF2</label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>51</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>CUSTOM LPF</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CUST_LPF_FILTER2_CONTROL_LINES">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Control Lines</label>
+    <userHints>0x01=TX_LPF_A; 0x02=TX_LPF_B; 0x04=TX_LPF_C; 0x08=D10; 0x10=D11; 0x20=D12; 0x40=D13</userHints>
+    <implementionDetails />
+    <EEPROMStart>52</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>CUSTOM LPF</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CUST_LPF_FILTER3_ENDFREQ">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Ending frequency (MHZ) of LPF3</label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>53</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>CUSTOM LPF</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CUST_LPF_FILTER3_CONTROL_LINES">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Control Lines</label>
+    <userHints>0x01=TX_LPF_A; 0x02=TX_LPF_B; 0x04=TX_LPF_C; 0x08=D10; 0x10=D11; 0x20=D12; 0x40=D13</userHints>
+    <implementionDetails />
+    <EEPROMStart>54</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>CUSTOM LPF</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CUST_LPF_FILTER4_ENDFREQ">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Ending frequency (MHZ) of LPF4</label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>55</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>CUSTOM LPF</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CUST_LPF_FILTER4_CONTROL_LINES">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Control Lines</label>
+    <userHints>0x01=TX_LPF_A; 0x02=TX_LPF_B; 0x04=TX_LPF_C; 0x08=D10; 0x10=D11; 0x20=D12; 0x40=D13</userHints>
+    <implementionDetails />
+    <EEPROMStart>56</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>CUSTOM LPF</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CUST_LPF_FILTER5_ENDFREQ">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Ending frequency (MHZ) of LPF5</label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>57</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>CUSTOM LPF</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CUST_LPF_FILTER5_CONTROL_LINES">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Control Lines</label>
+    <userHints>0x01=TX_LPF_A; 0x02=TX_LPF_B; 0x04=TX_LPF_C; 0x08=D10; 0x10=D11; 0x20=D12; 0x40=D13</userHints>
+    <implementionDetails />
+    <EEPROMStart>58</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>CUSTOM LPF</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CUST_LPF_FILTER5_CONTROL_LINES">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Control Lines</label>
+    <userHints>0x01=TX_LPF_A; 0x02=TX_LPF_B; 0x04=TX_LPF_C; 0x08=D10; 0x10=D11; 0x20=D12; 0x40=D13</userHints>
+    <implementionDetails />
+    <EEPROMStart>58</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>CUSTOM LPF</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CUST_LPF_FILTER6_ENDFREQ">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Ending frequency (MHZ) of LPF6</label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>59</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>CUSTOM LPF</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CUST_LPF_FILTER6_CONTROL_LINES">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Control Lines</label>
+    <userHints>0x01=TX_LPF_A; 0x02=TX_LPF_B; 0x04=TX_LPF_C; 0x08=D10; 0x10=D11; 0x20=D12; 0x40=D13</userHints>
+    <implementionDetails />
+    <EEPROMStart>60</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>CUSTOM LPF</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CUST_LPF_FILTER07_ENDFREQ">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Ending frequency (MHZ) of LPF7</label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>61</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>CUSTOM LPF</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CUST_LPF_FILTER7_CONTROL_LINES">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Control Lines</label>
+    <userHints>0x01=TX_LPF_A; 0x02=TX_LPF_B; 0x04=TX_LPF_C; 0x08=D10; 0x10=D11; 0x20=D12; 0x40=D13</userHints>
+    <implementionDetails />
+    <EEPROMStart>62</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>CUSTOM LPF</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="I2C_ADDR_SI5351">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Si5351 I2C adderss chip</label>
+    <userHints>I2C address of Si5351 chip. (Keep it at 0 or 0x60 unless hardware modified)</userHints>
+    <implementionDetails />
+    <EEPROMStart>63</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>HW</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="RESERVE_FOR_FACTORY2">
+    <active>false</active>
+    <writeable>false</writeable>
+    <value></value>
+    <label></label>
+    <userHints />
+    <implementionDetails>This constant is not used. Looks like more of a comment.</implementionDetails>
+    <EEPROMStart>64</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="FACTORY_BACKUP_YN">
+    <active>true</active>
+    <writeable>false</writeable>
+    <value></value>
+    <label></label>
+    <userHints />
+    <implementionDetails>Used by KD8CEC to indicate that a backup of the factory settings have been done. If this location contains 0x13, then previously, KD8CEC has copied the factory settings to the location indicated by FACTORY_VALUES. If KD8CEC detects any other value in this location, it copies the factory settigs from locations 0-31 to FACTORY_VALUES (65-96)</implementionDetails>
+    <EEPROMStart>64</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="FACTORY_VALUES">
+    <active>true</active>
+    <writeable>false</writeable>
+    <value></value>
+    <label></label>
+    <userHints />
+    <implementionDetails>This area is where the factory settings (0-31) are stored as a backup  by KD8CEC. Do not overwrite! </implementionDetails>
+    <EEPROMStart>65</EEPROMStart>
+    <sizeInBytes>32</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>ab&gt;
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY_RANGE">
+    <active>true</active>
+    <writeable>false</writeable>
+    <value></value>
+    <label></label>
+    <userHints />
+    <implementionDetails>KD8CEC allow you to create up to 16 buttons that leverage the control line normally associted with the switch on the encoder (A2). The particualar switch that is pushed is identified by the analog value read on pin A2. The next 16 sets of 3 bytes are used to identify the Start ADC (i.e. the low value of the range) and the End ADC (the high value of the range) and the function (i.e. turn RIT on off, switch VFO, etc.). NOTE: Divide all the ADC reading by 4 so that start/end can be stored in one byte. The uBITX Memory Manager does this division for you. But for now, you need to do this manually.
+
+Although there are 16 locations reserved in EEPROM, Dr. Lee only made 6 available in the uBITX Memory Manager and there are only 11 functions currently defined. This leads to the hypothesis that creating a ADC range wide enough to ensure  consistent triggering might have been difficult and so he offered only a subset of the possible buttons. 
+
+More info on this approach is provided at 
+http://www.hamskey.com/2018/04/add-extended-switchs-to-ubitx-with.html
+and
+http://www.hamskey.com/2018/04/changed-extension-key-setting-in-cec.html</implementionDetails>
+    <EEPROMStart>140</EEPROMStart>
+    <sizeInBytes>48</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY1_START">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key1 Start ADC</label>
+    <userHints>Use actual ADC/4</userHints>
+    <implementionDetails />
+    <EEPROMStart>140</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY1_END">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key1 End ADC</label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>141</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY1_FUNC">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key1 Function</label>
+    <userHints />
+    <implementionDetails>0x00 : None, 0x01 : MODE, 0x02:BAND+, 0x03:BAND-, 0x04:TUNE_STEP, 0x05:VFO Toggle, 0x06:SplitOn/Off, 0x07:TX/ON-OFF,  0x08:SDR Mode On / Off, 0x09:Rit Toggle</implementionDetails>
+    <EEPROMStart>142</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY2_START">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key2 Start ADC</label>
+    <userHints>Use actual ADC/4</userHints>
+    <implementionDetails />
+    <EEPROMStart>143</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY2_END">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key2 End ADC</label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>144</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY2_FUNC">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key2 Function</label>
+    <userHints />
+    <implementionDetails>0x00 : None, 0x01 : MODE, 0x02:BAND+, 0x03:BAND-, 0x04:TUNE_STEP, 0x05:VFO Toggle, 0x06:SplitOn/Off, 0x07:TX/ON-OFF,  0x08:SDR Mode On / Off, 0x09:Rit Toggle</implementionDetails>
+    <EEPROMStart>145</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY3_START">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key3 Start ADC</label>
+    <userHints>Use actual ADC/4</userHints>
+    <implementionDetails />
+    <EEPROMStart>146</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY3_END">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key3 End ADC</label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>147</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY3_FUNC">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key3 Function</label>
+    <userHints />
+    <implementionDetails>0x00 : None, 0x01 : MODE, 0x02:BAND+, 0x03:BAND-, 0x04:TUNE_STEP, 0x05:VFO Toggle, 0x06:SplitOn/Off, 0x07:TX/ON-OFF,  0x08:SDR Mode On / Off, 0x09:Rit Toggle</implementionDetails>
+    <EEPROMStart>148</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY4_START">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key4 Start ADC</label>
+    <userHints>Use actual ADC/4</userHints>
+    <implementionDetails />
+    <EEPROMStart>149</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY4_END">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key4 End ADC</label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>150</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY4_FUNC">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key4 Function</label>
+    <userHints />
+    <implementionDetails>0x00 : None, 0x01 : MODE, 0x02:BAND+, 0x03:BAND-, 0x04:TUNE_STEP, 0x05:VFO Toggle, 0x06:SplitOn/Off, 0x07:TX/ON-OFF,  0x08:SDR Mode On / Off, 0x09:Rit Toggle</implementionDetails>
+    <EEPROMStart>151</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY5_START">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key5 Start ADC</label>
+    <userHints>Use actual ADC/4</userHints>
+    <implementionDetails />
+    <EEPROMStart>152</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY5_END">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key5 End ADC</label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>153</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY5_FUNC">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key5 Function</label>
+    <userHints />
+    <implementionDetails>0x00 : None, 0x01 : MODE, 0x02:BAND+, 0x03:BAND-, 0x04:TUNE_STEP, 0x05:VFO Toggle, 0x06:SplitOn/Off, 0x07:TX/ON-OFF,  0x08:SDR Mode On / Off, 0x09:Rit Toggle</implementionDetails>
+    <EEPROMStart>154</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY6_START">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key6 Start ADC</label>
+    <userHints>Use actual ADC/4</userHints>
+    <implementionDetails />
+    <EEPROMStart>155</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY6_END">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key6 End ADC</label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>156</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY6_FUNC">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key6 Function</label>
+    <userHints />
+    <implementionDetails>0x00 : None, 0x01 : MODE, 0x02:BAND+, 0x03:BAND-, 0x04:TUNE_STEP, 0x05:VFO Toggle, 0x06:SplitOn/Off, 0x07:TX/ON-OFF,  0x08:SDR Mode On / Off, 0x09:Rit Toggle</implementionDetails>
+    <EEPROMStart>157</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY7_START">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key7 Start ADC</label>
+    <userHints>Use actual ADC/4</userHints>
+    <implementionDetails />
+    <EEPROMStart>158</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY7_END">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key7 End ADC</label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>159</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY7_FUNC">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key7 Function</label>
+    <userHints />
+    <implementionDetails>0x00 : None, 0x01 : MODE, 0x02:BAND+, 0x03:BAND-, 0x04:TUNE_STEP, 0x05:VFO Toggle, 0x06:SplitOn/Off, 0x07:TX/ON-OFF,  0x08:SDR Mode On / Off, 0x09:Rit Toggle</implementionDetails>
+    <EEPROMStart>160</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY8_START">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key1 Start ADC</label>
+    <userHints>Use actual ADC/4</userHints>
+    <implementionDetails />
+    <EEPROMStart>161</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY8_END">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key8 End ADC</label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>162</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY8_FUNC">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key8 Function</label>
+    <userHints />
+    <implementionDetails>0x00 : None, 0x01 : MODE, 0x02:BAND+, 0x03:BAND-, 0x04:TUNE_STEP, 0x05:VFO Toggle, 0x06:SplitOn/Off, 0x07:TX/ON-OFF,  0x08:SDR Mode On / Off, 0x09:Rit Toggle</implementionDetails>
+    <EEPROMStart>163</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY9_START">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key9 Start ADC</label>
+    <userHints>Use actual ADC/4</userHints>
+    <implementionDetails />
+    <EEPROMStart>164</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY9_END">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key9 End ADC</label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>165</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY9_FUNC">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key9 Function</label>
+    <userHints />
+    <implementionDetails>0x00 : None, 0x01 : MODE, 0x02:BAND+, 0x03:BAND-, 0x04:TUNE_STEP, 0x05:VFO Toggle, 0x06:SplitOn/Off, 0x07:TX/ON-OFF,  0x08:SDR Mode On / Off, 0x09:Rit Toggle</implementionDetails>
+    <EEPROMStart>166</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY10_START">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key10 Start ADC</label>
+    <userHints>Use actual ADC/4</userHints>
+    <implementionDetails />
+    <EEPROMStart>167</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY10_END">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key10 End ADC</label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>168</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY10_FUNC">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key10 Function</label>
+    <userHints />
+    <implementionDetails>0x00 : None, 0x01 : MODE, 0x02:BAND+, 0x03:BAND-, 0x04:TUNE_STEP, 0x05:VFO Toggle, 0x06:SplitOn/Off, 0x07:TX/ON-OFF,  0x08:SDR Mode On / Off, 0x09:Rit Toggle</implementionDetails>
+    <EEPROMStart>169</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY11_START">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key1 Start ADC</label>
+    <userHints>Use actual ADC/4</userHints>
+    <implementionDetails />
+    <EEPROMStart>170</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY11_END">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key11 End ADC</label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>171</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY11_FUNC">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key11 Function</label>
+    <userHints />
+    <implementionDetails>0x00 : None, 0x01 : MODE, 0x02:BAND+, 0x03:BAND-, 0x04:TUNE_STEP, 0x05:VFO Toggle, 0x06:SplitOn/Off, 0x07:TX/ON-OFF,  0x08:SDR Mode On / Off, 0x09:Rit Toggle</implementionDetails>
+    <EEPROMStart>172</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY12_START">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key12 Start ADC</label>
+    <userHints>Use actual ADC/4</userHints>
+    <implementionDetails />
+    <EEPROMStart>173</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY12_END">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key12 End ADC</label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>174</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY12_FUNC">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key12 Function</label>
+    <userHints />
+    <implementionDetails>0x00 : None, 0x01 : MODE, 0x02:BAND+, 0x03:BAND-, 0x04:TUNE_STEP, 0x05:VFO Toggle, 0x06:SplitOn/Off, 0x07:TX/ON-OFF,  0x08:SDR Mode On / Off, 0x09:Rit Toggle</implementionDetails>
+    <EEPROMStart>175</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY13_START">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key13 Start ADC</label>
+    <userHints>Use actual ADC/4</userHints>
+    <implementionDetails />
+    <EEPROMStart>176</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY13_END">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key13 End ADC</label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>177</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY13_FUNC">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key13 Function</label>
+    <userHints />
+    <implementionDetails>0x00 : None, 0x01 : MODE, 0x02:BAND+, 0x03:BAND-, 0x04:TUNE_STEP, 0x05:VFO Toggle, 0x06:SplitOn/Off, 0x07:TX/ON-OFF,  0x08:SDR Mode On / Off, 0x09:Rit Toggle</implementionDetails>
+    <EEPROMStart>178</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY14_START">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key14 Start ADC</label>
+    <userHints>Use actual ADC/4</userHints>
+    <implementionDetails />
+    <EEPROMStart>179</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY14_END">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key14 End ADC</label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>180</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY14_FUNC">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key14 Function</label>
+    <userHints />
+    <implementionDetails>0x00 : None, 0x01 : MODE, 0x02:BAND+, 0x03:BAND-, 0x04:TUNE_STEP, 0x05:VFO Toggle, 0x06:SplitOn/Off, 0x07:TX/ON-OFF,  0x08:SDR Mode On / Off, 0x09:Rit Toggle</implementionDetails>
+    <EEPROMStart>181</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY15_START">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key15 Start ADC</label>
+    <userHints>Use actual ADC/4</userHints>
+    <implementionDetails />
+    <EEPROMStart>182</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY15_END">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key15 End ADC</label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>183</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY15_FUNC">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key15 Function</label>
+    <userHints />
+    <implementionDetails>0x00 : None, 0x01 : MODE, 0x02:BAND+, 0x03:BAND-, 0x04:TUNE_STEP, 0x05:VFO Toggle, 0x06:SplitOn/Off, 0x07:TX/ON-OFF,  0x08:SDR Mode On / Off, 0x09:Rit Toggle</implementionDetails>
+    <EEPROMStart>184</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY16_START">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key16 Start ADC</label>
+    <userHints>Use actual ADC/4</userHints>
+    <implementionDetails />
+    <EEPROMStart>185</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY16_END">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key16 End ADC</label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>186</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTENDED_KEY16_FUNC">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Key16 Function</label>
+    <userHints />
+    <implementionDetails>0x00 : None, 0x01 : MODE, 0x02:BAND+, 0x03:BAND-, 0x04:TUNE_STEP, 0x05:VFO Toggle, 0x06:SplitOn/Off, 0x07:TX/ON-OFF,  0x08:SDR Mode On / Off, 0x09:Rit Toggle</implementionDetails>
+    <EEPROMStart>187</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>EXND KEYS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="I2C_LCD_MASTER">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Master LCD I2C Address</label>
+    <userHints>Default 0x27</userHints>
+    <implementionDetails />
+    <EEPROMStart>190</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>CONFIG</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="I2C_LCD_SECOND">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Secondary LCD I2C Address</label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>191</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>CONFIG</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="S_METER_LEVELS">
+    <active>true</active>
+    <writeable>false</writeable>
+    <value></value>
+    <label></label>
+    <userHints />
+    <implementionDetails>This allows fine adjustment of the S-Meter response depending on the value of the ADC. The actual value of the ADC is divided by 4 to fit into one byte. i.e. range is typically 0-255 (depending on the processor and how its is set for vref.)</implementionDetails>
+    <EEPROMStart>230</EEPROMStart>
+    <sizeInBytes>8</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="S_METER_LEVEL1">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Level 1</label>
+    <userHints>(ADC/4 0-255)</userHints>
+    <implementionDetails />
+    <EEPROMStart>230</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>S-METER</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="S_METER_LEVEL2">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Level 2</label>
+    <userHints>(ADC/4 0-255)</userHints>
+    <implementionDetails />
+    <EEPROMStart>231</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>S-METER</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="S_METER_LEVEL3">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Level 3</label>
+    <userHints>(ADC/4 0-255)</userHints>
+    <implementionDetails />
+    <EEPROMStart>232</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>S-METER</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="S_METER_LEVEL4">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Level 4</label>
+    <userHints>(ADC/4 0-255)</userHints>
+    <implementionDetails />
+    <EEPROMStart>233</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>S-METER</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="S_METER_LEVEL5">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Level 5</label>
+    <userHints>(ADC/4 0-255)</userHints>
+    <implementionDetails />
+    <EEPROMStart>234</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>S-METER</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="S_METER_LEVEL6">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Level 6</label>
+    <userHints>(ADC/4 0-255)</userHints>
+    <implementionDetails />
+    <EEPROMStart>235</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>S-METER</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="S_METER_LEVEL7">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Level 7</label>
+    <userHints>(ADC/4 0-255)</userHints>
+    <implementionDetails />
+    <EEPROMStart>236</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>S-METER</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="S_METER_LEVEL8">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Level 8</label>
+    <userHints>(ADC/4 0-255)</userHints>
+    <implementionDetails />
+    <EEPROMStart>237</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>S-METER</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="ADVANCED_FREQ_OPTION1">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label></label>
+    <userHints />
+    <implementionDetails>This byte of information is one of the more complex ones of the KD8CEC software. For a byte like:
+
+MSB 76543210 LSB
+
+Bit 0 and 7 control the application of the IF Calibration factor. If bit 0 = 0 no IF Calibration factor is applied. If bit 0=1, the IF Calibration factor provided below is added of bit 7=0. If bit 7=1, then the IF Calibration factor is subtracted.
+
+Bit 1 controls whether the radio will come up in SDR mode automatically after a reboot. Note: There is currently a bug in the UX of the software where if you are in this mode, the UX does not switch to SDR on boot. This can be a little confusing. If this might happen to you, cycle through the SPK/SDR switch a couple times and you can get out of SDR mode. 
+
+Bits 32 are used to describe how the frequency of the information provided to the SDR.
+
+=00  No offset is provided to the data send to the SDR. If your radio's display says 7.032.000, that is the frequency sent to your SDR.
+
+=01  The SDR offset frequency (see below) is added to the frequency on the display and sent to the SDR. For example, if the offset frequency is 30.000.000, and the radio is at 7.032.000, the sounds are sent to the SDR at 37.032.000.
+
+=02 Similar to #01 except only the single MHZ digit of the radio's frequency is added. For example, if the radio was at 14.032.000, and the offset was at 30.000.000, the resulting frequency would be 43.032.000.
+
+=03 Similar to #02, except this time using the KHZ number. So with a 30.000.000 offset and and a 14.032.000 radio setting, the SDR will see a 30.032.000 frequency.</implementionDetails>
+    <EEPROMStart>240</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>SDR</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="ADVANCED_FREQ_OPTION1_IFCAL_CNTRL">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label></label>
+    <userHints>values can be: off, add or sub to determine how the IF_CAL factor is handled</userHints>
+    <implementionDetails />
+    <EEPROMStart>240</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>virtual</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>SDR</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="ADVANCED_FREQ_OPTION1_SDRMODE_ONBOOT">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>SDR Mode on Reboot</label>
+    <userHints>either false (default - come up in normal mode) or true (come up in SDR mode on reboot)</userHints>
+    <implementionDetails></implementionDetails>
+    <EEPROMStart>240</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>virtual</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>SDR</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="ADVANCED_FREQ_OPTION1_SDR_FREQ_OFFSET">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>SDR FREQ OFFSET</label>
+    <userHints>Options: 
+none:  If your radio's display says 7.032.000, that is the frequency sent to your SDR.
+
+fixed: A fixed offset added. For example, if the offset frequency is 30.000.000, and the radio is at 7.032.000, the sounds are sent to the SDR at 37.032.000.
+
+MHZOffset The single MHZ digit of the radio's frequency is added. For example, if the radio was at 14.032.000, and the offset was at 30.000.000, the resulting frequency would be 43.032.000.
+
+KHZOffset The KHZ number of the frequency is added to offset. So with a 30.000.000 offset and and a 14.032.000 radio setting, the SDR will see a 30.032.000 frequency.</userHints>
+    <implementionDetails></implementionDetails>
+    <EEPROMStart>240</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>virtual</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>SDR</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="IF1_CAL">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>IF1 Calibration Factor</label>
+    <userHints>This value is 0-255. Factory default is 0 or 255. Dr Lee recommends 0, or 60-85.</userHints>
+    <implementionDetails />
+    <EEPROMStart>241</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>CALIBRATION</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="ENABLE_SDR">
+    <active>true</active>
+    <writeable>false</writeable>
+    <value></value>
+    <label>Currently in SDR Mode?</label>
+    <userHints>1=true, 0=false Dont change this. This reflects actul current state when the Data Manager was started</userHints>
+    <implementionDetails>This corresponded to the check box in uBITX Memory Manager of "Is SDR Mode?". All this value tells you is whether the radio is *currently* in SDR mode or not. It is really a read-only value that the radio sets as it goes in and out of SDR mode.</implementionDetails>
+    <EEPROMStart>242</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <hex />
+    <assigned_GUI_Tab>SDR</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="SDR_FREQUNCY">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>SDR Offset frequency</label>
+    <userHints>Check with your SDR vendor for the frequency. Enter full frequency (ie. 32.000.000)</userHints>
+    <implementionDetails>If you need to offset the frequency sent to the SDR by some number enter it here. (most SDR's cannot handle frequencies in the HF area and need a higher frequency value)</implementionDetails>
+    <EEPROMStart>243</EEPROMStart>
+    <sizeInBytes>4</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CW_CAL">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>CW BFO</label>
+    <userHints />
+    <implementionDetails>This is the CW calibration factor for the BFO. It should be within a few hundred HZ of the BFO used for SSB.</implementionDetails>
+    <EEPROMStart>252</EEPROMStart>
+    <sizeInBytes>4</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>CALIBRATION</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="VFO_A_MODE">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>VFO A Mode Upon Boot</label>
+    <userHints>Set the mode for VFO A upon boot. Select: 0: default, 1:not use, 2:LSB, 3:USB, 4:CW, 5:AM, 6:FM</userHints>
+    <implementionDetails />
+    <EEPROMStart>256</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>BOOT</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="VFO_B_MODE">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>VFO B Mode Upon Boot</label>
+    <userHints>Set the mode for VFO B upon boot. Select: 0: default, 1:not use, 2:LSB, 3:USB, 4:CW, 5:AM, 6:FM</userHints>
+    <implementionDetails />
+    <EEPROMStart>257</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CW_DELAY">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>CW delay from TX-&gt;RX</label>
+    <userHints>Value between 0-255; 10xValue = #ms</userHints>
+    <implementionDetails />
+    <EEPROMStart>258</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>CW</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CW_START">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Delay before starting TX </label>
+    <userHints>Value between 0-255; 2*Value = #ms</userHints>
+    <implementionDetails />
+    <EEPROMStart>259</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>CW</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="HAM_BAND_COUNT">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Total Ham Bands</label>
+    <userHints>Total number of stored HAM bands (max of 10)</userHints>
+    <implementionDetails />
+    <EEPROMStart>260</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>BANDS</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="TX_TUNE_TYPE">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>TX/Tune Control</label>
+    <userHints>0=no restrictions on tuning and TX; 100=same as 0 but TX HAM bands only; 2=Tune by Band button and dial within band and TX within that range; 102=same as 2, but TX HAM bands only.</userHints>
+    <implementionDetails>Controls tuning and where you can transmit. Tuning choices are Dial + Band button vs Band button and Dial within Band. TX is everywhere or just ham band. 
+0 = Dial + Band button, TX everywhere
+2 = Band button + Dial within band, TX within these limits
+100 = Dial + Band button, TX only within HAM bands.
+102 = Band button + Dial witin band, TX only within ham bands</implementionDetails>
+    <EEPROMStart>261</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="HAM_BAND_RANGE">
+    <active>true</active>
+    <writeable>false</writeable>
+    <value></value>
+    <label></label>
+    <userHints />
+    <implementionDetails>This sections stores up to 10 HAM bands. The bands are in khz (/1000). For example, 1810-2000 is actually 1.810.000 - 2.000.000. So each start or end can be stored in 2 bytes or a total of 4 bytes per band. The LSB byte is stored first followed by the more significant byte. Calculation is LSB + MSB*256. Internal to the software, things are normalized to be multipled or divided by 1000 to compare frequencies.</implementionDetails>
+    <EEPROMStart>262</EEPROMStart>
+    <sizeInBytes>40</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="HAM_BAND_RANGE1_START">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Band 1 Start</label>
+    <userHints />
+    <implementionDetails>This sections stores the start frequency (in khz) of a HAM band. Two bytes are allocated with the LSB byte stored first followed by the more significant byte. Calculation is LSB + MSB*256. Internal to the software, things are normalized to be multipled or divided by 1000 to compare frequencies.</implementionDetails>
+    <EEPROMStart>262</EEPROMStart>
+    <sizeInBytes>2</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>VFO</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="HAM_BAND_RANGE1_END">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Band 1 End</label>
+    <userHints />
+    <implementionDetails>This sections stores the end frequency (in khz) of a HAM band. Two bytes are allocated with the LSB byte stored first followed by the more significant byte. Calculation is LSB + MSB*256. Internal to the software, things are normalized to be multipled or divided by 1000 to compare frequencies.</implementionDetails>
+    <EEPROMStart>264</EEPROMStart>
+    <sizeInBytes>2</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>VFO</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="HAM_BAND_RANGE2_START">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Band 2 Start</label>
+    <userHints />
+    <implementionDetails>This sections stores the start frequency (in khz) of a HAM band. Two bytes are allocated with the LSB byte stored first followed by the more significant byte. Calculation is LSB + MSB*256. Internal to the software, things are normalized to be multipled or divided by 1000 to compare frequencies.</implementionDetails>
+    <EEPROMStart>266</EEPROMStart>
+    <sizeInBytes>2</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>VFO</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="HAM_BAND_RANGE2_END">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Band 2 End</label>
+    <userHints />
+    <implementionDetails>This sections stores the end frequency (in khz) of a HAM band. Two bytes are allocated with the LSB byte stored first followed by the more significant byte. Calculation is LSB + MSB*256. Internal to the software, things are normalized to be multipled or divided by 1000 to compare frequencies.</implementionDetails>
+    <EEPROMStart>268</EEPROMStart>
+    <sizeInBytes>2</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>VFO</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="HAM_BAND_RANGE3_START">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Band 3 Start</label>
+    <userHints />
+    <implementionDetails>This sections stores the start frequency (in khz) of a HAM band. Two bytes are allocated with the LSB byte stored first followed by the more significant byte. Calculation is LSB + MSB*256. Internal to the software, things are normalized to be multipled or divided by 1000 to compare frequencies.</implementionDetails>
+    <EEPROMStart>270</EEPROMStart>
+    <sizeInBytes>2</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>VFO</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="HAM_BAND_RANGE3_END">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Band 3 End</label>
+    <userHints />
+    <implementionDetails>This sections stores the end frequency (in khz) of a HAM band. Two bytes are allocated with the LSB byte stored first followed by the more significant byte. Calculation is LSB + MSB*256. Internal to the software, things are normalized to be multipled or divided by 1000 to compare frequencies.</implementionDetails>
+    <EEPROMStart>272</EEPROMStart>
+    <sizeInBytes>2</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>VFO</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="HAM_BAND_RANGE4_START">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Band 4 Start</label>
+    <userHints />
+    <implementionDetails>This sections stores the start frequency (in khz) of a HAM band. Two bytes are allocated with the LSB byte stored first followed by the more significant byte. Calculation is LSB + MSB*256. Internal to the software, things are normalized to be multipled or divided by 1000 to compare frequencies.</implementionDetails>
+    <EEPROMStart>274</EEPROMStart>
+    <sizeInBytes>2</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>VFO</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="HAM_BAND_RANGE4_END">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Band 4 End</label>
+    <userHints />
+    <implementionDetails>This sections stores the end frequency (in khz) of a HAM band. Two bytes are allocated with the LSB byte stored first followed by the more significant byte. Calculation is LSB + MSB*256. Internal to the software, things are normalized to be multipled or divided by 1000 to compare frequencies.</implementionDetails>
+    <EEPROMStart>276</EEPROMStart>
+    <sizeInBytes>2</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>VFO</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="HAM_BAND_RANGE5_START">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Band 5 Start</label>
+    <userHints />
+    <implementionDetails>This sections stores the start frequency (in khz) of a HAM band. Two bytes are allocated with the LSB byte stored first followed by the more significant byte. Calculation is LSB + MSB*256. Internal to the software, things are normalized to be multipled or divided by 1000 to compare frequencies.</implementionDetails>
+    <EEPROMStart>278</EEPROMStart>
+    <sizeInBytes>2</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>VFO</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="HAM_BAND_RANGE5_END">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Band 5 End</label>
+    <userHints />
+    <implementionDetails>This sections stores the end frequency (in khz) of a HAM band. Two bytes are allocated with the LSB byte stored first followed by the more significant byte. Calculation is LSB + MSB*256. Internal to the software, things are normalized to be multipled or divided by 1000 to compare frequencies.</implementionDetails>
+    <EEPROMStart>280</EEPROMStart>
+    <sizeInBytes>2</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>VFO</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="HAM_BAND_RANGE6_START">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Band 6 Start</label>
+    <userHints />
+    <implementionDetails>This sections stores the start frequency (in khz) of a HAM band. Two bytes are allocated with the LSB byte stored first followed by the more significant byte. Calculation is LSB + MSB*256. Internal to the software, things are normalized to be multipled or divided by 1000 to compare frequencies.</implementionDetails>
+    <EEPROMStart>282</EEPROMStart>
+    <sizeInBytes>2</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>VFO</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="HAM_BAND_RANGE6_END">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Band 6 End</label>
+    <userHints />
+    <implementionDetails>This sections stores the end frequency (in khz) of a HAM band. Two bytes are allocated with the LSB byte stored first followed by the more significant byte. Calculation is LSB + MSB*256. Internal to the software, things are normalized to be multipled or divided by 1000 to compare frequencies.</implementionDetails>
+    <EEPROMStart>284</EEPROMStart>
+    <sizeInBytes>2</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>VFO</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="HAM_BAND_RANGE7_START">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Band 7 Start</label>
+    <userHints />
+    <implementionDetails>This sections stores the start frequency (in khz) of a HAM band. Two bytes are allocated with the LSB byte stored first followed by the more significant byte. Calculation is LSB + MSB*256. Internal to the software, things are normalized to be multipled or divided by 1000 to compare frequencies.</implementionDetails>
+    <EEPROMStart>286</EEPROMStart>
+    <sizeInBytes>2</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>VFO</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="HAM_BAND_RANGE7_END">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Band 7 End</label>
+    <userHints />
+    <implementionDetails>This sections stores the end frequency (in khz) of a HAM band. Two bytes are allocated with the LSB byte stored first followed by the more significant byte. Calculation is LSB + MSB*256. Internal to the software, things are normalized to be multipled or divided by 1000 to compare frequencies.</implementionDetails>
+    <EEPROMStart>288</EEPROMStart>
+    <sizeInBytes>2</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>VFO</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="HAM_BAND_RANGE8_START">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Band 8 Start</label>
+    <userHints />
+    <implementionDetails>This sections stores the start frequency (in khz) of a HAM band. Two bytes are allocated with the LSB byte stored first followed by the more significant byte. Calculation is LSB + MSB*256. Internal to the software, things are normalized to be multipled or divided by 1000 to compare frequencies.</implementionDetails>
+    <EEPROMStart>290</EEPROMStart>
+    <sizeInBytes>2</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>VFO</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="HAM_BAND_RANGE8_END">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Band 8 End</label>
+    <userHints />
+    <implementionDetails>This sections stores the end frequency (in khz) of a HAM band. Two bytes are allocated with the LSB byte stored first followed by the more significant byte. Calculation is LSB + MSB*256. Internal to the software, things are normalized to be multipled or divided by 1000 to compare frequencies.</implementionDetails>
+    <EEPROMStart>292</EEPROMStart>
+    <sizeInBytes>2</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>VFO</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="HAM_BAND_RANGE9_START">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Band 9 Start</label>
+    <userHints />
+    <implementionDetails>This sections stores the start frequency (in khz) of a HAM band. Two bytes are allocated with the LSB byte stored first followed by the more significant byte. Calculation is LSB + MSB*256. Internal to the software, things are normalized to be multipled or divided by 1000 to compare frequencies.</implementionDetails>
+    <EEPROMStart>294</EEPROMStart>
+    <sizeInBytes>2</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>VFO</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="HAM_BAND_RANGE9_END">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Band 9 End</label>
+    <userHints />
+    <implementionDetails>This sections stores the end frequency (in khz) of a HAM band. Two bytes are allocated with the LSB byte stored first followed by the more significant byte. Calculation is LSB + MSB*256. Internal to the software, things are normalized to be multipled or divided by 1000 to compare frequencies.</implementionDetails>
+    <EEPROMStart>296</EEPROMStart>
+    <sizeInBytes>2</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>VFO</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="HAM_BAND_RANGE10_START">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Band 10 Start</label>
+    <userHints />
+    <implementionDetails>This sections stores the start frequency (in khz) of a HAM band. Two bytes are allocated with the LSB byte stored first followed by the more significant byte. Calculation is LSB + MSB*256. Internal to the software, things are normalized to be multipled or divided by 1000 to compare frequencies.</implementionDetails>
+    <EEPROMStart>298</EEPROMStart>
+    <sizeInBytes>2</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>VFO</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="HAM_BAND_RANGE10_END">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Band 10 End</label>
+    <userHints />
+    <implementionDetails>This sections stores the end frequency (in khz) of a HAM band. Two bytes are allocated with the LSB byte stored first followed by the more significant byte. Calculation is LSB + MSB*256. Internal to the software, things are normalized to be multipled or divided by 1000 to compare frequencies.</implementionDetails>
+    <EEPROMStart>300</EEPROMStart>
+    <sizeInBytes>2</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>VFO</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="HAM_BAND_FREQS">
+    <active>true</active>
+    <writeable>false</writeable>
+    <value></value>
+    <label></label>
+    <userHints />
+    <implementionDetails>This section of the EEPROM saves the most recently used frequency and the mode that is used at that frequenxy. The top 3 bits of the 4 byte group is used to define the mode and are masked out when identifying the frequency. So:
+0 = Default for band
+1 = Note used
+2 = LSB
+3 = USB
+4 = CWL
+5 = CWU
+The calculation is LSB + LSB1*256 + LSB2*65536 + Lower 5 bits (MSB) * 16777216 </implementionDetails>
+    <EEPROMStart>302</EEPROMStart>
+    <sizeInBytes>40</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="HAM_BAND1_FREQS">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Band 1</label>
+    <userHints />
+    <implementionDetails>This section of the EEPROM saves the most recently used frequency and the mode that is used at that frequenxy. The top 3 bits of the 4 byte group is used to define the mode and are masked out when identifying the frequency. So:
+0 = Default for band
+1 = Note used
+2 = LSB
+3 = USB
+4 = CWL
+5 = CWU
+The calculation is LSB + LSB1*256 + LSB2*65536 + Lower 5 bits (MSB) * 16777216 </implementionDetails>
+    <EEPROMStart>302</EEPROMStart>
+    <sizeInBytes>4</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="HAM_BAND2_FREQS">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Band 2</label>
+    <userHints />
+    <implementionDetails>This section of the EEPROM saves the most recently used frequency and the mode that is used at that frequenxy. The top 3 bits of the 4 byte group is used to define the mode and are masked out when identifying the frequency. So:
+0 = Default for band
+1 = Note used
+2 = LSB
+3 = USB
+4 = CWL
+5 = CWU
+The calculation is LSB + LSB1*256 + LSB2*65536 + Lower 5 bits (MSB) * 16777216 </implementionDetails>
+    <EEPROMStart>306</EEPROMStart>
+    <sizeInBytes>4</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="HAM_BAND3_FREQS">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Band 3</label>
+    <userHints />
+    <implementionDetails>This section of the EEPROM saves the most recently used frequency and the mode that is used at that frequenxy. The top 3 bits of the 4 byte group is used to define the mode and are masked out when identifying the frequency. So:
+0 = Default for band
+1 = Note used
+2 = LSB
+3 = USB
+4 = CWL
+5 = CWU
+The calculation is LSB + LSB1*256 + LSB2*65536 + Lower 5 bits (MSB) * 16777216 </implementionDetails>
+    <EEPROMStart>310</EEPROMStart>
+    <sizeInBytes>4</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="HAM_BAND4_FREQS">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Band 4</label>
+    <userHints />
+    <implementionDetails>This section of the EEPROM saves the most recently used frequency and the mode that is used at that frequenxy. The top 3 bits of the 4 byte group is used to define the mode and are masked out when identifying the frequency. So:
+0 = Default for band
+1 = Note used
+2 = LSB
+3 = USB
+4 = CWL
+5 = CWU
+The calculation is LSB + LSB1*256 + LSB2*65536 + Lower 5 bits (MSB) * 16777216 </implementionDetails>
+    <EEPROMStart>314</EEPROMStart>
+    <sizeInBytes>4</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="HAM_BAND5_FREQS">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Band 5</label>
+    <userHints />
+    <implementionDetails>This section of the EEPROM saves the most recently used frequency and the mode that is used at that frequenxy. The top 3 bits of the 4 byte group is used to define the mode and are masked out when identifying the frequency. So:
+0 = Default for band
+1 = Note used
+2 = LSB
+3 = USB
+4 = CWL
+5 = CWU
+The calculation is LSB + LSB1*256 + LSB2*65536 + Lower 5 bits (MSB) * 16777216 </implementionDetails>
+    <EEPROMStart>318</EEPROMStart>
+    <sizeInBytes>4</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="HAM_BAND6_FREQS">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Band 6</label>
+    <userHints />
+    <implementionDetails>This section of the EEPROM saves the most recently used frequency and the mode that is used at that frequenxy. The top 3 bits of the 4 byte group is used to define the mode and are masked out when identifying the frequency. So:
+0 = Default for band
+1 = Note used
+2 = LSB
+3 = USB
+4 = CWL
+5 = CWU
+The calculation is LSB + LSB1*256 + LSB2*65536 + Lower 5 bits (MSB) * 16777216 </implementionDetails>
+    <EEPROMStart>322</EEPROMStart>
+    <sizeInBytes>4</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="HAM_BAND7_FREQS">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Band 7</label>
+    <userHints />
+    <implementionDetails>This section of the EEPROM saves the most recently used frequency and the mode that is used at that frequenxy. The top 3 bits of the 4 byte group is used to define the mode and are masked out when identifying the frequency. So:
+0 = Default for band
+1 = Note used
+2 = LSB
+3 = USB
+4 = CWL
+5 = CWU
+The calculation is LSB + LSB1*256 + LSB2*65536 + Lower 5 bits (MSB) * 16777216 </implementionDetails>
+    <EEPROMStart>326</EEPROMStart>
+    <sizeInBytes>4</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="HAM_BAND8_FREQS">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Band 8</label>
+    <userHints />
+    <implementionDetails>This section of the EEPROM saves the most recently used frequency and the mode that is used at that frequenxy. The top 3 bits of the 4 byte group is used to define the mode and are masked out when identifying the frequency. So:
+0 = Default for band
+1 = Note used
+2 = LSB
+3 = USB
+4 = CWL
+5 = CWU
+The calculation is LSB + LSB1*256 + LSB2*65536 + Lower 5 bits (MSB) * 16777216 </implementionDetails>
+    <EEPROMStart>330</EEPROMStart>
+    <sizeInBytes>4</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="HAM_BAND9_FREQS">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Band 9</label>
+    <userHints />
+    <implementionDetails>This section of the EEPROM saves the most recently used frequency and the mode that is used at that frequenxy. The top 3 bits of the 4 byte group is used to define the mode and are masked out when identifying the frequency. So:
+0 = Default for band
+1 = Note used
+2 = LSB
+3 = USB
+4 = CWL
+5 = CWU
+The calculation is LSB + LSB1*256 + LSB2*65536 + Lower 5 bits (MSB) * 16777216 </implementionDetails>
+    <EEPROMStart>334</EEPROMStart>
+    <sizeInBytes>4</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="HAM_BAND10_FREQS">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Band 10</label>
+    <userHints />
+    <implementionDetails>This section of the EEPROM saves the most recently used frequency and the mode that is used at that frequenxy. The top 3 bits of the 4 byte group is used to define the mode and are masked out when identifying the frequency. So:
+0 = Default for band
+1 = Note used
+2 = LSB
+3 = USB
+4 = CWL
+5 = CWU
+The calculation is LSB + LSB1*256 + LSB2*65536 + Lower 5 bits (MSB) * 16777216 </implementionDetails>
+    <EEPROMStart>338</EEPROMStart>
+    <sizeInBytes>4</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="TUNING_STEP">
+    <active>true</active>
+    <writeable>false</writeable>
+    <value></value>
+    <label>Step</label>
+    <userHints>First byte is which tuning step, next 5 are steps.</userHints>
+    <implementionDetails>The left most two digits of any step must be between 0-60. i.e. 50, 60, 100, 143, etc are all valid. However, 61, 610, 750, etc are all invalid.</implementionDetails>
+    <EEPROMStart>342</EEPROMStart>
+    <sizeInBytes>6</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="TUNING_STEP_INDEX">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Default Step#</label>
+    <userHints>Select the step# that you want to be the default (i.e. on boot)</userHints>
+    <implementionDetails />
+    <EEPROMStart>342</EEPROMStart>
+    <sizeInBytes>6</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="TUNING_STEP1">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Step #1</label>
+    <userHints>Left most two digits of any number must be between 0 and 60.</userHints>
+    <implementionDetails>To fit a step size into one byte, Dr. Lee introduced an intersting constraint. The right most 6 bits is the base, and the leftmost 2 bits is the exponent. So a 100Hz step is translated into a decimal 74 or 01001010. The lower 6 bits is 0A or decimal 10. The top 2 bits = 1 (01). So 10**1 * 10 =100.  </implementionDetails>
+    <EEPROMStart>343</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>CONFIG</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="TUNING_STEP2">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Step #2</label>
+    <userHints>Left most two digits of any number must be between 0 and 60.</userHints>
+    <implementionDetails>To fit a step size into one byte, Dr. Lee introduced an intersting constraint. The right most 6 bits is the base, and the leftmost 2 bits is the exponent. So a 100Hz step is translated into a decimal 74 or 01001010. The lower 6 bits is 0A or decimal 10. The top 2 bits = 1 (01). So 10**1 * 10 =100.  </implementionDetails>
+    <EEPROMStart>344</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>CONFIG</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="TUNING_STEP3">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Step #3</label>
+    <userHints>Left most two digits of any number must be between 0 and 60.</userHints>
+    <implementionDetails>To fit a step size into one byte, Dr. Lee introduced an intersting constraint. The right most 6 bits is the base, and the leftmost 2 bits is the exponent. So a 100Hz step is translated into a decimal 74 or 01001010. The lower 6 bits is 0A or decimal 10. The top 2 bits = 1 (01). So 10**1 * 10 =100.  </implementionDetails>
+    <EEPROMStart>344</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>CONFIG</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="TUNING_STEP4">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Step #4</label>
+    <userHints>Left most two digits of any number must be between 0 and 60.</userHints>
+    <implementionDetails>To fit a step size into one byte, Dr. Lee introduced an intersting constraint. The right most 6 bits is the base, and the leftmost 2 bits is the exponent. So a 100Hz step is translated into a decimal 74 or 01001010. The lower 6 bits is 0A or decimal 10. The top 2 bits = 1 (01). So 10**1 * 10 =100.  </implementionDetails>
+    <EEPROMStart>345</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>CONFIG</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="TUNING_STEP5">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Step #5</label>
+    <userHints>Left most two digits of any number must be between 0 and 60.</userHints>
+    <implementionDetails>To fit a step size into one byte, Dr. Lee introduced an intersting constraint. The right most 6 bits is the base, and the leftmost 2 bits is the exponent. So a 100Hz step is translated into a decimal 74 or 01001010. The lower 6 bits is 0A or decimal 10. The top 2 bits = 1 (01). So 10**1 * 10 =100.  </implementionDetails>
+    <EEPROMStart>346</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>CONFIG</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CW_ADC_MOST_BIT1">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label></label>
+    <userHints />
+    <implementionDetails>This byte is divided into 4 sets of 2 bits. It is used in conjunction with the 8 bits for Paddle DOT FROM and DOT TO, and Straight Key FROM and Straight Key TO ADC Values. This gives the program the ability to segment an 0-1023 ADC reading into the appropriate key events (with the proper resistors.) For more information, see the article at:
+http://www.hamskey.com/2018/02/reducing-cw-key-errors-in-ubitx.html
+
+With the bit numbering:
+01234567
+
+Bits 01 - are the top two bits of the ADC for Straight Key FROM
+Bits 23 - are the top two bits of the ADC for Straight Key TO
+Bits 45 - are the top two bits of the ADC for DOT-FROM
+Bits 67 - are the 89 of the ADC for DOT TO</implementionDetails>
+    <EEPROMStart>348</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>CW</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CW_ADC_ST_FROM">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>CW ST Key ADC from</label>
+    <userHints>Lower 8 bits with the top 2 bits coming from bits 01 of CW_ADC_MOST_BIT1</userHints>
+    <implementionDetails />
+    <EEPROMStart>349</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>CW</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CW_ADC_ST_FROM_FULL">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>CW ST Key ADC from</label>
+    <userHints>0-1023</userHints>
+    <implementionDetails />
+    <EEPROMStart>349</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>virtual</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>CW</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CW_ADC_ST_TO">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>CW ST Key ADC from</label>
+    <userHints>Lower 8 bits with the top 2 bits coming from bits 23 of CW_ADC_MOST_BIT1</userHints>
+    <implementionDetails />
+    <EEPROMStart>350</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>CW</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CW_ADC_ST_TO_FULL">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>0-1023</label>
+    <userHints></userHints>
+    <implementionDetails />
+    <EEPROMStart>350</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>virtual</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>CW</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CW_ADC_DOT_FROM">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>CW Paddle DOT ADC FROM</label>
+    <userHints>Lower 8 bits with the top 2 bits coming from bits 45 of CW_ADC_MOST_BIT1</userHints>
+    <EEPROMStart>351</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>CW</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CW_ADC_DOT_FROM_FULL">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>0-1023</label>
+    <userHints></userHints>
+    <EEPROMStart>351</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>virtual</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>CW</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CW_ADC_DOT_TO">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>CW Paddle DOT ADC FROM</label>
+    <userHints>Lower 8 bits with the top 2 bits coming from bits 67 of CW_ADC_MOST_BIT1</userHints>
+    <implementionDetails />
+    <EEPROMStart>352</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>CW</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CW_ADC_DOT_TO_FULL">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>0-1023</label>
+    <userHints></userHints>
+    <implementionDetails />
+    <EEPROMStart>352</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>virtual</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>CW</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CW_ADC_MOST_BIT2">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>most 2bits of BOTH_TO, BOTH_FROM, DASH_TO, DASH_FROM</label>
+    <userHints>This byte is divided into 4 sets of 2 bits. It is used in conjunction with the 8 bits for Paddle DASH FROM and DASH TO and BOTH Paddle pressed FROM and TO ADC Values. This gives the program the ability to segment an 0-1023 ADC reading into the appropriate key events (with the proper resistors.) For more information, see the article at:
+http://www.hamskey.com/2018/02/reducing-cw-key-errors-in-ubitx.html
+
+With the bit numbering:
+01234567
+
+Bits 01 - are the top two bits of the ADC for DASH FROM
+Bits 23 - are the top two bits of the ADC for DASH TO
+Bits 45 - are the top two bits of the ADC for  BOTH FROM
+Bits 67 - are the 89 of the ADC for BOTH TO</userHints>
+    <implementionDetails />
+    <EEPROMStart>353</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>CW</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CW_ADC_DASH_FROM">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>CW Paddle DASH FROM</label>
+    <userHints>Lower 8 bits with the top 2 bits coming from bits 01 of CW_ADC_MOST_BIT2</userHints>
+    <implementionDetails />
+    <EEPROMStart>354</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>CW</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CW_ADC_DASH_FROM_FULL">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>0-10233</label>
+    <userHints></userHints>
+    <implementionDetails />
+    <EEPROMStart>354</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>virtual</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>CW</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CW_ADC_DASH_TO">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>CW Paddle DASH TO</label>
+    <userHints>Lower 8 bits with the top 2 bits coming from bits 23 of CW_ADC_MOST_BIT2</userHints>
+    <implementionDetails />
+    <EEPROMStart>355</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>CW</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CW_ADC_DASH_TO_FULL">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>0-1023</label>
+    <userHints></userHints>
+    <implementionDetails />
+    <EEPROMStart>355</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>virtual</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>CW</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CW_ADC_BOTH_FROM">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>CW Paddle BOTH pressed FROM</label>
+    <userHints>Lower 8 bits with the top 2 bits coming from bits 45 of CW_ADC_MOST_BIT2</userHints>
+    <implementionDetails />
+    <EEPROMStart>356</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>CW</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CW_ADC_BOTH_FROM_FULL">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>0-1023</label>
+    <userHints>Lower 8 bits with the top 2 bits coming from bits 45 of CW_ADC_MOST_BIT2</userHints>
+    <implementionDetails />
+    <EEPROMStart>356</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>virtual</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>CW</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CW_ADC_BOTH_TO">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>CW Paddle BOTH pressed TO</label>
+    <userHints>Lower 8 bits with the top 2 bits coming from bits 67 of CW_ADC_MOST_BIT2</userHints>
+    <implementionDetails />
+    <EEPROMStart>357</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>CW</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CW_ADC_BOTH_TO_FULL">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>0-1023</label>
+    <userHints></userHints>
+    <implementionDetails />
+    <EEPROMStart>357</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>virtual</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>CW</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CW_KEY_TYPE">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>CW Key Type</label>
+    <userHints>0=Straight; 1=IAMBICA, 2=IAMBICB</userHints>
+    <implementionDetails />
+    <EEPROMStart>358</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>CW</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CW_DISPLAY_SHIFT">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Shift CW Display</label>
+    <userHints>MSB (bit 0) turns *off* shift, Lower 6 bits is the amount of shift/10</userHints>
+    <implementionDetails>These options are disabled if Enabled Adjust CW Frequency is off. That is bit 1 (01234567) of COMMON_OPTION0 is off.</implementionDetails>
+    <EEPROMStart>359</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="COMMON_OPTION0">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label></label>
+    <userHints>0x40 Enables Auto Save of IF Shift Value; 0x80 enables CW Freq adjustment, 0xCO turns on both</userHints>
+    <implementionDetails>Bit 1 (01234567) =1 Auto Save IF Shift Value.
+Bit 0=1 Master control for enabling CW Frequency adjust</implementionDetails>
+    <EEPROMStart>360</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="IF_SHIFTVALUE">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Shift hz (+/-)</label>
+    <userHints>10,000 - -9999hz</userHints>
+    <implementionDetails />
+    <EEPROMStart>363</EEPROMStart>
+    <sizeInBytes>2</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="DISPLAY_OPTION1">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Display Opt1</label>
+    <userHints />
+    <implementionDetails>01234567   
+bit 3 controls keeping top ilne clear for message.
+bit 4=1 Turn Smeter on. 0=turn Smeter off, 
+
+bit 5 turns on scrolling display on LCD; 
+ 
+bit 6=1 displays call sign
+bit 7 for nexion, turns on display of CW on main screen (but only set if external s-meter is enabled) 
+bit 7 for LCD turns on 1/2 line toggle in display</implementionDetails>
+    <EEPROMStart>361</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>CUSTOM</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="DISPLAY_OPTION2">
+    <active>false</active>
+    <writeable>false</writeable>
+    <value></value>
+    <label></label>
+    <userHints>Reserved for future use</userHints>
+    <implementionDetails />
+    <EEPROMStart>362</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="WSPR_COUNT">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label># WSPR Msgs</label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>443</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>WSPR</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="WSPR_MESSAGE1">
+    <active>true</active>
+    <writeable>false</writeable>
+    <value></value>
+    <label></label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>444</EEPROMStart>
+    <sizeInBytes>46</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>WSPR</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="WSPR_MESSAGE1_NAME">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Name</label>
+    <userHints>up to 5 characters long</userHints>
+    <implementionDetails>space padded to 5 characters</implementionDetails>
+    <EEPROMStart>444</EEPROMStart>
+    <sizeInBytes>5</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>WSPR</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="WSPR_MESSAGE1_BODY">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Encoded MSG1</label>
+    <userHints>up to 41 bytes long</userHints>
+    <implementionDetails>encoded</implementionDetails>
+    <EEPROMStart>449</EEPROMStart>
+    <sizeInBytes>41</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>WSPR</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="WSPR_MESSAGE2">
+    <active>true</active>
+    <writeable>false</writeable>
+    <value></value>
+    <label>up to 5 wspr message 0f 46 bytes each</label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>490</EEPROMStart>
+    <sizeInBytes>46</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>WSPR</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="WSPR_MESSAGE2_NAME">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Name</label>
+    <userHints>up to 5 characters long</userHints>
+    <implementionDetails>space padded to 5 characters</implementionDetails>
+    <EEPROMStart>490</EEPROMStart>
+    <sizeInBytes>5</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>WSPR</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="WSPR_MESSAGE2_BODY">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Encoded MSG1</label>
+    <userHints>up to 41 bytes long</userHints>
+    <implementionDetails>encoded</implementionDetails>
+    <EEPROMStart>495</EEPROMStart>
+    <sizeInBytes>41</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>WSPR</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="WSPR_MESSAGE3">
+    <active>true</active>
+    <writeable>false</writeable>
+    <value></value>
+    <label></label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>536</EEPROMStart>
+    <sizeInBytes>46</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>WSPR</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="WSPR_MESSAGE3_NAME">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Name</label>
+    <userHints>up to 5 characters long</userHints>
+    <implementionDetails>space padded to 5 characters</implementionDetails>
+    <EEPROMStart>536</EEPROMStart>
+    <sizeInBytes>5</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>WSPR</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="WSPR_MESSAGE3_BODY">
+    <active>true</active>
+    <writeable>false</writeable>
+    <value></value>
+    <label>Encoded MSG1</label>
+    <userHints>up to 41 bytes long</userHints>
+    <implementionDetails>encoded</implementionDetails>
+    <EEPROMStart>541</EEPROMStart>
+    <sizeInBytes>41</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>WSPR</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="WSPR_MESSAGE4">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label></label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>582</EEPROMStart>
+    <sizeInBytes>46</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>WSPR</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="WSPR_MESSAGE4_NAME">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Name</label>
+    <userHints>up to 5 characters long</userHints>
+    <implementionDetails>space padded to 5 characters</implementionDetails>
+    <EEPROMStart>582</EEPROMStart>
+    <sizeInBytes>5</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>WSPR</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="WSPR_MESSAGE4_BODY">
+    <active>true</active>
+    <writeable>false</writeable>
+    <value></value>
+    <label>Encoded MSG1</label>
+    <userHints>up to 41 bytes long</userHints>
+    <implementionDetails>encoded</implementionDetails>
+    <EEPROMStart>587</EEPROMStart>
+    <sizeInBytes>41</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>WSPR</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CHANNEL_FREQ">
+    <active>true</active>
+    <writeable>false</writeable>
+    <value></value>
+    <label>Up to 20 user defined channels of 4 bytes each</label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>630</EEPROMStart>
+    <sizeInBytes>80</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CHANNEL_FREQ1">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>CH.01</label>
+    <userHints />
+    <implementionDetails>MSByte (address+3) top 3 bits is Mode and needs to be masked out. (0xE0 or &gt;&gt;29)
+0=default
+1=not used
+2=LSB
+3=USB
+4=CWL
+5=CWU</implementionDetails>
+    <EEPROMStart>630</EEPROMStart>
+    <sizeInBytes>4</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>MEM</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CHANNEL_FREQ2">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>CH.02</label>
+    <userHints />
+    <implementionDetails>MSByte (address+3) top 3 bits is Mode and needs to be masked out. (0xE0 or &gt;&gt;29)
+0=default
+1=not used
+2=LSB
+3=USB
+4=CWL
+5=CWU</implementionDetails>
+    <EEPROMStart>634</EEPROMStart>
+    <sizeInBytes>4</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>MEM</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CHANNEL_FREQ3">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>CH.03</label>
+    <userHints />
+    <implementionDetails>MSByte (address+3) top 3 bits is Mode and needs to be masked out. (0xE0 or &gt;&gt;29)
+0=default
+1=not used
+2=LSB
+3=USB
+4=CWL
+5=CWU</implementionDetails>
+    <EEPROMStart>638</EEPROMStart>
+    <sizeInBytes>4</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>MEM</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CHANNEL_FREQ4">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>CH.04</label>
+    <userHints />
+    <implementionDetails>MSByte (address+3) top 3 bits is Mode and needs to be masked out. (0xE0 or &gt;&gt;29)
+0=default
+1=not used
+2=LSB
+3=USB
+4=CWL
+5=CWU</implementionDetails>
+    <EEPROMStart>642</EEPROMStart>
+    <sizeInBytes>4</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>MEM</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CHANNEL_FREQ5">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>CH.05</label>
+    <userHints />
+    <implementionDetails>MSByte (address+3) top 3 bits is Mode and needs to be masked out. (0xE0 or &gt;&gt;29)
+0=default
+1=not used
+2=LSB
+3=USB
+4=CWL
+5=CWU</implementionDetails>
+    <EEPROMStart>646</EEPROMStart>
+    <sizeInBytes>4</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>MEM</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CHANNEL_FREQ6">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>CH.06</label>
+    <userHints />
+    <implementionDetails>MSByte (address+3) top 3 bits is Mode and needs to be masked out. (0xE0 or &gt;&gt;29)
+0=default
+1=not used
+2=LSB
+3=USB
+4=CWL
+5=CWU</implementionDetails>
+    <EEPROMStart>650</EEPROMStart>
+    <sizeInBytes>4</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>MEM</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CHANNEL_FREQ7">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>CH.07</label>
+    <userHints />
+    <implementionDetails>MSByte (address+3) top 3 bits is Mode and needs to be masked out. (0xE0 or &gt;&gt;29)
+0=default
+1=not used
+2=LSB
+3=USB
+4=CWL
+5=CWU</implementionDetails>
+    <EEPROMStart>654</EEPROMStart>
+    <sizeInBytes>4</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>MEM</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CHANNEL_FREQ8">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>CH.08</label>
+    <userHints />
+    <implementionDetails>MSByte (address+3) top 3 bits is Mode and needs to be masked out. (0xE0 or &gt;&gt;29)
+0=default
+1=not used
+2=LSB
+3=USB
+4=CWL
+5=CWU</implementionDetails>
+    <EEPROMStart>658</EEPROMStart>
+    <sizeInBytes>4</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>MEM</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CHANNEL_FREQ9">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>CH.09</label>
+    <userHints />
+    <implementionDetails>MSByte (address+3) top 3 bits is Mode and needs to be masked out. (0xE0 or &gt;&gt;29)
+0=default
+1=not used
+2=LSB
+3=USB
+4=CWL
+5=CWU</implementionDetails>
+    <EEPROMStart>662</EEPROMStart>
+    <sizeInBytes>4</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>MEM</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CHANNEL_FREQ10">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>CH.10</label>
+    <userHints />
+    <implementionDetails>MSByte (address+3) top 3 bits is Mode and needs to be masked out. (0xE0 or &gt;&gt;29)
+0=default
+1=not used
+2=LSB
+3=USB
+4=CWL
+5=CWU</implementionDetails>
+    <EEPROMStart>666</EEPROMStart>
+    <sizeInBytes>4</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>MEM</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CHANNEL_FREQ11">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>CH.11</label>
+    <userHints />
+    <implementionDetails>MSByte (address+3) top 3 bits is Mode and needs to be masked out. (0xE0 or &gt;&gt;29)
+0=default
+1=not used
+2=LSB
+3=USB
+4=CWL
+5=CWU</implementionDetails>
+    <EEPROMStart>670</EEPROMStart>
+    <sizeInBytes>4</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>MEM</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CHANNEL_FREQ12">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>CH.12</label>
+    <userHints />
+    <implementionDetails>MSByte (address+3) top 3 bits is Mode and needs to be masked out. (0xE0 or &gt;&gt;29)
+0=default
+1=not used
+2=LSB
+3=USB
+4=CWL
+5=CWU</implementionDetails>
+    <EEPROMStart>674</EEPROMStart>
+    <sizeInBytes>4</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>MEM</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CHANNEL_FREQ13">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>CH.13</label>
+    <userHints />
+    <implementionDetails>MSByte (address+3) top 3 bits is Mode and needs to be masked out. (0xE0 or &gt;&gt;29)
+0=default
+1=not used
+2=LSB
+3=USB
+4=CWL
+5=CWU</implementionDetails>
+    <EEPROMStart>678</EEPROMStart>
+    <sizeInBytes>4</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>MEM</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CHANNEL_FREQ14">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>CH.14</label>
+    <userHints />
+    <implementionDetails>MSByte (address+3) top 3 bits is Mode and needs to be masked out. (0xE0 or &gt;&gt;29)
+0=default
+1=not used
+2=LSB
+3=USB
+4=CWL
+5=CWU</implementionDetails>
+    <EEPROMStart>682</EEPROMStart>
+    <sizeInBytes>4</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>MEM</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CHANNEL_FREQ15">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>CH.15</label>
+    <userHints />
+    <implementionDetails>MSByte (address+3) top 3 bits is Mode and needs to be masked out. (0xE0 or &gt;&gt;29)
+0=default
+1=not used
+2=LSB
+3=USB
+4=CWL
+5=CWU</implementionDetails>
+    <EEPROMStart>686</EEPROMStart>
+    <sizeInBytes>4</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>MEM</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CHANNEL_FREQ16">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>CH.16</label>
+    <userHints />
+    <implementionDetails>MSByte (address+3) top 3 bits is Mode and needs to be masked out. (0xE0 or &gt;&gt;29)
+0=default
+1=not used
+2=LSB
+3=USB
+4=CWL
+5=CWU</implementionDetails>
+    <EEPROMStart>690</EEPROMStart>
+    <sizeInBytes>4</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>MEM</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CHANNEL_FREQ17">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>CH.17</label>
+    <userHints />
+    <implementionDetails>MSByte (address+3) top 3 bits is Mode and needs to be masked out. (0xE0 or &gt;&gt;29)
+0=default
+1=not used
+2=LSB
+3=USB
+4=CWL
+5=CWU</implementionDetails>
+    <EEPROMStart>694</EEPROMStart>
+    <sizeInBytes>4</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>MEM</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CHANNEL_FREQ18">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>CH.18</label>
+    <userHints />
+    <implementionDetails>MSByte (address+3) top 3 bits is Mode and needs to be masked out. (0xE0 or &gt;&gt;29)
+0=default
+1=not used
+2=LSB
+3=USB
+4=CWL
+5=CWU</implementionDetails>
+    <EEPROMStart>698</EEPROMStart>
+    <sizeInBytes>4</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>MEM</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CHANNEL_FREQ19">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>CH.19</label>
+    <userHints />
+    <implementionDetails>MSByte (address+3) top 3 bits is Mode and needs to be masked out. (0xE0 or &gt;&gt;29)
+0=default
+1=not used
+2=LSB
+3=USB
+4=CWL
+5=CWU</implementionDetails>
+    <EEPROMStart>702</EEPROMStart>
+    <sizeInBytes>4</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>MEM</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CHANNEL_FREQ20">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>CH.20</label>
+    <userHints />
+    <implementionDetails>MSByte (address+3) top 3 bits is Mode and needs to be masked out. (0xE0 or &gt;&gt;29)
+0=default
+1=not used
+2=LSB
+3=USB
+4=CWL
+5=CWU</implementionDetails>
+    <EEPROMStart>706</EEPROMStart>
+    <sizeInBytes>4</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>MEM</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CHANNEL">
+    <active>true</active>
+    <writeable>false</writeable>
+    <value></value>
+    <label></label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>710</EEPROMStart>
+    <sizeInBytes>60</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>char</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CHANNEL1_DisplayName">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Show Name</label>
+    <userHints>if value = 0x03, display the name</userHints>
+    <implementionDetails />
+    <EEPROMStart>710</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>char</displayFormat>
+    <assigned_GUI_Tab>MEM</assigned_GUI_Tab>
+    <EEPROM_DEFINE DEF_CONST="CHANNEL1_NAME">
+      <active>true</active>
+      <writeable>true</writeable>
+      <value></value>
+      <label>Name</label>
+      <userHints />
+      <implementionDetails />
+      <EEPROMStart>711</EEPROMStart>
+      <sizeInBytes>5</sizeInBytes>
+      <EEPROMLocationType>real</EEPROMLocationType>
+      <displayFormat>char</displayFormat>
+      <assigned_GUI_Tab>MEM</assigned_GUI_Tab>
+    </EEPROM_DEFINE>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CHANNEL2_DisplayName">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Show Name</label>
+    <userHints>if value = 0x03, display the name</userHints>
+    <implementionDetails />
+    <EEPROMStart>716</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>char</displayFormat>
+    <assigned_GUI_Tab>MEM</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CHANNEL2_NAME">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Name</label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>717</EEPROMStart>
+    <sizeInBytes>5</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>char</displayFormat>
+    <assigned_GUI_Tab>MEM</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CHANNEL3_DisplayName">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Show Name</label>
+    <userHints>if value = 0x03, display the name</userHints>
+    <implementionDetails />
+    <EEPROMStart>722</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>char</displayFormat>
+    <assigned_GUI_Tab>MEM</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CHANNEL3_NAME">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Name</label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>723</EEPROMStart>
+    <sizeInBytes>5</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>char</displayFormat>
+    <assigned_GUI_Tab>MEM</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CHANNEL4_DisplayName">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Show Name</label>
+    <userHints>if value = 0x03, display the name</userHints>
+    <implementionDetails />
+    <EEPROMStart>728</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>char</displayFormat>
+    <assigned_GUI_Tab>MEM</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CHANNEL4_NAME">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Name</label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>729</EEPROMStart>
+    <sizeInBytes>5</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>char</displayFormat>
+    <assigned_GUI_Tab>MEM</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CHANNEL5_DisplayName">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Show Name</label>
+    <userHints>if value = 0x03, display the name</userHints>
+    <implementionDetails />
+    <EEPROMStart>734</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>char</displayFormat>
+    <assigned_GUI_Tab>MEM</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CHANNEL5_NAME">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Name</label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>735</EEPROMStart>
+    <sizeInBytes>5</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>char</displayFormat>
+    <assigned_GUI_Tab>MEM</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CHANNEL6_DisplayName">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Show Name</label>
+    <userHints>if value = 0x03, display the name</userHints>
+    <implementionDetails />
+    <EEPROMStart>740</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>char</displayFormat>
+    <assigned_GUI_Tab>MEM</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CHANNEL6_NAME">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Name</label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>741</EEPROMStart>
+    <sizeInBytes>5</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>char</displayFormat>
+    <assigned_GUI_Tab>MEM</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CHANNEL7_DisplayName">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Show Name</label>
+    <userHints>if value = 0x03, display the name</userHints>
+    <implementionDetails />
+    <EEPROMStart>746</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>char</displayFormat>
+    <assigned_GUI_Tab>MEM</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CHANNEL7_NAME">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Name</label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>747</EEPROMStart>
+    <sizeInBytes>5</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>char</displayFormat>
+    <assigned_GUI_Tab>MEM</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CHANNEL8_DisplayName">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Show Name</label>
+    <userHints>if value = 0x03, display the name</userHints>
+    <implementionDetails />
+    <EEPROMStart>752</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>char</displayFormat>
+    <assigned_GUI_Tab>MEM</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CHANNEL8_NAME">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Name</label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>753</EEPROMStart>
+    <sizeInBytes>5</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>char</displayFormat>
+    <assigned_GUI_Tab>MEM</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CHANNEL9_DisplayName">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Show Name</label>
+    <userHints>if value = 0x03, display the name</userHints>
+    <implementionDetails />
+    <EEPROMStart>758</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>char</displayFormat>
+    <assigned_GUI_Tab>MEM</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CHANNEL9_NAME">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Name</label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>759</EEPROMStart>
+    <sizeInBytes>5</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>char</displayFormat>
+    <assigned_GUI_Tab>MEM</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CHANNEL10_DisplayName">
+    <active>true</active>
+    <writeable>false</writeable>
+    <value></value>
+    <label>Show Name</label>
+    <userHints>if value = 0x03, display the name</userHints>
+    <implementionDetails />
+    <EEPROMStart>764</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>char</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CHANNEL10_NAME">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Name</label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>765</EEPROMStart>
+    <sizeInBytes>5</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>char</displayFormat>
+    <assigned_GUI_Tab>MEM</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTERNAL_DEVICE_OPT1">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label></label>
+    <userHints />
+    <implementionDetails>turned on by selection 1 in Main Screen Mode</implementionDetails>
+    <EEPROMStart>770</EEPROMStart>
+    <sizeInBytes>4</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="EXTERNAL_DEVICE_OPT2">
+    <active>true</active>
+    <writeable>false</writeable>
+    <value></value>
+    <label></label>
+    <userHints>reserved</userHints>
+    <implementionDetails />
+    <EEPROMStart>774</EEPROMStart>
+    <sizeInBytes>4</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="FIRMWAR_ID_ADDR">
+    <active>true</active>
+    <writeable>false</writeable>
+    <value></value>
+    <label>Firmware ID</label>
+    <userHints>776=0x59, 777=0x58, 778=0x68</userHints>
+    <implementionDetails>If a different firmware ID is found, software erase locations 32-1024 to prevent firmware corruption</implementionDetails>
+    <EEPROMStart>776</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="VERSION_ADDRESS">
+    <active>true</active>
+    <writeable>false</writeable>
+    <value></value>
+    <label></label>
+    <userHints>Saves the current version number. Overwrites it in EEPROM if found to be different.</userHints>
+    <implementionDetails>1 (Version 1.061), 2st Project : 2, 1.08: 3, 1.09 : 4 2.0 5</implementionDetails>
+    <EEPROMStart>779</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="USER_CALLSIGN_KEY">
+    <active>true</active>
+    <writeable>false</writeable>
+    <value></value>
+    <label></label>
+    <userHints>Contains the Key 0x59 indicating callsign entered. Otherwise value is 0x0 indicating no callsign.</userHints>
+    <implementionDetails />
+    <EEPROMStart>780</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="USER_CALLSIGN_LEN">
+    <active>true</active>
+    <writeable>false</writeable>
+    <value></value>
+    <label>Length of Callsign</label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>781</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="USER_CALLSIGN_DAT">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>Call Sign</label>
+    <userHints>(max 18 characters)</userHints>
+    <implementionDetails />
+    <EEPROMStart>782</EEPROMStart>
+    <sizeInBytes>18</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>char</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CW_AUTO_MAGIC_KEY">
+    <active>true</active>
+    <writeable>false</writeable>
+    <value></value>
+    <label></label>
+    <userHints>If value is 0x73, there there is a valid CW message.</userHints>
+    <implementionDetails />
+    <EEPROMStart>800</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>hex</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CW_AUTO_COUNT">
+    <active>true</active>
+    <writeable>false</writeable>
+    <value></value>
+    <label></label>
+    <userHints />
+    <implementionDetails>This location keeps track of the number of CW messages in the memory keyer.</implementionDetails>
+    <EEPROMStart>801</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat></displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CW_AUTO_DATA">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label></label>
+    <userHints />
+    <implementionDetails>The keyer allows up to a maximum of 200 characters that is stored in this heap. The start end of each message is also stored in this heap starting at CW_AUTO_DATA+1. The format is Begin1, End1, Begin2, End2, etc. The data is found by calculating the location of (CW_AUTO_DATA + Begin1) and ending location as (CW_AUTO_DATA+END1). </implementionDetails>
+    <EEPROMStart>803</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat></displayFormat>
+    <assigned_GUI_Tab>CW</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CW_DATA_OFSTADJ">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label>CW_AUTO_DATA - USER_CALLSIGN_DAT</label>
+    <userHints />
+    <implementionDetails />
+    <EEPROMStart>21</EEPROMStart>
+    <sizeInBytes></sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat></displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+  <EEPROM_DEFINE DEF_CONST="CW_STATION_LEN">
+    <active>true</active>
+    <writeable>true</writeable>
+    <value></value>
+    <label></label>
+    <userHints />
+    <implementionDetails>This is the length of the QSO callsign that is substituted into the text. The actual callsign precedes this number. i.e. so if the call sign was 6 characters long, 1023 would hold the value of 6 and the call sign would begin in 1017 (1023-6=1017)</implementionDetails>
+    <EEPROMStart>1023</EEPROMStart>
+    <sizeInBytes>1</sizeInBytes>
+    <EEPROMLocationType>real</EEPROMLocationType>
+    <displayFormat>int</displayFormat>
+    <assigned_GUI_Tab>NONE</assigned_GUI_Tab>
+  </EEPROM_DEFINE>
+</data>
