@@ -5,6 +5,8 @@ The initial purpose of this fork is to modify the source code so that it can use
 
 With more memory and a faster CPU, there are additional features that can be added that could benefit uBitx owners.
 
+Currently there are #ifdefs for Nano, Nano Every, Nano IOT, Nano BLE, Nano RP2040 and the Teensy (4.x). All but the Teenys has been tested and "basically run" (see the ISSUE list for known problems). The Teensy does compile (with warnings about using a Char variable as an index into an array - something that should be fixed for all platforms) but I do not yet have a board to test it on.
+
 I am calling this V2.0 which is a little audacious given that I do not have Ian's permission. Hope he doesn't mind!
 
 73
