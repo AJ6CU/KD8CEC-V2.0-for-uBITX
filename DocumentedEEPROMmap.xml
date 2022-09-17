@@ -2285,7 +2285,7 @@ bit 4=1 Turn Smeter on. 0=turn Smeter off,
 
 bit 5 turns on scrolling display on LCD; 
  
-bit 6=1 displays call sign
+bit 6=1 displays call sign  This bit looks like it is NOT implemented. 
 bit 7 for nexion, turns on display of CW on main screen (but only set if external s-meter is enabled) 
 bit 7 for LCD turns on 1/2 line toggle in display</implementionDetails>
     <EEPROMStart>361</EEPROMStart>

@@ -1448,6 +1448,8 @@ Wire.begin();
   initSettings();
   initPorts();     
 
+
+//mjh In this case SW_SERIAL means nextion.... strange fix this...
 #ifdef USE_SW_SERIAL
 //  if (userCallsignLength > 0 && ((userCallsignLength & 0x80) == 0x80)) 
 //  {
