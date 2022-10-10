@@ -121,6 +121,25 @@
 #define DISPLAY_OPTION1       361   //Display Option1
 #define DISPLAY_OPTION2       362   //Display Option2
 
+// Following defines were active on 10/9/2022 to document where some of the wspr
+// variables are stored. These defines are not actually used at this point
+// because ubitx.wspr.ino has hardcoded knowledge of these locations and didn't share ;-)
+
+#define WSPR_BAND1_TXFREQ     401   // location for frequency of band 1, 4 byte number
+#define WSPR_BAND1_MULTICHAN  405   // Seems to be always 500. offset freq for second TX? 2 bytes
+#define WSPR_BAND1_REG1       407   // REG1 - 5 bytes
+#define WSPR_BAND1_REG2       412   // REG1 - 3 bytes
+
+#define WSPR_BAND2_TXFREQ     415   // location for frequency of band 2, 4 byte number
+#define WSPR_BAND2_MULTICHAN  419   // Seems to be always 500. offset freq for second TX? 2 bytes
+#define WSPR_BAND2_REG1       421   // REG1 - 5 bytes
+#define WSPR_BAND2_REG2       426   // REG1 - 3 bytes
+
+#define WSPR_BAND3_TXFREQ     429   // location for frequnecy of band 3, 4 byte number
+#define WSPR_BAND3_MULTICHAN  433   // Seems to be always 500. offset freq for second TX? 2 bytes
+#define WSPR_BAND3_REG1       435   // REG1 - 5 bytes
+#define WSPR_BAND3_REG2       440   // REG1 - 3 bytes
+
 #define WSPR_COUNT            443   //WSPR_MESSAGE_COUNT
 #define WSPR_MESSAGE1         444   //
 #define WSPR_MESSAGE2         490   //

@@ -51,7 +51,7 @@ void SendWSPRManage()
   char selectedWsprBandIndex = -1;
 
   unsigned long WsprTXFreq = 0;
-  unsigned int WsprMultiChan = 0;
+  uint16_t WsprMultiChan = 0;               //mjh changed from straight int since supposed to be only 2 bytes
   //unsigned long prevFreq;
   byte loopIndex;
 
