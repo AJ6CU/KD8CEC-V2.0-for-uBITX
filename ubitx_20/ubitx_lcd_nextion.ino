@@ -1112,7 +1112,7 @@ void SWS_Process(void)
           if (commandType == TS_CMD_UBITX_REBOOT)
           {
             FrequencyToVFO(1);  //Save current Frequency and Mode to eeprom
-            #if defined(NANO33IOT)  || defined(NANOBLE) || defined(NANORP2040)
+            #if defined(NANO33IOT)  || defined(NANOBLE) || defined(NANORP2040) || defined(RASPBERRYPIPICO)
               NVIC_SystemReset();
             #else
               #if defined(TEENSY)

@@ -306,8 +306,8 @@ void WriteEEPRom(void)  //for remove warning
     {
       if (write1Byte == 0x51) //Restart
       {
-        #if defined(NANO33IOT)  || defined(NANOBLE) || defined(NANORP2040)
-          NVIC_SystemReset();
+        #if defined(NANO33IOT)  || defined(NANOBLE) || defined(NANORP2040) || defined(RASPBERRYPIPICO)
+           NVIC_SystemReset();
         #else
           #if defined(TEENSY)
             SCB_AIRCR = 0x05FA0004;

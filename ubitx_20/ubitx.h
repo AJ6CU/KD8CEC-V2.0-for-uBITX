@@ -23,15 +23,16 @@
 // Compile Option
 //==============================================================================
 //Ubitx Board Version
-#define UBITX_BOARD_VERSION 5           //v1 ~ v4 : 4, v5: 5
+#define UBITX_BOARD_VERSION 5          //v1 ~ v4 : 4, v5: 5
 
 //Define which Nano is used
 //#define NANO        //includes nano every
 //#define NANOEVERY
-#define NANO33IOT
+//#define NANO33IOT
 //#define NANOBLE
 //#define NANORP2040
 //#define TEENSY
+#define RASPBERRYPIPICO
 //Set values related to specific nano
 
 #ifdef NANO
@@ -64,6 +65,12 @@
               #define USE_HARDWARESERIAL
               #define INTEGERS_ARE_32_BIT
               #define USE_I2C_EEPROM 
+            #else
+              #ifdef RASPBERRYPIPICO
+                #define USE_HARDWARESERIAL
+                #define INTEGERS_ARE_32_BIT
+                #define USE_I2C_EEPROM 
+              #endif
             #endif
           #endif
       #endif
@@ -278,13 +285,23 @@ extern byte I2C_LCD_SECOND_ADDRESS;     //only using Dual LCD Mode
  * A7 is connected to a center pin of good quality 100K or 10K linear potentiometer with the two other ends connected to
  * ground and +5v lines available on the connector. This implments the tuning mechanism
  */
-#define ENC_A         (A0)
-#define ENC_B         (A1)
-#define FBUTTON       (A2)
-#define PTT           (A3)
-#define ANALOG_KEYER  A6
-#define ANALOG_SPARE  A7
-#define ANALOG_SMETER A7  //by KD8CEC
+#ifdef RASPBERRYPIPICO
+  #define ENC_A         17
+  #define ENC_B         18
+  #define FBUTTON       19
+  #define PTT           22
+  #define ANALOG_KEYER  A0
+  #define ANALOG_SPARE  A1
+  #define ANALOG_SMETER A1  //by KD8CEC
+#else
+  #define ENC_A         (A0)
+  #define ENC_B         (A1)
+  #define FBUTTON       (A2)
+  #define PTT           (A3)
+  #define ANALOG_KEYER  A6
+  #define ANALOG_SPARE  A7
+  #define ANALOG_SMETER A7  //by KD8CEC
+#endif
 
 /** 
  *  The second set of 16 pins on the Raduino's bottom connector are have the three clock outputs and the digital lines to control the rig.

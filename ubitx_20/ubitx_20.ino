@@ -982,14 +982,16 @@ void initSettings(){
   //read the settings from the eeprom and restore them
   //if the readings are off, then set defaults
   //for original source Section ===========================
+ // Serial.println("In InitSettings");   //mjh
   EEPROMTYPE.get(MASTER_CAL, calibration); 
+ // Serial.println("getting USB_CAL");   //mjh
   EEPROMTYPE.get(USB_CAL, usbCarrier);
   EEPROMTYPE.get(VFO_A, vfoA);
   EEPROMTYPE.get(VFO_B, vfoB);
   EEPROMTYPE.get(CW_SIDETONE, sideTone);
   EEPROMTYPE.get(CW_SPEED, cwSpeed);
   //mjh
- /* Serial.begin(38400);
+  Serial.begin(38400);
   delay(5000);
   Serial.print("MASTER_CAL="); Serial.print(calibration);Serial.println("*");
   Serial.print("USB_CAL="); Serial.print(usbCarrier);Serial.println("*");
@@ -997,7 +999,7 @@ void initSettings(){
   Serial.print("VFO_B="); Serial.print(vfoB);Serial.println("*");
   Serial.print("CW_SIDETONE="); Serial.print(sideTone);Serial.println("*");
   Serial.print("CW_SPEED="); Serial.print(cwSpeed);Serial.println("*");
-  */
+
 
 
 
@@ -1332,7 +1334,7 @@ void initSettings(){
 
 void initPorts(){
 
-#if !defined(TEENSY) && !defined(NANORP2040)                       //Nano RP Connect and teensy do not have/use an analogReference function
+#if !defined(TEENSY) && !defined(NANORP2040)  && !defined(RASPBERRYPIPICO)                      //Nano RP Connect and teensy do not have/use an analogReference function
   analogReference(ANALOGCHIPDEFAULT);
 #endif
 
@@ -1438,14 +1440,22 @@ Serial.begin(38400);  //mjh
 
 Wire.begin();  
 
+//delay(5000);
+//Serial.println("I am alive");   //mjh
 
-  
+//Serial.println("LCD init");   //mjh
+
   LCD_Init();
+
+//  Serial.println("Return from LCD init");   //mjh
   //printLineF(1, FIRMWARE_VERSION_INFO);
   DisplayVersionInfo(FIRMWARE_VERSION_INFO);
 
+//  Serial.println("Init_Cat");   //mjh
   Init_Cat(38400, SERIAL_8N1);
+//  Serial.println("Init Settings");   //mjh
   initSettings();
+//  Serial.println("Init ports");   //mjh
   initPorts();     
 
 
@@ -1516,9 +1526,11 @@ void checkAutoSaveFreqMode()
       saveCheckTime = 0;  //for reduce cpu use rate
     }
   }
+  Serial.println(" exit setip");  //mjh)
 }
 
 void loop(){ 
+//  Serial.println("loop");  //mjh
   if (isCWAutoMode == 0){  //when CW AutoKey Mode, disable this process
     if (!txCAT)
       checkPTT();
