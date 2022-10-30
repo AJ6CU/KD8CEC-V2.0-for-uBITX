@@ -277,7 +277,7 @@ void SendCommandUL(char varIndex, unsigned long sendValue)
 
   memset(softTemp, 0, 20);
 
-#ifdef INTEGERS_ARE_32_BIT
+#ifdef INTEGERS_ARE_32_BIT          //mjh  auto cast of olong to int
   utoa(sendValue, softTemp, DEC);
 #else
   ultoa(sendValue, softTemp, DEC);
@@ -293,7 +293,8 @@ void SendCommandL(char varIndex, long sendValue)
   memset(softTemp, 0, 20);
 
 #ifdef INTEGERS_ARE_32_BIT
-  utoa(sendValue, softTemp, DEC);
+//  utoa(sendValue, softTemp, DEC);  //mjh appears to auto cast long to int
+  itoa(sendValue, softTemp, DEC);
 #else
   ltoa(sendValue, softTemp, DEC);
 #endif

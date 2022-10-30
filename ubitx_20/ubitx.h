@@ -28,11 +28,11 @@
 //Define which Nano is used
 //#define NANO        //includes nano every
 //#define NANOEVERY
-//#define NANO33IOT
+#define NANO33IOT
 //#define NANOBLE
 //#define NANORP2040
 //#define TEENSY
-#define RASPBERRYPIPICO
+//#define RASPBERRYPIPICO
 //Set values related to specific nano
 
 #ifdef NANO
@@ -46,6 +46,7 @@
   #else
      #ifdef NANO33IOT
       #define ANALOGCHIPDEFAULT AR_DEFAULT
+      #define INTEGERS_ARE_32_BIT
       #define USE_HARDWARESERIAL
       #define USE_I2C_EEPROM                // Use external EEPROM connected on I2C bus
      #else
@@ -217,19 +218,19 @@ extern byte I2C_LCD_SECOND_ADDRESS;     //only using Dual LCD Mode
 #define FN_SPLIT        1 //2
 #define FN_IFSHIFT      1 //358
 #define FN_ATT          1 //250
-#define FN_CW_SPEED     0 //286
+#define FN_CW_SPEED     1 //286
 #define FN_VFOTOMEM     0 //276
 #define FN_MEMTOVFO     0 //234
 #define FN_MEMORYKEYER  1 //168
 #define FN_WSPR         0 //1130          //mjh temp
 #define FN_SDRMODE      0 //70            //mjh turned off to fit into nano
-#define FN_CALIBRATION  0 //790
-#define FN_CARRIER      0 //500
-#define FN_CWCARRIER    0 //464
-#define FN_CWTONE       0 //158
-#define FN_CWDELAY      0 //108
-#define FN_TXCWDELAY    0 //106
-#define FN_KEYTYPE      0 //294
+#define FN_CALIBRATION  1 //790
+#define FN_CARRIER      1 //500
+#define FN_CWCARRIER    1 //464
+#define FN_CWTONE       1 //158
+#define FN_CWDELAY      1 //108
+#define FN_TXCWDELAY    1 //106
+#define FN_KEYTYPE      1 //294
 #define FN_ADCMONITOR   0 //526 //not available with Nextion or Serial UI
 #define FN_TXONOFF      1 //70
 

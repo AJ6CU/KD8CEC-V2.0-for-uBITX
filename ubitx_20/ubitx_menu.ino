@@ -220,7 +220,8 @@ void menuCHMemory(int btn, byte isMemoryToVfo){
               c[2] = '0';
               
 #ifdef INTEGERS_ARE_32_BIT
-            utoa(selectChannel + 1, b, 10);
+ //           utoa(selectChannel + 1, b, 10);
+            itoa(selectChannel + 1, b, 10);       //mjh auto cast long to int
 #else
             ltoa(selectChannel + 1, b, 10);
 #endif                    
@@ -1537,7 +1538,8 @@ void factoryCalibration(int btn){
   strcpy(b, "#1 10 MHz cal:");
   
 #ifdef INTEGERS_ARE_32_BIT
-  utoa(calibration/8750, c, 10);
+  // utoa(calibration/8750, c, 10);
+  itoa(calibration/8750, c, 10);      //mjh auto cast long to int
 #else
   ltoa(calibration/8750, c, 10);
 #endif        
@@ -1567,7 +1569,8 @@ void factoryCalibration(int btn){
     strcpy(b, "#1 10 MHz cal:");
     
 #ifdef INTEGERS_ARE_32_BIT
-    utoa(calibration/8750, c, 10);
+    // utoa(calibration/8750, c, 10);
+    itoa(calibration/8750, c, 10);          //mjh auto cast of long to int
 #else
     ltoa(calibration/8750, c, 10);
 #endif
@@ -1614,7 +1617,7 @@ void menuSetupCalibration(int btn){
   strcpy(b, "cal:");
   
 #ifdef INTEGERS_ARE_32_BIT
-    utoa(calibration/8750, c, 10);
+    itoa(calibration/8750, c, 10);      //mjh auto cast long to int
 #else
     ltoa(calibration/8750, c, 10);
 #endif
@@ -1644,7 +1647,8 @@ void menuSetupCalibration(int btn){
     strcpy(b, "cal:");
     
 #ifdef INTEGERS_ARE_32_BIT
-  utoa(calibration/8750, c, 10);
+  //utoa(calibration/8750, c, 10);
+  itoa(calibration/8750, c, 10);        //mjh auto cast long to int
 #else
   ltoa(calibration/8750, c, 10);
 #endif        
@@ -1678,7 +1682,7 @@ void printCarrierFreq(unsigned long freq){
   memset(b, 0, sizeof(b));
 
 #ifdef INTEGERS_ARE_32_BIT
-    utoa(freq, b, DEC);
+    utoa(freq, b, DEC);         //mjh auto cast long to int
 #else
     ultoa(freq, b, DEC);
 #endif

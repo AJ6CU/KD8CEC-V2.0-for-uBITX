@@ -992,7 +992,8 @@ void initSettings(){
   EEPROMTYPE.get(CW_SPEED, cwSpeed);
   //mjh
   Serial.begin(38400);
-  delay(5000);
+  delay(5000);      //MJH required to allow reset of processor after usb connection.
+  /*
   Serial.print("MASTER_CAL="); Serial.print(calibration);Serial.println("*");
   Serial.print("USB_CAL="); Serial.print(usbCarrier);Serial.println("*");
   Serial.print("VFO_AL="); Serial.print(vfoA);Serial.println("*");
@@ -1000,7 +1001,7 @@ void initSettings(){
   Serial.print("CW_SIDETONE="); Serial.print(sideTone);Serial.println("*");
   Serial.print("CW_SPEED="); Serial.print(cwSpeed);Serial.println("*");
 
-
+*/
 
 
   
@@ -1526,7 +1527,6 @@ void checkAutoSaveFreqMode()
       saveCheckTime = 0;  //for reduce cpu use rate
     }
   }
-  Serial.println(" exit setip");  //mjh)
 }
 
 void loop(){ 
