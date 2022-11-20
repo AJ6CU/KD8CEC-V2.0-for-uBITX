@@ -5,9 +5,13 @@ The initial purpose of this fork is to modify the source code so that it can use
 
 With more memory and a faster CPU, there are additional features that can be added that could benefit uBitx owners.
 
-Currently there are #ifdefs for Nano, Nano Every, Nano IOT, Nano BLE, Nano RP2040 and the Teensy (4.x). All but the Teenys has been tested and "basically run" (see the ISSUE list for known problems). The Teensy does compile (with warnings about using a Char variable as an index into an array - something that should be fixed for all platforms) but I do not yet have a board to test it on.
+Currently there are #ifdefs for Nano, Nano Every, Nano IOT, Nano BLE, Nano RP2040, Teensy (4.x) and RaspberryPI Pico. All but the Pico has been tested and "basically run" (see the ISSUE list for known problems). The RaspberryPi Pico will not work until I move the encoder off the Analog pins.
 
-I am calling this V2.0 which is a little audacious given that I do not have Ian's permission. Hope he doesn't mind!
+You will need to install the Sparkfun External EEPROM Arduino Library. https://github.com/sparkfun/SparkFun_External_EEPROM_Arduino_Library
+
+At the moment, there seems to be some compatibility issue (at least on my system) with the latest version (1.10) of this library. V 1.0.7 "works" for me but I am not yet convinced that the problem is with the library vs with my configuration. So have not yet raised the issue yet on this with the folks at Sparkfun.
+
+
 
 73
 Mark
