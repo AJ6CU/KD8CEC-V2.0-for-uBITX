@@ -1,3 +1,5 @@
+
+
 /**
  * The user interface of the ubitx consists of the encoder, the push-button on top of it
  * and the 16x2 LCD display.
@@ -174,45 +176,55 @@ void drawMeter(int needle)
 
 //returns true if the button is pressed
 int btnDown(void){
-#ifdef EXTEND_KEY_GROUP1  
-  if (analogRead(FBUTTON) > FUNCTION_KEY_ADC) {
-    pinMode(FBUTTON,INPUT_PULLUP);                //mjh pullups are disabled with analogRead on IOT and RP connect, need to reset here
-    return 0;
-  }
-  else
-    return 1;
-
-#else
-  if (digitalRead(FBUTTON) == HIGH)
-    return 0;
-  else
-    return 1;
-#endif    
-}
-
-#ifdef EXTEND_KEY_GROUP1  
-int getBtnStatus(void){
-  int readButtonValue = analogRead(FBUTTON);
-  pinMode(FBUTTON,INPUT_PULLUP);                //mjh pullups are disabled with analogRead on IOT and RP connect, need to reset here
-
-  if (analogRead(FBUTTON) < FUNCTION_KEY_ADC) {
-    pinMode(FBUTTON,INPUT_PULLUP);            //mjh pullups are disabled with analogRead on IOT and RP connect, need to reset here
-    return FKEY_PRESS;
-  }
-  else
-  {
-    readButtonValue = readButtonValue / 4;
-    //return FKEY_VFOCHANGE;
-    for (int i = 0; i < 16; i++)
-      if (KeyValues[i][2] != 0 && KeyValues[i][0] <= readButtonValue && KeyValues[i][1] >= readButtonValue)
-        return KeyValues[i][2];
-        //return i;
-  }
-
-  return -1;
-}
+#ifdef EXTEND_KEY_GROUP1
+  #ifndef USE_DIGITAL_ENCODER
+    if (analogRead(FBUTTON) > FUNCTION_KEY_ADC) {
+      pinMode(FBUTTON,INPUT_PULLUP);                //mjh pullups are disabled with analogRead on IOT and RP connect, need to reset here
+      return 0;
+    }
+    else
+      return 1;
+  #endif
 #endif
 
+if (digitalRead(FBUTTON) == HIGH)                 //mjh executed if not extended group or when using a PICO
+  return 0;
+else
+  return 1;
+  
+}
+
+#ifdef EXTEND_KEY_GROUP1     //mjh have to change this for digital use of function button. maybe this goes away?
+int getBtnStatus(void){
+  #ifndef USE_DIGITAL_ENCODER
+    int readButtonValue = analogRead(FBUTTON);
+    pinMode(FBUTTON,INPUT_PULLUP);                //mjh pullups are disabled with analogRead on IOT and RP connect, need to reset here
+
+    if (analogRead(FBUTTON) < FUNCTION_KEY_ADC) {
+      pinMode(FBUTTON,INPUT_PULLUP);            //mjh pullups are disabled with analogRead on IOT and RP connect, need to reset here
+      return FKEY_PRESS;
+    }
+    else
+    {
+      readButtonValue = readButtonValue / 4;
+      //return FKEY_VFOCHANGE;
+      for (int i = 0; i < 16; i++)
+        if (KeyValues[i][2] != 0 && KeyValues[i][0] <= readButtonValue && KeyValues[i][1] >= readButtonValue)
+          return KeyValues[i][2];
+          //return i;
+    }
+  #else
+    if (digitalRead(FBUTTON) == HIGH)                 //mjh executed if not extended group or when using a digital encoder
+      return -1;
+    else
+      return FKEY_PRESS;
+  #endif
+  
+}
+ 
+#endif
+
+#ifndef USE_DIGITAL_ENCODER    //MJH This is the original rotary code
 byte enc_prev_state = 3;
 
 /**
@@ -288,6 +300,39 @@ int enc_read(void) {
   }
   return(result);
 }
+
+#else       // MJH new rotary code for rotary encoder on Digital Lines
+//  MJH  Added Rotary Encoder for Raspberry Pi Pico
+
+#include <RotaryEncoder.h>
+extern RotaryEncoder encoder;
+
+
+static int enc_prev_state = 0;
+
+int enc_read(void) {
+  int newState;
+  int enc_speed = 0;
+  int startPos;
+  
+  unsigned long start_at = millis();
+  
+  startPos = enc_prev_state;
+
+  while (millis() - start_at < 50) { // check if the previous state was stable
+    encoder.tick();                 // check encoder state
+    newState = encoder.getPosition(); // Get current positin
+    
+    if (newState != enc_prev_state)
+      delay (1);
+    
+    enc_prev_state = newState; // Record state for next pulse interpretation
+    enc_speed++;
+    delay(1); 
+  }
+  return(newState - startPos);
+}
+#endif
 
 //===================================================================
 //I2C Signal Meter, Version 1.097

@@ -58,9 +58,13 @@
    #include <EEPROM.h>   //standard EEPROM library
 #endif
 
-
-
 #include "ubitx_eemap.h"
+
+#ifdef USE_DIGITAL_ENCODER
+  #include <RotaryEncoder.h>
+  // A pointer to the dynamic created rotary encoder instance.
+  RotaryEncoder encoder(ENC_B, ENC_A, RotaryEncoder::LatchMode::TWO03);
+#endif
 
 
 
@@ -982,9 +986,9 @@ void initSettings(){
   //read the settings from the eeprom and restore them
   //if the readings are off, then set defaults
   //for original source Section ===========================
- // Serial.println("In InitSettings");   //mjh
+//Serial.println("In InitSettings");   //mjh
   EEPROMTYPE.get(MASTER_CAL, calibration); 
- // Serial.println("getting USB_CAL");   //mjh
+//Serial.println("getting USB_CAL");   //mjh
   EEPROMTYPE.get(USB_CAL, usbCarrier);
   EEPROMTYPE.get(VFO_A, vfoA);
   EEPROMTYPE.get(VFO_B, vfoB);
@@ -992,8 +996,9 @@ void initSettings(){
   EEPROMTYPE.get(CW_SPEED, cwSpeed);
   //mjh
   Serial.begin(38400);
+//  Serial.println("delaying...");   //mjh
   delay(5000);      //MJH required to allow reset of processor after usb connection.
-  /*
+ /*
   Serial.print("MASTER_CAL="); Serial.print(calibration);Serial.println("*");
   Serial.print("USB_CAL="); Serial.print(usbCarrier);Serial.println("*");
   Serial.print("VFO_AL="); Serial.print(vfoA);Serial.println("*");
@@ -1028,14 +1033,23 @@ void initSettings(){
       //Serial.println("no match on FIRMWar_ID");
       
     printLineF(1, F("Init EEProm...")); 
+
+    
+    //Serial.println("erasing eeprom");     //mjh
       //initial all eeprom 
     for (unsigned int i = 64; i < 1024; i++) //protect Master_cal, usb_cal
-      EEPROMTYPE.write(i, 0);
+      
+      {        
+        //Serial.print( ' clearing byte =:'); Serial.println(i);    //mjh
+        EEPROMTYPE.write(i, 0); 
+      }
 
+    //Serial.println(" done protecting master cal");   //mjh
     //Write Firmware ID
     EEPROMTYPE.write(FIRMWAR_ID_ADDR, 0x59);
     EEPROMTYPE.write(FIRMWAR_ID_ADDR + 1, 0x58);
     EEPROMTYPE.write(FIRMWAR_ID_ADDR + 2, 0x68);
+  //  Serial.println("finished writing firmware address"); //mjh
   }
   
   //Version Write for Memory Management Software
@@ -1050,7 +1064,7 @@ void initSettings(){
     SI5351BX_ADDR = 0x60;
   }
   
-
+ // Serial.println(" now backing up factory settings");   //mjh
   //Backup Calibration Setting from Factory Setup
   //Check Factory Setting Backup Y/N
   if (EEPROMTYPE.read(FACTORY_BACKUP_YN) != 0x13) {
@@ -1058,6 +1072,7 @@ void initSettings(){
     
     for (unsigned int i = 0; i < 32; i++) //factory setting range
       EEPROMTYPE.write(FACTORY_VALUES + i, EEPROMTYPE.read(i)); //0~31 => 65~96
+      
   }
 
   EEPROMTYPE.get(CW_CAL, cwmCarrier);
@@ -1086,7 +1101,7 @@ void initSettings(){
     else
       keyerControl |= IAMBICB;
   }
-
+//Serial.println(" getting display options");  //mjh
   EEPROMTYPE.get(COMMON_OPTION0, commonOption0);
   EEPROMTYPE.get(DISPLAY_OPTION1, displayOption1);
   EEPROMTYPE.get(DISPLAY_OPTION2, displayOption2);
@@ -1119,7 +1134,7 @@ void initSettings(){
 //char isCustomFilter_A7 = 0;
 //char CustFilters[2][7];
 #endif
-
+  //Serial.println(" getting call sign");  //mjh
   //User callsign information
   if (EEPROMTYPE.read(USER_CALLSIGN_KEY) == 0x59)
     userCallsignLength = EEPROMTYPE.read(USER_CALLSIGN_LEN);  //MAXIMUM 18 LENGTH
@@ -1129,7 +1144,7 @@ void initSettings(){
   EEPROMTYPE.get(TX_TUNE_TYPE, tuneTXType);
 
   byte findedValidValueCount = 0;
-    
+//  Serial.println(" reading ham bands");     //mjh  
   //Read band Information
   for (byte i = 0; i < useHamBandCount; i++) {
     //mjh unsigned int tmpReadValue = 0;
@@ -1331,6 +1346,7 @@ void initSettings(){
     sideTonePitch = (sideTone - 300) / 50;
     sideToneSub = sideTone % 50;
   }
+ // Serial.println("exiting init settings");  //mjh
 }
 
 void initPorts(){
@@ -1339,9 +1355,15 @@ void initPorts(){
   analogReference(ANALOGCHIPDEFAULT);
 #endif
 
-  //??
+
+#ifndef USE_DIGITAL_ENCODER                  //MJH Analog pin not used for digital encoders
   pinMode(ENC_A, INPUT_PULLUP);         
   pinMode(ENC_B, INPUT_PULLUP);         
+
+#else
+    // MJH initialize encoder  also need to debounce the FBUTTON and PTT
+  
+#endif
   pinMode(FBUTTON, INPUT_PULLUP);
   pinMode(PTT, INPUT_PULLUP);
   pinMode(ANALOG_KEYER, INPUT_PULLUP);
@@ -1438,25 +1460,30 @@ void setup()
 #endif  
   
 Serial.begin(38400);  //mjh
+//delay(5000);
+
+#ifdef RASPBERRYPIPICO          // wire requires specifying SDA/SCL pins on PICO
+Wire.setSDA(SDA_PIN);
+Wire.setSCL(SCL_PIN);
+#endif
 
 Wire.begin();  
 
-//delay(5000);
 //Serial.println("I am alive");   //mjh
 
 //Serial.println("LCD init");   //mjh
 
   LCD_Init();
 
-//  Serial.println("Return from LCD init");   //mjh
+//Serial.println("Return from LCD init");   //mjh
   //printLineF(1, FIRMWARE_VERSION_INFO);
   DisplayVersionInfo(FIRMWARE_VERSION_INFO);
 
-//  Serial.println("Init_Cat");   //mjh
+//Serial.println("Init_Cat");   //mjh
   Init_Cat(38400, SERIAL_8N1);
-//  Serial.println("Init Settings");   //mjh
+//Serial.println("Init Settings");   //mjh
   initSettings();
-//  Serial.println("Init ports");   //mjh
+//Serial.println("Init ports");   //mjh
   initPorts();     
 
 
@@ -1484,9 +1511,10 @@ Wire.begin();
   if (btnDown())
     factory_Recovery();
 #endif
-
+//Serial.println(" init Oscillators");   //mjh
   byteToMode(vfoA_mode, 0);
   initOscillators();
+//Serial.println(" return from init oscillators");   //mjh
 
   frequency = vfoA;
   saveCheckFreq = frequency;  //for auto save frequency
@@ -1495,8 +1523,10 @@ Wire.begin();
 #ifdef USE_SW_SERIAL
   SendUbitxData();
 #endif
-  
+
+//Serial.println("updating display");         //mjh  
   updateDisplay();
+//Serial.println("return from updating display"); //mjh)
 
 #ifdef ENABLE_FACTORYALIGN
   if (btnDown())
@@ -1530,7 +1560,7 @@ void checkAutoSaveFreqMode()
 }
 
 void loop(){ 
-//  Serial.println("loop");  //mjh
+
   if (isCWAutoMode == 0){  //when CW AutoKey Mode, disable this process
     if (!txCAT)
       checkPTT();

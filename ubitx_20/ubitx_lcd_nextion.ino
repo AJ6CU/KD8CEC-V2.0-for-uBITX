@@ -959,22 +959,30 @@ void SWS_Process(void)
 //        a maintenance issue that someone will face in the future, this at least works on all processors.
 //        Also note the pinMode(pin, INPUT_PULLUPS) that are required because some processors turn off the pullups after an analog read.
 //
-          switch(nowCheckIndex){
+          switch(nowCheckIndex){    // MJH needs to be adjusted for RaspberryPI Pico
           case 0:
+              #ifndef USE_DIGITAL_ENCODER                   //MJH Analog pin not used with digital encoders
                 SendCommandL('x', analogRead(ENC_A));
                 pinMode(ENC_A, INPUT_PULLUP);
+              #endif
                 break;
           case 1:
+              #ifndef USE_DIGITAL_ENCODER                   //MJH Analog pin not used with digital encoders
                 SendCommandL('x', analogRead(ENC_B));
                 pinMode(ENC_B, INPUT_PULLUP);
+              #endif
                 break;
           case 2:
+              #ifndef USE_DIGITAL_ENCODER                   //MJH Analog pin not used with digital encoders
                 SendCommandL('x', analogRead(FBUTTON));
                 pinMode(ENC_B, INPUT_PULLUP);
+              #endif
                 break;
-          case 3:    
+          case 3:
+              #ifndef USE_DIGITAL_ENCODER                   //MJH Analog pin not used with digital encoders   
                 SendCommandL('x', analogRead(PTT));
-                pinMode(PTT,INPUT_PULLUP); 
+                pinMode(PTT,INPUT_PULLUP);
+              #endif 
                 break;
           case 4:
                 SendCommandL('x', analogRead(ANALOG_KEYER));

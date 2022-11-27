@@ -65,6 +65,18 @@
 #define FACTORY_BACKUP_YN     64  //Check Backup //Magic : 0x13
 #define FACTORY_VALUES        65  //65 ~ 65 + 32
 
+//MJH Added so we can see specific Factory Values
+#define FACTORY_VALUES_MASTER_CAL            65
+#define FACTORY_VALUES_LSB_CAL               69
+#define FACTORY_VALUES_USB_CAL               73
+#define FACTORY_VALUES_SIDE_TONE             77
+#define FACTORY_VALUES_VFO_A                 81
+#define FACTORY_VALUES_VFO_B                 85
+#define FACTORY_VALUES_CW_SIDETONE           89
+#define FACTORY_VALUES_CW_SPEED              93
+
+
+
 //==============================================================================
 // KD8CEC EEPROM MAP
 // Address : 101 ~ 1023

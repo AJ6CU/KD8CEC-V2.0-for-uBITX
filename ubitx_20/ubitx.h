@@ -23,21 +23,22 @@
 // Compile Option
 //==============================================================================
 //Ubitx Board Version
-#define UBITX_BOARD_VERSION 5          //v1 ~ v4 : 4, v5: 5
+#define UBITX_BOARD_VERSION 4          //v1 ~ v4 : 4, v5: 5, 6
 
 //Define which Nano is used
-//#define NANO        //includes nano every
+//#define NANO  
 //#define NANOEVERY
-#define NANO33IOT
+//#define NANO33IOT
 //#define NANOBLE
 //#define NANORP2040
 //#define TEENSY
-//#define RASPBERRYPIPICO
+#define RASPBERRYPIPICO
 //Set values related to specific nano
 
 #ifdef NANO
   #define ANALOGCHIPDEFAULT DEFAULT
   #define USE_SOFTWARESERIAL 
+  //#define USE_I2C_EEPROM                // Use external EEPROM connected on I2C bus
 #else
   #ifdef NANOEVERY
     #define ANALOGCHIPDEFAULT DEFAULT
@@ -71,6 +72,7 @@
                 #define USE_HARDWARESERIAL
                 #define INTEGERS_ARE_32_BIT
                 #define USE_I2C_EEPROM 
+                #define USE_DIGITAL_ENCODER
               #endif
             #endif
           #endif
@@ -115,8 +117,10 @@
 //Select betwen Analog S-Meter and DSP (I2C) Meter
 #define USE_I2CSMETER
 
-#define EXTEND_KEY_GROUP1               //MODE, BAND(-), BAND(+), STEP
+
+#define EXTEND_KEY_GROUP1               //MODE, BAND(-), BAND(+), STEP  //mjh not compatible with raspberrypi pico
 //#define EXTEND_KEY_GROUP2             //Numeric (0~9), Point(.), Enter  //Not supported in Version 1.0x
+
 
 //Custom LPF Filter Mod
 //#define USE_CUSTOM_LPF_FILTER           //LPF FILTER MOD
@@ -216,15 +220,15 @@ extern byte I2C_LCD_SECOND_ADDRESS;     //only using Dual LCD Mode
 #define FN_MODE         1 //318
 #define FN_RIT          1 //62
 #define FN_SPLIT        1 //2
-#define FN_IFSHIFT      1 //358
-#define FN_ATT          1 //250
-#define FN_CW_SPEED     1 //286
+#define FN_IFSHIFT      1 //358     
+#define FN_ATT          1 //250  
+#define FN_CW_SPEED     1 //286 
 #define FN_VFOTOMEM     0 //276
 #define FN_MEMTOVFO     0 //234
 #define FN_MEMORYKEYER  1 //168
 #define FN_WSPR         0 //1130          //mjh temp
 #define FN_SDRMODE      0 //70            //mjh turned off to fit into nano
-#define FN_CALIBRATION  1 //790
+#define FN_CALIBRATION  1 //790    
 #define FN_CARRIER      1 //500
 #define FN_CWCARRIER    1 //464
 #define FN_CWTONE       1 //158
@@ -294,6 +298,8 @@ extern byte I2C_LCD_SECOND_ADDRESS;     //only using Dual LCD Mode
   #define ANALOG_KEYER  A0
   #define ANALOG_SPARE  A1
   #define ANALOG_SMETER A1  //by KD8CEC
+  #define SDA_PIN       20
+  #define SCL_PIN       21
 #else
   #define ENC_A         (A0)
   #define ENC_B         (A1)

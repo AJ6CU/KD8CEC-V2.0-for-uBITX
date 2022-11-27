@@ -259,6 +259,7 @@ void ReadEEPRom() //for remove warnings.
   {
     for (uint8_t i = 1; i < 127; i++)
     {
+
       Wire.beginTransmission(i);
       read1Byte = Wire.endTransmission();
       if (read1Byte == 0)
@@ -671,20 +672,36 @@ void ReadADCValue(void)
 
    switch(CAT_BUFF[0]){
           case 0:
+              #ifdef USE_DIGITAL_ENCODER                   //MJH Analog pin not used eith digital encoders
+                readedADCValue = 0;
+              #else
                 readedADCValue = analogRead(ENC_A);
                 pinMode(ENC_A, INPUT_PULLUP);
+              #endif
                 break;
           case 1:
+              #ifdef USE_DIGITAL_ENCODER                   //MJH Analog pin not used eith digital encoders
+                readedADCValue = 0;
+              #else
                 readedADCValue = analogRead(ENC_B);
                 pinMode(ENC_B, INPUT_PULLUP);
+              #endif
                 break;
           case 2:
+              #ifdef USE_DIGITAL_ENCODER                   //MJH Analog pin not used eith digital encoders
+                readedADCValue = 0;
+              #else
                 readedADCValue = analogRead(FBUTTON);
                 pinMode(ENC_B, INPUT_PULLUP);
+              #endif
                 break;
-          case 3:    
+          case 3:
+              #ifdef USE_DIGITAL_ENCODER                   //MJH Analog pin not used eith digital encoders
+                readedADCValue = 0;
+              #else
                 readedADCValue = analogRead(PTT);
                 pinMode(PTT,INPUT_PULLUP); 
+              #endif
                 break;
           case 4:
                 readedADCValue = analogRead(ANALOG_KEYER);

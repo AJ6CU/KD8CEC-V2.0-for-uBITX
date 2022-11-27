@@ -299,7 +299,8 @@ void menuCHMemory(int btn, byte isMemoryToVfo){
 //Analog pin monitoring with CW Key and function keys connected.
 //by KD8CEC
 #ifdef ENABLE_ADCMONITOR        
-void menuADCMonitor(int btn){
+void menuADCMonitor(int btn){       // MJH needs to be adjusted for RaspberryPI Pico
+
   int adcPinA0 = 0;  //A0(BLACK, EncoderA)
   int adcPinA1 = 0;  //A1(BROWN, EncoderB)
   int adcPinA2 = 0;  //A2(RED, Function Key)
