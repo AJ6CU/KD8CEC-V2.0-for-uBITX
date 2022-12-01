@@ -728,7 +728,7 @@ void checkButton(){
   keyStatus = getBtnStatus();   //will be remove 3 lines
   if (keyStatus == -1)
     return;
-    
+
   if (keyStatus == FKEY_PRESS)  //Menu Key
   {
     //for touch screen
@@ -744,7 +744,6 @@ void checkButton(){
   }
   else if (keyStatus <= FKEY_TYPE_MAX)  //EXTEND KEY GROUP #1
   {
-
     switch(keyStatus)
     {
       case FKEY_MODE :
@@ -1040,7 +1039,7 @@ void initSettings(){
     for (unsigned int i = 64; i < 1024; i++) //protect Master_cal, usb_cal
       
       {        
-        //Serial.print( ' clearing byte =:'); Serial.println(i);    //mjh
+ //       Serial.print( ' clearing byte =:'); Serial.println(i);    //mjh
         EEPROMTYPE.write(i, 0); 
       }
 
@@ -1063,8 +1062,8 @@ void initSettings(){
   {
     SI5351BX_ADDR = 0x60;
   }
-  
- // Serial.println(" now backing up factory settings");   //mjh
+
+  //Serial.println(" now backing up factory settings");   //mjh
   //Backup Calibration Setting from Factory Setup
   //Check Factory Setting Backup Y/N
   if (EEPROMTYPE.read(FACTORY_BACKUP_YN) != 0x13) {
@@ -1101,7 +1100,7 @@ void initSettings(){
     else
       keyerControl |= IAMBICB;
   }
-//Serial.println(" getting display options");  //mjh
+  //Serial.println(" getting display options");  //mjh
   EEPROMTYPE.get(COMMON_OPTION0, commonOption0);
   EEPROMTYPE.get(DISPLAY_OPTION1, displayOption1);
   EEPROMTYPE.get(DISPLAY_OPTION2, displayOption2);
@@ -1144,7 +1143,7 @@ void initSettings(){
   EEPROMTYPE.get(TX_TUNE_TYPE, tuneTXType);
 
   byte findedValidValueCount = 0;
-//  Serial.println(" reading ham bands");     //mjh  
+  //Serial.println(" reading ham bands");     //mjh  
   //Read band Information
   for (byte i = 0; i < useHamBandCount; i++) {
     //mjh unsigned int tmpReadValue = 0;
@@ -1346,7 +1345,7 @@ void initSettings(){
     sideTonePitch = (sideTone - 300) / 50;
     sideToneSub = sideTone % 50;
   }
- // Serial.println("exiting init settings");  //mjh
+  //Serial.println("exiting init settings");  //mjh
 }
 
 void initPorts(){

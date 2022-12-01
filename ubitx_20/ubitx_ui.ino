@@ -196,7 +196,7 @@ else
 
 #ifdef EXTEND_KEY_GROUP1     //mjh have to change this for digital use of function button. maybe this goes away?
 int getBtnStatus(void){
-  #ifndef USE_DIGITAL_ENCODER
+  #ifndef USE_DIGITAL_ENCODER         //Analog function key is not possible with digital encoder lines and switch
     int readButtonValue = analogRead(FBUTTON);
     pinMode(FBUTTON,INPUT_PULLUP);                //mjh pullups are disabled with analogRead on IOT and RP connect, need to reset here
 
@@ -213,13 +213,9 @@ int getBtnStatus(void){
           return KeyValues[i][2];
           //return i;
     }
-  #else
-    if (digitalRead(FBUTTON) == HIGH)                 //mjh executed if not extended group or when using a digital encoder
-      return -1;
-    else
-      return FKEY_PRESS;
-  #endif
-  
+  #endif  //mjh if using digital encoder, then just ignore everything above and return -1 like nothing has happened
+          
+    return -1;
 }
  
 #endif
