@@ -69,7 +69,7 @@
 #define FACTORY_VALUES_MASTER_CAL            65
 #define FACTORY_VALUES_LSB_CAL               69
 #define FACTORY_VALUES_USB_CAL               73
-#define FACTORY_VALUES_SIDE_TONE             77
+#define FACTORY_VALUES_SIDE_TONE             77       //not used in CEC
 #define FACTORY_VALUES_VFO_A                 81
 #define FACTORY_VALUES_VFO_B                 85
 #define FACTORY_VALUES_CW_SIDETONE           89
