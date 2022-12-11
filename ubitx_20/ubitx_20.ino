@@ -6,7 +6,7 @@
 //    So I put + in the sense that it was improved one by one based on Original Firmware.
 //    This firmware has been gradually changed based on the original firmware created by Farhan, Jack, Jerry and others.
 
-#define FIRMWARE_VERSION_INFO F("+v2.000")  
+#define FIRMWARE_VERSION_INFO F("+v1.999")  
 #define FIRMWARE_VERSION_NUM 0x05       //1st Complete Project : 1 (Version 1.061), 2st Project : 2, 1.08: 3, 1.09 : 4,  2.0: 5 
 
 /**
@@ -54,6 +54,8 @@
 #ifdef USE_I2C_EEPROM
   #include <SparkFun_External_EEPROM.h>  //https://github.com/sparkfun/SparkFun_External_EEPROM_Arduino_Library
   ExternalEEPROM I2C_EEPROM;
+
+
 #else
    #include <EEPROM.h>   //standard EEPROM library
 #endif
@@ -1444,29 +1446,34 @@ void setup()
   //end section of test
   */
 
-  //Load I2C LCD Address for I2C LCD 
-  //I2C LCD Parametere
-  
-#ifdef USE_I2C_LCD  
-  EEPROMTYPE.get(I2C_LCD_MASTER, I2C_LCD_MASTER_ADDRESS);
-  EEPROMTYPE.get(I2C_LCD_SECOND, I2C_LCD_SECOND_ADDRESS);
 
-  if (I2C_LCD_MASTER_ADDRESS < 0x10 || I2C_LCD_MASTER_ADDRESS > 0xF0)
-    I2C_LCD_MASTER_ADDRESS = I2C_LCD_MASTER_ADDRESS_DEFAULT;
-    
-  if (I2C_LCD_SECOND_ADDRESS < 0x10 || I2C_LCD_SECOND_ADDRESS > 0xF0)
-    I2C_LCD_SECOND_ADDRESS = I2C_LCD_SECOND_ADDRESS_DEFAULT;
-#endif  
-  
-Serial.begin(38400);  //mjh
-//delay(5000);
+//Serial.begin(38400);  //mjh
+//delay(5000);  //mjh
 
 #ifdef RASPBERRYPIPICO          // wire requires specifying SDA/SCL pins on PICO
 Wire.setSDA(SDA_PIN);
 Wire.setSCL(SCL_PIN);
 #endif
 
-Wire.begin();  
+Wire.begin(); 
+
+  //Load I2C LCD Address for I2C LCD 
+  //I2C LCD Parametere
+  //MJH this had to be moved after Wire.begin to support EEPROM's connected via I2C
+  //
+
+#ifdef USE_I2C_LCD 
+
+  EEPROMTYPE.get(I2C_LCD_MASTER, I2C_LCD_MASTER_ADDRESS);
+  EEPROMTYPE.get(I2C_LCD_SECOND, I2C_LCD_SECOND_ADDRESS);
+
+  if (I2C_LCD_MASTER_ADDRESS < 0x10 || I2C_LCD_MASTER_ADDRESS > 0xF0)
+    I2C_LCD_MASTER_ADDRESS = I2C_LCD_MASTER_ADDRESS_DEFAULT;
+    
+  if (I2C_LCD_SECOND_ADDRESS < 0x10 || I2C_LCD_SECOND_ADDRESS > 0xF0) 
+    I2C_LCD_SECOND_ADDRESS = I2C_LCD_SECOND_ADDRESS_DEFAULT;
+
+#endif  
 
 //Serial.println("I am alive");   //mjh
 
