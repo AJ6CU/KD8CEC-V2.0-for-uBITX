@@ -23,7 +23,7 @@
 // Compile Option
 //==============================================================================
 //Ubitx Board Version
-#define UBITX_BOARD_VERSION 4          //v1 ~ v4 : 4, v5: 5, 6
+#define UBITX_BOARD_VERSION 5          //v1 ~ v4 : 4, v5: 5, 6
 
 //Define which Nano is used
 //#define NANO  
@@ -103,12 +103,12 @@
 
 //Depending on the type of LCD mounted on the uBITX, uncomment one of the options below.
 //You must select only one.
-//#define UBITX_DISPLAY_LCD1602P        //LCD mounted on unmodified uBITX (Parallel)
+#define UBITX_DISPLAY_LCD1602P        //LCD mounted on unmodified uBITX (Parallel)
 //#define UBITX_DISPLAY_LCD1602I        //I2C type 16 x 02 LCD
 //#define UBITX_DISPLAY_LCD1602I_DUAL   //I2C type 16 x02 LCD Dual
 //#define UBITX_DISPLAY_LCD2004P        //24 x 04 LCD (Parallel)
 //#define UBITX_DISPLAY_LCD2004I        //I2C type 24 x 04 LCD
-#define UBITX_DISPLAY_NEXTION         //NEXTION LCD
+//#define UBITX_DISPLAY_NEXTION         //NEXTION LCD
 
 //#define UBITX_DISPLAY_NEXTION_SAFE      //Only EEProm Write 770~775
 #define I2C_LCD_MASTER_ADDRESS_DEFAULT  0x27     //0x27  //DEFAULT, if Set I2C Address by uBITX Manager, read from EEProm
@@ -137,7 +137,7 @@ extern byte I2C_LCD_SECOND_ADDRESS;     //only using Dual LCD Mode
 // User Select feather list
 //==============================================================================
 //Enable all features
-/*
+
 #define FN_BAND         1 //592
 #define FN_VFO_TOGGLE   1 //78
 #define FN_MODE         1 //20
@@ -160,7 +160,7 @@ extern byte I2C_LCD_SECOND_ADDRESS;     //only using Dual LCD Mode
 #define FN_KEYTYPE      1 //168
 #define FN_ADCMONITOR   1 //516
 #define FN_TXONOFF      1 //58
-*/
+
 /*
 //Test Configuration  (88%)
 #define FN_BAND         0 //592
@@ -213,7 +213,7 @@ extern byte I2C_LCD_SECOND_ADDRESS;     //only using Dual LCD Mode
 #define FN_TXONOFF      1 //58
 */
 
-
+/*
 //Recommended for Nextion, TJC LCD 88%
 #define FN_BAND         1 //600
 #define FN_VFO_TOGGLE   1 //90
@@ -237,7 +237,7 @@ extern byte I2C_LCD_SECOND_ADDRESS;     //only using Dual LCD Mode
 #define FN_KEYTYPE      1 //294
 #define FN_ADCMONITOR   0 //526 //not available with Nextion or Serial UI
 #define FN_TXONOFF      1 //70
-
+*/
 //==============================================================================
 // End of User Select Mode and Compil options
 //==============================================================================
@@ -290,25 +290,51 @@ extern byte I2C_LCD_SECOND_ADDRESS;     //only using Dual LCD Mode
  * A7 is connected to a center pin of good quality 100K or 10K linear potentiometer with the two other ends connected to
  * ground and +5v lines available on the connector. This implments the tuning mechanism
  */
-#ifdef RASPBERRYPIPICO
+
+
+#ifdef USE_DIGITAL_ENCODER
   #define ENC_A         17
   #define ENC_B         18
   #define FBUTTON       19
   #define PTT           22
-  #define ANALOG_KEYER  A0
-  #define ANALOG_SPARE  A1
-  #define ANALOG_SMETER A1  //by KD8CEC
-  #define SDA_PIN       20
-  #define SCL_PIN       21
 #else
   #define ENC_A         (A0)
   #define ENC_B         (A1)
   #define FBUTTON       (A2)
   #define PTT           (A3)
+#endif
+
+#ifdef RASPBERRYPIPICO
+  #define ANALOG_KEYER  A0
+  #define ANALOG_SPARE  A1
+  #define ANALOG_SMETER A1  //by KD8CEC
+  #define SDA_PIN       20
+  #define SCL_PIN       21
+  #define LCD_PIN_RS 1
+  #define LCD_PIN_EN 0
+
+#elif defined(TEENSY)
   #define ANALOG_KEYER  A6
   #define ANALOG_SPARE  A7
   #define ANALOG_SMETER A7  //by KD8CEC
+  #define LCD_PIN_RS 0
+  #define LCD_PIN_EN 1
+#else
+  #define ANALOG_KEYER  A6
+  #define ANALOG_SPARE  A7
+  #define ANALOG_SMETER A7  //by KD8CEC
+  #define LCD_PIN_RS 8
+  #define LCD_PIN_EN 9
 #endif
+
+
+//  LCD Data pins are the same for all boards
+#define LCD_PIN_D4  10
+#define LCD_PIN_D5  11
+#define LCD_PIN_D6  12
+#define LCD_PIN_D7  13
+
+
 
 /** 
  *  The second set of 16 pins on the Raduino's bottom connector are have the three clock outputs and the digital lines to control the rig.

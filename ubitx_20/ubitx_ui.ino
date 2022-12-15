@@ -187,11 +187,10 @@ int btnDown(void){
   #endif
 #endif
 
-if (digitalRead(FBUTTON) == HIGH)                 //mjh executed if not extended group or when using a PICO
+if (digitalRead(FBUTTON) == HIGH)                //mjh executed if not extended group or when using digital encoder
   return 0;
-else
+else  
   return 1;
-  
 }
 
 #ifdef EXTEND_KEY_GROUP1     //mjh have to change this for digital use of function button. maybe this goes away?
@@ -213,9 +212,13 @@ int getBtnStatus(void){
           return KeyValues[i][2];
           //return i;
     }
-  #endif  //mjh if using digital encoder, then just ignore everything above and return -1 like nothing has happened
-          
-    return -1;
+  #else       //We have a digital encoder and just need to read the state of the button
+    if (digitalRead(FBUTTON) == HIGH)                 //mjh executed with digital pins on encoder and FBUTTON
+      return -1;                                        
+    else  
+      return FKEY_PRESS;                              //mjh Button still pressed. Announce it.
+  #endif  
+  
 }
  
 #endif

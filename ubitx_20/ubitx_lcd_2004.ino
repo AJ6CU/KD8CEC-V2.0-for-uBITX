@@ -44,9 +44,9 @@
 #define UBITX_DISPLAY_LCD2004_BASE
 
 //Define  connected PIN
-#define LCD_PIN_RS 8
-#define LCD_PIN_EN 9
-uint8_t LCD_PIN_DAT[4] = {10, 11, 12, 13};
+// #define LCD_PIN_RS 8  //mjh moved to ubitx.h
+// #define LCD_PIN_EN 9  //mjh moved to ubitx.h
+uint8_t LCD_PIN_DAT[4] = {LCD_PIN_D4, LCD_PIN_D5, LCD_PIN_D6, LCD_PIN_D7};
 
 void write4bits(uint8_t value) 
 {
