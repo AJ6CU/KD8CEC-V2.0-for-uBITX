@@ -737,11 +737,12 @@ void idle_process()
     //S-Meter Display
     if (((displayOption1 & 0x08) == 0x08 && (sdrModeOn == 0)) && (++checkCountSMeter > SMeterLatency))
     {
-      int newSMeter;
+
 
 #ifdef USE_I2CSMETER 
     scaledSMeter = GetI2CSmeterValue(I2CMETER_CALCS);
 #else
+      int newSMeter;            //mjh moved into #else clause to eliminate compiler warning 
       //VK2ETA S-Meter from MAX9814 TC pin / divide 4 by KD8CEC for reduce EEPromSize
       newSMeter = analogRead(ANALOG_SMETER) / 4;
   

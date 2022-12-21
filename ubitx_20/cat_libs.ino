@@ -710,6 +710,8 @@ void ReadADCValue(void)
           case 5:
                 readedADCValue = analogRead(ANALOG_SMETER);
                 break;
+          default:        //mjh Should never be reached....
+                readedADCValue = 0;
           }
 
   CAT_BUFF[0] = readedADCValue >> 8;
