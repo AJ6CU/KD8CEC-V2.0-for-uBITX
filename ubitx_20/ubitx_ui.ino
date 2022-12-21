@@ -212,6 +212,7 @@ int getBtnStatus(void){
           return KeyValues[i][2];
           //return i;
     }
+    return -1;
   #else       //We have a digital encoder and just need to read the state of the button
     if (digitalRead(FBUTTON) == HIGH)                 //mjh executed with digital pins on encoder and FBUTTON
       return -1;                                        
@@ -267,6 +268,7 @@ int enc_read(void) {
   int result = 0; 
   byte newState;
   int enc_speed = 0;
+
   
   unsigned long start_at = millis();
   

@@ -31,8 +31,8 @@
 //#define NANO33IOT
 //#define NANOBLE
 //#define NANORP2040
-//#define TEENSY
-#define RASPBERRYPIPICO
+#define TEENSY
+//#define RASPBERRYPIPICO
 //Set values related to specific nano
 
 #ifdef NANO
@@ -66,7 +66,8 @@
             #ifdef TEENSY
               #define USE_HARDWARESERIAL
               #define INTEGERS_ARE_32_BIT
-              #define USE_I2C_EEPROM 
+              #define USE_I2C_EEPROM
+              //#define USE_DIGITAL_ENCODER 
             #else
               #ifdef RASPBERRYPIPICO
                 #define USE_HARDWARESERIAL
@@ -293,10 +294,17 @@ extern byte I2C_LCD_SECOND_ADDRESS;     //only using Dual LCD Mode
 
 
 #ifdef USE_DIGITAL_ENCODER
-  #define ENC_A         17
-  #define ENC_B         18
-  #define FBUTTON       19
-  #define PTT           22
+  #ifdef  RASPBERRYPIPICO
+    #define ENC_A         17
+    #define ENC_B         18
+    #define FBUTTON       19
+    #define PTT           22
+  #else                         //currently only teensy
+    #define ENC_A         14
+    #define ENC_B         15
+    #define FBUTTON       16
+    #define PTT           17
+  #endif
 #else
   #define ENC_A         (A0)
   #define ENC_B         (A1)
