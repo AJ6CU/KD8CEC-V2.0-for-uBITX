@@ -319,6 +319,7 @@ int enc_read(void) {
   unsigned long start_at = millis();
   
   startPos = enc_prev_state;
+  newState = encoder.getPosition(); // Get current positi0n  //mjh added here to eliminate warning of newState could be unitialzized
 
   while (millis() - start_at < 50) { // check if the previous state was stable
     encoder.tick();                 // check encoder state

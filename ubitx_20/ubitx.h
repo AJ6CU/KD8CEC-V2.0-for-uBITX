@@ -38,7 +38,7 @@
 #ifdef NANO
   #define ANALOGCHIPDEFAULT DEFAULT
   #define USE_SOFTWARESERIAL 
-  //#define USE_I2C_EEPROM                // Use external EEPROM connected on I2C bus
+  #define USE_I2C_EEPROM                // Use external EEPROM connected on I2C bus
 #else
   #ifdef NANOEVERY
     #define ANALOGCHIPDEFAULT DEFAULT
@@ -67,7 +67,7 @@
               #define USE_HARDWARESERIAL
               #define INTEGERS_ARE_32_BIT
               #define USE_I2C_EEPROM
-              //#define USE_DIGITAL_ENCODER 
+              #define USE_DIGITAL_ENCODER 
             #else
               #ifdef RASPBERRYPIPICO
                 #define USE_HARDWARESERIAL
@@ -104,10 +104,10 @@
 
 //Depending on the type of LCD mounted on the uBITX, uncomment one of the options below.
 //You must select only one.
-#define UBITX_DISPLAY_LCD1602P        //LCD mounted on unmodified uBITX (Parallel)
+//#define UBITX_DISPLAY_LCD1602P        //LCD mounted on unmodified uBITX (Parallel)
 //#define UBITX_DISPLAY_LCD1602I        //I2C type 16 x 02 LCD
 //#define UBITX_DISPLAY_LCD1602I_DUAL   //I2C type 16 x02 LCD Dual
-//#define UBITX_DISPLAY_LCD2004P        //24 x 04 LCD (Parallel)
+#define UBITX_DISPLAY_LCD2004P        //24 x 04 LCD (Parallel)
 //#define UBITX_DISPLAY_LCD2004I        //I2C type 24 x 04 LCD
 //#define UBITX_DISPLAY_NEXTION         //NEXTION LCD
 
@@ -138,7 +138,7 @@ extern byte I2C_LCD_SECOND_ADDRESS;     //only using Dual LCD Mode
 // User Select feather list
 //==============================================================================
 //Enable all features
-
+/*
 #define FN_BAND         1 //592
 #define FN_VFO_TOGGLE   1 //78
 #define FN_MODE         1 //20
@@ -161,7 +161,7 @@ extern byte I2C_LCD_SECOND_ADDRESS;     //only using Dual LCD Mode
 #define FN_KEYTYPE      1 //168
 #define FN_ADCMONITOR   1 //516
 #define FN_TXONOFF      1 //58
-
+*/
 /*
 //Test Configuration  (88%)
 #define FN_BAND         0 //592
@@ -188,7 +188,7 @@ extern byte I2C_LCD_SECOND_ADDRESS;     //only using Dual LCD Mode
 #define FN_TXONOFF      1 //58
 */
 
-/*
+
 //Recommended Character LCD Developer  87%
 #define FN_BAND         1 //592
 #define FN_VFO_TOGGLE   1 //78
@@ -212,7 +212,7 @@ extern byte I2C_LCD_SECOND_ADDRESS;     //only using Dual LCD Mode
 #define FN_KEYTYPE      0 //168 //using MM
 #define FN_ADCMONITOR   0 //516 //using MM
 #define FN_TXONOFF      1 //58
-*/
+
 
 /*
 //Recommended for Nextion, TJC LCD 88%

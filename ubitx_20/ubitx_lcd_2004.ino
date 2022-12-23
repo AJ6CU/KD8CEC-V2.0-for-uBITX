@@ -264,7 +264,8 @@ void LCD_Print(const char *c)
   }
 }
 
-const int row_offsets[] = { 0x00, 0x40, 0x14, 0x54 };
+const int row_offsets[] = { 0x00, 0x40, 0x14, 0x54 };   //mjh orig
+//mjh const uint8_t row_offsets[] = { 0x00, 0x40, 0x14, 0x54 };   //16 bit version
 void LCD_SetCursor(uint8_t col, uint8_t row)
 {
   LCD_Command(LCD_SETDDRAMADDR | (col + row_offsets[row]));  //0 : 0x00, 1 : 0x40, only for 20 x 4 lcd
@@ -492,7 +493,7 @@ void updateDisplay() {
 
 
 
-char line2Buffer[20];
+char line2Buffer[21];       //mjh was 20 originally, made it 20+1 to match 1602 that was 16+1. This made encoder work again
 //KD8CEC 200Hz ST
 //L14.150 200Hz ST
 //U14.150 +150khz
@@ -689,11 +690,12 @@ void idle_process()
     //S-Meter Display
     if (((displayOption1 & 0x08) == 0x08 && (sdrModeOn == 0)) && (++checkCountSMeter > SMeterLatency))
     {
-      int newSMeter;
+
 
 #ifdef USE_I2CSMETER 
     scaledSMeter = GetI2CSmeterValue(I2CMETER_CALCS);
 #else
+      int newSMeter;                                  //mjh moved within the #else clause to eliminate error message
       //VK2ETA S-Meter from MAX9814 TC pin
       newSMeter = analogRead(ANALOG_SMETER) / 4;
   
