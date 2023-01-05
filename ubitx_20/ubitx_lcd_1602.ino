@@ -745,6 +745,7 @@ void idle_process()
       int newSMeter;            //mjh moved into #else clause to eliminate compiler warning 
       //VK2ETA S-Meter from MAX9814 TC pin / divide 4 by KD8CEC for reduce EEPromSize
       newSMeter = analogRead(ANALOG_SMETER) / 4;
+      pinMode(ANALOG_SMETER,INPUT_PULLUP);        //mjh smeter
   
       //Faster attack, Slower release
       //currentSMeter = (newSMeter > currentSMeter ? ((currentSMeter * 3 + newSMeter * 7) + 5) / 10 : ((currentSMeter * 7 + newSMeter * 3) + 5) / 10) / 4;

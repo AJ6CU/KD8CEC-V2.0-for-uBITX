@@ -335,6 +335,7 @@ void menuADCMonitor(int btn){       // MJH needs to be adjusted for RaspberryPI 
     pinMode(FBUTTON, INPUT_PULLUP); //FBUTTON
     pinMode(PTT,INPUT_PULLUP);       //PTT
     pinMode(ANALOG_KEYER,INPUT_PULLUP);       //ANALOG_KEYER
+    pinMode(ANALOG_SMETER,INPUT_PULLUP);  //mjh
 
     if (adcPinA3 < 50) {
       if (pressKeyTime == 0)

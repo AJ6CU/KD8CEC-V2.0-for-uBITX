@@ -26,12 +26,12 @@
 #define UBITX_BOARD_VERSION 5          //v1 ~ v4 : 4, v5: 5, 6
 
 //Define which Nano is used
-//#define NANO  
+#define NANO  
 //#define NANOEVERY
 //#define NANO33IOT
 //#define NANOBLE
 //#define NANORP2040
-#define TEENSY
+//#define TEENSY
 //#define RASPBERRYPIPICO
 //Set values related to specific nano
 
@@ -104,10 +104,10 @@
 
 //Depending on the type of LCD mounted on the uBITX, uncomment one of the options below.
 //You must select only one.
-//#define UBITX_DISPLAY_LCD1602P        //LCD mounted on unmodified uBITX (Parallel)
+#define UBITX_DISPLAY_LCD1602P        //LCD mounted on unmodified uBITX (Parallel)
 //#define UBITX_DISPLAY_LCD1602I        //I2C type 16 x 02 LCD
 //#define UBITX_DISPLAY_LCD1602I_DUAL   //I2C type 16 x02 LCD Dual
-#define UBITX_DISPLAY_LCD2004P        //24 x 04 LCD (Parallel)
+//#define UBITX_DISPLAY_LCD2004P        //24 x 04 LCD (Parallel)
 //#define UBITX_DISPLAY_LCD2004I        //I2C type 24 x 04 LCD
 //#define UBITX_DISPLAY_NEXTION         //NEXTION LCD
 
@@ -116,7 +116,7 @@
 #define I2C_LCD_SECOND_ADDRESS_DEFAULT  0x3F     //0x27  //only using Dual LCD Mode
 
 //Select betwen Analog S-Meter and DSP (I2C) Meter
-#define USE_I2CSMETER
+//#define USE_I2CSMETER
 
 
 #define EXTEND_KEY_GROUP1               //MODE, BAND(-), BAND(+), STEP  //mjh not compatible with raspberrypi pico
@@ -128,7 +128,7 @@
 
 //#define ENABLE_FACTORYALIGN
 #define FACTORY_RECOVERY_BOOTUP         //Whether to enter Factory Recovery mode by pressing FKey and turning on power
-#define ENABLE_ADCMONITOR               //Starting with Version 1.07, you can read ADC values directly from uBITX Manager. So this function is not necessary.
+//#define ENABLE_ADCMONITOR               //Starting with Version 1.07, you can read ADC values directly from uBITX Manager. So this function is not necessary.
 
 extern byte I2C_LCD_MASTER_ADDRESS;     //0x27  //if Set I2C Address by uBITX Manager, read from EEProm
 extern byte I2C_LCD_SECOND_ADDRESS;     //only using Dual LCD Mode
@@ -210,7 +210,7 @@ extern byte I2C_LCD_SECOND_ADDRESS;     //only using Dual LCD Mode
 #define FN_CWDELAY      0 //98 //using MM
 #define FN_TXCWDELAY    0 //94 //using MM
 #define FN_KEYTYPE      0 //168 //using MM
-#define FN_ADCMONITOR   0 //516 //using MM
+#define FN_ADCMONITOR   0 //516 //using MM   
 #define FN_TXONOFF      1 //58
 
 

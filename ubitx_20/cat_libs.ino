@@ -703,12 +703,13 @@ void ReadADCValue(void)
                 pinMode(PTT,INPUT_PULLUP); 
               #endif
                 break;
-          case 4:
+          case 6:
                 readedADCValue = analogRead(ANALOG_KEYER);
                 pinMode(ANALOG_KEYER,INPUT_PULLUP);
                 break;
-          case 5:
+          case 7:
                 readedADCValue = analogRead(ANALOG_SMETER);
+                pinMode(ANALOG_SMETER,INPUT_PULLUP);
                 break;
           default:        //mjh Should never be reached....
                 readedADCValue = 0;

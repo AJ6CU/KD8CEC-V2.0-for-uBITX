@@ -990,6 +990,7 @@ void SWS_Process(void)
                 break;
           case 5:
                 SendCommandL('x', analogRead(ANALOG_SMETER));
+                pinMode(ANALOG_SMETER,INPUT_PULLUP);        //mjh
                 break;
           }
           nowCheckIndex++;
