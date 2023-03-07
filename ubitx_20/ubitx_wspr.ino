@@ -117,7 +117,9 @@ void SendWSPRManage()
 
         //2, 3, 4
         for (loopIndex = 2; loopIndex < 5; loopIndex++)
-          Wspr_Reg2[loopIndex] = EEPROMTYPE.read(bandBuffIndex + loopIndex + 9);
+          Wspr_Reg2[loopIndex] = EEPROMTYPE.read(bandBuffIndex + loopIndex + 9);  // skips first byte in eeprom save of reg 
+                                                                                  // (i.e band1,reg2 = 413 instead of 412)
+                                                                                  // last bye of eeprom reg appears to be ignored
 
         TX_MSNB_P2 = ((unsigned long)Wspr_Reg1[5] & 0x0F) << 16 | ((unsigned long)Wspr_Reg1[6]) << 8 | Wspr_Reg1[7];
       }

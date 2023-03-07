@@ -41,6 +41,7 @@
 
 //==============================================================================
 // custom LPF Filter
+// See http://www.hamskey.com/2018/09/ubitx-setting-for-custmizedhacked-or.html
 // 48 : Using Custom LPF Filter  (48 = 0x57 or 0x58 => Using Custom LPF Filter, 0x58 = using A7 IO
 // 49, 50 : LPF1  (49 : MHz  (~ Mhz), 50 : Enabled PIN
 // 51, 52 : LPF2
@@ -165,17 +166,35 @@
 
 //Check Firmware type and version
 #define FIRMWAR_ID_ADDR       776 //776 : 0x59, 777 :0x58, 778 : 0x68 : Id Number, if not found id, erase eeprom(32~1023) for prevent system error.
+#define FIRMWARE_ID_ADDR1       776 //Magic better be: 0x59
+#define FIRMWARE_ID_ADDR2       777 //Magic better be: 0x58
+#define FIRMWARE_ID_ADDR3       778 //Magic better be: 0x68  if these 3 numbers don't match eeprom has not been initialized
+
+
+
 #define VERSION_ADDRESS       779   //check Firmware version
 //USER INFORMATION
-#define USER_CALLSIGN_KEY     780   //0x59
+#define USER_CALLSIGN_KEY     780   //0x59 decimal 89
 #define USER_CALLSIGN_LEN     781   //1BYTE (OPTION + LENGTH) + CALLSIGN (MAXIMUM 18)
 #define USER_CALLSIGN_DAT     782   //CALL SIGN DATA  //direct EEPROM to LCD basic offset
 
 //AUTO KEY STRUCTURE
 //AUTO KEY USE 800 ~ 1023
-#define CW_AUTO_MAGIC_KEY     800   //0x73
-#define CW_AUTO_COUNT         801   //0 ~ 255
-#define CW_AUTO_DATA          803   //[INDEX, INDEX, INDEX,DATA,DATA, DATA (Positon offset is CW_AUTO_DATA
+#define CW_AUTO_MAGIC_KEY     800   //0x73 decimal 115
+#define CW_AUTO_COUNT         801   //0 ~ 25  This is the count of number of CW messages in EEPROM
+                                    //Max messages is 25 iwth Labels 0-9 then A-O
+#define CW_AUTO_DATA          803   //Data structure is a pair of start/end up to CW_AUTO_COUNT (max 25)
+                                    //CW_AUTO_DATA + BEG of the pair is the first position of the Mesg key Text
+                                    //
+                                    //For example, if there are 2 messages:
+                                    //801 (CW_AUTO_COUNT) contains 2
+                                    //803,804 Beg/End Msg 0  "CQ" 803=4, 804=5
+                                    //805,806 Beg/End Msg 1  "TU" 805=6, 806=7
+                                    //807 Start of messge for Msg 0 803 + Contents of 803 (4)
+                                    //809 Start of text for Msg 1 803 + Contenst of 805)
+                                    //All upper case text
+    
+
 #define CW_DATA_OFSTADJ       CW_AUTO_DATA - USER_CALLSIGN_DAT   //offset adjust for ditect eeprom to lcd (basic offset is USER_CALLSIGN_DAT
 #define CW_STATION_LEN        1023  //value range : 4 ~ 30
 

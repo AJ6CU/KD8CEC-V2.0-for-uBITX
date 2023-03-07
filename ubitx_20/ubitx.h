@@ -124,6 +124,7 @@
 
 
 //Custom LPF Filter Mod
+// See http://www.hamskey.com/2018/09/ubitx-setting-for-custmizedhacked-or.html
 //#define USE_CUSTOM_LPF_FILTER           //LPF FILTER MOD
 
 //#define ENABLE_FACTORYALIGN
