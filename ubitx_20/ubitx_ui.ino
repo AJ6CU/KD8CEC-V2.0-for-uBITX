@@ -189,7 +189,8 @@ int btnDown(void){
 
 if (digitalRead(FBUTTON) == HIGH)                //mjh executed if not extended group or when using digital encoder
   return 0;
-else  
+else
+//  Serial.println("button down detected") ;  //mjh 
   return 1;
 }
 
@@ -222,7 +223,7 @@ int getBtnStatus(void){
   
 }
  
-#endif
+#endif  //EXTEND_GROUP_1
 
 #ifndef USE_DIGITAL_ENCODER    //MJH This is the original rotary code
 byte enc_prev_state = 3;

@@ -62,7 +62,7 @@ char softTemp[20];
 
 void LCDNextion_Init()
 {
-  delay(3000);
+  //delay(3000);    
   SERIALPORT.begin(NEXTIONBAUD);
   memset(softBuffLines[0], ' ', TEXT_LINE_LENGTH); 
   softBuffLines[0][TEXT_LINE_LENGTH + 1] = 0x00;
@@ -661,8 +661,6 @@ void sendUIData(int sendType)
   //#define CMD_IFSHIFT_VALUE 'i'
   if (L_ifShiftValue != ifShiftValue)
   {
-    //Serial.println("Updating Nextion with new Shiftvalue");  //mjh
-    //Serial.println(ifShiftValue);    //mjh
     L_ifShiftValue = ifShiftValue;
     SendCommandL(CMD_IFSHIFT_VALUE, L_ifShiftValue);
   }
@@ -783,36 +781,48 @@ uint8_t d = 0;
 void SWS_Process(void)
  
 {
-   unsigned long tempFreq;            //MJH Temp variable for freq and conversions.
+   unsigned long tempFreq;            //MJH Temp variable for freq and conversions
+
 
   if(SERIALPORT.available())
-  {
-        d=SERIALPORT.read();
-        
-        //Store Received Data
-        swr_receive_buffer[receiveIndex++] = d;
+  {  
+    while (1)     //MJH not happy here with infinite loop, alternatives?
+      {
+        if(SERIALPORT.available()) 
+        {  
+          Serial.println("looping");
 
-        //Did we find a command?
-        if (d == 0x73 && ffCount > 1 && receiveIndex > 6)
-        {
-          receivedCommandLength = receiveIndex;
-          receiveIndex = 0;
-          ffCount = 0;
+          d=SERIALPORT.read();
+          
+          //Store Received Data
+          swr_receive_buffer[receiveIndex++] = d;
+
+          //Did we find a command?
+          if (d == 0x73 && ffCount > 1 && receiveIndex > 6)
+          {
+            receivedCommandLength = receiveIndex;
+            receiveIndex = 0;
+            ffCount = 0;
+            break;
+          }
+          else if (receiveIndex > SS_MAX_RX_BUFF)
+          {
+            //Buffer Overflow
+            receiveIndex = 0;
+            ffCount = 0;
+          }
+          else if (d == 0xFF)
+          {
+            ffCount++;
+          }
+          else
+          {
+            ffCount = 0;
+          }
         }
-        else if (receiveIndex > SS_MAX_RX_BUFF)
-        {
-          //Buffer Overflow
-          receiveIndex = 0;
-          ffCount = 0;
-        }
-        else if (d == 0xFF)
-        {
-          ffCount++;
-        }
-        else
-        {
-          ffCount = 0;
-        }
+        Serial.println("nope");
+      }
+  
   
   }
   
@@ -930,7 +940,6 @@ void SWS_Process(void)
       }
       else if (commandType == TS_CMD_IFS)
       {
-       // Serial.println("IFShift toggled");  //mjh
         isIFShift = isIFShift ? 0 : 1;  //Toggle
       }
       else if (commandType == TS_CMD_IFSVALUE)
@@ -1056,7 +1065,7 @@ void SWS_Process(void)
         TriggerBySW = 1;    //Action Trigger by Software
       }
       else if (commandType == TS_CMD_READMEM ) //Read Mem
-      //mjhfix
+    
       {
         uint16_t eepromIndex    = conv2BytesToInt32(swr_receive_buffer[commandStartIndex + 4], swr_receive_buffer[commandStartIndex + 5]);
         byte eepromReadLength   = swr_receive_buffer[commandStartIndex + 6];
@@ -1072,7 +1081,7 @@ void SWS_Process(void)
           Checksum : (Addr0+Addr1+Len) %256
           Data      : Variable (Max 23)
          */
-         //mjhfix
+
         uint16_t eepromIndex = conv2BytesToInt32(swr_receive_buffer[commandStartIndex + 4], swr_receive_buffer[commandStartIndex + 5]);
         byte writeLength     = swr_receive_buffer[commandStartIndex + 6];
         byte writeCheckSum   = swr_receive_buffer[commandStartIndex + 7];
@@ -1139,7 +1148,6 @@ void SWS_Process(void)
           }
         }
       }
-
       setFrequency(frequency);
       SetCarrierFreq();
       updateDisplay(); 

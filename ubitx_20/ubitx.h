@@ -23,7 +23,7 @@
 // Compile Option
 //==============================================================================
 //Ubitx Board Version
-#define UBITX_BOARD_VERSION 5          //v1 ~ v4 : 4, v5: 5, 6
+#define UBITX_BOARD_VERSION 5         //v1 ~ v4 : 4, v5: 5, 6
 
 //Define which Nano is used
 #define NANO  
@@ -83,7 +83,7 @@
 #endif
 
 //If using a Nextion, must keep this in synch with speed selected in Nextion editor
-#define NEXTIONBAUD 9600    //must match that in tft file
+#define NEXTIONBAUD 115200    //must match that in tft file
 
 //Use Internal or External EEPROM
 
@@ -104,12 +104,12 @@
 
 //Depending on the type of LCD mounted on the uBITX, uncomment one of the options below.
 //You must select only one.
-#define UBITX_DISPLAY_LCD1602P        //LCD mounted on unmodified uBITX (Parallel)
+//#define UBITX_DISPLAY_LCD1602P        //LCD mounted on unmodified uBITX (Parallel)
 //#define UBITX_DISPLAY_LCD1602I        //I2C type 16 x 02 LCD
 //#define UBITX_DISPLAY_LCD1602I_DUAL   //I2C type 16 x02 LCD Dual
 //#define UBITX_DISPLAY_LCD2004P        //24 x 04 LCD (Parallel)
 //#define UBITX_DISPLAY_LCD2004I        //I2C type 24 x 04 LCD
-//#define UBITX_DISPLAY_NEXTION         //NEXTION LCD
+#define UBITX_DISPLAY_NEXTION         //NEXTION LCD
 
 //#define UBITX_DISPLAY_NEXTION_SAFE      //Only EEProm Write 770~775
 #define I2C_LCD_MASTER_ADDRESS_DEFAULT  0x27     //0x27  //DEFAULT, if Set I2C Address by uBITX Manager, read from EEProm
@@ -119,7 +119,7 @@
 //#define USE_I2CSMETER
 
 
-#define EXTEND_KEY_GROUP1               //MODE, BAND(-), BAND(+), STEP  //mjh not compatible with raspberrypi pico
+#define EXTEND_KEY_GROUP1               //MODE, BAND(-), BAND(+), STEP  //required to activate encoder menu system
 //#define EXTEND_KEY_GROUP2             //Numeric (0~9), Point(.), Enter  //Not supported in Version 1.0x
 
 
@@ -140,6 +140,7 @@ extern byte I2C_LCD_SECOND_ADDRESS;     //only using Dual LCD Mode
 //==============================================================================
 //Enable all features
 /*
+
 #define FN_BAND         1 //592
 #define FN_VFO_TOGGLE   1 //78
 #define FN_MODE         1 //20
@@ -188,7 +189,7 @@ extern byte I2C_LCD_SECOND_ADDRESS;     //only using Dual LCD Mode
 #define FN_ADCMONITOR   1 //516
 #define FN_TXONOFF      1 //58
 */
-
+/*
 
 //Recommended Character LCD Developer  87%
 #define FN_BAND         1 //592
@@ -213,9 +214,9 @@ extern byte I2C_LCD_SECOND_ADDRESS;     //only using Dual LCD Mode
 #define FN_KEYTYPE      0 //168 //using MM
 #define FN_ADCMONITOR   0 //516 //using MM   
 #define FN_TXONOFF      1 //58
+*/
 
 
-/*
 //Recommended for Nextion, TJC LCD 88%
 #define FN_BAND         1 //600
 #define FN_VFO_TOGGLE   1 //90
@@ -227,19 +228,19 @@ extern byte I2C_LCD_SECOND_ADDRESS;     //only using Dual LCD Mode
 #define FN_CW_SPEED     1 //286 
 #define FN_VFOTOMEM     0 //276
 #define FN_MEMTOVFO     0 //234
-#define FN_MEMORYKEYER  1 //168
+#define FN_MEMORYKEYER  0 //168           //mjh
 #define FN_WSPR         0 //1130          //mjh temp
 #define FN_SDRMODE      0 //70            //mjh turned off to fit into nano
-#define FN_CALIBRATION  1 //790    
-#define FN_CARRIER      1 //500
-#define FN_CWCARRIER    1 //464
+#define FN_CALIBRATION  0 //790           //mjh turned off to fit
+#define FN_CARRIER      0 //500           //mjh
+#define FN_CWCARRIER    0 //464           //mjh
 #define FN_CWTONE       1 //158
 #define FN_CWDELAY      1 //108
 #define FN_TXCWDELAY    1 //106
-#define FN_KEYTYPE      1 //294
+#define FN_KEYTYPE      0 //294       //mjh
 #define FN_ADCMONITOR   0 //526 //not available with Nextion or Serial UI
 #define FN_TXONOFF      1 //70
-*/
+
 //==============================================================================
 // End of User Select Mode and Compil options
 //==============================================================================

@@ -821,7 +821,7 @@ void checkButton(){
   //delay(50);//debounce
 }
 
-#else
+#else     //Extend_Key_Group1 not defined
 void checkButton(){
   //only if the button is pressed
   if (!btnDown())
@@ -829,7 +829,6 @@ void checkButton(){
   delay(50);
   if (!btnDown()) //debounce
     return;
- 
   doMenu();
   
   //wait for the button to go up again
@@ -998,7 +997,7 @@ void initSettings(){
   //mjh
   Serial.begin(38400);
 //  Serial.println("delaying...");   //mjh
-  delay(5000);      //MJH required to allow reset of processor after usb connection.
+  // delay(5000);      //MJH required to allow reset of processor after usb connection.
  /*
   Serial.print("MASTER_CAL="); Serial.print(calibration);Serial.println("*");
   Serial.print("USB_CAL="); Serial.print(usbCarrier);Serial.println("*");
@@ -1587,7 +1586,7 @@ void loop(){
         doTuningWithThresHold();
     }
 
-    if (isCWAutoMode == 0 && beforeIdle_ProcessTime < millis() - 250) {
+    if (isCWAutoMode == 0 && beforeIdle_ProcessTime < millis() - 250) {  
       idle_process();
       checkAutoSaveFreqMode();  //move here form out scope for reduce cpu use rate
       beforeIdle_ProcessTime = millis();
