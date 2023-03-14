@@ -31,6 +31,32 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 **************************************************************************/
+/*
+-----------------------------------------------------------------------------
+    Instructions on use of Memory Keyer
+
+These are the instructions for use that KD8CEC apparently did not get around to
+providing.
+
+1. Enter the Memory Keyer through the LCD menus (yes even on Nextion) - short press
+of encoder.  
+2. Turn to Memory Keyer memory item and press the encoder again to enter the memory keyer menu
+3. At this point DO NOT PRESS the Encoder Again unless you want to exit the memory keyer
+4. You should be presented with a screen that shows the available messages to send with "PTT to Send"
+PTT will not really send. A quick PTT will switch between message to send and set frequency for TX
+5. Select message to send by turning the encoder. When you have the message you wnat, quick press on ptt
+6. NOw you can reset the Freq using the encoder knob. when you are happy you can click ptt again
+7. Note that now you back at the select text menu item. Click again and you are back to the Tuen freq.
+8. To Actually send a message, long press of ptt
+9. To pause a message mid sending, push and hold the ptt
+10. to repeat a message, quick ptt during the message will resend
+11. to terminate sending mid stream, click the encoder quickly.
+**************************************************************************/    
+
+
+
+
+
 #include <avr/pgmspace.h>
 
 //27 + 10 + 18 + 1(SPACE) = //56 
@@ -59,10 +85,23 @@ byte autoCWSendCharIndex = 0;
 unsigned long autoCWbeforeTime = 0;         //for interval time between chars
 byte pttBeforeStatus = 1;                   //PTT : default high
 byte isKeyStatusAfterCWStart = 0;           //0 : Init, 1 : Keyup after auto CW Start, 2 : Keydown after
-byte selectedCWTextIndex = 0;
+byte selectedCWTextIndex = 0;               //Tracks which message number is currently being sent.
 unsigned long autoCWKeydownCheckTime = 0;   //for interval time between chars
 byte changeReserveStatus = 0;
 byte isAutoCWHold = 0;                      //auto CW Pause => Manual Keying => auto
+//
+// *********************State Variables***************
+// isCWAutoMode is one of 3 states: 
+//      0: Not in any autokeyer mode
+//      1: In the autokeyer menu (LCD overlay for Nextion), but not sending
+//      2: In sending mode
+//
+// isKeyStatusAfterCWStart one of 4 states:
+//      0 : Init, 
+//      1 : PTT released after auto CW Start 
+//      2 : PTT pushed after auto CW Start
+//      3 : PTT is a long push and we are in hold state waiting for a release (PTT=HIGH)
+// ********************End State Variables************
 
 void autoSendPTTCheck()
 {
@@ -70,37 +109,61 @@ void autoSendPTTCheck()
         //check PTT Button
         //short Press => reservation or cancel
         //long Press => Hold
-        if (digitalRead(PTT) == LOW)
+
+        if (digitalRead(PTT) == LOW)                    // PTT is pressed (pin grounded)
         {
+
           //if (isKeyStatusAfterCWStart == 0)          //Yet Press PTT from start TX
           //{
           //}
+          //
+          // MJH Clarification
+          // isKeyStatusAfterCWStart tracks the state of the last time thru of the PTT
+          // key *after we started sending*.  If isKeyStatusAfterStart == 1 (as in the following if statement
+          // We had detected the release of the PTT Key after start previously.
+          // But now, the PTT button has been pushed again.If a long push, that means a hold. If a short
+          // push that means a repeat of the currently sending text.
+          //
           
           if (isKeyStatusAfterCWStart == 1)            //while auto cw send, ptt up and ptt down again
+                                                        // So this means we hav a new push and we need to determine whether
+                                                        // it is a long push or a short push. That is the purpose of tracking
+                                                        // the time in autoCWKeydownCheckTime
+                                                        //
           {
             //Start Time
             autoCWKeydownCheckTime = millis() + 200;   //Long push time
             isKeyStatusAfterCWStart = 2;               //Change status => ptt down agian
           }
           else if (isKeyStatusAfterCWStart == 2 && autoCWKeydownCheckTime < millis())
+                                                      // So this means that we detected the push on last time through
+                                                      // and current millis is more than the check time. This means a 
+                                                      // Long PTT push
           {
             //Hold Mode
-            isAutoCWHold = 1;
-            isKeyStatusAfterCWStart = 3;
+            isAutoCWHold = 1;                         // This measns "hold off sending any more CW"
+            isKeyStatusAfterCWStart = 3;              // Setting isKeyStatusAfterCEStart to 3 means that we are in
+                                                      // waiting for the PTT to be released. So keep checking for a release
+                                                      // every 200 ms.
           }
           else if (isKeyStatusAfterCWStart == 3)
           {
-            autoCWKeydownCheckTime = millis() + 200;
+            autoCWKeydownCheckTime = millis() + 200;  // check again in 200ms
           }
         }
-        else
-        {
+        else                                          // This else means that the PPT key has been detected as being released (high)
+        { 
           //PTT UP
           if (isKeyStatusAfterCWStart == 2)            //0 (down before cw start) -> 1 (up while cw sending) -> 2 (down while cw sending)
+                                                        // A state of 2 here, means that the PTT was previously detected as down, and now
+                                                        // It is being detected as up. So the question is whether it was a short or long 
+                                                        // push
           {
             if (autoCWKeydownCheckTime > millis())     //Short : Reservation or cancel Next Text
+                                                        // So a short push was detected.This means that the currently sending CW message
+                                                        // should be repeated
             {
-              if (autoCWSendReservCount == 0 || 
+              if (autoCWSendReservCount == 0 ||         // is a global byte variable that is declared in ubitx_20.ino
                   (autoCWSendReservCount < AUTO_CW_RESERVE_MAX &&
                 autoCWSendReserv[autoCWSendReservCount - 1] != selectedCWTextIndex))
               {
@@ -262,6 +325,11 @@ void controlAutoCW(){
           //Read CW Text Data Position From EEProm
           EEPROMTYPE.get(CW_AUTO_DATA + (selectedCWTextIndex * 2), cwStartIndex);
           EEPROMTYPE.get(CW_AUTO_DATA + (selectedCWTextIndex * 2 + 1), cwEndIndex);
+
+          Serial.print("keyer start=");     //mjh
+          Serial.print(cwStartIndex);
+          Serial.print(" cwEndInder=");
+          Serial.println(cwEndIndex);
 
           if (beforeCWTextIndex == selectedCWTextIndex)
           {

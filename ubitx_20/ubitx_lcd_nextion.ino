@@ -44,10 +44,6 @@
   #endif
 #endif  
 
-#define SS_MAX_RX_BUFF 50 // RX buffer size  was 35
-#define PRINT_MAX_LENGTH 30
-static uint8_t swr_receive_buffer[SS_MAX_RX_BUFF];
-
 
 
 
@@ -60,9 +56,73 @@ char c[30], b[30];
 char softBuff[20];
 char softTemp[20];
 
+// ***************
+// Compatibility routines for old software serial tiny
+// ***************35
+#define _SS_MAX_RX_BUFF 35
+
+static uint8_t swr_receive_buffer[_SS_MAX_RX_BUFF];
+int8_t receiveIndex = 0;
+uint8_t receivedCommandLength = 0;
+int8_t ffCount = 0;
+
+void softSerail_Recv()
+{
+
+  uint8_t d = 0;
+  while (SERIALPORT.available()) 
+  {
+    d=SERIALPORT.read();
+
+    if (receivedCommandLength == 0) //check Already Command
+    {
+        //Set Received Data
+        swr_receive_buffer[receiveIndex++] = d;
+
+        //Finded Command
+        if (d == 0x73 && ffCount > 1 && receiveIndex > 6)
+        {
+          receivedCommandLength = receiveIndex;
+          receiveIndex = 0;
+          ffCount = 0;
+        }
+        else if (receiveIndex > _SS_MAX_RX_BUFF)
+        {
+          //Buffer Overflow
+          receiveIndex = 0;
+          ffCount = 0;
+        }
+        else if (d == 0xFF)
+        {
+          ffCount++;
+        }
+        else
+        {
+          ffCount = 0;
+        }
+    }
+
+  }
+
+}
+
+void SWSerial_Read(uint8_t * receive_cmdBuffer)
+{
+  for (int i = 0; i < receivedCommandLength; i++)
+    receive_cmdBuffer[i] = swr_receive_buffer[i];
+}
+
+
+
+// ***************
+// Endof Compatiblitiy routines for software serial tiny
+// ***************
 void LCDNextion_Init()
 {
-  //delay(3000);    
+  #ifdef NANO33IOT     // seems like some mcu's need a little more time before ready to open up the serial port to Nextxion
+    delay(400);
+  #endif
+  
   SERIALPORT.begin(NEXTIONBAUD);
   memset(softBuffLines[0], ' ', TEXT_LINE_LENGTH); 
   softBuffLines[0][TEXT_LINE_LENGTH + 1] = 0x00;
@@ -771,78 +831,22 @@ int spectrumOffset = 0;    //offset position
 int spectrumScanCount = 100;  //Maximum 200
 unsigned int spectrumIncStep = 1000;   //Increaase Step
 
-uint8_t receivedCommandLength;
-int8_t receiveIndex = 0;
-int8_t ffCount = 0;
-
-uint8_t d = 0;
+uint8_t swr_buffer[20];
 
 //SoftwareSerial_Process
 void SWS_Process(void)
  
 {
-   unsigned long tempFreq;            //MJH Temp variable for freq and conversions
-
-
-  if(SERIALPORT.available())
-  {  
-    while (1)     //MJH not happy here with infinite loop, alternatives?
-      {
-        if(SERIALPORT.available()) 
-        {  
-          Serial.println("looping");
-
-          d=SERIALPORT.read();
-          
-          //Store Received Data
-          swr_receive_buffer[receiveIndex++] = d;
-
-          //Did we find a command?
-          if (d == 0x73 && ffCount > 1 && receiveIndex > 6)
-          {
-            receivedCommandLength = receiveIndex;
-            receiveIndex = 0;
-            ffCount = 0;
-            break;
-          }
-          else if (receiveIndex > SS_MAX_RX_BUFF)
-          {
-            //Buffer Overflow
-            receiveIndex = 0;
-            ffCount = 0;
-          }
-          else if (d == 0xFF)
-          {
-            ffCount++;
-          }
-          else
-          {
-            ffCount = 0;
-          }
-        }
-        Serial.println("nope");
-      }
+  unsigned long tempFreq;            //MJH Temp variable for freq and conversions
   
-  
-  }
-  
-  
-  //Received Command from touch screen, now process it
-  if (receivedCommandLength > 0)
+  softSerail_Recv();               //try to fetch a command
+
+  if (receivedCommandLength > 0)  //If this global is set, that means a command has been found
   {
+      
+    SWSerial_Read(swr_buffer);    //Bring a copy of he command in, reset input buffer
 
-#ifdef COMMANDDEBUG
-    for(int i=0;i<receivedCommandLength;i++)
-        Serial.print(swr_receive_buffer[i],HEX);
-    Serial.println("****");
-#endif
     int8_t comandLength = receivedCommandLength;
-
-#ifdef COMMANDDEBUG
-    Serial.print("receivedCommandLength=");
-    Serial.println(receivedCommandLength);
-#endif
-    
     int8_t commandStartIndex = -1;
     receivedCommandLength = 0;
 
@@ -850,7 +854,7 @@ void SWS_Process(void)
     //comandLength //Find start Length
     for (int i = 0; i < comandLength - 3; i++)
     {
-      if (swr_receive_buffer[i] == 0x59 && swr_receive_buffer[i+ 1] == 0x58 && swr_receive_buffer[i + 2] == 0x68)
+      if (swr_buffer[i] == 0x59 && swr_buffer[i+ 1] == 0x58 && swr_buffer[i + 2] == 0x68)
       {
         commandStartIndex = i;
         break;
@@ -860,17 +864,25 @@ void SWS_Process(void)
 #ifdef COMMANDDEBUG
     Serial.print(commandStartIndex);
     Serial.print(",");
-    Serial.println(comandLength);
+    Serial.print(comandLength);
+    Serial.print(":");
+    for(int jj=0; jj<comandLength; jj++) {
+      Serial.print(jj);
+      Serial.print("-");
+      Serial.print(swr_buffer[jj],HEX);
+      Serial.print(":");
+    }
+    Serial.println("**");
 #endif    
 
     if (commandStartIndex != -1)
     {
       //Complete received command from touch screen
-      uint8_t commandType = swr_receive_buffer[commandStartIndex + 3];
+      uint8_t commandType = swr_buffer[commandStartIndex + 3];
 
       if (commandType == TS_CMD_MODE)
       {
-        byteToMode(swr_receive_buffer[commandStartIndex + 4], 1);
+        byteToMode(swr_buffer[commandStartIndex + 4], 1);
       }
       else if (commandType == TS_CMD_FREQ)
       {
@@ -878,11 +890,11 @@ void SWS_Process(void)
     Serial.println("changing frequency");
 #endif
 
-        tempFreq = conv4BytesToLong(swr_receive_buffer[commandStartIndex + 4],swr_receive_buffer[commandStartIndex + 5],swr_receive_buffer[commandStartIndex + 6],swr_receive_buffer[commandStartIndex + 7]);
+        tempFreq = conv4BytesToLong(swr_buffer[commandStartIndex + 4],swr_buffer[commandStartIndex + 5],swr_buffer[commandStartIndex + 6],swr_buffer[commandStartIndex + 7]);
 
 #ifdef COMMANDDEBUG
     for(int jj=0; jj<4; jj++)
-      Serial.print(swr_receive_buffer[commandStartIndex+4+jj],HEX);
+      Serial.print(swr_buffer[commandStartIndex+4+jj],HEX);
     Serial.println("**");
 #endif        
         //if (tempFreq > 3000)  //for loss protcol
@@ -905,7 +917,7 @@ void SWS_Process(void)
             saveBandFreqByIndex(frequency, modeToByte(), currentBandIndex);
           }
         }
-        setNextHamBandFreq(frequency, swr_receive_buffer[commandStartIndex + 4] == 1 ? -1 : 1);  //Prior Band      
+        setNextHamBandFreq(frequency, swr_buffer[commandStartIndex + 4] == 1 ? -1 : 1);  //Prior Band      
       }
       else if (commandType == TS_CMD_VFO)
       {
@@ -936,7 +948,7 @@ void SWS_Process(void)
       }
       else if (commandType == TS_CMD_ATT)
       {
-        attLevel = swr_receive_buffer[commandStartIndex + 4];
+        attLevel = swr_buffer[commandStartIndex + 4];
       }
       else if (commandType == TS_CMD_IFS)
       {
@@ -944,13 +956,13 @@ void SWS_Process(void)
       }
       else if (commandType == TS_CMD_IFSVALUE)
       {
-        ifShiftValue = conv2BytesToInt32(swr_receive_buffer[commandStartIndex + 4], swr_receive_buffer[commandStartIndex + 5]);
+        ifShiftValue = conv2BytesToInt32(swr_buffer[commandStartIndex + 4], swr_buffer[commandStartIndex + 5]);
       }
       else if (commandType == TS_CMD_STARTADC)
       {
-        int startIndex = swr_receive_buffer[commandStartIndex + 4];
-        int endIndex = swr_receive_buffer[commandStartIndex + 5];
-        int adcCheckInterval = swr_receive_buffer[commandStartIndex + 6] * 10;
+        int startIndex = swr_buffer[commandStartIndex + 4];
+        int endIndex = swr_buffer[commandStartIndex + 5];
+        int adcCheckInterval = swr_buffer[commandStartIndex + 6] * 10;
         int nowCheckIndex = startIndex;
         
         while(1 == 1)      
@@ -1019,10 +1031,10 @@ void SWS_Process(void)
       {
         //sendSpectrumData(unsigned long startFreq, unsigned int incStep, int scanCount, int delayTime, int sendCount)
         //sendSpectrumData(frequency - (1000L * 50), 1000, 100, 0, 10);
-        //sendSpectrumData(*(long *)(&swr_receive_buffer[commandStartIndex + 4]), spectrumIncStep, spectrumScanCount, spectrumDelayTime, spectrumSendCount);
+        //sendSpectrumData(*(long *)(&swr_buffer[commandStartIndex + 4]), spectrumIncStep, spectrumScanCount, spectrumDelayTime, spectrumSendCount);
         unsigned long beforeFreq = frequency;
         
-        tempFreq = conv4BytesToLong(swr_receive_buffer[commandStartIndex + 4],swr_receive_buffer[commandStartIndex + 5],swr_receive_buffer[commandStartIndex + 6],swr_receive_buffer[commandStartIndex + 7]);
+        tempFreq = conv4BytesToLong(swr_buffer[commandStartIndex + 4],swr_buffer[commandStartIndex + 5],swr_buffer[commandStartIndex + 6],swr_buffer[commandStartIndex + 7]);
  
         sendResponseData(RESPONSE_SPECTRUM, tempFreq, spectrumIncStep, spectrumScanCount, spectrumOffset, spectrumSendCount);
         frequency = beforeFreq;
@@ -1031,22 +1043,22 @@ void SWS_Process(void)
       {
         //sendSpectrumData(unsigned long startFreq, unsigned int incStep, int scanCount, int delayTime, int sendCount)
         //sendSpectrumData(frequency - (1000L * 50), 1000, 100, 0, 10);
-        spectrumSendCount = swr_receive_buffer[commandStartIndex + 4];          //count of full scan and Send
-        spectrumOffset = swr_receive_buffer[commandStartIndex + 5];             //Scan interval time
-        spectrumScanCount = swr_receive_buffer[commandStartIndex + 6];          //Maximum 120
-        spectrumIncStep = swr_receive_buffer[commandStartIndex + 7] * 20;       //Increaase Step
+        spectrumSendCount = swr_buffer[commandStartIndex + 4];          //count of full scan and Send
+        spectrumOffset = swr_buffer[commandStartIndex + 5];             //Scan interval time
+        spectrumScanCount = swr_buffer[commandStartIndex + 6];          //Maximum 120
+        spectrumIncStep = swr_buffer[commandStartIndex + 7] * 20;       //Increaase Step
       }
       else if (commandType == TS_CMD_TUNESTEP)      //Set Tune Step
       {
-        tuneStepIndex = swr_receive_buffer[commandStartIndex + 4];    //Tune Step Index
+        tuneStepIndex = swr_buffer[commandStartIndex + 4];    //Tune Step Index
       }
       else if (commandType == TS_CMD_WPM)      //Set WPM
       {
-        cwSpeed = swr_receive_buffer[commandStartIndex + 4];    //
+        cwSpeed = swr_buffer[commandStartIndex + 4];    //
       }
       else if (commandType == TS_CMD_KEYTYPE)                 //Set Key Type
       {
-        cwKeyType = swr_receive_buffer[commandStartIndex + 4];
+        cwKeyType = swr_buffer[commandStartIndex + 4];
 
         //for reduce program memory
         Iambic_Key = cwKeyType != 0;
@@ -1067,9 +1079,9 @@ void SWS_Process(void)
       else if (commandType == TS_CMD_READMEM ) //Read Mem
     
       {
-        uint16_t eepromIndex    = conv2BytesToInt32(swr_receive_buffer[commandStartIndex + 4], swr_receive_buffer[commandStartIndex + 5]);
-        byte eepromReadLength   = swr_receive_buffer[commandStartIndex + 6];
-        byte eepromDataType     = swr_receive_buffer[commandStartIndex + 7];  //0 : Hex, 1 : String
+        uint16_t eepromIndex    = conv2BytesToInt32(swr_buffer[commandStartIndex + 4], swr_buffer[commandStartIndex + 5]);
+        byte eepromReadLength   = swr_buffer[commandStartIndex + 6];
+        byte eepromDataType     = swr_buffer[commandStartIndex + 7];  //0 : Hex, 1 : String
         
         sendResponseData(RESPONSE_EEPROM, 0, eepromIndex, eepromReadLength, eepromDataType, 1);
       }
@@ -1082,13 +1094,13 @@ void SWS_Process(void)
           Data      : Variable (Max 23)
          */
 
-        uint16_t eepromIndex = conv2BytesToInt32(swr_receive_buffer[commandStartIndex + 4], swr_receive_buffer[commandStartIndex + 5]);
-        byte writeLength     = swr_receive_buffer[commandStartIndex + 6];
-        byte writeCheckSum   = swr_receive_buffer[commandStartIndex + 7];
+        uint16_t eepromIndex = conv2BytesToInt32(swr_buffer[commandStartIndex + 4], swr_buffer[commandStartIndex + 5]);
+        byte writeLength     = swr_buffer[commandStartIndex + 6];
+        byte writeCheckSum   = swr_buffer[commandStartIndex + 7];
 
         //Check Checksum
-        if (writeCheckSum == (swr_receive_buffer[commandStartIndex + 4] + swr_receive_buffer[commandStartIndex + 5] + swr_receive_buffer[commandStartIndex + 6]))
-        //if (writeCheckSum == (swr_receive_buffer[commandStartIndex + 4] + swr_receive_buffer[commandStartIndex + 5] + writeLength))
+        if (writeCheckSum == (swr_buffer[commandStartIndex + 4] + swr_buffer[commandStartIndex + 5] + swr_buffer[commandStartIndex + 6]))
+        //if (writeCheckSum == (swr_buffer[commandStartIndex + 4] + swr_buffer[commandStartIndex + 5] + writeLength))
         {
             //if (eepromIndex > 64) //Safe #1
 #ifdef UBITX_DISPLAY_NEXTION_SAFE
@@ -1103,7 +1115,7 @@ void SWS_Process(void)
 #endif
             {
               for (int i = 0; i < writeLength; i++)
-                EEPROMTYPE.write(eepromIndex + i , swr_receive_buffer[commandStartIndex + 8 + i]);
+                EEPROMTYPE.write(eepromIndex + i , swr_buffer[commandStartIndex + 8 + i]);
             }
         }
         else
@@ -1116,8 +1128,8 @@ void SWS_Process(void)
       else if (TS_CMD_LOOPBACK0 == commandType)    //Loop back Channel 0 ~ 5
       {
         unsigned long tempCommand;
-        tempCommand= conv4BytesToLong(swr_receive_buffer[commandStartIndex + 4],swr_receive_buffer[commandStartIndex + 5],
-                        swr_receive_buffer[commandStartIndex + 6],swr_receive_buffer[commandStartIndex + 7]);
+        tempCommand= conv4BytesToLong(swr_buffer[commandStartIndex + 4],swr_buffer[commandStartIndex + 5],
+                        swr_buffer[commandStartIndex + 6],swr_buffer[commandStartIndex + 7]);
         SendCommandUL('v',tempCommand);     //Return data
         SendCommandUL('g', commandType);                                               //Index Input
         //return;
@@ -1125,7 +1137,7 @@ void SWS_Process(void)
       else if (commandType == TS_CMD_FACTORYRESET || commandType == TS_CMD_UBITX_REBOOT)
       {
         unsigned long passKey;
-        passKey = conv4BytesToLong(swr_receive_buffer[commandStartIndex + 4],swr_receive_buffer[commandStartIndex + 5],swr_receive_buffer[commandStartIndex + 6],swr_receive_buffer[commandStartIndex + 7]);
+        passKey = conv4BytesToLong(swr_buffer[commandStartIndex + 4],swr_buffer[commandStartIndex + 5],swr_buffer[commandStartIndex + 6],swr_buffer[commandStartIndex + 7]);
         if ( passKey== 1497712748)
         {
           if (commandType == TS_CMD_UBITX_REBOOT)

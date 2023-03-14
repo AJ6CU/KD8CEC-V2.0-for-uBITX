@@ -26,9 +26,9 @@
 #define UBITX_BOARD_VERSION 5         //v1 ~ v4 : 4, v5: 5, 6
 
 //Define which Nano is used
-#define NANO  
+//#define NANO  
 //#define NANOEVERY
-//#define NANO33IOT
+#define NANO33IOT
 //#define NANOBLE
 //#define NANORP2040
 //#define TEENSY
@@ -83,7 +83,7 @@
 #endif
 
 //If using a Nextion, must keep this in synch with speed selected in Nextion editor
-#define NEXTIONBAUD 115200    //must match that in tft file
+#define NEXTIONBAUD 9600   //must match that in tft file
 
 //Use Internal or External EEPROM
 
@@ -228,7 +228,7 @@ extern byte I2C_LCD_SECOND_ADDRESS;     //only using Dual LCD Mode
 #define FN_CW_SPEED     1 //286 
 #define FN_VFOTOMEM     0 //276
 #define FN_MEMTOVFO     0 //234
-#define FN_MEMORYKEYER  0 //168           //mjh
+#define FN_MEMORYKEYER  1 //168           //mjh
 #define FN_WSPR         0 //1130          //mjh temp
 #define FN_SDRMODE      0 //70            //mjh turned off to fit into nano
 #define FN_CALIBRATION  0 //790           //mjh turned off to fit
@@ -237,7 +237,7 @@ extern byte I2C_LCD_SECOND_ADDRESS;     //only using Dual LCD Mode
 #define FN_CWTONE       1 //158
 #define FN_CWDELAY      1 //108
 #define FN_TXCWDELAY    1 //106
-#define FN_KEYTYPE      0 //294       //mjh
+#define FN_KEYTYPE      1 //294       //mjh
 #define FN_ADCMONITOR   0 //526 //not available with Nextion or Serial UI
 #define FN_TXONOFF      1 //70
 

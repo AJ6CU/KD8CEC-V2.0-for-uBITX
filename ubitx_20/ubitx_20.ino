@@ -995,9 +995,9 @@ void initSettings(){
   EEPROMTYPE.get(CW_SIDETONE, sideTone);
   EEPROMTYPE.get(CW_SPEED, cwSpeed);
   //mjh
-  Serial.begin(38400);
+ // Serial.begin(38400);
 //  Serial.println("delaying...");   //mjh
-  // delay(5000);      //MJH required to allow reset of processor after usb connection.
+//   delay(5000);      //MJH required to allow reset of processor after usb connection.
  /*
   Serial.print("MASTER_CAL="); Serial.print(calibration);Serial.println("*");
   Serial.print("USB_CAL="); Serial.print(usbCarrier);Serial.println("*");
@@ -1403,6 +1403,7 @@ void factory_Recovery()
     return;
 
   if (digitalRead(PTT) == 0)  //Do not proceed if PTT is pressed to prevent malfunction.
+
     return;
     
   printLineF2(F("Factory Recovery"));
@@ -1445,8 +1446,7 @@ void setup()
   //end section of test
   */
 
-
-//Serial.begin(38400);  //mjh
+Serial.begin(38400);  //mjh
 //delay(5000);  //mjh
 
 #ifdef RASPBERRYPIPICO          // wire requires specifying SDA/SCL pins on PICO
