@@ -42,17 +42,17 @@ byte getPaddle(){
   int paddle = analogRead(ANALOG_KEYER);
   pinMode(ANALOG_KEYER,INPUT_PULLUP);                         //mjh IOT and RP reset pullups after analogRead
 
-if (paddle > 800)         // above 4v is up
-    return 0;
-    
-  if (paddle > 600)    // 4-3v is dot
+if ((paddle >= cwAdcDashFrom) && (paddle <= cwAdcDashTo))         // above 4v is up //mjh was 800
     return PADDLE_DASH;
-  else if (paddle > 300)    //1-2v is dash
+else if ((paddle >= cwAdcDotFrom) && (paddle <= cwAdcDotTo))
     return PADDLE_DOT;
-  else if (paddle > 50)
+else if ((paddle >= cwAdcBothFrom) && (paddle <= cwAdcBothTo))
     return PADDLE_BOTH;     //both are between 1 and 2v
-  else
+else if ((paddle >= cwAdcSTFrom) && (paddle <= cwAdcSTTo))
     return PADDLE_STRAIGHT; //less than 1v is the straight key
+else
+    return 0;
+
 }
 
 /**
@@ -104,7 +104,6 @@ char update_PaddleLatch(byte isUpdateKeyState) {
   int paddle = analogRead(ANALOG_KEYER);
   pinMode(ANALOG_KEYER,INPUT_PULLUP);                //mjh pullups are disabled with analogRead on IOT and RP connect, need to reset here
 
- //mjh Serial.print("analog read of paddle ="); Serial.println(paddle);
 
   if (paddle >= cwAdcDashFrom && paddle <= cwAdcDashTo)
     tmpKeyerControl |= DAH_L;
@@ -133,9 +132,9 @@ char update_PaddleLatch(byte isUpdateKeyState) {
 // modified by KD8CEC
 ******************************************************************************/
 void cwKeyer(void){
-  lastPaddle = 0;
-  bool continue_loop = true;
-  unsigned tmpKeyControl = 0;
+  lastPaddle = 0;  
+  bool continue_loop = true; 
+  unsigned tmpKeyControl = 0;  
   
   if( Iambic_Key ) {
     while(continue_loop) {

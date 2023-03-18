@@ -86,7 +86,7 @@ unsigned long autoCWbeforeTime = 0;         //for interval time between chars
 byte pttBeforeStatus = 1;                   //PTT : default high
 byte isKeyStatusAfterCWStart = 0;           //0 : Init, 1 : Keyup after auto CW Start, 2 : Keydown after
 byte selectedCWTextIndex = 0;               //Tracks which message number is currently being sent.
-unsigned long autoCWKeydownCheckTime = 0;   //for interval time between chars
+static unsigned long autoCWKeydownCheckTime = 0;   //for interval time between chars
 byte changeReserveStatus = 0;
 byte isAutoCWHold = 0;                      //auto CW Pause => Manual Keying => auto
 //
@@ -109,6 +109,7 @@ void autoSendPTTCheck()
         //check PTT Button
         //short Press => reservation or cancel
         //long Press => Hold
+
 
         if (digitalRead(PTT) == LOW)                    // PTT is pressed (pin grounded)
         {
@@ -135,7 +136,7 @@ void autoSendPTTCheck()
             autoCWKeydownCheckTime = millis() + 200;   //Long push time
             isKeyStatusAfterCWStart = 2;               //Change status => ptt down agian
           }
-          else if (isKeyStatusAfterCWStart == 2 && autoCWKeydownCheckTime < millis())
+          else if ((isKeyStatusAfterCWStart == 2) && (autoCWKeydownCheckTime < millis()))
                                                       // So this means that we detected the push on last time through
                                                       // and current millis is more than the check time. This means a 
                                                       // Long PTT push
@@ -150,6 +151,7 @@ void autoSendPTTCheck()
           {
             autoCWKeydownCheckTime = millis() + 200;  // check again in 200ms
           }
+          
         }
         else                                          // This else means that the PPT key has been detected as being released (high)
         { 
@@ -182,7 +184,6 @@ void autoSendPTTCheck()
           {
             isAutoCWHold = 0;
           }
-
           isKeyStatusAfterCWStart = 1;                        //Change status => ptt up (while cw send mode)
         }     //end of PTT UP  
     }
@@ -287,11 +288,16 @@ void sendCWChar(char cwKeyChar)
 
   for (i = 0; i < charLength; i++)
   {
+
     cwKeydown();
-    if (sendBuff[i] == 0)
+
+    if (sendBuff[i] == 0) {
       delay_background(cwSpeed, 4);
-    else
+    }
+    else {
       delay_background(cwSpeed * 3, 4);
+    }
+
     cwKeyUp();
     if (i != charLength -1)
       delay_background(cwSpeed, 4);
@@ -307,7 +313,7 @@ void controlAutoCW(){
     int knob = 0;
     byte i;
 
-    byte cwStartIndex, cwEndIndex;
+    static byte cwStartIndex, cwEndIndex;       //mjh no static declaration originally. Assumed values were preserved between calls
     
     if (cwAutoDialType == 0)
       knob = enc_read();
@@ -321,15 +327,11 @@ void controlAutoCW(){
       selectedCWTextIndex = knobPosition / 10;
 
       if ((beforeCWTextIndex != selectedCWTextIndex) || 
-        (isNeedScroll == 1 && beforeCWTextIndex == selectedCWTextIndex && scrollDispayTime < millis())) {
+        ((isNeedScroll == 1) && (beforeCWTextIndex == selectedCWTextIndex) && (scrollDispayTime < millis()))) {
           //Read CW Text Data Position From EEProm
           EEPROMTYPE.get(CW_AUTO_DATA + (selectedCWTextIndex * 2), cwStartIndex);
           EEPROMTYPE.get(CW_AUTO_DATA + (selectedCWTextIndex * 2 + 1), cwEndIndex);
 
-          Serial.print("keyer start=");     //mjh
-          Serial.print(cwStartIndex);
-          Serial.print(" cwEndInder=");
-          Serial.println(cwEndIndex);
 
           if (beforeCWTextIndex == selectedCWTextIndex)
           {
@@ -346,7 +348,7 @@ void controlAutoCW(){
           //Display_AutoKeyTextIndex(selectedCWTextIndex);
           SendCommand1Num('w', selectedCWTextIndex);                                              //Index
           SendEEPromData('a', cwStartIndex + CW_DATA_OFSTADJ, cwEndIndex + CW_DATA_OFSTADJ, 0) ;  //Data
-          SendCommand1Num('y', 1);                                                                //Send YN
+          SendCommand1Num('y', 1);                                            //Send YN
           isNeedScroll = 0;
 #else          
           printLineFromEEPRom(0, 2, cwStartIndex + displayScrolStep + CW_DATA_OFSTADJ, cwEndIndex + CW_DATA_OFSTADJ, 0); 
@@ -407,15 +409,17 @@ void controlAutoCW(){
     
     if (isCWAutoMode == 2) {                                    //Sending Mode
         autoSendPTTCheck();
-        
         //check interval time, if you want adjust interval between chars, modify below
+
+
         if (isAutoCWHold == 0 && (millis() - autoCWbeforeTime > cwSpeed * 3))
         {
           if (!inTx){                                           //if not TX Status, change RX -> TX
             keyDown = 0;
             startTx(TX_CW, 0);  //disable updateDisplay Command for reduce latency time
           }
-          
+          // Serial.print(EEPROMTYPE.read(CW_AUTO_DATA + autoCWSendCharIndex));
+          // Serial.print(":");
           sendCWChar(EEPROMTYPE.read(CW_AUTO_DATA + autoCWSendCharIndex++));
 
           if (autoCWSendCharIndex > autoCWSendCharEndIndex) {          //finish auto cw send
