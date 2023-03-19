@@ -1,25 +1,38 @@
 #NOTICE
-This is a fork of Ian KD8CEC's uBitx firmware. 
+This is a fork of Ian KD8CEC's uBitx firmware named KD8CEC V2.0. Make sure you check out the version 2.0 branch if you decided to build from source.
 
-The initial purpose of this fork is to modify the source code so that it can use newer processors with more memory and faster CPU's. In particular, the new Nano 33 IOT and BLE processors will be supported by the intial efforts. Since neither of these processors include onboard EEPROM's, porting this software will require providing an option for off-processor EEPROM's that are accessed via I2C bus. 
+The initial purpose of this fork is to modify the source code so that it can use newer processors with more memory and faster CPU's. Currently supported processors include:
 
+- RaspberryPI Pico
+- Teeny 4.0 (4.1 should work too with a board that supports it)
+- Nano (for now, getting tight on space. Nano users probably should stay with V1.2)
+- Nano Every
+- Arduino 33 IOT
+- Arduino BLE (Have not tried it on "Sense" version)
+- Arduino RP2040 Connect
+
+The Pico is probably the best price performance. Teensy 4 has the best performance. 
+ 
 With more memory and a faster CPU, there are additional features that can be added that could benefit uBitx owners.
 
-I am calling this V2.0 which is a little audacious given that I do not have Ian's permission. Hope he doesn't mind!
 
 Release Notes:
+March 19, 2023 Status
+After a *long* time spent reverse engineering the uBITX Memory Manager and creating the uBITX Settings Manager (see: https://github.com/AJ6CU/uBITX-EEPROM-Manager/tree/main/uBITX_Settings_Editor ), I am  back to chasing down the remaining few bugs in the port!. Just spent a lot of time tracking down errors in the CW Memory Keyer. Prior to that, cleaned up the LCD support code.  Going to chase down the remaiing bugs in the issue section and declare beta! Probably within a monht!
+
 August 17, 2022 Status
 The code appears to mostly work (see Issues on Github). The S-Meter and SWR have not yet worked. Not sure if this is a problem in the ported code or the ported code in the standalone processor. I am concerned that I get a high pitched screech at low volumes and that the white noise on some platforms is higher than I would expect. However, this could be a calibration issue to resolve. The EEPROM area can use more work to be flexibile to deal with onboard vs offboard EEPROM.
 
-The other worry is that KD8CEC's uBITX Manager seems to not work on Arduino BLE, RP Connect and Nano Every. Weird it does work on Arduino IOT. I can see the CAT request going down, but the firmware just never sends anything back if there is a BLE, RP Connect or Nano Every on the other end...
+Building this from source will require the following "non-standard libraries"
 
-The CPU board appears to work except that the Nextion RX/TX is reversed depending on whether it uses softwareserial or hardware serial. Known problem and already corrected for the V3 board. The SSI351A needs more "elbow room" to avoid noise and the offboard connectors need more thought.
+- RotaryEncoder 1.5.3 (must if you are compiling for Pico, optional to replace digital pins for the analogreads) - https://github.com/AJ6CU/uBITX-EEPROM-Manager/tree/main/uBITX_Settings_Editor
+- SparkFun_External_EEPROM (v1.0.12 or better) //https://github.com/sparkfun/SparkFun_External_EEPROM_Arduino_Library
 
-The standalone daughter board for S-meter (and also ++digital and ++analog pins) is a mess. Will need to rethink that one.
+Board Support Packages:
+RP2040 - The stanard Arduino MBED board support package.
+Pico - https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json
+Teensy - https://www.pjrc.com/teensy/package_teensy_index.json
 
-The powersupply board works, but the connection to the inbound 12v power can be rethought to minimize wiring (I am currently forced to use wire nuts...) 
-
-One side note.... I am using 115200 baud for my Nextion connection. This required mods to the Nextion code too.  Search for "NEXTIONBAUD" to reset this.
 
 73
 Mark
