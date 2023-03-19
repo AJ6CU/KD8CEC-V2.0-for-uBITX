@@ -29,9 +29,9 @@ Building this from source will require the following "non-standard libraries"
 - SparkFun_External_EEPROM (v1.0.12 or better) //https://github.com/sparkfun/SparkFun_External_EEPROM_Arduino_Library
 
 Board Support Packages:
-RP2040 - The stanard Arduino MBED board support package.
-Pico - https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json
-Teensy - https://www.pjrc.com/teensy/package_teensy_index.json
+- RP2040 - The stanard Arduino MBED board support package.
+- Pico - https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json
+- Teensy - https://www.pjrc.com/teensy/package_teensy_index.json
 
 
 73
