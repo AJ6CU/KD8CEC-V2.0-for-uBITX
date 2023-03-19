@@ -122,7 +122,6 @@ void LCDNextion_Init()
   #ifdef NANO33IOT     // seems like some mcu's need a little more time before ready to open up the serial port to Nextxion
     delay(400);
   #endif
-  
   SERIALPORT.begin(NEXTIONBAUD);
   memset(softBuffLines[0], ' ', TEXT_LINE_LENGTH); 
   softBuffLines[0][TEXT_LINE_LENGTH + 1] = 0x00;

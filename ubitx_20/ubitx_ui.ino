@@ -306,7 +306,7 @@ int enc_read(void) {
 #else       // MJH new rotary code for rotary encoder on Digital Lines
 //  MJH  Added Rotary Encoder for Raspberry Pi Pico
 
-#include <RotaryEncoder.h>
+#include <RotaryEncoder.h>          //https://github.com/mathertel/RotaryEncoder
 extern RotaryEncoder encoder;
 
 

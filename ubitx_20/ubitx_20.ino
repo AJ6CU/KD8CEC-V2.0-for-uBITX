@@ -63,7 +63,7 @@
 #include "ubitx_eemap.h"
 
 #ifdef USE_DIGITAL_ENCODER
-  #include <RotaryEncoder.h>
+  #include <RotaryEncoder.h>          //https://github.com/mathertel/RotaryEncoder
   // A pointer to the dynamic created rotary encoder instance.
   RotaryEncoder encoder(ENC_B, ENC_A, RotaryEncoder::LatchMode::TWO03);
 #endif
@@ -994,10 +994,10 @@ void initSettings(){
   EEPROMTYPE.get(VFO_B, vfoB);
   EEPROMTYPE.get(CW_SIDETONE, sideTone);
   EEPROMTYPE.get(CW_SPEED, cwSpeed);
-  //mjh
- // Serial.begin(38400);
-//  Serial.println("delaying...");   //mjh
-//   delay(5000);      //MJH required to allow reset of processor after usb connection.
+#ifdef NANO
+  Serial.begin(38400);          // Needed by Nano (for I2C EEPROM and Nextion)  no clue why...
+#endif
+
  /*
   Serial.print("MASTER_CAL="); Serial.print(calibration);Serial.println("*");
   Serial.print("USB_CAL="); Serial.print(usbCarrier);Serial.println("*");
@@ -1351,7 +1351,7 @@ void initSettings(){
 
 void initPorts(){
 
-#if !defined(TEENSY) && !defined(NANORP2040)  && !defined(RASPBERRYPIPICO)                      //Nano RP Connect and teensy do not have/use an analogReference function
+#if !defined(TEENSY) && !defined(NANORP2040)  && !defined(RASPBERRYPIPICO)                    //Nano RP Connect and teensy do not have/use an analogReference function
   analogReference(ANALOGCHIPDEFAULT);
 #endif
 
@@ -1446,7 +1446,7 @@ void setup()
   //end section of test
   */
 
-Serial.begin(38400);  //mjh
+//Serial.begin(38400);  //mjh
 //delay(5000);  //mjh
 
 #ifdef RASPBERRYPIPICO          // wire requires specifying SDA/SCL pins on PICO

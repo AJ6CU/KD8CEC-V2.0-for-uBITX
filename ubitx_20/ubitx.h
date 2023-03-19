@@ -23,22 +23,22 @@
 // Compile Option
 //==============================================================================
 //Ubitx Board Version
-#define UBITX_BOARD_VERSION 3        //v1 ~ v4 : 4, v5: 5, 6
+#define UBITX_BOARD_VERSION 4      //v1 ~ v4 : 4, v5: 5, 6
 
 //Define which Nano is used
 //#define NANO  
-//#define NANOEVERY
+#define NANOEVERY
 //#define NANO33IOT
 //#define NANOBLE
 //#define NANORP2040
-#define TEENSY
+//#define TEENSY
 //#define RASPBERRYPIPICO
 //Set values related to specific nano
 
 #ifdef NANO
   #define ANALOGCHIPDEFAULT DEFAULT
   #define USE_SOFTWARESERIAL 
-  //#define USE_I2C_EEPROM                // Use external EEPROM connected on I2C bus
+  #define USE_I2C_EEPROM                // Use external EEPROM connected on I2C bus
 #else
   #ifdef NANOEVERY
     #define ANALOGCHIPDEFAULT DEFAULT
@@ -52,7 +52,7 @@
       #define USE_I2C_EEPROM                // Use external EEPROM connected on I2C bus
      #else
         #ifdef NANOBLE
-          #define ANALOGCHIPDEFAULT AR_VDD
+          #define ANALOGCHIPDEFAULT AR_INTERNAL2V4
           #define INTEGERS_ARE_32_BIT
           #define USE_HARDWARESERIAL
           #define USE_I2C_EEPROM                // Use external EEPROM connected on I2C bus
@@ -224,20 +224,20 @@ extern byte I2C_LCD_SECOND_ADDRESS;     //only using Dual LCD Mode
 #define FN_RIT          1 //62
 #define FN_SPLIT        1 //2
 #define FN_IFSHIFT      1 //358     
-#define FN_ATT          0 //250  
-#define FN_CW_SPEED     0 //286 
+#define FN_ATT          1 //250  
+#define FN_CW_SPEED     1 //286 
 #define FN_VFOTOMEM     0 //276
 #define FN_MEMTOVFO     0 //234
 #define FN_MEMORYKEYER  1 //168           //mjh
 #define FN_WSPR         0 //1130          //mjh temp
 #define FN_SDRMODE      0 //70            //mjh turned off to fit into nano
-#define FN_CALIBRATION 0 //790           //mjh turned off to fit
+#define FN_CALIBRATION  0 //790           //mjh turned off to fit
 #define FN_CARRIER      0 //500           //mjh
-#define FN_CWCARRIER    1 //464           //mjh
-#define FN_CWTONE       0 //158
-#define FN_CWDELAY      0 //108
+#define FN_CWCARRIER    0 //464           //mjh
+#define FN_CWTONE       1 //158
+#define FN_CWDELAY      1 //108
 #define FN_TXCWDELAY    0 //106
-#define FN_KEYTYPE      1 //294       //mjh
+#define FN_KEYTYPE      0 //294       //mjh
 #define FN_ADCMONITOR   0 //526 //not available with Nextion or Serial UI
 #define FN_TXONOFF      1 //70
 
