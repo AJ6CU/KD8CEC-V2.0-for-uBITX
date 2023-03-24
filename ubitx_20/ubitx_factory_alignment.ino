@@ -28,7 +28,7 @@ void factory_alignment(){
   printLine2("#2 BFO");
   delay(1000);
 
-#if UBITX_BOARD_VERSION == 5
+#if UBITX_BOARD_VERSION == 5 || UBITX_BOARD_VERSION == 6
   usbCarrier = 11053000l;
   menuSetupCarrier(1);
   if (usbCarrier == 11053000l){

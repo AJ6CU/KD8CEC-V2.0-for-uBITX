@@ -244,8 +244,11 @@ void ReadEEPRom() //for remove warnings.
   //5BYTES
   //CAT_BUFF[0] [1] [2] [3] [4] //4 COMMAND
   //0, 1 START ADDRESS
+  // NOTE: The use of 2 bytes for start and length of EEPROM fetches
+  // Limits max EEPROM to 32k
+  //
   uint16_t eepromStartIndex = CAT_BUFF[0] + CAT_BUFF[1] * 256;
-  uint16_t eepromReadLength = CAT_BUFF[2] + CAT_BUFF[3] * 256;;
+  uint16_t eepromReadLength = CAT_BUFF[2] + CAT_BUFF[3] * 256;
   byte checkSum = 0;
   byte read1Byte = 0;
 
@@ -282,6 +285,30 @@ void ReadEEPRom() //for remove warnings.
     }
   }
   
+  Serial.write((byte)checkSum);
+  Serial.write((byte)ACK);
+}
+
+void GetEEPRomSize() 
+{
+  //5BYTES
+  //CAT_BUFF[0] [1] [2] [3] [4] //4 COMMAND
+  //0, 1, 2, 3 are don't cares
+
+  uint8_t checkSum = 0;
+  uint8_t byteToSend;
+  
+
+  Serial.write((byte)0x02); //STX
+  checkSum = 0x02;
+
+  for (byte i = 0; i<4; i++)
+  {
+    byteToSend = (eepromSize >> (8*i)) & 0xff;
+    Serial.write((byte)byteToSend);
+    checkSum = (checkSum + byteToSend) & 0xff ;
+  }
+
   Serial.write((byte)checkSum);
   Serial.write((byte)ACK);
 }
@@ -928,7 +955,9 @@ void Check_Cat(byte fromType)
     case 0xDE:          //IF-Shift Control by CAT
       SetIFSValue();   //
       break;
-
+    case 0xDF:          //Get EEPROM size
+      GetEEPRomSize();
+      break;      
     case 0xE7 :       //Read RX Status
       CatRxStatus();
       break;

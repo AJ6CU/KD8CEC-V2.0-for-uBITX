@@ -6,9 +6,9 @@
 //    So I put + in the sense that it was improved one by one based on Original Firmware.
 //    This firmware has been gradually changed based on the original firmware created by Farhan, Jack, Jerry and others.
 
-#define FIRMWARE_VERSION_INFO F("+v1.999")  
+#define FIRMWARE_VERSION_INFO F("+v1.99")  //This is the publicly viewed Version info, 10 characters or less
 #define FIRMWARE_VERSION_NUM 0x05       //1st Complete Project : 1 (Version 1.061), 2st Project : 2, 1.08: 3, 1.09 : 4,  2.0: 5 
-
+                                        //Corresponding internal number that identifies the final version in EEPROM, etc.
 /**
  Cat Suppoort uBITX CEC Version
  This firmware has been gradually changed based on the original firmware created by Farhan, Jack, Jerry and others.
@@ -55,7 +55,6 @@
   #include <SparkFun_External_EEPROM.h>  //https://github.com/sparkfun/SparkFun_External_EEPROM_Arduino_Library
   ExternalEEPROM I2C_EEPROM;
 
-
 #else
    #include <EEPROM.h>   //standard EEPROM library
 #endif
@@ -90,7 +89,7 @@
 // the second oscillator should ideally be at 57 MHz, however, the crystal filter's center frequency 
 // is shifted down a little due to the loading from the impedance matching L-networks on either sides
 
-#if UBITX_BOARD_VERSION == 5
+#if UBITX_BOARD_VERSION == 5  || UBITX_BOARD_VERSION == 6
 //For Test  //45005000
   //#define SECOND_OSC_USB (56064200l)
   //#define SECOND_OSC_LSB (33945800l) 
@@ -141,6 +140,7 @@ unsigned long vfoA=7150000L, vfoB=14200000L, sideTone=800, usbCarrier, cwmCarrie
 unsigned long vfoA_eeprom, vfoB_eeprom; //for protect eeprom life
 unsigned long frequency, ritRxFrequency, ritTxFrequency;  //frequency is the current frequency on the dial
 
+uint32_t eepromSize;
 uint16_t cwSpeed = 100; //this is actually the dot period in milliseconds
 extern int32_t calibration;
 
@@ -405,7 +405,7 @@ void setTXFilters(unsigned long freq){
   } //end of for
 #else
   
-  #if UBITX_BOARD_VERSION == 5
+  #if UBITX_BOARD_VERSION == 5 || UBITX_BOARD_VERSION == 6
     if (freq > 21000000L){  // the default filter is with 35 MHz cut-off
       digitalWrite(TX_LPF_A, 0);
       digitalWrite(TX_LPF_B, 0);
@@ -529,7 +529,7 @@ void setFrequency(unsigned long f){
       moveFrequency = (f % 1000000);
     }
 
-#if UBITX_BOARD_VERSION == 5    
+#if UBITX_BOARD_VERSION == 5  || UBITX_BOARD_VERSION == 6    
     si5351bx_setfreq(2, 45002000 + if1AdjustValue + f);
     si5351bx_setfreq(1, 45002000 
       + if1AdjustValue 
@@ -734,7 +734,7 @@ void checkButton(){
   if (keyStatus == FKEY_PRESS)  //Menu Key
   {
     //for touch screen
-#ifdef USE_SW_SERIAL
+#ifdef UBITX_DISPLAY_NEXTION
     SetSWActivePage(1);
     doMenu();
 
@@ -976,6 +976,119 @@ unsigned int byteToSteps(byte srcByte) {
         return baseVal;
 }
 
+char* formatDate(char *date, char *time)
+/*
+This routine is used to format the date and time stamp of when the software was built
+into a standard 12 digit format mmddyyyyhhmm. Returns a pointer to the static array 
+containing the formated timestamp.
+*/
+{
+  int month, day, year;
+  char hours[3], mins[3];
+  static char buff[13];           //one larger than number of chars for \0
+  char month_names[] = "JanFebMarAprMayJunJulAugSepOctNovDec";
+
+  buff[0] = date[0];              // temporarily using the first 4 characters of buff to find mm
+  buff[1] = date[1];
+  buff[2] = date[2];
+  buff[3] = '\0';
+
+  month = (strstr(month_names, buff)-month_names)/3+1;  //find month index
+
+  if (month<10)
+  {
+    buff[0] = '0';
+    buff[1] = (char)(month + '0');
+  }
+  else
+    itoa(buff, month, 10);    
+
+  if (date[4] == ' ')                                   //if dd is < 10, there is an extra leading space. make it a 0
+    buff[2] = '0';
+  else
+    buff[2] = date[4];
+  buff[3] = date[5];
+
+  // positions 7-10 is the year just move them over
+  for (int i=0; i<4; i++)
+    buff[4+i] = date[7+i];
+
+  // move hours over, always first two characters of time with leading zero
+  buff[8] = time[0];
+  buff[9] = time[1];
+
+  // move minutes over. always positions 3 and 4 
+
+  buff[10]=time[3];
+  buff[11]= time[4];
+
+  // finally add a null character to end string
+  buff[12] = '\0';
+  
+  return buff;
+
+}
+
+void updateExtEEPROM()
+{
+
+  /*
+  This function handles storing/updating/initializing EEPROMs that are larger than 1024.
+  First step is to make sure that the EEPROM has been initialized. Look for 3 magic numbers at front
+  of EEPROM. If they match, someone has been here before and we just need to update the various values.
+  */
+  if (EEPROMTYPE.read(EXT_FIRMWARE_ID_ADDR1) != 0x59 || 
+    EEPROMTYPE.read(EXT_FIRMWARE_ID_ADDR2) != 0x58 || 
+    EEPROMTYPE.read(EXT_FIRMWARE_ID_ADDR3) != 0x68 ) 
+  {
+      // First time for this eeprom. So initialize it
+      
+    printLineF(1, F("Init EXT EEProm...")); 
+ 
+    for (uint32_t i = 1024; i < eepromSize; i++) //protect Master_cal, usb_cal      
+        EEPROMTYPE.write(i, 0x00); 
+
+    //Write Firmware ID into Extended EEPROM
+    EEPROMTYPE.write(EXT_FIRMWARE_ID_ADDR1, 0x59);
+    EEPROMTYPE.write(EXT_FIRMWARE_ID_ADDR2, 0x58);
+    EEPROMTYPE.write(EXT_FIRMWARE_ID_ADDR3, 0x68);
+  }
+
+  //  Now store info in the extended EEPROM
+  EEPROMTYPE.write(EXT_UBITX_BOARD_VERSION, UBITX_BOARD_VERSION );    //Store the board vesion
+
+  char *timestamp = formatDate(__DATE__, __TIME__);
+  for (int i = 0; i<12; i++)
+    EEPROMTYPE.write(EXT_DATE_TIME_STAMP+i, timestamp[i]);
+
+
+  EEPROMTYPE.write(EXT_PROCESSOR_TYPE, PROCESSOR );       // Storing processor type  for Settings Editor
+
+  EEPROMTYPE.write(EXT_DISPLAY_TYPE, UBITXDISPLAY );      // Storing display type  for Settings Editor
+
+  EEPROMTYPE.write(EXT_FUNCTIONALITY_SET, FUNCTIONALITY); // Storing functionality level  for Settings Editor
+
+  EEPROMTYPE.write(EXT_SMETER_SELECTION, S_METER );       // Storing state of S-Meter for Settings Editor
+
+//   #define GETDEFINEDVALUE(ENC_A)
+//   #define GETDEFINEDVALUE(ENC_B)
+//   #define GETDEFINEDVALUE(FBUTTON)
+//   #define GETDEFINEDVALUE(PTT)
+//     #define GETDEFINEDVALUE(ANALOG_KEYER)
+//   #define GETDEFINEDVALUE(ANALOG_SMETER) 
+//     #define GETDEFINEDVALUE(LCD_PIN_RS)
+//   #define GETDEFINEDVALUE(LCD_PIN_EN)
+//   #define GETDEFINEDVALUE(LCD_PIN_D4)
+// #define GETDEFINEDVALUE(LCD_PIN_D5)
+// #define GETDEFINEDVALUE(LCD_PIN_D6)
+// #define GETDEFINEDVALUE(LCD_PIN_D7)
+//   EXT_SERIAL_TYPE SERIAL_TYPE
+//     //#define USE_DIGITAL_ENCODER ENCODER_TYPE
+//     #ifdef USE_I2C_EEPROM   #define EXT_EEPROM_TYPE EEPROM_TYPE
+//       #define GETDEFINEDVALUE(NEXTIONBAUD)
+
+}
+
 
 /**
  * The settings are read from EEPROM. The first time around, the values may not be 
@@ -987,6 +1100,16 @@ void initSettings(){
   //if the readings are off, then set defaults
   //for original source Section ===========================
 //Serial.println("In InitSettings");   //mjh
+//
+// Get size of EEPROM
+//
+  // Serial.begin(38400); //mjh
+  // delay(3000); //mjh
+
+  eepromSize = EEPROMTYPE.length(); // Limits max eepromSize
+  if (eepromSize > MAXEEPROMSIZE)
+    eepromSize = MAXEEPROMSIZE;
+
   EEPROMTYPE.get(MASTER_CAL, calibration); 
 //Serial.println("getting USB_CAL");   //mjh
   EEPROMTYPE.get(USB_CAL, usbCarrier);
@@ -997,6 +1120,7 @@ void initSettings(){
 #ifdef NANO
   Serial.begin(38400);          // Needed by Nano (for I2C EEPROM and Nextion)  no clue why...
 #endif
+
 
  /*
   Serial.print("MASTER_CAL="); Serial.print(calibration);Serial.println("*");
@@ -1263,6 +1387,9 @@ void initSettings(){
   //if (SDR_Center_Freq == 0)
   //  SDR_Center_Freq = 32000000;
 
+  if (eepromSize > 1024)
+    updateExtEEPROM();                      //This handles case where a larger EEPROM is installed and we want to store some info about the build
+
   //default Value (for original hardware)
   if (cwAdcSTFrom >= cwAdcSTTo)
   {
@@ -1300,7 +1427,7 @@ void initSettings(){
     vfoB_mode = 3;
 
 
-#if UBITX_BOARD_VERSION == 5
+#if UBITX_BOARD_VERSION == 5   || UBITX_BOARD_VERSION == 6
   //original code with modified by kd8cec
   if (usbCarrier > 11060000l || usbCarrier < 11048000l)
     usbCarrier = 11052000l;
@@ -1491,9 +1618,7 @@ Wire.begin();
 //Serial.println("Init ports");   //mjh
   initPorts();     
 
-
-//mjh In this case SW_SERIAL means nextion.... strange fix this...
-#ifdef USE_SW_SERIAL
+#ifdef UBITX_DISPLAY_NEXTION
 //  if (userCallsignLength > 0 && ((userCallsignLength & 0x80) == 0x80)) 
 //  {
     userCallsignLength = userCallsignLength & 0x7F;
@@ -1506,7 +1631,8 @@ Wire.begin();
     DisplayCallsign(userCallsignLength);
   }
   else {
-    printLineF(0, F("uBITX v0.20")); 
+    // printLineF(0, F("uBITX v0.20")); //mjh  attempted to update version  number
+    printLineF(0, F("uBITX " GETDEFINEDVALUE(FIRMWARE_VERSION_INFO))); 
     delay(500);
     clearLine2();
   }
@@ -1525,7 +1651,7 @@ Wire.begin();
   saveCheckFreq = frequency;  //for auto save frequency
   setFrequency(vfoA);
   
-#ifdef USE_SW_SERIAL
+#ifdef UBITX_DISPLAY_NEXTION
   SendUbitxData();
 #endif
 
@@ -1597,7 +1723,7 @@ void loop(){
   Check_Cat(inTx? 1 : 0);
 
   //for SEND SW Serial
-  #ifdef USE_SW_SERIAL
+  #ifdef UBITX_DISPLAY_NEXTION
     SWS_Process();
   #endif  
 }

@@ -148,7 +148,7 @@ void SendWSPRManage()
 
       printLine1(c);
 
-#ifdef USE_SW_SERIAL
+#ifdef UBITX_DISPLAY_NEXTION
       SWS_Process();
       if ((digitalRead(PTT) == 0) || (TriggerBySW == 1))
       {

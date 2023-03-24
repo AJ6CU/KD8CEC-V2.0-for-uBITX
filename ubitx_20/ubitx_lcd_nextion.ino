@@ -31,18 +31,18 @@
   KD8CEC
 **************************************************************************/
 
-#ifdef USE_SOFTWARESERIAL  
-  #include <SoftwareSerial.h>
+// #ifdef USE_SOFTWARESERIAL  
+//   #include <SoftwareSerial.h>
 
-  #define RX_PIN 8
-  #define TX_PIN 9
-  #define SERIALPORT sSERIAL
-  SoftwareSerial SERIALPORT(RX_PIN, TX_PIN); // RX, TX
-#else
-  #ifdef USE_HARDWARESERIAL
-     #define SERIALPORT Serial1
-  #endif
-#endif  
+//   #define RX_PIN 8
+//   #define TX_PIN 9
+//   #define SERIALPORT sSERIAL
+//   SoftwareSerial SERIALPORT(RX_PIN, TX_PIN); // RX, TX
+// #else
+//   #ifndef USE_SOFTWARESERIAL                //if not defined, using Hardware Serial
+//      #define SERIALPORT Serial1
+//   #endif
+// #endif  
 
 
 

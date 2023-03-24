@@ -343,7 +343,7 @@ void controlAutoCW(){
               displayScrolStep = 0;
           }
 
-#ifdef USE_SW_SERIAL
+#ifdef UBITX_DISPLAY_NEXTION
           //Not need Scroll
           //Display_AutoKeyTextIndex(selectedCWTextIndex);
           SendCommand1Num('w', selectedCWTextIndex);                                              //Index

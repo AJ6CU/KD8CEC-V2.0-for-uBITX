@@ -60,7 +60,7 @@ uint8_t SI5351BX_ADDR;                    // I2C address of Si5351   (variable f
 uint32_t si5351bx_vcoa = (SI5351BX_XTAL*SI5351BX_MSA);  // 25mhzXtal calibrate
 uint8_t  si5351bx_rdiv = 0;             // 0-7, CLK pin sees fout/(2**rdiv)
 
-#if UBITX_BOARD_VERSION == 5
+#if UBITX_BOARD_VERSION == 5  || UBITX_BOARD_VERSION == 6
 uint8_t  si5351bx_drive[3] = {3, 3, 3}; // 0=2ma 1=4ma 2=6ma 3=8ma for CLK 0,1,2
 #else
 uint8_t  si5351bx_drive[3] = {1, 1, 1}; // 0=2ma 1=4ma 2=6ma 3=8ma for CLK 0,1,2
@@ -101,7 +101,7 @@ void si5351bx_init() {                  // Call once at power-up, start PLLA
   i2cWrite(177, 0x20);                  // Reset PLLA  (0x80 resets PLLB)
 
 
-#if UBITX_BOARD_VERSION == 5
+#if UBITX_BOARD_VERSION == 5  || UBITX_BOARD_VERSION == 6
   //why? TODO : CHECK by KD8CEC
   //initializing the ppl2 as well
   i2cWriten(34, si5351Val, 8);          // Write to 8 PLLA msynth regs

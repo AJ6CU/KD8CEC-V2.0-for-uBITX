@@ -408,7 +408,7 @@ void menuVfoToggle(int btn)
       ritDisable();
       setFrequency(frequency);
 
-#ifdef USE_SW_SERIAL
+#ifdef UBITX_DISPLAY_NEXTION
     menuOn = 0;
 #else
     //Only Clear And Delay for Character LCD
@@ -439,7 +439,7 @@ void menuSplitOnOff(int btn){
         printLineF2(F("SPT On"));
       }
 
-#ifdef USE_SW_SERIAL
+#ifdef UBITX_DISPLAY_NEXTION
     menuOn = 0;
 #else
 //Only Clear And Delay for Character LCD
@@ -467,7 +467,7 @@ void menuTxOnOff(int btn, byte optionType){
         printLineF2(F("TX ON"));
       }
 
-#ifdef USE_SW_SERIAL
+#ifdef UBITX_DISPLAY_NEXTION
     menuOn = 0;
 #else
     //Only Clear And Delay for Character LCD
@@ -506,7 +506,7 @@ void menuSDROnOff(int btn)
     setFrequency(frequency);
     SetCarrierFreq();
 
-#ifdef USE_SW_SERIAL
+#ifdef UBITX_DISPLAY_NEXTION
     menuOn = 0;
 #else
     //Only Clear And Delay for Character LCD
@@ -706,7 +706,7 @@ int getValueByKnob(int valueType, int targetValue, int minKnobValue, int maxKnob
           else 
             attLevel = targetValue;
 
-#ifdef USE_SW_SERIAL
+#ifdef UBITX_DISPLAY_NEXTION
   menuOn=2;
   updateDisplay();
 #endif
@@ -770,7 +770,7 @@ void menuCWSpeed(int btn){
   cwSpeed = 1200 / wpm;
   EEPROMTYPE.put(CW_SPEED, cwSpeed);
   //menuClearExit(1000);
-#ifdef USE_SW_SERIAL
+#ifdef UBITX_DISPLAY_NEXTION
     menuOn = 0;
 #else
     //Only Clear And Delay for Character LCD
@@ -804,7 +804,7 @@ void menuSetupCwTone(int btn){
 
     //delay_background(2000, 0);
     //menuClearExit(0);
-#ifdef USE_SW_SERIAL
+#ifdef UBITX_DISPLAY_NEXTION
     menuOn = 0;
 #else
     //Only Clear And Delay for Character LCD
@@ -829,7 +829,7 @@ void menuSetupCwDelay(int btn){
     cwDelayTime = tmpCWDelay / 10;
     EEPROMTYPE.put(CW_DELAY, cwDelayTime);
    //menuClearExit(1000);
-#ifdef USE_SW_SERIAL
+#ifdef UBITX_DISPLAY_NEXTION
     menuOn = 0;
 #else
     //Only Clear And Delay for Character LCD
@@ -857,7 +857,7 @@ void menuSetupTXCWInterval(int btn){
    EEPROMTYPE.put(CW_START, delayBeforeCWStartTime);
    //menuClearExit(1000);
 
-#ifdef USE_SW_SERIAL
+#ifdef UBITX_DISPLAY_NEXTION
     menuOn = 0;
 #else
     //Only Clear And Delay for Character LCD
@@ -895,7 +895,7 @@ void menuIFSSetup(int btn){
       //Store IF Shiift
       EEPROMTYPE.put(IF_SHIFTVALUE, ifShiftValue);
       //menuClearExit(0);
-#ifdef USE_SW_SERIAL
+#ifdef UBITX_DISPLAY_NEXTION
     menuOn = 0;
 #else
     //Only Clear And Delay for Character LCD
@@ -928,7 +928,7 @@ void menuATTSetup(int btn){
       }
       //menuClearExit(0);
 
-#ifdef USE_SW_SERIAL
+#ifdef UBITX_DISPLAY_NEXTION
       menuOn = 0;
 #else
       //Only Clear And Delay for Character LCD
@@ -985,7 +985,7 @@ void menuSelectMode(int btn){
     SetCarrierFreq();
     setFrequency(frequency);
     //menuClearExit(500);
-#ifdef USE_SW_SERIAL
+#ifdef UBITX_DISPLAY_NEXTION
     menuOn = 0;
 #else
     //Only Clear And Delay for Character LCD
@@ -1024,7 +1024,7 @@ void menuSetupKeyType(int btn){
     }
     
     //menuClearExit(1000);
-#ifdef USE_SW_SERIAL
+#ifdef UBITX_DISPLAY_NEXTION
     menuOn = 0;
 #else
     //Only Clear And Delay for Character LCD
@@ -1453,7 +1453,7 @@ void menuSetup(int btn){
     modeCalibrate = ! modeCalibrate;
     //menuClearExit(1000);
 
-#ifdef USE_SW_SERIAL
+#ifdef UBITX_DISPLAY_NEXTION
     menuOn = 0;
 #else
     //Only Clear And Delay for Character LCD
@@ -1490,7 +1490,7 @@ void menuRitToggle(int btn){
       }
       
       //menuClearExit(500);
-#ifdef USE_SW_SERIAL
+#ifdef UBITX_DISPLAY_NEXTION
       menuOn = 0;
 #else
       //Only Clear And Delay for Character LCD
@@ -1715,7 +1715,7 @@ void menuSetupCarrier(int btn){
   //usbCarrier = 11995000l; //Remarked by KD8CEC, Suggest from many user, if entry routine factoryrest
   /*
   //for uBITX V5.0, but not used by KD8CEC, if you want default value of carrier on Calibration, delete remark symbols
-#if UBITX_BOARD_VERSION == 5
+#if UBITX_BOARD_VERSION == 5  || UBITX_BOARD_VERSION == 6
   usbCarrier = 11053000l;
 #else
   usbCarrier = 11995000l;
