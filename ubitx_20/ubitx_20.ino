@@ -1,14 +1,14 @@
- //Firmware Version
-//+ : This symbol identifies the firmware. 
-//    It was originally called 'CEC V1.072' but it is too long to waste the LCD window.
-//    I do not want to make this Firmware users's uBITX messy with my callsign.
-//    Putting one alphabet in front of 'v' has a different meaning.
-//    So I put + in the sense that it was improved one by one based on Original Firmware.
-//    This firmware has been gradually changed based on the original firmware created by Farhan, Jack, Jerry and others.
+//  //Firmware Version
+// //+ : This symbol identifies the firmware. 
+// //    It was originally called 'CEC V1.072' but it is too long to waste the LCD window.
+// //    I do not want to make this Firmware users's uBITX messy with my callsign.
+// //    Putting one alphabet in front of 'v' has a different meaning.
+// //    So I put + in the sense that it was improved one by one based on Original Firmware.
+// //    This firmware has been gradually changed based on the original firmware created by Farhan, Jack, Jerry and others.
 
-#define FIRMWARE_VERSION_INFO F("+v1.99")  //This is the publicly viewed Version info, 10 characters or less
-#define FIRMWARE_VERSION_NUM 0x05       //1st Complete Project : 1 (Version 1.061), 2st Project : 2, 1.08: 3, 1.09 : 4,  2.0: 5 
-                                        //Corresponding internal number that identifies the final version in EEPROM, etc.
+// #define FIRMWARE_VERSION_INFO F("+v1.99")  //This is the publicly viewed Version info, 10 characters or less
+// #define FIRMWARE_VERSION_NUM 0x05       //1st Complete Project : 1 (Version 1.061), 2st Project : 2, 1.08: 3, 1.09 : 4,  2.0: 5 
+//                                         //Corresponding internal number that identifies the final version in EEPROM, etc.
 /**
  Cat Suppoort uBITX CEC Version
  This firmware has been gradually changed based on the original firmware created by Farhan, Jack, Jerry and others.
@@ -1029,6 +1029,28 @@ containing the formated timestamp.
 
 }
 
+String padRight(String aString, int totalChars)
+{
+    int len = aString.length();
+    for(int i = 0; i < (totalChars - len); i++) {
+        aString += ' ';  
+    }
+    return aString;
+
+}
+
+void writeStringToEEPROM(int location, String aString, int totalChars)
+// Just writes a set of charcters to EEPROM starting at location
+// Pads string with blanks on right if string is smaller than slot
+{
+  int len = aString.length();
+  for(int i = 0; i < totalChars; i++)
+    if (i<len) 
+      EEPROMTYPE.write(location+i, aString[i]);
+    else
+      EEPROMTYPE.write(location+i, ' ');
+}
+
 void updateExtEEPROM()
 {
 
@@ -1053,13 +1075,19 @@ void updateExtEEPROM()
     EEPROMTYPE.write(EXT_FIRMWARE_ID_ADDR2, 0x58);
     EEPROMTYPE.write(EXT_FIRMWARE_ID_ADDR3, 0x68);
   }
+  // Write the puclicly visible version number to EEPROM
+  writeStringToEEPROM(EXT_FIRMWARE_VERSION_INFO, GETDEFINEDVALUE(FIRMWARE_VERSION_INFO), 10);
 
-  //  Now store info in the extended EEPROM
+
+  // Write the Release Name to EEPROM
+  writeStringToEEPROM(EXT_RELEASE_NAME, GETDEFINEDVALUE(RELEASE_NAME),15);
+
   EEPROMTYPE.write(EXT_UBITX_BOARD_VERSION, UBITX_BOARD_VERSION );    //Store the board vesion
 
-  char *timestamp = formatDate(__DATE__, __TIME__);
-  for (int i = 0; i<12; i++)
-    EEPROMTYPE.write(EXT_DATE_TIME_STAMP+i, timestamp[i]);
+  // char *timestamp = formatDate(__DATE__, __TIME__);
+  // for (int i = 0; i<12; i++)
+  //   EEPROMTYPE.write(EXT_DATE_TIME_STAMP+i, timestamp[i]);
+  EEPROMTYPE.write(EXT_DATE_TIME_STAMP, formatDate(__DATE__, __TIME__), 12 );
 
 
   EEPROMTYPE.write(EXT_PROCESSOR_TYPE, PROCESSOR );       // Storing processor type  for Settings Editor
@@ -1070,22 +1098,30 @@ void updateExtEEPROM()
 
   EEPROMTYPE.write(EXT_SMETER_SELECTION, S_METER );       // Storing state of S-Meter for Settings Editor
 
-//   #define GETDEFINEDVALUE(ENC_A)
-//   #define GETDEFINEDVALUE(ENC_B)
-//   #define GETDEFINEDVALUE(FBUTTON)
-//   #define GETDEFINEDVALUE(PTT)
-//     #define GETDEFINEDVALUE(ANALOG_KEYER)
-//   #define GETDEFINEDVALUE(ANALOG_SMETER) 
-//     #define GETDEFINEDVALUE(LCD_PIN_RS)
-//   #define GETDEFINEDVALUE(LCD_PIN_EN)
-//   #define GETDEFINEDVALUE(LCD_PIN_D4)
-// #define GETDEFINEDVALUE(LCD_PIN_D5)
-// #define GETDEFINEDVALUE(LCD_PIN_D6)
-// #define GETDEFINEDVALUE(LCD_PIN_D7)
-//   EXT_SERIAL_TYPE SERIAL_TYPE
-//     //#define USE_DIGITAL_ENCODER ENCODER_TYPE
-//     #ifdef USE_I2C_EEPROM   #define EXT_EEPROM_TYPE EEPROM_TYPE
-//       #define GETDEFINEDVALUE(NEXTIONBAUD)
+  EEPROMTYPE.write(EXT_SERIAL_TYPE, SERIAL_TYPE);         // If 0, using software serial. Otherwise using hardware serial
+
+  EEPROMTYPE.write(EXT_ENCODER_TYPE, ENCODER_TYPE);       // if 0, using traditional analog encoder. 1 Means using encoder attached to Digital pins
+
+  EEPROMTYPE.write(EXT_EEPROM_TYPE, EEPROM_TYPE);         // if 0, using the internal EEPROM. A 1 means using external I2C attached EEPROM
+
+  writeStringToEEPROM(EXT_NEXTIONBAUD, GETDEFINEDVALUE(NEXTIONBAUD), 6);       //write the nextion baud rate to EEPROM.
+
+  // Store the pin locations in EEPROM
+  writeStringToEEPROM(EXT_ENC_A, GETDEFINEDVALUE(ENC_A), 5);      //Encoder Pins
+  writeStringToEEPROM(EXT_ENC_B, GETDEFINEDVALUE(ENC_B), 5); 
+  writeStringToEEPROM(EXT_FBUTTON, GETDEFINEDVALUE(FBUTTON), 5); 
+  writeStringToEEPROM(EXT_PTT, GETDEFINEDVALUE(PTT), 5); 
+ 
+  writeStringToEEPROM(EXT_ANALOG_KEYER, GETDEFINEDVALUE(ANALOG_KEYER), 5);        //CW Key Input
+
+  writeStringToEEPROM(EXT_ANALOG_SMETER, GETDEFINEDVALUE(ANALOG_SMETER), 5);      //S-Meter (if used input)
+
+  writeStringToEEPROM(EXT_LCD_PIN_RS, GETDEFINEDVALUE(LCD_PIN_RS), 5);            //LCD Pins
+  writeStringToEEPROM(EXT_LCD_PIN_EN, GETDEFINEDVALUE(LCD_PIN_EN), 5); 
+  writeStringToEEPROM(EXT_LCD_PIN_D4, GETDEFINEDVALUE(LCD_PIN_D4), 5); 
+  writeStringToEEPROM(EXT_LCD_PIN_D5, GETDEFINEDVALUE(LCD_PIN_D5), 5); 
+  writeStringToEEPROM(EXT_LCD_PIN_D6, GETDEFINEDVALUE(LCD_PIN_D6), 5); 
+  writeStringToEEPROM(EXT_LCD_PIN_D7, GETDEFINEDVALUE(LCD_PIN_D7), 5); 
 
 }
 

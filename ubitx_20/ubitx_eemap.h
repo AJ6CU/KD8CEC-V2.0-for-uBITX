@@ -204,39 +204,43 @@
 #define EXT_FIRMWARE_ID_ADDR2 1025  //Magic better be: 0x58
 #define EXT_FIRMWARE_ID_ADDR3 1026  //Magic better be: 0x68
 
-#define EXT_FIRMWARE_VERSION_INFO         //max 10 characters, space filed on right
-#define EXT_RELEASE_NAME                  //max 15 characters, space filled on right
+#define EXT_FIRMWARE_VERSION_INFO 1027         //max 10 characters, space filed on right
+#define EXT_RELEASE_NAME          1037         //max 15 characters, space filled on right
+#define EXT_DATE_TIME_STAMP       1052        // 12 byes. This is the software build date in format mmddyyyyhhmm
 
 
-#define EXT_UBITX_BOARD_VERSION 1027  //Board version that software was built for (3,4,5,6)
-#define EXT_DATE_TIME_STAMP   1028  // 12 byes. This is the software build date in format mmddyyyyhhmm
-#define EXT_PROCESSOR_TYPE    1040  // 1 byte. 1=Nano,2=Nano Every, 3=NanoIOT, 4=Nano BLE, 5=Nano RP2040, 6=Teensy 4, 7=RaspberryPiPico
-#define EXT_DISPLAY_TYPE      1041  // 1 byte. 1=16x2 Parallel, 2=16x2 I2C, 3= 20x4 Parallel, 4=Dual 16x2 I2C, 5=20x4 I2C, 6= Nextion
-#define EXT_FUNCTIONALITY_SET 1042  // 1 byte. 1=All functionality, 2=Test functionality, 3=Recommended for LCD's, 
-                                    // 4=Nano/Nextion (just fit in memory), 5=Recommended for Nano Every/Nextion and above
-#define EXT_SMETER_SELECTION  1043  // 1 byte. 1=I2C S-meter on second Nano. 2=Analog S-meter connected to primary processor, 3=None
+#define EXT_UBITX_BOARD_VERSION 1064  //Board version that software was built for (3,4,5,6)
+#define EXT_PROCESSOR_TYPE    1065  // 1 byte. 1=Nano,2=Nano Every, 3=NanoIOT, 4=Nano BLE, 5=Nano RP2040, 6=Teensy 4, 7=RaspberryPiPico
+#define EXT_DISPLAY_TYPE      1066  // 1 byte. 1=16x2 Parallel, 2=16x2 I2C, 3= 20x4 Parallel, 4=Dual 16x2 I2C, 5=20x4 I2C, 6= Nextion
+#define EXT_FUNCTIONALITY_SET 1067  // 1 byte. 1=All functionality, 2=Test functionality, 3=Recommended for LCD's, 
+                                    // 4=Nano/Nextion with new bootloader and expanded flash, 5=None - If you
+                                    // Are using a older Nano, this is your only choice, 6=Recommended for Nano Every/Nextion and above
+#define EXT_SMETER_SELECTION  1068  // 1 byte. 1=I2C S-meter on second Nano. 2=Analog S-meter connected to primary processor, 3=None
 
-#define EXT_USE_SOFTWARESERIAL           // 1 byte. Pin name using processor pin def. space filled on right
+#define EXT_SERIAL_TYPE       1069  //1 byte. 0=Software Serial, 1=Hardware Serial
+#define EXT_EEPROM_TYPE       1070  //1 byte. 0 = Internal, 1 = External I2C EEPROM
+#define EXT_ENCODER_TYPE      1071  //1 byte. 0 = Analog, 1 = Digital
 
-  #define EXT_SERIAL_TYPE //1 byte. 0=Software Serial, 1=Hardware Serial
-#define EXT_EEPROM_TYPE  //1 byte. 0 = Internal, 1 = External I2C EEPROM
-#define EXT_ENCODER_TYPE  //1 byte. 0 = Analog, 1 = Digital
-#define EXT_ENC_A                        // 5 byte. Pin name using processor pin def. space filled on right
-#define EXT_ENC_B                         // 5 byte. Pin name using processor pin def. space filled on right
-#define EXT_FBUTTON                   // 5 byte. Pin name using processor pin def. space filled on right
+#define EXT_NEXTIONBAUD       1072  // 6 bytes.
 
-#define EXT_PTT                   // 5 byte. Pin name using processor pin def. space filled on right
-#define EXT_ANALOG_KEYER                   // 5 byte. Pin name using processor pin def. space filled on right
-#define EXT_ANALOG_SMETER                   // 5 byte. Pin name using processor pin def. space filled on right 
+#define TWOSPAREBYTES         1078  // use them wisely...           
 
-#define EXT_NEXTIONBAUD                  // 4 bytes. 32 bit unsigned
+#define EXT_ENC_A             1080  // 5 byte. Pin name using processor pin def. space filled on right
+#define EXT_ENC_B             1085  // 5 byte. Pin name using processor pin def. space filled on right
+#define EXT_FBUTTON           1090  // 5 byte. Pin name using processor pin def. space filled on right
 
-#define EXT_LCD_PIN_RS                   // 5 byte. Pin name using processor pin def. space filled on right
-#define EXT_LCD_PIN_EN                   // 5 byte. Pin name using processor pin def. space filled on right
-#define EXT_LCD_PIN_D4                   // 5 byte. Pin name using processor pin def. space filled on right
-#define EXT_LCD_PIN_D5                   // 5 byte. Pin name using processor pin def. space filled on right
-#define EXT_LCD_PIN_D6                   // 5 byte. Pin name using processor pin def. space filled on right
-#define EXT_LCD_PIN_D7                   // 5 byte. Pin name using processor pin def. space filled on right
+#define EXT_PTT               1095  // 5 byte. Pin name using processor pin def. space filled on right
+#define EXT_ANALOG_KEYER      1100  // 5 byte. Pin name using processor pin def. space filled on right
+#define EXT_ANALOG_SMETER     1105  // 5 byte. Pin name using processor pin def. space filled on right 
+
+
+
+#define EXT_LCD_PIN_RS        1110  // 5 byte. Pin name using processor pin def. space filled on right
+#define EXT_LCD_PIN_EN        1115  // 5 byte. Pin name using processor pin def. space filled on right
+#define EXT_LCD_PIN_D4        1120  // 5 byte. Pin name using processor pin def. space filled on right
+#define EXT_LCD_PIN_D5        1125  // 5 byte. Pin name using processor pin def. space filled on right
+#define EXT_LCD_PIN_D6        1130  // 5 byte. Pin name using processor pin def. space filled on right
+#define EXT_LCD_PIN_D7        1135  // 5 byte. Pin name using processor pin def. space filled on right
 
 
 #endif    //end of if header define

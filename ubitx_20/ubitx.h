@@ -28,6 +28,20 @@
 // End Detailed debugging control
 //==============================================================================
 
+ //Firmware Version
+//+ : This symbol identifies the firmware. 
+//    It was originally called 'CEC V1.072' but it is too long to waste the LCD window.
+//    I do not want to make this Firmware users's uBITX messy with my callsign.
+//    Putting one alphabet in front of 'v' has a different meaning.
+//    So I put + in the sense that it was improved one by one based on Original Firmware.
+//    This firmware has been gradually changed based on the original firmware created by Farhan, Jack, Jerry and others.
+
+#define FIRMWARE_VERSION_INFO F("+v1.99")  //This is the publicly viewed Version info, 10 characters or less
+#define FIRMWARE_VERSION_NUM 0x05       //1st Complete Project : 1 (Version 1.061), 2st Project : 2, 1.08: 3, 1.09 : 4,  2.0: 5 
+                                        //Corresponding internal number that identifies the final version in EEPROM, etc.
+
+#define RELEASE_NAME MCKEESPORT         //MJH added a "name" to the release as is becoming traditional with software
+                                        //Max 15 chars (or less)
 
 //==============================================================================
 // Common Options Select for your onfiguration
@@ -58,10 +72,11 @@
 
 //Feature list - Mainly impacts the LCD and LCD Emulation on Nextion
 // #define FUNCTIONS_ALL               //All features enabled
-#define FUNCTIONS_NEXTION_NANO       //Max features for Nextion users that fit into a Nano V3.0 with old bootloader
+//#define FUNCTIONS_NEXTION_NANO         //May work with new bootloader and expanded size - max should be 32256.
 // #define FUNCTIONS_NEXTION_BIG         //Features for Nextion users with bigger processors (i.e. non-Nano)
 // #define FUNCTIONS_LCD               //Features oriented at LCD Users
 //#define FUNCTIONS_TEST              //Not for users.Test configuration for developers
+#define FUNCTIONS_NONE
 
 //You Can Select  Analog S-Meter or DSP (I2C) Meter (2nd Nano) Or Leave both Commented out
 //#define USE_I2CSMETER         //This is the option to choose if using a second Nano
@@ -93,7 +108,7 @@
 #endif
 
 #if !defined(FUNCTIONS_ALL) && !defined(FUNCTIONS_NEXTION_NANO) && !defined(FUNCTIONS_NEXTION_BIG) \
-    && !defined(FUNCTIONS_LCD) && !defined(FUNCTIONS_TEST)
+    && !defined(FUNCTIONS_LCD) && !defined(FUNCTIONS_TEST) && !defined(FUNCTIONS_NONE)
   #error No Functionality Level Defined - Set in top of ubitx.h
 #endif
 
@@ -270,22 +285,22 @@
   #define FN_ADCMONITOR   0 //516 //using MM
   #define FN_TXONOFF      1 //58
 
-#elif defined(FUNCTIONS_NEXTION_NANO)
-  #define FUNCTIONALITY   4
-  //Recommended for Nextion, TJC LCD 88%
-  #define FN_BAND         1 //600
+#elif defined(FUNCTIONS_NEXTION_NANO)     //NOTE This only works with New bootloader and expanded flash 
+  #define FUNCTIONALITY   4               //Check that a simple sketch shows maximum of 32256
+  //Recommended for Nextion, TJC LCD 88%  //There are youtube videos about flashing new bootloader
+  #define FN_BAND         1 //600         //And expanding available flash to max
   #define FN_VFO_TOGGLE   1 //90
   #define FN_MODE         1 //318
   #define FN_RIT          1 //62
   #define FN_SPLIT        1 //2
-  #define FN_IFSHIFT      1 //358
-  #define FN_ATT          1 //250
+  #define FN_IFSHIFT      0 //358
+  #define FN_ATT          0 //250
   #define FN_CW_SPEED     0 //286
   #define FN_VFOTOMEM     0 //276
   #define FN_MEMTOVFO     0 //234
   #define FN_MEMORYKEYER  1 //168
   #define FN_WSPR         0 //1130      //mjh was originally enabled in 1.2. But software has grown
-  #define FN_SDRMODE      1 //70
+  #define FN_SDRMODE      0 //70
   #define FN_CALIBRATION  0 //790
   #define FN_CARRIER      0 //500
   #define FN_CWCARRIER    0 //464
@@ -294,10 +309,36 @@
   #define FN_TXCWDELAY    0 //106
   #define FN_KEYTYPE      0 //294
   #define FN_ADCMONITOR   0 //526 //not available with Nextion or Serial UI
-  #define FN_TXONOFF      1 //70
+  #define FN_TXONOFF      0 //70
+
+#elif defined(FUNCTIONS_NONE)
+  #define FUNCTIONALITY   5
+  //Recommended for Nextion, TJC LCD 88%
+  #define FN_BAND         0 //600
+  #define FN_VFO_TOGGLE   0 //90
+  #define FN_MODE         0 //318
+  #define FN_RIT          0 //62
+  #define FN_SPLIT        0 //2
+  #define FN_IFSHIFT      0 //358
+  #define FN_ATT          0 //250
+  #define FN_CW_SPEED     0 //286
+  #define FN_VFOTOMEM     0 //276
+  #define FN_MEMTOVFO     0 //234
+  #define FN_MEMORYKEYER  0 //168
+  #define FN_WSPR         0 //1130      //mjh was originally enabled in 1.2. But software has grown
+  #define FN_SDRMODE      0 //70
+  #define FN_CALIBRATION  0 //790
+  #define FN_CARRIER      0 //500
+  #define FN_CWCARRIER    0 //464
+  #define FN_CWTONE       0 //158
+  #define FN_CWDELAY      0 //108
+  #define FN_TXCWDELAY    0 //106
+  #define FN_KEYTYPE      0 //294
+  #define FN_ADCMONITOR   0 //526 //not available with Nextion or Serial UI
+  #define FN_TXONOFF      0 //70
 
 #elif defined(FUNCTIONS_NEXTION_BIG)
-  #define FUNCTIONALITY   5
+  #define FUNCTIONALITY   6
  //Recommended for Nextion, TJC LCD 88%
   #define FN_BAND         1 //600
   #define FN_VFO_TOGGLE   1 //90
@@ -350,10 +391,10 @@
 //Use Internal or External EEPROM
 
 #ifdef USE_I2C_EEPROM
-  #define EXT_EEPROM_TYPE 1
+  #define EEPROM_TYPE 1
   #define EEPROMTYPE  I2C_EEPROM
 #else
-  #define EXT_EEPROM_TYPE 0
+  #define EEPROM_TYPE 0
   #define EEPROMTYPE  EEPROM
 #endif
 
