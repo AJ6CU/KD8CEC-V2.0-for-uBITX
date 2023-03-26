@@ -242,6 +242,10 @@
 #define EXT_LCD_PIN_D6        1130  // 5 byte. Pin name using processor pin def. space filled on right
 #define EXT_LCD_PIN_D7        1135  // 5 byte. Pin name using processor pin def. space filled on right
 
+#define EXT_SOFTWARESERIAL_RX_PIN 1140 //5 byte Pin name using processor pin def. space filled on right
+#define EXT_SOFTWARESERIAL_TX_PIN 1145 //5 byte Pin name using processor pin def. space filled on right
+
+
 
 #endif    //end of if header define
 

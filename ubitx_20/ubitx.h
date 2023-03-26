@@ -40,7 +40,7 @@
 #define FIRMWARE_VERSION_NUM 0x05       //1st Complete Project : 1 (Version 1.061), 2st Project : 2, 1.08: 3, 1.09 : 4,  2.0: 5 
                                         //Corresponding internal number that identifies the final version in EEPROM, etc.
 
-#define RELEASE_NAME MCKEESPORT         //MJH added a "name" to the release as is becoming traditional with software
+#define RELEASE_NAME McKeesport         //MJH added a "name" to the release as is becoming traditional with software
                                         //Max 15 chars (or less)
 
 //==============================================================================
@@ -391,22 +391,22 @@
 //Use Internal or External EEPROM
 
 #ifdef USE_I2C_EEPROM
-  #define EEPROM_TYPE 1
+  #define EEPROM_TYPE 2
   #define EEPROMTYPE  I2C_EEPROM
 #else
-  #define EEPROM_TYPE 0
+  #define EEPROM_TYPE 1
   #define EEPROMTYPE  EEPROM
 #endif
 
 #ifdef USE_SOFTWARESERIAL  
   #include <SoftwareSerial.h>
-  #define SERIAL_TYPE 0
-  #define RX_PIN 8
-  #define TX_PIN 9
-  #define SERIALPORT sSERIAL
-  SoftwareSerial SERIALPORT(RX_PIN, TX_PIN); // RX, TX
-#else
   #define SERIAL_TYPE 1
+  #define SOFTWARESERIAL_RX_PIN 8
+  #define SOFTWARESERIAL_TX_PIN 9
+  #define SERIALPORT sSERIAL
+  SoftwareSerial SERIALPORT(SOFTWARESERIAL_RX_PIN, SOFTWARESERIAL_TX_PIN); // RX, TX
+#else
+  #define SERIAL_TYPE 2
   #define SERIALPORT Serial1                  //Using hardware serial
 #endif  
 
@@ -468,7 +468,7 @@
 
 
 #ifdef USE_DIGITAL_ENCODER
-  #define ENCODER_TYPE 1
+  #define ENCODER_TYPE 2
   #ifdef  RASPBERRYPIPICO
     #define ENC_A         17
     #define ENC_B         18
@@ -481,7 +481,7 @@
     #define PTT           17
   #endif
 #else                           //Traditional Analog encoder
-  #define ENCODER_TYPE 0  
+  #define ENCODER_TYPE 1  
   #define ENC_A         (A0)
   #define ENC_B         (A1)
   #define FBUTTON       (A2)
