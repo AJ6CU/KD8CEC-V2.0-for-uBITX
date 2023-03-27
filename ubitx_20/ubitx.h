@@ -53,13 +53,13 @@
 #define UBITX_BOARD_VERSION 6
 
 //Define which PROCESSOR is used
-#define NANO  
+//#define NANO  
 //#define NANOEVERY
 //#define NANO33IOT
 //#define NANOBLE
 //#define NANORP2040
 //#define TEENSY
-//#define RASPBERRYPIPICO
+#define RASPBERRYPIPICO
 
 //Depending on the type of LCD mounted on the uBITX, uncomment one of the options below.
 //You must select only one.
@@ -73,10 +73,10 @@
 //Feature list - Mainly impacts the LCD and LCD Emulation on Nextion
 // #define FUNCTIONS_ALL               //All features enabled
 //#define FUNCTIONS_NEXTION_NANO         //May work with new bootloader and expanded size - max should be 32256.
-// #define FUNCTIONS_NEXTION_BIG         //Features for Nextion users with bigger processors (i.e. non-Nano)
+#define FUNCTIONS_NEXTION_BIG         //Features for Nextion users with bigger processors (i.e. non-Nano)
 // #define FUNCTIONS_LCD               //Features oriented at LCD Users
 //#define FUNCTIONS_TEST              //Not for users.Test configuration for developers
-#define FUNCTIONS_NONE
+//#define FUNCTIONS_NONE
 
 //You Can Select  Analog S-Meter or DSP (I2C) Meter (2nd Nano) Or Leave both Commented out
 //#define USE_I2CSMETER         //This is the option to choose if using a second Nano
@@ -424,7 +424,9 @@
 //#define USE_CUSTOM_LPF_FILTER           //LPF FILTER MOD
 
 //#define ENABLE_FACTORYALIGN
-#define FACTORY_RECOVERY_BOOTUP         //Whether to enter Factory Recovery mode by pressing FKey and turning on power
+//#define FACTORY_RECOVERY_BOOTUP       //Whether to enter Factory Recovery mode by pressing FKey and turning on power
+                                        //MJH Turned off to save space for Nano. Not really needed because can use
+                                        //Settings Manager to reset to factory.
 //#define ENABLE_ADCMONITOR             //Starting with Version 1.07, you can read ADC values directly from uBITX Manager. So this function is not necessary.
 
 

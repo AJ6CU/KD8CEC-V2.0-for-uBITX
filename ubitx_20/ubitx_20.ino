@@ -976,7 +976,7 @@ unsigned int byteToSteps(byte srcByte) {
         return baseVal;
 }
 
-char* formatDate(char *date, char *time)
+char* formatDate(char date[], char time[])
 /*
 This routine is used to format the date and time stamp of when the software was built
 into a standard 12 digit format mmddyyyyhhmm. Returns a pointer to the static array 
@@ -1001,7 +1001,7 @@ containing the formated timestamp.
     buff[1] = (char)(month + '0');
   }
   else
-    itoa(buff, month, 10);    
+    itoa(month, buff, 10);    
 
   if (date[4] == ' ')                                   //if dd is < 10, there is an extra leading space. make it a 0
     buff[2] = '0';
@@ -1045,10 +1045,12 @@ void writeStringToEEPROM(int location, String aString, int totalChars)
 {
   int len = aString.length();
   for(int i = 0; i < totalChars; i++)
-    if (i<len) 
+    if (i<len) {
       EEPROMTYPE.write(location+i, aString[i]);
-    else
+    }
+    else {
       EEPROMTYPE.write(location+i, ' ');
+    }
 }
 
 void updateExtEEPROM()
@@ -1081,6 +1083,7 @@ void updateExtEEPROM()
   writeStringToEEPROM(EXT_FIRMWARE_VERSION_INFO, FIRMWARE_VERSION_INFO, 10);
 
   // Write the Release Name to EEPROM
+
   writeStringToEEPROM(EXT_RELEASE_NAME, GETDEFINEDVALUE(RELEASE_NAME),15);
 
   EEPROMTYPE.write(EXT_UBITX_BOARD_VERSION, UBITX_BOARD_VERSION );    //Store the board vesion
@@ -1088,7 +1091,9 @@ void updateExtEEPROM()
   // char *timestamp = formatDate(__DATE__, __TIME__);
   // for (int i = 0; i<12; i++)
   //   EEPROMTYPE.write(EXT_DATE_TIME_STAMP+i, timestamp[i]);
-  EEPROMTYPE.write(EXT_DATE_TIME_STAMP, formatDate(__DATE__, __TIME__), 12 );
+  char compileDate[] = __DATE__;
+  char compileTime[] = __TIME__;
+  writeStringToEEPROM(EXT_DATE_TIME_STAMP, formatDate(compileDate, compileTime), 12 );
 
 
   EEPROMTYPE.write(EXT_PROCESSOR_TYPE, PROCESSOR );       // Storing processor type  for Settings Editor
@@ -1157,9 +1162,11 @@ void initSettings(){
   EEPROMTYPE.get(VFO_B, vfoB);
   EEPROMTYPE.get(CW_SIDETONE, sideTone);
   EEPROMTYPE.get(CW_SPEED, cwSpeed);
-#ifdef NANO
-  Serial.begin(38400);          // Needed by Nano (for I2C EEPROM and Nextion)  no clue why...
-#endif
+// MJH
+// #ifdef NANO    //Not clear this is needed for Nano. Likely space issue that caused this to work
+//   Serial.begin(38400);          // Needed by Nano (for I2C EEPROM and Nextion)  no clue why...
+//   Serial.flush();
+// #endif
 
 
  /*
