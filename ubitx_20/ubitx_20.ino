@@ -1165,6 +1165,7 @@ void initSettings(){
 // MJH
 // #ifdef NANO    //Not clear this is needed for Nano. Likely space issue that caused this to work
 //   Serial.begin(38400);          // Needed by Nano (for I2C EEPROM and Nextion)  no clue why...
+//   delay(2000);
 //   Serial.flush();
 // #endif
 

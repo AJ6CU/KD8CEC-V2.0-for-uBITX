@@ -71,9 +71,9 @@
 #define UBITX_DISPLAY_NEXTION         //NEXTION LCD
 
 //Feature list - Mainly impacts the LCD and LCD Emulation on Nextion
-// #define FUNCTIONS_ALL               //All features enabled
+#define FUNCTIONS_ALL               //All features enabled
 //#define FUNCTIONS_NEXTION_NANO         //May work with new bootloader and expanded size - max should be 32256.
-#define FUNCTIONS_NEXTION_BIG         //Features for Nextion users with bigger processors (i.e. non-Nano)
+//#define FUNCTIONS_NEXTION_BIG         //Features for Nextion users with bigger processors (i.e. non-Nano)
 // #define FUNCTIONS_LCD               //Features oriented at LCD Users
 //#define FUNCTIONS_TEST              //Not for users.Test configuration for developers
 //#define FUNCTIONS_NONE

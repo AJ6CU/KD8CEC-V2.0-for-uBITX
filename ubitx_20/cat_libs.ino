@@ -719,7 +719,7 @@ void ReadADCValue(void)
                 readedADCValue = 0;
               #else
                 readedADCValue = analogRead(FBUTTON);
-                pinMode(ENC_B, INPUT_PULLUP);
+                pinMode(FBUTTON, INPUT_PULLUP);
               #endif
                 break;
           case 3:
