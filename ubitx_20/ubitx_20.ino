@@ -1684,7 +1684,7 @@ Wire.begin();
     DisplayCallsign(userCallsignLength);
   }
   else {
-    printLineF(0, F(FIRMWARE_VERSION_INFO));
+    printLineF(0, FIRMWARE_VERSION_INFO);
     delay(500);
     clearLine2();
   }
