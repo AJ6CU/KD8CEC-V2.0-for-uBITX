@@ -1128,8 +1128,14 @@ void updateExtEEPROM()
   writeStringToEEPROM(EXT_LCD_PIN_D5, GETDEFINEDVALUE(LCD_PIN_D5), 5); 
   writeStringToEEPROM(EXT_LCD_PIN_D6, GETDEFINEDVALUE(LCD_PIN_D6), 5); 
   writeStringToEEPROM(EXT_LCD_PIN_D7, GETDEFINEDVALUE(LCD_PIN_D7), 5); 
+  // Serial.println(EXT_LCD_PIN_D7);
+  // Serial.print("*"); Serial.print(GETDEFINEDVALUE(LCD_PIN_D7)); Serial.println("*");
 
   writeStringToEEPROM(EXT_SOFTWARESERIAL_RX_PIN, GETDEFINEDVALUE(SOFTWARESERIAL_RX_PIN), 5);            //Software Serial pins
+  
+  // Serial.println(EXT_SOFTWARESERIAL_RX_PIN);
+  // Serial.print("*"); Serial.print(GETDEFINEDVALUE(SOFTWARESERIAL_RX_PIN)); Serial.println("*");
+
   writeStringToEEPROM(EXT_SOFTWARESERIAL_TX_PIN, GETDEFINEDVALUE(SOFTWARESERIAL_TX_PIN), 5); 
 
 }
@@ -1306,7 +1312,6 @@ void initSettings(){
 //char isCustomFilter_A7 = 0;
 //char CustFilters[2][7];
 #endif
-  //Serial.println(" getting call sign");  //mjh
   //User callsign information
   if (EEPROMTYPE.read(USER_CALLSIGN_KEY) == 0x59)
     userCallsignLength = EEPROMTYPE.read(USER_CALLSIGN_LEN);  //MAXIMUM 18 LENGTH
@@ -1673,14 +1678,13 @@ Wire.begin();
 //  }
 #else
 //for Chracter LCD
-  if (userCallsignLength > 0 && ((userCallsignLength & 0x80) == 0x80)) 
+  if (userCallsignLength > 0 && ((userCallsignLength & 0x80) == 0x80)) // This checks the display callsign check box
   {
     userCallsignLength = userCallsignLength & 0x7F;
     DisplayCallsign(userCallsignLength);
   }
   else {
-    // printLineF(0, F("uBITX v0.20")); //mjh  attempted to update version  number
-    printLineF(0, F("uBITX " GETDEFINEDVALUE(FIRMWARE_VERSION_INFO))); 
+    printLineF(0, F(FIRMWARE_VERSION_INFO));
     delay(500);
     clearLine2();
   }

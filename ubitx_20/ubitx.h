@@ -66,9 +66,9 @@
 //#define UBITX_DISPLAY_LCD1602P        //LCD mounted on unmodified uBITX (Parallel)
 //#define UBITX_DISPLAY_LCD1602I        //I2C type 16 x 02 LCD
 //#define UBITX_DISPLAY_LCD1602I_DUAL   //I2C type 16 x02 LCD Dual
-//#define UBITX_DISPLAY_LCD2004P        //24 x 04 LCD (Parallel)
+#define UBITX_DISPLAY_LCD2004P        //24 x 04 LCD (Parallel)
 //#define UBITX_DISPLAY_LCD2004I        //I2C type 24 x 04 LCD
-#define UBITX_DISPLAY_NEXTION         //NEXTION LCD
+//#define UBITX_DISPLAY_NEXTION         //NEXTION LCD
 
 //Feature list - Mainly impacts the LCD and LCD Emulation on Nextion
 #define FUNCTIONS_ALL               //All features enabled
@@ -192,11 +192,12 @@
   #undef FACTORY_RECOVERY_BOOTUP  
   //#define UBITX_DISPLAY_NEXTION_SAFE      //Only EEProm Write 770~775
 #endif  
-
-#ifdef USE_I2C_LCD
+#define NEXTIONBAUD 9600                    //must match that in tft file. Always defined so can be stored
+                                            //In extended EEPROM and reported in Settings Manager
+//#ifdef USE_I2C_LCD
   #define I2C_LCD_MASTER_ADDRESS_DEFAULT  0x27     //0x27  //DEFAULT, if Set I2C Address by uBITX Manager, read from EEProm
   #define I2C_LCD_SECOND_ADDRESS_DEFAULT  0x3F     //0x27  //only using Dual LCD Mode
-#endif
+//#endif
 
 //==============================================================================
 // End Display Specific Options
@@ -398,17 +399,20 @@
   #define EEPROMTYPE  EEPROM
 #endif
 
+
+#define SOFTWARESERIAL_RX_PIN 8     // Defined even if not used. Allows them to be stored in Extended
+#define SOFTWARESERIAL_TX_PIN 9     // EEPROM and reported by the Settings Editor
+
 #ifdef USE_SOFTWARESERIAL  
   #include <SoftwareSerial.h>
   #define SERIAL_TYPE 1
-  #define SOFTWARESERIAL_RX_PIN 8
-  #define SOFTWARESERIAL_TX_PIN 9
   #define SERIALPORT sSERIAL
   SoftwareSerial SERIALPORT(SOFTWARESERIAL_RX_PIN, SOFTWARESERIAL_TX_PIN); // RX, TX
 #else
   #define SERIAL_TYPE 2
   #define SERIALPORT Serial1                  //Using hardware serial
-#endif  
+#endif 
+
 
 #define MAXEEPROMSIZE 2048              //the Cat routines limit EEPROM addressing to 16bit offset and 16bit size (max 32kb) 
                                         //default binary file size for eeprom backup is 2048 bytes. So stick with this for
