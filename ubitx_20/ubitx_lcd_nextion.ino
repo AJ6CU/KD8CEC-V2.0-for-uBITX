@@ -31,18 +31,13 @@
   KD8CEC
 **************************************************************************/
 
-// #ifdef USE_SOFTWARESERIAL  
-//   #include <SoftwareSerial.h>
-
-//   #define RX_PIN 8
-//   #define TX_PIN 9
-//   #define SERIALPORT sSERIAL
-//   SoftwareSerial SERIALPORT(RX_PIN, TX_PIN); // RX, TX
-// #else
-//   #ifndef USE_SOFTWARESERIAL                //if not defined, using Hardware Serial
-//      #define SERIALPORT Serial1
-//   #endif
-// #endif  
+#ifdef USE_SOFTWARESERIAL_TINY                       // Need to reference software_serial_tiny cpp functions 
+extern void SWSerial_Begin(long speedBaud);
+extern void SWSerial_Write(uint8_t b);
+extern int SWSerial_Available(void);
+extern int SWSerial_Read(void);
+extern void SWSerial_Print(uint8_t *b);
+#endif  
 
 
 
@@ -56,10 +51,12 @@ char c[30], b[30];
 char softBuff[20];
 char softTemp[20];
 
+
 // ***************
 // Compatibility routines for old software serial tiny
-// ***************35
-#define _SS_MAX_RX_BUFF 35
+// ***************
+#ifndef USE_SOFTWARESERIAL_TINY            //i.e. we are using hardware serial and need to replace some functions
+#define _SS_MAX_RX_BUFF 35            //from old tiny serial to make our job easier.
 
 static uint8_t swr_receive_buffer[_SS_MAX_RX_BUFF];
 int8_t receiveIndex = 0;
@@ -70,9 +67,9 @@ void softSerail_Recv()
 {
 
   uint8_t d = 0;
-  while (SERIALPORT.available()) 
+  while (SERIALPORTAVAILABLE()) 
   {
-    d=SERIALPORT.read();
+    d=SERIALPORTREAD ();
 
     if (receivedCommandLength == 0) //check Already Command
     {
@@ -113,16 +110,19 @@ void SWSerial_Read(uint8_t * receive_cmdBuffer)
 }
 
 
-
+#endif
 // ***************
 // Endof Compatiblitiy routines for software serial tiny
 // ***************
+
+
 void LCDNextion_Init()
 {
   #ifdef NANO33IOT     // seems like some mcu's need a little more time before ready to open up the serial port to Nextxion
     delay(400);
   #endif
-  SERIALPORT.begin(NEXTIONBAUD);
+
+  SERIALPORTBEGIN(NEXTIONBAUD);
   memset(softBuffLines[0], ' ', TEXT_LINE_LENGTH); 
   softBuffLines[0][TEXT_LINE_LENGTH + 1] = 0x00;
   memset(softBuffLines[1], ' ', TEXT_LINE_LENGTH);
@@ -296,13 +296,13 @@ void SendHeader(char varType, char varIndex)
   {
     softSTRHeader[4] = varIndex;
     for (int i = 0; i < 11; i++)
-      SERIALPORT.write(softSTRHeader[i]);
+      SERIALPORTWRITE(softSTRHeader[i]);
   }
   else
   {
     softINTHeader[4] = varIndex;
     for (int i = 0; i < 10; i++)
-      SERIALPORT.write(softINTHeader[i]);
+      SERIALPORTWRITE(softINTHeader[i]);
   }
 }
 
@@ -318,16 +318,16 @@ void SendCommandETX(char etxType)
 {
   if (etxType == 2)
   {
-    SERIALPORT.print(softTemp);
+    SERIALPORTPRINT(softTemp);
   }
   else if (etxType == 1)
   {
-    SERIALPORT.print("\"");
+    SERIALPORTPRINT("\"");
   }
   
-  SERIALPORT.write(0xff);
-  SERIALPORT.write(0xff);
-  SERIALPORT.write(0xff);
+  SERIALPORTWRITE(0xff);
+  SERIALPORTWRITE(0xff);
+  SERIALPORTWRITE(0xff);
 }
 
 void SendCommandUL(char varIndex, unsigned long sendValue)
@@ -366,7 +366,7 @@ void SendCommandStr(char varIndex, char* sendValue)
 {
   SendHeader(SWS_HEADER_STR_TYPE, varIndex);
   
-  SERIALPORT.print(sendValue);
+  SERIALPORTPRINT(sendValue);
   SendCommandETX(STR_ETX);
 }
 
@@ -378,7 +378,7 @@ void SendTextLineBuff(char lineNumber)
   {
     SendHeader(SWS_HEADER_STR_TYPE, lineNumber + 0x30);  //s0.txt, s1.txt
   
-    SERIALPORT.print(softBuffLines[lineNumber]);
+    SERIALPORTPRINT(softBuffLines[lineNumber]);
     SendCommandETX(STR_ETX);
     
     strcpy(softBuffSended[lineNumber], softBuffLines[lineNumber]);
@@ -411,7 +411,7 @@ void SendEEPromData(char varIndex, int16_t eepromStartIndex, int16_t eepromEndIn
   
   for (int i = eepromStartIndex; i <= eepromEndIndex; i++)
   {
-      SERIALPORT.write(EEPROMTYPE.read((offsetTtype == 0 ? USER_CALLSIGN_DAT : WSPR_MESSAGE1) + i));
+      SERIALPORTWRITE(EEPROMTYPE.read((offsetTtype == 0 ? USER_CALLSIGN_DAT : WSPR_MESSAGE1) + i));
   }
 
   SendCommandETX(STR_ETX);
@@ -424,7 +424,7 @@ void SendCommand1Num(char varType, char sendValue) //0~9 : Mode, nowDisp, Active
   softBuff1Num[10] = sendValue + 0x30;
 
   for (int i = 0; i < 14; i++)
-    SERIALPORT.write(softBuff1Num[i]);
+    SERIALPORTWRITE(softBuff1Num[i]);
 }
 
 void SetSWActivePage(char newPageIndex)
@@ -771,7 +771,7 @@ void sendResponseData(int protocolType, unsigned long startFreq, unsigned int se
   for (int si = 0; si < sendCount; si++)
   {
     for (int i = 0; i < 11; i++)
-      SERIALPORT.write(ResponseHeader[i]);
+      SERIALPORTWRITE(ResponseHeader[i]);
       
     for (k = 0; k < readCount; k ++)
     {
@@ -809,12 +809,12 @@ void sendResponseData(int protocolType, unsigned long startFreq, unsigned int se
 
       if (protocolType == RESPONSE_EEPROM && sendOption2 == RESPONSE_EEPROM_STR) //None HEX
       {
-        SERIALPORT.write(readedValue);
+        SERIALPORTWRITE(readedValue);
       }
       else
       {
-        SERIALPORT.write(HexCodes[readedValue >> 4]);
-        SERIALPORT.write(HexCodes[readedValue & 0xf]);
+        SERIALPORTWRITE(HexCodes[readedValue >> 4]);
+        SERIALPORTWRITE(HexCodes[readedValue & 0xf]);
       }
     }
     
@@ -830,6 +830,11 @@ int spectrumOffset = 0;    //offset position
 int spectrumScanCount = 100;  //Maximum 200
 unsigned int spectrumIncStep = 1000;   //Increaase Step
 
+#ifdef USE_SOFTWARESERIAL_TINY           // these are in softwareserial_tiny, but defined locally for HW Serial
+extern uint8_t receivedCommandLength;
+extern void SWSerial_Read(uint8_t * receive_cmdBuffer);
+#endif
+
 uint8_t swr_buffer[20];
 
 //SoftwareSerial_Process
@@ -838,7 +843,9 @@ void SWS_Process(void)
 {
   unsigned long tempFreq;            //MJH Temp variable for freq and conversions
   
+  #ifndef USE_SOFTWARESERIAL_TINY       // Need to try prefetching command to initialize variables if HW Serial
   softSerail_Recv();               //try to fetch a command
+  #endif
 
   if (receivedCommandLength > 0)  //If this global is set, that means a command has been found
   {

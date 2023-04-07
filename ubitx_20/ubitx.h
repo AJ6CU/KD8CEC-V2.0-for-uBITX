@@ -47,10 +47,10 @@
 // Common Options Select for your onfiguration
 //==============================================================================
 //Ubitx BOARD Version   - Select one by uncommenting only it
-//#define UBITX_BOARD_VERSION 3      //v1 ~ v4 : 4, v5: 5, 6
+#define UBITX_BOARD_VERSION 3      //v1 ~ v4 : 4, v5: 5, 6
 //#define UBITX_BOARD_VERSION 4
 //#define UBITX_BOARD_VERSION 5
-#define UBITX_BOARD_VERSION 6
+//#define UBITX_BOARD_VERSION 6
 
 //Define which PROCESSOR is used
 //#define NANO  
@@ -66,25 +66,80 @@
 //#define UBITX_DISPLAY_LCD1602P        //LCD mounted on unmodified uBITX (Parallel)
 //#define UBITX_DISPLAY_LCD1602I        //I2C type 16 x 02 LCD
 //#define UBITX_DISPLAY_LCD1602I_DUAL   //I2C type 16 x02 LCD Dual
-#define UBITX_DISPLAY_LCD2004P        //24 x 04 LCD (Parallel)
+//#define UBITX_DISPLAY_LCD2004P        //24 x 04 LCD (Parallel)
 //#define UBITX_DISPLAY_LCD2004I        //I2C type 24 x 04 LCD
-//#define UBITX_DISPLAY_NEXTION         //NEXTION LCD
-
-//Feature list - Mainly impacts the LCD and LCD Emulation on Nextion
-#define FUNCTIONS_ALL               //All features enabled
-//#define FUNCTIONS_NEXTION_NANO         //May work with new bootloader and expanded size - max should be 32256.
-//#define FUNCTIONS_NEXTION_BIG         //Features for Nextion users with bigger processors (i.e. non-Nano)
-// #define FUNCTIONS_LCD               //Features oriented at LCD Users
-//#define FUNCTIONS_TEST              //Not for users.Test configuration for developers
-//#define FUNCTIONS_NONE
+#define UBITX_DISPLAY_NEXTION         //NEXTION LCD
 
 //You Can Select  Analog S-Meter or DSP (I2C) Meter (2nd Nano) Or Leave both Commented out
 //#define USE_I2CSMETER         //This is the option to choose if using a second Nano
-//#define USE_ANALOG_SMETER       //Select this option if attaching sensor directly to Radiuno
+#define USE_ANALOG_SMETER       //Select this option if attaching sensor directly to Radiuno
 
 
 //==============================================================================
 // End Common Options
+//==============================================================================
+
+
+//==============================================================================
+// Processor Specific Options
+//==============================================================================
+
+#ifdef NANO
+  #define PROCESSOR 1 
+  #define ANALOGCHIPDEFAULT DEFAULT
+  #define USE_SOFTWARESERIAL_TINY            // Use Software Serial library instead of hardware serial
+  //#define USE_I2C_EEPROM                // Use external EEPROM connected on I2C bus
+  #define FUNCTIONS_NEXTION_NANO         //May work with new bootloader and expanded size - max should be 32256.
+
+#elif defined(NANOEVERY)
+  #define PROCESSOR 2
+  #define ANALOGCHIPDEFAULT DEFAULT
+  #define USE_SOFTWARESERIAL_STD           // Use Software Serial library instead of hardware serial
+  #define USE_I2C_EEPROM                // Use external EEPROM connected on I2C bus
+  #define FUNCTIONS_NEXTION_BIG         //Features for Nextion users with bigger processors (i.e. non-Nano)
+
+
+#elif defined(NANO33IOT)
+  #define PROCESSOR 3
+  #define ANALOGCHIPDEFAULT AR_DEFAULT
+  #define INTEGERS_ARE_32_BIT
+  #define USE_I2C_EEPROM                // Use external EEPROM connected on I2C bus
+  #define FUNCTIONS_ALL               //All features enabled
+
+#elif defined(NANOBLE)
+  #define PROCESSOR 4
+  #define ANALOGCHIPDEFAULT AR_INTERNAL2V4
+  #define INTEGERS_ARE_32_BIT
+  #define USE_I2C_EEPROM                // Use external EEPROM connected on I2C bus
+  #define FUNCTIONS_ALL               //All features enabled
+
+
+#elif defined(NANORP2040)
+  #define PROCESSOR 5  
+  #define INTEGERS_ARE_32_BIT
+  #include <WiFiNINA.h>
+  #define USE_I2C_EEPROM                // Use external EEPROM connected on I2C bus
+  #define FUNCTIONS_ALL               //All features enabled
+
+
+#elif defined(TEENSY)
+  #define PROCESSOR 6
+  #define INTEGERS_ARE_32_BIT
+  #define USE_I2C_EEPROM
+  //#define USE_DIGITAL_ENCODER 
+  #define FUNCTIONS_ALL               //All features enabled
+
+#elif defined(RASPBERRYPIPICO)
+  #define PROCESSOR 7
+  #define INTEGERS_ARE_32_BIT
+  #define USE_I2C_EEPROM 
+  #define USE_DIGITAL_ENCODER
+  #define FUNCTIONS_ALL               //All features enabled
+
+#endif
+
+//==============================================================================
+// End Processor Specific Options
 //==============================================================================
 
 
@@ -118,52 +173,6 @@
 
 //==============================================================================
 // End Error checking of common options
-//==============================================================================
-
-
-//==============================================================================
-// Processor Specific Options
-//==============================================================================
-
-#ifdef NANO
-  #define PROCESSOR 1 
-  #define ANALOGCHIPDEFAULT DEFAULT
-  #define USE_SOFTWARESERIAL            // Use Software Serial library instead of hardware serial
-  #define USE_I2C_EEPROM                // Use external EEPROM connected on I2C bus
-#elif defined(NANOEVERY)
-  #define PROCESSOR 2
-  #define ANALOGCHIPDEFAULT DEFAULT
-  #define USE_SOFTWARESERIAL            // Use Software Serial library instead of hardware serial
-  #define USE_I2C_EEPROM                // Use external EEPROM connected on I2C bus
-#elif defined(NANO33IOT)
-  #define PROCESSOR 3
-  #define ANALOGCHIPDEFAULT AR_DEFAULT
-  #define INTEGERS_ARE_32_BIT
-  #define USE_I2C_EEPROM                // Use external EEPROM connected on I2C bus
-#elif defined(NANOBLE)
-  #define PROCESSOR 4
-  #define ANALOGCHIPDEFAULT AR_INTERNAL2V4
-  #define INTEGERS_ARE_32_BIT
-  #define USE_I2C_EEPROM                // Use external EEPROM connected on I2C bus
-#elif defined(NANORP2040)
-  #define PROCESSOR 5  
-  #define INTEGERS_ARE_32_BIT
-  #include <WiFiNINA.h>
-  #define USE_I2C_EEPROM                // Use external EEPROM connected on I2C bus
-#elif defined(TEENSY)
-  #define PROCESSOR 6
-  #define INTEGERS_ARE_32_BIT
-  #define USE_I2C_EEPROM
-  //#define USE_DIGITAL_ENCODER 
-#elif defined(RASPBERRYPIPICO)
-  #define PROCESSOR 7
-  #define INTEGERS_ARE_32_BIT
-  #define USE_I2C_EEPROM 
-  #define USE_DIGITAL_ENCODER
-#endif
-
-//==============================================================================
-// End Processor Specific Options
 //==============================================================================
 
 
@@ -231,7 +240,7 @@
   #define FN_CWDELAY      1 //98
   #define FN_TXCWDELAY    1 //94
   #define FN_KEYTYPE      1 //168
-  #define FN_ADCMONITOR   1 //516
+  #define FN_ADCMONITOR   0 //516     //MJH turned off because generates redefines errors for Nextion Builds
   #define FN_TXONOFF      1 //58
 
 #elif defined(FUNCTIONS_TEST)
@@ -403,17 +412,43 @@
 #define SOFTWARESERIAL_RX_PIN 8     // Defined even if not used. Allows them to be stored in Extended
 #define SOFTWARESERIAL_TX_PIN 9     // EEPROM and reported by the Settings Editor
 
-#ifdef USE_SOFTWARESERIAL  
-  #include <SoftwareSerial.h>
+#ifdef USE_SOFTWARESERIAL_TINY      // using the original KD8CEC tiny software serial library
+
   #define SERIAL_TYPE 1
+
+  #define SERIALPORTBEGIN SWSerial_Begin
+  #define SERIALPORTWRITE SWSerial_Write
+  #define SERIALPORTAVAILABLE SWSerial_Available
+  #define SERIALPORTREAD SWSerial_Read
+  #define SERIALPORTPRINT SWSerial_Print
+
+#elif defined(USE_SOFTWARESERIAL_STD)     //Using standard SoftwareSerial library - Tiny library not supported on Nano Every
+  #define SERIAL_TYPE 3
+
+  #include <SoftwareSerial.h>
   #define SERIALPORT sSERIAL
   SoftwareSerial SERIALPORT(SOFTWARESERIAL_RX_PIN, SOFTWARESERIAL_TX_PIN); // RX, TX
-#else
+
+  #define SERIALPORTBEGIN sSERIAL.begin
+  #define SERIALPORTWRITE sSERIAL.write
+  #define SERIALPORTAVAILABLE sSERIAL.available
+  #define SERIALPORTREAD sSERIAL.read
+  #define SERIALPORTPRINT sSERIAL.print
+  
+
+#else                                     //Using hardware serial
   #define SERIAL_TYPE 2
-  #define SERIALPORT Serial1                  //Using hardware serial
+
+  #define SERIALPORT Serial1                  
+  #define SERIALPORTBEGIN Serial1.begin
+  #define SERIALPORTWRITE Serial1.write
+  #define SERIALPORTAVAILABLE Serial1.available
+  #define SERIALPORTREAD Serial1.read
+  #define SERIALPORTPRINT Serial1.print
+
 #endif 
 
-
+#define I2C_EEPROM_ADDR 0x50
 #define MAXEEPROMSIZE 2048              //the Cat routines limit EEPROM addressing to 16bit offset and 16bit size (max 32kb) 
                                         //default binary file size for eeprom backup is 2048 bytes. So stick with this for
                                         //now until a reason to break compatibility.      
