@@ -47,19 +47,19 @@
 // Common Options Select for your onfiguration
 //==============================================================================
 //Ubitx BOARD Version   - Select one by uncommenting only it
-#define UBITX_BOARD_VERSION 3      //v1 ~ v4 : 4, v5: 5, 6
+//#define UBITX_BOARD_VERSION 3      //v1 ~ v4 : 4, v5: 5, 6
 //#define UBITX_BOARD_VERSION 4
-//#define UBITX_BOARD_VERSION 5
+#define UBITX_BOARD_VERSION 5
 //#define UBITX_BOARD_VERSION 6
 
 //Define which PROCESSOR is used
-//#define NANO  
+#define NANO  
 //#define NANOEVERY
 //#define NANO33IOT
 //#define NANOBLE
 //#define NANORP2040
 //#define TEENSY
-#define RASPBERRYPIPICO
+//#define RASPBERRYPIPICO
 
 //Depending on the type of LCD mounted on the uBITX, uncomment one of the options below.
 //You must select only one.
@@ -89,7 +89,8 @@
   #define ANALOGCHIPDEFAULT DEFAULT
   #define USE_SOFTWARESERIAL_TINY            // Use Software Serial library instead of hardware serial
   //#define USE_I2C_EEPROM                // Use external EEPROM connected on I2C bus
-  #define FUNCTIONS_NEXTION_NANO         //May work with new bootloader and expanded size - max should be 32256.
+  //#define FUNCTIONS_NEXTION_NANO         //May work with new bootloader and expanded size - max should be 32256.
+  #define FUNCTIONS_NONE
 
 #elif defined(NANOEVERY)
   #define PROCESSOR 2
