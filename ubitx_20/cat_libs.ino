@@ -336,12 +336,10 @@ void WriteEEPRom(void)  //for remove warning
       {
         #if defined(NANO33IOT)  || defined(NANOBLE) || defined(NANORP2040) || defined(RASPBERRYPIPICO)
            NVIC_SystemReset();
-        #else
-          #if defined(TEENSY)
+        #elif defined(TEENSY)
             SCB_AIRCR = 0x05FA0004;
-          #else
+        #else
             asm volatile ("  jmp 0");
-          #endif
         #endif
       }
     }

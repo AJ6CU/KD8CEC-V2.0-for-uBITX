@@ -1154,8 +1154,6 @@ void initSettings(){
 //
 // Get size of EEPROM
 //
-  // Serial.begin(38400); //mjh
-  // delay(3000); //mjh
 
   eepromSize = EEPROMTYPE.length(); // Limits max eepromSize
   if (eepromSize > MAXEEPROMSIZE)
@@ -1169,11 +1167,11 @@ void initSettings(){
   EEPROMTYPE.get(CW_SIDETONE, sideTone);
   EEPROMTYPE.get(CW_SPEED, cwSpeed);
 // MJH
-// #ifdef NANO    //Not clear this is needed for Nano. Likely space issue that caused this to work
-//   Serial.begin(38400);          // Needed by Nano (for I2C EEPROM and Nextion)  no clue why...
-//   delay(2000);
-//   Serial.flush();
-// #endif
+//#ifdef NANO    //Not clear this is needed for Nano. Likely space issue that caused this to work
+//Serial.begin(38400);          // Needed by Nano (for I2C EEPROM and Nextion)  no clue why...
+  //delay(2000);
+  // Serial.flush();
+//#endif
 
 
  /*
@@ -1626,15 +1624,15 @@ void setup()
   //end section of test
   */
 
-//Serial.begin(38400);  //mjh
-//delay(5000);  //mjh
-
-#ifdef RASPBERRYPIPICO          // wire requires specifying SDA/SCL pins on PICO
-Wire.setSDA(SDA_PIN);
-Wire.setSCL(SCL_PIN);
+//Serial.begin(38400);  
+#ifdef USE_I2C_EEPROM
+  #ifdef RASPBERRYPIPICO          // wire requires specifying SDA/SCL pins on PICO
+    Wire.setSDA(SDA_PIN);
+    Wire.setSCL(SCL_PIN);
+  #endif
+  Wire.begin(); 
+  EEPROMTYPE.begin(I2C_EEPROM_ADDR,Wire);
 #endif
-
-Wire.begin(); 
 
   //Load I2C LCD Address for I2C LCD 
   //I2C LCD Parametere
