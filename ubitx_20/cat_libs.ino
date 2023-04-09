@@ -338,6 +338,9 @@ void WriteEEPRom(void)  //for remove warning
            NVIC_SystemReset();
         #elif defined(TEENSY)
             SCB_AIRCR = 0x05FA0004;
+        #elif defined (NANOEVERY)
+            CPU_CCP = CCP_IOREG_gc;
+            RSTCTRL.SWRR = RSTCTRL_SWRE_bm;
         #else
             asm volatile ("  jmp 0");
         #endif

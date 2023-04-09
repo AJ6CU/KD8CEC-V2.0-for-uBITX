@@ -1,6 +1,7 @@
-// #ifndef _UBITX_HEADER__
-// #define _UBITX_HEADER__
+#ifndef _UBITX_HEADER__
+#define _UBITX_HEADER__
 #include "ubitx.h"
+#endif
 
 
 #ifdef USE_SOFTWARESERIAL_TINY
