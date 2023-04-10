@@ -89,7 +89,7 @@ void cwKeyUp(){
 #define DAH_L 0x02 // DAH latch
 #define DIT_PROC 0x04 // DIT is being processed
 #define PDLSWAP 0x08 // 0 for normal, 1 for swap
-#define IAMBICB 0x10 // 0 for Iambic A, 1 for Iambic B
+//#define IAMBICB 0x10 // 0 for Iambic A, 1 for Iambic B  //mjh previously designed in ubit_20.ino. So don't redefine here. Comment for reference.
 
 enum KSTYPE {IDLE, CHK_DIT, CHK_DAH, KEYED_PREP, KEYED, INTER_ELEMENT };
 enum KSTYPE keyerState = IDLE;
