@@ -984,9 +984,9 @@ into a standard 12 digit format mmddyyyyhhmm. Returns a pointer to the static ar
 containing the formated timestamp.
 */
 {
-  int month, day, year;
-  char hours[3], mins[3];
+
   static char buff[13];           //one larger than number of chars for \0
+  int month;
   char month_names[] = "JanFebMarAprMayJunJulAugSepOctNovDec";
 
   buff[0] = date[0];              // temporarily using the first 4 characters of buff to find mm

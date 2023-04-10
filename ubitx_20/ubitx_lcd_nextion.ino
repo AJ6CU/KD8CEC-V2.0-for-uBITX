@@ -93,8 +93,8 @@ char softBuffSended[2][TEXT_LINE_LENGTH + 1];
 char softBuffTemp[TEXT_LINE_LENGTH + 1];    //for STR Command
 
 char c[30], b[30];
-char softBuff[20];
-char softTemp[20];
+char softBuff[TEXT_LINE_LENGTH];        //mjh switch to using constant instead of hardwired to 20
+char softTemp[TEXT_LINE_LENGTH];        //mjh switch to using constant instead of hardwired to 20
 
 
 // ***************
@@ -169,9 +169,11 @@ void LCDNextion_Init()
 
   SERIALPORTBEGIN(NEXTIONBAUD);
   memset(softBuffLines[0], ' ', TEXT_LINE_LENGTH); 
-  softBuffLines[0][TEXT_LINE_LENGTH + 1] = 0x00;
+  // softBuffLines[0][TEXT_LINE_LENGTH + 1] = 0x00;   //MJH original. but this puts the end of string one number too far
+  softBuffLines[0][TEXT_LINE_LENGTH] = 0x00;
   memset(softBuffLines[1], ' ', TEXT_LINE_LENGTH);
-  softBuffLines[1][TEXT_LINE_LENGTH + 1] = 0x00;
+  // softBuffLines[1][TEXT_LINE_LENGTH + 1] = 0x00;   //MJH original. but this puts the end of string one number too far
+  softBuffLines[1][TEXT_LINE_LENGTH] = 0x00;
 }
 
 void LCD_Init(void)
@@ -379,7 +381,7 @@ void SendCommandUL(char varIndex, unsigned long sendValue)
 {
   SendHeader(SWS_HEADER_INT_TYPE, varIndex);
 
-  memset(softTemp, 0, 20);
+  memset(softTemp, 0, TEXT_LINE_LENGTH);        //mjh switch to using #define constant instead of hardwired
 
 #ifdef INTEGERS_ARE_32_BIT          //mjh  auto cast of olong to int
   utoa(sendValue, softTemp, DEC);
@@ -394,7 +396,7 @@ void SendCommandL(char varIndex, long sendValue)
 {
   SendHeader(SWS_HEADER_INT_TYPE, varIndex);
 
-  memset(softTemp, 0, 20);
+  memset(softTemp, 0, TEXT_LINE_LENGTH);          //mjh switched to using #define constant instead of hardwired to 20
 
 #ifdef INTEGERS_ARE_32_BIT
 //  utoa(sendValue, softTemp, DEC);  //mjh appears to auto cast long to int
@@ -416,7 +418,7 @@ void SendCommandStr(char varIndex, char* sendValue)
 }
 
 //Send String data with duplicate check
-void SendTextLineBuff(char lineNumber)
+void SendTextLineBuff(uint8_t lineNumber)
 {
   //Check Duplicated data
   if (strcmp(softBuffLines[lineNumber], softBuffSended[lineNumber]))
@@ -430,7 +432,7 @@ void SendTextLineBuff(char lineNumber)
   }
 }
 
-void SendTextLineStr(char lineNumber, const char* sendValue)
+void SendTextLineStr(uint8_t lineNumber, const char* sendValue)
 {
   int i = 0;
   for (i = 0; i < 16; i++)
@@ -441,12 +443,13 @@ void SendTextLineStr(char lineNumber, const char* sendValue)
       softBuffLines[lineNumber][i] = sendValue[i];
   }
   
-  for (;i < 20; i++)
+  for (;i < TEXT_LINE_LENGTH; i++)
   {
     softBuffLines[lineNumber][i] = ' ';
   }
 
-  softBuffLines[lineNumber][TEXT_LINE_LENGTH + 1] = 0x00;
+  // softBuffLines[lineNumber][TEXT_LINE_LENGTH + 1] = 0x00;    //mjh Original. But this means the 0 is out of bounds
+  softBuffLines[lineNumber][TEXT_LINE_LENGTH] = 0x00;
   SendTextLineBuff(lineNumber);
 }
 
@@ -490,7 +493,7 @@ void printLine(unsigned char linenmbr, const char *c) {
   SendTextLineStr(linenmbr, c);
 }
 
-void printLineF(char linenmbr, const __FlashStringHelper *c)
+void printLineF(uint8_t linenmbr, const __FlashStringHelper *c)
 {
   int i;
   char tmpBuff[21];
@@ -506,8 +509,8 @@ void printLineF(char linenmbr, const __FlashStringHelper *c)
   printLine(linenmbr, tmpBuff);
 }
 
-#define LCD_MAX_COLUMN 20
-void printLineFromEEPRom(char linenmbr, char lcdColumn, byte eepromStartIndex, byte eepromEndIndex, char offsetTtype) 
+#define LCD_MAX_COLUMN 20 
+void printLineFromEEPRom(uint8_t linenmbr, uint8_t lcdColumn, byte eepromStartIndex, byte eepromEndIndex, uint8_t offsetTtype) 
 {
   int colIndex = lcdColumn;
   for (byte i = eepromStartIndex; i <= eepromEndIndex; i++)
@@ -803,14 +806,9 @@ const char HexCodes[16] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a'
 //sendCount : Spectrum - All scan set count, EEProm - always 1
 void sendResponseData(int protocolType, unsigned long startFreq, unsigned int sendOption1, int readCount, int sendOption2, int sendCount)  //Spectrum and EEProm Data
 {
-  unsigned long beforFreq = frequency;
-  unsigned long k;
-  uint8_t adcBytes[200];    //Maximum 200 Step
+  // unsigned long k;   // mjh originally this was a long to handle the full frequency. but 32 bit int is fine
+  int32_t k;
   
-  //Voltage drop
-  //scanResult[0] = analogRead(ANALOG_SMETER);
-  //adcBytes[0] = analogRead(ANALOG_SMETER);
-  //delay(10);
   int readedValue = 0;
 
   for (int si = 0; si < sendCount; si++)

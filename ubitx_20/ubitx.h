@@ -48,18 +48,18 @@
 // Common Options Select for your onfiguration
 //==============================================================================
 //Ubitx BOARD Version   - Select one by uncommenting only it
-//#define UBITX_BOARD_VERSION 3      //v1 ~ v4 : 4, v5: 5, 6
+#define UBITX_BOARD_VERSION 3      //v1 ~ v4 : 4, v5: 5, 6
 //#define UBITX_BOARD_VERSION 4
 //#define UBITX_BOARD_VERSION 5
-#define UBITX_BOARD_VERSION 6
+//#define UBITX_BOARD_VERSION 6
 
 //Define which PROCESSOR is used
-#define NANO  
+//#define NANO  
 //#define NANOEVERY
 //#define NANO33IOT
 //#define NANOBLE
 //#define NANORP2040
-//#define TEENSY
+#define TEENSY
 //#define RASPBERRYPIPICO
 
 //Depending on the type of LCD mounted on the uBITX, uncomment one of the options below.
@@ -89,7 +89,7 @@
   #define PROCESSOR 1 
   #define ANALOGCHIPDEFAULT DEFAULT
   #define USE_SOFTWARESERIAL_TINY            // Use Software Serial library instead of hardware serial
-  #define USE_I2C_EEPROM                // Use external EEPROM connected on I2C bus
+  //#define USE_I2C_EEPROM                // Use external EEPROM connected on I2C bus
   //#define FUNCTIONS_NEXTION_NANO         //May work with new bootloader and expanded size - max should be 32256.
   #define FUNCTIONS_NONE
 
@@ -718,8 +718,8 @@ extern byte TriggerBySW;   //Action Start from Nextion LCD, Other MCU
 
 extern void printLine1(const char *c);
 extern void printLine2(const char *c);
-extern void printLineF(char linenmbr, const __FlashStringHelper *c);
-extern void printLineFromEEPRom(char linenmbr, char lcdColumn, byte eepromStartIndex, byte eepromEndIndex, char offsetType);
+extern void printLineF(uint8_t linenmbr, const __FlashStringHelper *c);
+extern void printLineFromEEPRom(uint8_t linenmbr, uint8_t lcdColumn, byte eepromStartIndex, byte eepromEndIndex, uint8_t offsetType);
 extern byte delay_background(unsigned delayTime, byte fromType);
 extern int btnDown(void);
 extern char c[30];
