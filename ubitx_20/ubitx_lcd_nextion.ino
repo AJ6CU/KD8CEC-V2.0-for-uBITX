@@ -31,12 +31,57 @@
   KD8CEC
 **************************************************************************/
 
+/*************************************************************************
+  MJH: Being a little tricky here.  Serial I/O to the Nextion can be one of:
+  1. softserial_tiny - The original KD8CEC cut down version of SoftwareSerial
+  2. SoftwareSerial - The "standard" SoftwareSerial provied with the Arduino IDE
+  3. Hardware Serial
+
+  The softserial_tiny can only be used with the Nano. Given it is smaller, a 
+good choice. Also had problems with the standard software serial on Nano. Some
+versions worked, others didn't...
+
+  The standard softwareserial has to be used on the Nano and optionally can be
+  used on other processors if you can connect the right pins. The softserial_tiny
+  throws a lot of errors if you try to compiled with the Nano Every.
+
+  Hardware Serial makes sense for most processors. The only reason it is not used
+  on the Nano/Nano Every is that there is only one UART and it is assigned the the USB
+  connections.
+
+  With these 3 choices, the following defines just makes sure that the right set of
+  routines are called when the chosen type of serial is used. 
+    
+**************************************************************************/
 #ifdef USE_SOFTWARESERIAL_TINY                       // Need to reference software_serial_tiny cpp functions 
-extern void SWSerial_Begin(long speedBaud);
-extern void SWSerial_Write(uint8_t b);
-extern int SWSerial_Available(void);
-extern int SWSerial_Read(void);
-extern void SWSerial_Print(uint8_t *b);
+// The actual definitions are in the softserial_tiny library
+  extern void SWSerial_Begin(long speedBaud);
+  extern void SWSerial_Write(uint8_t b);
+  extern int SWSerial_Available(void);
+  extern int SWSerial_Read(void);
+  extern void SWSerial_Print(uint8_t *b);
+
+  #define SERIALPORTBEGIN SWSerial_Begin
+  #define SERIALPORTWRITE SWSerial_Write
+  #define SERIALPORTAVAILABLE SWSerial_Available
+  #define SERIALPORTREAD SWSerial_Read
+  #define SERIALPORTPRINT SWSerial_Print
+
+#elif defined(USE_SOFTWARESERIAL_STD)             //This is for the "standard" softwareserial used by the Nano
+  #include <SoftwareSerial.h>  
+  SoftwareSerial sSERIAL(SOFTWARESERIAL_RX_PIN, SOFTWARESERIAL_TX_PIN); // RX, TX
+  #define SERIALPORTBEGIN sSERIAL.begin
+  #define SERIALPORTWRITE sSERIAL.write
+  #define SERIALPORTAVAILABLE sSERIAL.available
+  #define SERIALPORTREAD sSERIAL.read
+  #define SERIALPORTPRINT sSERIAL.print 
+#else
+  //#define SERIALPORT Serial1                    //These routines are for the Hardware Serial I/O                 
+  #define SERIALPORTBEGIN Serial1.begin
+  #define SERIALPORTWRITE Serial1.write
+  #define SERIALPORTAVAILABLE Serial1.available
+  #define SERIALPORTREAD Serial1.read
+  #define SERIALPORTPRINT Serial1.print
 #endif  
 
 

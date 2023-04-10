@@ -51,6 +51,7 @@
 #include <Wire.h>
 #include "ubitx.h"
 
+
 #ifdef USE_I2C_EEPROM
   #include <SparkFun_External_EEPROM.h>  //https://github.com/sparkfun/SparkFun_External_EEPROM_Arduino_Library
   ExternalEEPROM I2C_EEPROM;
@@ -1168,9 +1169,9 @@ void initSettings(){
   EEPROMTYPE.get(CW_SPEED, cwSpeed);
 // MJH
 //#ifdef NANO    //Not clear this is needed for Nano. Likely space issue that caused this to work
-//Serial.begin(38400);          // Needed by Nano (for I2C EEPROM and Nextion)  no clue why...
-  //delay(2000);
-  // Serial.flush();
+// Serial.begin(38400);          // Needed by Nano (for I2C EEPROM and Nextion)  no clue why...
+//   delay(2000);
+//    Serial.flush();
 //#endif
 
 

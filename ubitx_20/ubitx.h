@@ -14,6 +14,7 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************/
+
 #ifndef _UBITX_HEADER__
 #define _UBITX_HEADER__
 
@@ -49,8 +50,8 @@
 //Ubitx BOARD Version   - Select one by uncommenting only it
 //#define UBITX_BOARD_VERSION 3      //v1 ~ v4 : 4, v5: 5, 6
 //#define UBITX_BOARD_VERSION 4
-#define UBITX_BOARD_VERSION 5
-//#define UBITX_BOARD_VERSION 6
+//#define UBITX_BOARD_VERSION 5
+#define UBITX_BOARD_VERSION 6
 
 //Define which PROCESSOR is used
 #define NANO  
@@ -88,7 +89,7 @@
   #define PROCESSOR 1 
   #define ANALOGCHIPDEFAULT DEFAULT
   #define USE_SOFTWARESERIAL_TINY            // Use Software Serial library instead of hardware serial
-  //#define USE_I2C_EEPROM                // Use external EEPROM connected on I2C bus
+  #define USE_I2C_EEPROM                // Use external EEPROM connected on I2C bus
   //#define FUNCTIONS_NEXTION_NANO         //May work with new bootloader and expanded size - max should be 32256.
   #define FUNCTIONS_NONE
 
@@ -414,39 +415,11 @@
 #define SOFTWARESERIAL_TX_PIN 9     // EEPROM and reported by the Settings Editor
 
 #ifdef USE_SOFTWARESERIAL_TINY      // using the original KD8CEC tiny software serial library
-
   #define SERIAL_TYPE 1
-
-  #define SERIALPORTBEGIN SWSerial_Begin
-  #define SERIALPORTWRITE SWSerial_Write
-  #define SERIALPORTAVAILABLE SWSerial_Available
-  #define SERIALPORTREAD SWSerial_Read
-  #define SERIALPORTPRINT SWSerial_Print
-
 #elif defined(USE_SOFTWARESERIAL_STD)     //Using standard SoftwareSerial library - Tiny library not supported on Nano Every
   #define SERIAL_TYPE 3
-
-  #include <SoftwareSerial.h>
-  #define SERIALPORT sSERIAL
-  SoftwareSerial SERIALPORT(SOFTWARESERIAL_RX_PIN, SOFTWARESERIAL_TX_PIN); // RX, TX
-
-  #define SERIALPORTBEGIN sSERIAL.begin
-  #define SERIALPORTWRITE sSERIAL.write
-  #define SERIALPORTAVAILABLE sSERIAL.available
-  #define SERIALPORTREAD sSERIAL.read
-  #define SERIALPORTPRINT sSERIAL.print
-  
-
 #else                                     //Using hardware serial
   #define SERIAL_TYPE 2
-
-  #define SERIALPORT Serial1                  
-  #define SERIALPORTBEGIN Serial1.begin
-  #define SERIALPORTWRITE Serial1.write
-  #define SERIALPORTAVAILABLE Serial1.available
-  #define SERIALPORTREAD Serial1.read
-  #define SERIALPORTPRINT Serial1.print
-
 #endif 
 
 #define I2C_EEPROM_ADDR 0x50

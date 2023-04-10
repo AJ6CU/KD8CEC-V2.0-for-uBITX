@@ -1,10 +1,8 @@
-#ifndef _UBITX_HEADER__
-#define _UBITX_HEADER__
+#include <Arduino.h>
+
 #include "ubitx.h"
-#endif
-
-
 #ifdef USE_SOFTWARESERIAL_TINY
+
 /*
 Softserial for Nextion LCD and Control MCU
 KD8CEC, Ian Lee
@@ -77,14 +75,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 The latest version of this library can always be found at
 http://arduiniana.org.
  */
-#include <Arduino.h>
-#include "ubitx.h"
+
 
 //================================================================
 //Public Variable
 //================================================================
-// #define SOFTWARESERIAL_TX_PIN 9
-// #define SOFTWARESERIAL_RX_PIN 8
+
 #define _SS_MAX_RX_BUFF 35 // RX buffer size
 #define PRINT_MAX_LENGTH 30
 
@@ -147,7 +143,7 @@ void setRxIntMsk(bool enable)
       *_pcint_maskreg &= ~_pcint_maskvalue;
 }
 
-uint8_t SOFTWARESERIAL_RX_PIN_read()
+uint8_t rx_pin_read()
 {
   return *_receivePortRegister & _receiveBitMask;
 }
@@ -177,7 +173,7 @@ void softSerail_Recv()
 
   // If RX line is high, then we don't see any start bit
   // so interrupt is probably not for us
-  if (!SOFTWARESERIAL_RX_PIN_read())     //Start Bit
+  if (!rx_pin_read())     //Start Bit
   {
     // Disable further interrupts during reception, this prevents
     // triggering another interrupt directly after we return, which can
@@ -193,7 +189,7 @@ void softSerail_Recv()
       tunedDelay(_rx_delay_intrabit);
       d >>= 1;
 
-      if (SOFTWARESERIAL_RX_PIN_read())
+      if (rx_pin_read())
         d |= 0x80;
     }
 
@@ -308,14 +304,14 @@ void SWSerial_Print(uint8_t *b)
 
 void SWSerial_Begin(long speedBaud)
 {
-  //INT SOFTWARESERIAL_TX_PIN
+  //INT TX_PIN
   digitalWrite(SOFTWARESERIAL_TX_PIN, HIGH);
   pinMode(SOFTWARESERIAL_TX_PIN, OUTPUT);
   transmit_RegMask = digitalPinToBitMask(SOFTWARESERIAL_TX_PIN);   //use Bit 1
   transmit_InvMask = ~digitalPinToBitMask(SOFTWARESERIAL_TX_PIN);  //use Bit 0
   _transmitPortRegister = portOutputRegister(digitalPinToPort(SOFTWARESERIAL_TX_PIN));
 
-  //INIT SOFTWARESERIAL_RX_PIN
+  //INIT RX_PIN
   pinMode(SOFTWARESERIAL_RX_PIN, INPUT);
   digitalWrite(SOFTWARESERIAL_RX_PIN, HIGH);  // pullup for normal logic!
   _receiveBitMask = digitalPinToBitMask(SOFTWARESERIAL_RX_PIN);
