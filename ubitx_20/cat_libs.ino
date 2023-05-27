@@ -336,7 +336,7 @@ void WriteEEPRom(void)  //for remove warning
       {
         #if defined(NANO33IOT)  || defined(NANOBLE) || defined(NANORP2040) || defined(RASPBERRYPIPICO)
            NVIC_SystemReset();
-        #elif defined(TEENSY)
+        #elif defined(TEENSY) || defined(TEENSY41)
             SCB_AIRCR = 0x05FA0004;
         #elif defined (NANOEVERY)
             CPU_CCP = CCP_IOREG_gc;
@@ -749,6 +749,89 @@ void ReadADCValue(void)
   Serial.write((byte)ACK);
 }
 
+void ReadVFO(unsigned long freq)
+{
+  CAT_BUFF[0] =  freq & 0xff;                    //convert master calibration value to bytes
+  CAT_BUFF[1] = (freq >> 8 ) &0xff;
+  CAT_BUFF[2] = (freq >> 16 ) &0xff;
+  CAT_BUFF[3] = (freq >> 24 ) &0xff;
+  
+  SendCatData(4);                                     //Send these 4 bytes
+
+}
+
+void ReadCalValues(void)          //Read and return Calibration values (Master, SSBBFO, CWBFO)
+{
+  CAT_BUFF[0] = calibration & 0xff;                    //convert master calibration value to bytes
+  CAT_BUFF[1] = (calibration >> 8 ) &0xff;
+  CAT_BUFF[2] = (calibration >> 16 ) &0xff;
+  CAT_BUFF[3] = (calibration >> 24 ) &0xff;
+  
+  SendCatData(4);                                     //Send these 4 bytes
+
+  CAT_BUFF[0] = usbCarrier & 0xff;                     //convert SSB BFO calibration value to bytes
+  CAT_BUFF[1] = (usbCarrier >> 8 ) &0xff;
+  CAT_BUFF[2] = (usbCarrier >> 16 ) &0xff;
+  CAT_BUFF[3] = (usbCarrier >> 24 ) &0xff;
+
+  SendCatData(4);                                     //Send these 4 bytes
+
+  CAT_BUFF[0] = cwmCarrier & 0xff;                     //convert CW BFO calibration value to bytes
+  CAT_BUFF[1] = (cwmCarrier >> 8 ) &0xff;
+  CAT_BUFF[2] = (cwmCarrier >> 16 ) &0xff;
+  CAT_BUFF[3] = (cwmCarrier >> 24 ) &0xff;
+
+  SendCatData(4);                                     //Send these 4 bytes
+
+  Serial.write((byte)ACK);                            //End with an ACK
+
+  return;
+} 
+
+void WriteMasterCalToMemory(){       //Update in memory Master Calibration values 
+// long casting required to be done in this way to support 16 bit processors like the Nano
+// Also had to use "+" instead of "||" to make it work on teensy (32 bit) go figure...
+  calibration = (long)CAT_BUFF[0]  + ((long)CAT_BUFF[1]  << 8 ) + ((long)CAT_BUFF[2] << 16 ) + ((long)CAT_BUFF[3] << 24 );
+  si5351_set_calibration(calibration);
+  setFrequency(frequency); 
+
+}
+
+void WriteSSBBFOToMemory()  {       //Update in memory SSBBFO value
+// 
+  usbCarrier = (long)CAT_BUFF[0]  + ((long)CAT_BUFF[1]  << 8 ) + ((long)CAT_BUFF[2] << 16 ) + ((long)CAT_BUFF[3] << 24 );
+  SetCarrierFreq();
+  setFrequency(frequency);
+}
+
+void WriteCWBFOToMemory()   {       //Update in memory CWBFO value
+  cwmCarrier = (long)CAT_BUFF[0]  + ((long)CAT_BUFF[1]  << 8 ) + ((long)CAT_BUFF[2] << 16 ) + ((long)CAT_BUFF[3] << 24 );
+  SetCarrierFreq();
+  setFrequency(frequency);
+} 
+
+
+
+
+// void WriteCalValues(void)         //Update in memory Calibration values (Master, SSBBFO, CWBFO)
+// {
+//   //   si5351_set_calibration(calibration);        //master calilbration
+
+//   //   if (cwMode == 0)
+//   //   si5351bx_setfreq(0, usbCarrier);  //set back the carrier oscillator anyway, cw tx switches it off
+//   // else
+//   //   si5351bx_setfreq(0, cwmCarrier);  //set back the carrier oscillator anyway, cw tx switches it off
+  
+//   // setFrequency(frequency);            //needed to get back on track with new values
+//   return;
+// }
+
+void StoreCalToEEPROM(void)                 //stores current calibration values to EEPROM
+{
+  EEPROMTYPE.put(MASTER_CAL, calibration);
+  EEPROMTYPE.put(CW_CAL, cwmCarrier);
+  EEPROMTYPE.put(USB_CAL, usbCarrier);
+}  
 
 
 void SetIFSValue(void)
@@ -942,23 +1025,53 @@ void Check_Cat(byte fromType)
       ReadEEPRom_FT817();
       break;
 
-    case 0xDC:  //Write uBITX EEPROM Data
-      WriteEEPRom(); //Call by uBITX Manager Program
-      break;
     case 0xBC:  //Write FT-817 EEPROM Data  (for comfirtable)
       WriteEEPRom_FT817(fromType);
       break;
 
-    case 0xDD:          //Read uBITX ADC Data
-      ReadADCValue();   //Call by uBITX Manager Program
+    // MJH New CAT commands added here
+    case 0xC0:
+      ReadCalValues();          //Read and return Calibration values (Master, SSBBFO, CWBFO)
+      break;
+
+    case 0xC1:
+      WriteMasterCalToMemory();         //Update in memory Calibration values (Master, SSBBFO, CWBFO)
+      break;
+
+    case 0xC2:
+      WriteSSBBFOToMemory();         //Update in memory Calibration values (Master, SSBBFO, CWBFO)
+      break;
+
+    case 0xC3:
+      WriteCWBFOToMemory();         //Update in memory Calibration values (Master, SSBBFO, CWBFO)
+      break;
+
+    case 0xC4:
+      StoreCalToEEPROM();            //Update EEPROM Calibration values (Master, SSBBFO, CWBFO)
+      break;
+
+    case 0xC5:
+      ReadVFO(frequency);                    //Return current frequency to HZ
+      break;
+
+    case 0xDD:          //Added by MJH to communicate with Settings Manager calibration      
+      ReadADCValue();           //Read and return ADC Value
+      break;
+
+    case 0xDF:          //Get EEPROM size
+      GetEEPRomSize();
+      break; 
+    // End added CAT commands
+
+
+    case 0xDC:  //Write uBITX EEPROM Data
+      WriteEEPRom(); //Call by uBITX Manager Program
       break;
 
     case 0xDE:          //IF-Shift Control by CAT
       SetIFSValue();   //
       break;
-    case 0xDF:          //Get EEPROM size
-      GetEEPRomSize();
-      break;      
+     
     case 0xE7 :       //Read RX Status
       CatRxStatus();
       break;

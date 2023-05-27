@@ -48,10 +48,10 @@
 // Common Options Select for your onfiguration
 //==============================================================================
 //Ubitx BOARD Version   - Select one by uncommenting only it
-#define UBITX_BOARD_VERSION 3      //v1 ~ v4 : 4, v5: 5, 6
+//#define UBITX_BOARD_VERSION 3      //v1 ~ v4 : 4, v5: 5, 6
 //#define UBITX_BOARD_VERSION 4
 //#define UBITX_BOARD_VERSION 5
-//#define UBITX_BOARD_VERSION 6
+#define UBITX_BOARD_VERSION 6
 
 //Define which PROCESSOR is used
 //#define NANO  
@@ -60,6 +60,7 @@
 //#define NANOBLE
 //#define NANORP2040
 #define TEENSY
+//#define TEENSY41
 //#define RASPBERRYPIPICO
 
 //Depending on the type of LCD mounted on the uBITX, uncomment one of the options below.
@@ -90,7 +91,7 @@
   #define ANALOGCHIPDEFAULT DEFAULT
   #define USE_SOFTWARESERIAL_TINY            // Use Software Serial library instead of hardware serial
   //#define USE_I2C_EEPROM                // Use external EEPROM connected on I2C bus
-  //#define FUNCTIONS_NEXTION_NANO         //May work with new bootloader and expanded size - max should be 32256.
+  #define FUNCTIONS_NEXTION_NANO         //May work with new bootloader and expanded size - max should be 32256.
   #define FUNCTIONS_NONE
 
 #elif defined(NANOEVERY)
@@ -300,11 +301,11 @@
 #elif defined(FUNCTIONS_NEXTION_NANO)     //NOTE This only works with New bootloader and expanded flash 
   #define FUNCTIONALITY   4               //Check that a simple sketch shows maximum of 32256
   //Recommended for Nextion, TJC LCD 88%  //There are youtube videos about flashing new bootloader
-  #define FN_BAND         1 //600         //And expanding available flash to max
-  #define FN_VFO_TOGGLE   1 //90
-  #define FN_MODE         1 //318
-  #define FN_RIT          1 //62
-  #define FN_SPLIT        1 //2
+  #define FN_BAND         1 //600  1      //And expanding available flash to max
+  #define FN_VFO_TOGGLE   1 //90    
+  #define FN_MODE         1 //318   
+  #define FN_RIT          1 //62    
+  #define FN_SPLIT        1 //2     
   #define FN_IFSHIFT      0 //358
   #define FN_ATT          0 //250
   #define FN_CW_SPEED     0 //286
@@ -314,8 +315,8 @@
   #define FN_WSPR         0 //1130      //mjh was originally enabled in 1.2. But software has grown
   #define FN_SDRMODE      0 //70
   #define FN_CALIBRATION  0 //790
-  #define FN_CARRIER      0 //500
-  #define FN_CWCARRIER    0 //464
+  #define FN_CARRIER      0 //500 
+  #define FN_CWCARRIER    0 //464 
   #define FN_CWTONE       0 //158
   #define FN_CWDELAY      0 //108
   #define FN_TXCWDELAY    0 //106
@@ -485,9 +486,9 @@
 #ifdef USE_DIGITAL_ENCODER
   #define ENCODER_TYPE 2
   #ifdef  RASPBERRYPIPICO
-    #define ENC_A         17
-    #define ENC_B         18
-    #define FBUTTON       19
+    #define ENC_A         15
+    #define ENC_B         14
+    #define FBUTTON       (A2)
     #define PTT           22
   #else                         //currently only teensy
     #define ENC_A         14
@@ -692,7 +693,11 @@
                                             //e.g., STRINGIFY(ENC_A) will return the string ENC_A
                                             
 #define conv2BytesToInt32(lsb,msb) (int)((int16_t)((msb<<8) + lsb));
-#define conv4BytesToLong(lsb,lsb1,lsb2,msb) (unsigned long)(((int)(msb<<24)) + ((int)(lsb2<<16)) + ((int)(lsb1<<8))+lsb);
+// 
+// originally it was the following line. But becausee Nano's do arithmatic strangly, this failed
+// perhaps a new compiler issue. Have to cast everything first and then you can add them
+//#define conv4BytesToLong(lsb,lsb1,lsb2,msb) (unsigned long)(((int)(msb<<24)) + ((int)(lsb2<<16)) + ((int)(lsb1<<8))+lsb);
+#define conv4BytesToLong(lsb,lsb1,lsb2,msb) (unsigned long)(((long)msb<<24) + ((long)lsb2<<16) + ((long)lsb1<<8)+ (long)lsb);
 
 
 

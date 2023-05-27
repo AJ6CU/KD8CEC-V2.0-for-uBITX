@@ -1206,31 +1206,31 @@ void initSettings(){
     EEPROMTYPE.read(FIRMWAR_ID_ADDR + 1) != 0x58 || 
     EEPROMTYPE.read(FIRMWAR_ID_ADDR + 2) != 0x68 ) {
 
-      //MJH
-      //Serial.println("no match on FIRMWar_ID");
-      
-    printLineF(1, F("Init EEProm...")); 
+        //MJH
+        //Serial.println("no match on FIRMWar_ID");
+        
+      printLineF(1, F("Init EEProm...")); 
 
+      
+      //Serial.println("erasing eeprom");     //mjh
+        //initial all eeprom 
+      for (unsigned int i = 64; i < 1024; i++) //protect Master_cal, usb_cal
+        
+        {        
+  //       Serial.print( ' clearing byte =:'); Serial.println(i);    //mjh
+          EEPROMTYPE.write(i, 0); 
+        }
+
+      //Serial.println(" done protecting master cal");   //mjh
+      //Write Firmware ID
+      EEPROMTYPE.write(FIRMWAR_ID_ADDR, 0x59);
+      EEPROMTYPE.write(FIRMWAR_ID_ADDR + 1, 0x58);
+      EEPROMTYPE.write(FIRMWAR_ID_ADDR + 2, 0x68);
+    //  Serial.println("finished writing firmware address"); //mjh
+    }
     
-    //Serial.println("erasing eeprom");     //mjh
-      //initial all eeprom 
-    for (unsigned int i = 64; i < 1024; i++) //protect Master_cal, usb_cal
-      
-      {        
- //       Serial.print( ' clearing byte =:'); Serial.println(i);    //mjh
-        EEPROMTYPE.write(i, 0); 
-      }
-
-    //Serial.println(" done protecting master cal");   //mjh
-    //Write Firmware ID
-    EEPROMTYPE.write(FIRMWAR_ID_ADDR, 0x59);
-    EEPROMTYPE.write(FIRMWAR_ID_ADDR + 1, 0x58);
-    EEPROMTYPE.write(FIRMWAR_ID_ADDR + 2, 0x68);
-  //  Serial.println("finished writing firmware address"); //mjh
-  }
-  
-  //Version Write for Memory Management Software
-  if (EEPROMTYPE.read(VERSION_ADDRESS) != FIRMWARE_VERSION_NUM)
+    //Version Write for Memory Management Software
+    if (EEPROMTYPE.read(VERSION_ADDRESS) != FIRMWARE_VERSION_NUM)
     EEPROMTYPE.write(VERSION_ADDRESS, FIRMWARE_VERSION_NUM);
 
   //SI5351 I2C Address
