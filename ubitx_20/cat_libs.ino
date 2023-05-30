@@ -206,7 +206,7 @@ void CatVFOToggle(boolean isSendACK, byte fromType)
     Serial.write((byte)ACK);  //Time 
 }
 
-void CatSetMode(byte tmpMode, byte fromType)
+void CatSetMode(byte tmpMode, byte fromType)    //Seems to be missing function to switch to CWU
 {
   if (fromType == 2 || fromType == 3) {
     Serial.write((byte)ACK);  
@@ -217,23 +217,22 @@ void CatSetMode(byte tmpMode, byte fromType)
   {
     if (tmpMode == CAT_MODE_CW)
     {
-      cwMode = 1;
+      cwMode = 1;                     //Switching to CWL
     }
     else if (tmpMode == CAT_MODE_USB)
     {
       cwMode = 0;
-      isUSB = true;
+      isUSB = true;                   //Switching to USB
     }
     else
     {
       cwMode = 0;
-      isUSB = false;
+      isUSB = false;                  //Switching to LSB
     }
-
+    SetCarrierFreq();                 //mjh not in original Mode command
     setFrequency(frequency);
     updateDisplay();
   }
-  
   Serial.write((byte)ACK);
 }
 
@@ -751,10 +750,10 @@ void ReadADCValue(void)
 
 void ReadVFO(unsigned long freq)
 {
-  CAT_BUFF[0] =  freq & 0xff;                    //convert master calibration value to bytes
-  CAT_BUFF[1] = (freq >> 8 ) &0xff;
-  CAT_BUFF[2] = (freq >> 16 ) &0xff;
-  CAT_BUFF[3] = (freq >> 24 ) &0xff;
+  CAT_BUFF[0] =  (byte)(freq & 0xff);                    //convert vfo value to bytes
+  CAT_BUFF[1] = (byte)((freq >> 8 ) &0xff);
+  CAT_BUFF[2] = (byte)((freq >> 16 ) &0xff);
+  CAT_BUFF[3] = (byte)((freq >> 24 ) &0xff);
   
   SendCatData(4);                                     //Send these 4 bytes
 
@@ -762,24 +761,24 @@ void ReadVFO(unsigned long freq)
 
 void ReadCalValues(void)          //Read and return Calibration values (Master, SSBBFO, CWBFO)
 {
-  CAT_BUFF[0] = calibration & 0xff;                    //convert master calibration value to bytes
-  CAT_BUFF[1] = (calibration >> 8 ) &0xff;
-  CAT_BUFF[2] = (calibration >> 16 ) &0xff;
-  CAT_BUFF[3] = (calibration >> 24 ) &0xff;
+  CAT_BUFF[0] = (byte)(calibration & 0xff);                    //convert master calibration value to bytes
+  CAT_BUFF[1] = (byte)((calibration >> 8 ) &0xff);
+  CAT_BUFF[2] = (byte)((calibration >> 16 ) &0xff);
+  CAT_BUFF[3] = (byte)((calibration >> 24 ) &0xff);
   
   SendCatData(4);                                     //Send these 4 bytes
 
-  CAT_BUFF[0] = usbCarrier & 0xff;                     //convert SSB BFO calibration value to bytes
-  CAT_BUFF[1] = (usbCarrier >> 8 ) &0xff;
-  CAT_BUFF[2] = (usbCarrier >> 16 ) &0xff;
-  CAT_BUFF[3] = (usbCarrier >> 24 ) &0xff;
+  CAT_BUFF[0] = (byte)(usbCarrier & 0xff);                     //convert SSB BFO calibration value to bytes
+  CAT_BUFF[1] = (byte)((usbCarrier >> 8 ) &0xff);
+  CAT_BUFF[2] = (byte)((usbCarrier >> 16 ) &0xff);
+  CAT_BUFF[3] = (byte)((usbCarrier >> 24 ) &0xff);
 
   SendCatData(4);                                     //Send these 4 bytes
 
-  CAT_BUFF[0] = cwmCarrier & 0xff;                     //convert CW BFO calibration value to bytes
-  CAT_BUFF[1] = (cwmCarrier >> 8 ) &0xff;
-  CAT_BUFF[2] = (cwmCarrier >> 16 ) &0xff;
-  CAT_BUFF[3] = (cwmCarrier >> 24 ) &0xff;
+  CAT_BUFF[0] = (byte)(cwmCarrier & 0xff);                     //convert CW BFO calibration value to bytes
+  CAT_BUFF[1] = (byte)((cwmCarrier >> 8 ) &0xff);
+  CAT_BUFF[2] = (byte)((cwmCarrier >> 16 ) &0xff);
+  CAT_BUFF[3] = (byte)((cwmCarrier >> 24 ) &0xff);
 
   SendCatData(4);                                     //Send these 4 bytes
 
@@ -810,21 +809,6 @@ void WriteCWBFOToMemory()   {       //Update in memory CWBFO value
   setFrequency(frequency);
 } 
 
-
-
-
-// void WriteCalValues(void)         //Update in memory Calibration values (Master, SSBBFO, CWBFO)
-// {
-//   //   si5351_set_calibration(calibration);        //master calilbration
-
-//   //   if (cwMode == 0)
-//   //   si5351bx_setfreq(0, usbCarrier);  //set back the carrier oscillator anyway, cw tx switches it off
-//   // else
-//   //   si5351bx_setfreq(0, cwmCarrier);  //set back the carrier oscillator anyway, cw tx switches it off
-  
-//   // setFrequency(frequency);            //needed to get back on track with new values
-//   return;
-// }
 
 void StoreCalToEEPROM(void)                 //stores current calibration values to EEPROM
 {

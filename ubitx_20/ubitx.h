@@ -54,12 +54,12 @@
 #define UBITX_BOARD_VERSION 6
 
 //Define which PROCESSOR is used
-//#define NANO  
+#define NANO  
 //#define NANOEVERY
 //#define NANO33IOT
 //#define NANOBLE
 //#define NANORP2040
-#define TEENSY
+//#define TEENSY
 //#define TEENSY41
 //#define RASPBERRYPIPICO
 

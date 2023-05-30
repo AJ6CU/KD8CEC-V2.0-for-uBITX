@@ -150,19 +150,19 @@ byte modeToByte(){
 //autoSetModebyFreq : 0
 //autoSetModebyFreq : 1, if (modValue is not set, set mode by frequency)
 void byteToMode(byte modeValue, byte autoSetModebyFreq){
-  if (modeValue == 4)
+  if (modeValue == 4)       //User switching to CWL
     cwMode = 1;
-  else if (modeValue == 5)
+  else if (modeValue == 5)  //User switching to CWU
     cwMode = 2;
   else
   {
-    cwMode = 0;
-    if (modeValue == 3)
+    cwMode = 0;             //Now switching to SSB
+    if (modeValue == 3)     //Switch to USB
       isUSB = 1;
     else if (autoSetModebyFreq == 1 && (modeValue == 0))
-      isUSB = (frequency > 10000000l) ? true : false;
+      isUSB = (frequency > 10000000l) ? true : false;         //Set to "true" if freq > 10mhz means we are in USB area
     else
-      isUSB = 0;
+      isUSB = 0;            //Switch to LSB
   }
 }
 
