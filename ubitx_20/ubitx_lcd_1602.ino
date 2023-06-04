@@ -316,7 +316,7 @@ void LCD_Init(void)
 }
 
 // The generic routine to display one line on the LCD 
-void printLine(unsigned char linenmbr, const char *c) {
+void printLine(uint8_t linenmbr, const char *c) {
   if ((displayOption1 & 0x01) == 0x01)
     linenmbr = (linenmbr == 0 ? 1 : 0); //Line Toggle
   if (strcmp(c, printBuff[linenmbr])) {     // only refresh the display when there was a change
@@ -330,7 +330,7 @@ void printLine(unsigned char linenmbr, const char *c) {
   }
 }
 
-void printLineF(char linenmbr, const __FlashStringHelper *c)
+void printLineF(uint8_t linenmbr, const __FlashStringHelper *c)
 {
   int i;
   char tmpBuff[17];
@@ -347,7 +347,7 @@ void printLineF(char linenmbr, const __FlashStringHelper *c)
 }
 
 #define LCD_MAX_COLUMN 16
-void printLineFromEEPRom(char linenmbr, char lcdColumn, byte eepromStartIndex, byte eepromEndIndex, char offsetTtype) {
+void printLineFromEEPRom(uint8_t linenmbr, uint8_t lcdColumn, byte eepromStartIndex, byte eepromEndIndex, uint8_t offsetTtype) {
   if ((displayOption1 & 0x01) == 0x01)
     linenmbr = (linenmbr == 0 ? 1 : 0); //Line Toggle
   
