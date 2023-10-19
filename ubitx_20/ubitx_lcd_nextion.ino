@@ -224,7 +224,7 @@ byte L_isDialLock;            //byte isDialLock
 #define CMD_IS_SPLIT      's' //cs
 byte  L_Split;            //isTxType
 #define CMD_IS_TXSTOP     'x' //cx
-byte  L_TXStop;           //isTxType
+byte  L_TXStop;           //isTxType  //mjh This was assumed to be zero by default??
 
 #define CMD_TUNEINDEX     'n' //cn
 byte L_tuneStepIndex;     //byte tuneStepIndex

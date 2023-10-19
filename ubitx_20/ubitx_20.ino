@@ -1052,6 +1052,7 @@ void writeStringToEEPROM(int location, String aString, int totalChars)
     else {
       EEPROMTYPE.write(location+i, ' ');
     }
+  delay(50);          //required to ensure writing of last byte is completed.
 }
 
 void updateExtEEPROM()
