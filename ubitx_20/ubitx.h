@@ -54,23 +54,24 @@
 //#define UBITX_BOARD_VERSION 6
 
 //Define which PROCESSOR is used
-#define NANO  
+//#define NANO  
 //#define NANOEVERY
 //#define NANO33IOT
 //#define NANOBLE
 //#define NANORP2040
 //#define TEENSY
 //#define TEENSY41
-//#define RASPBERRYPIPICO
+#define RASPBERRYPIPICO
 
 //Depending on the type of LCD mounted on the uBITX, uncomment one of the options below.
 //You must select only one.
-#define UBITX_DISPLAY_LCD1602P        //LCD mounted on unmodified uBITX (Parallel)
+//#define UBITX_DISPLAY_LCD1602P        //LCD mounted on unmodified uBITX (Parallel)
 //#define UBITX_DISPLAY_LCD1602I        //I2C type 16 x 02 LCD
 //#define UBITX_DISPLAY_LCD1602I_DUAL   //I2C type 16 x02 LCD Dual
 //#define UBITX_DISPLAY_LCD2004P        //24 x 04 LCD (Parallel)
 //#define UBITX_DISPLAY_LCD2004I        //I2C type 24 x 04 LCD
 //#define UBITX_DISPLAY_NEXTION         //NEXTION LCD
+#define UBITX_DISPLAY_TXT_240x320       //OEM 2.8 tft display provided with v6
 
 //You Can Select  Analog S-Meter or DSP (I2C) Meter (2nd Nano) Or Leave both Commented out
 //#define USE_I2CSMETER         //This is the option to choose if using a second Nano
@@ -161,7 +162,8 @@
 #endif
 
 #if !defined(UBITX_DISPLAY_LCD1602P) && !defined(UBITX_DISPLAY_LCD1602I) && !defined(UBITX_DISPLAY_LCD1602I_DUAL) \
-    && !defined(UBITX_DISPLAY_LCD2004P) && !defined(UBITX_DISPLAY_LCD2004I) && !defined(UBITX_DISPLAY_NEXTION)
+    && !defined(UBITX_DISPLAY_LCD2004P) && !defined(UBITX_DISPLAY_LCD2004I) && !defined(UBITX_DISPLAY_NEXTION) \
+    && !defined(UBITX_DISPLAY_TXT_240x320)
   #error No Display Defined  - Set in top of ubitx.h
 #endif
 
@@ -203,8 +205,12 @@
   #undef ENABLE_ADCMONITOR
   #undef FACTORY_RECOVERY_BOOTUP  
   //#define UBITX_DISPLAY_NEXTION_SAFE      //Only EEProm Write 770~775
+#elif defined(UBITX_DISPLAY_TXT_240x320)        //NEXTION LCD
+  #define UBITXDISPLAY 7
+  #undef ENABLE_ADCMONITOR
+  #undef FACTORY_RECOVERY_BOOTUP  
 #endif  
-#define NEXTIONBAUD 9600                    //must match that in tft file. Always defined so can be stored
+// #define NEXTIONBAUD 9600                    //must match that in tft file. Always defined so can be stored
                                             //In extended EEPROM and reported in Settings Manager
 //#ifdef USE_I2C_LCD
   #define I2C_LCD_MASTER_ADDRESS_DEFAULT  0x27     //0x27  //DEFAULT, if Set I2C Address by uBITX Manager, read from EEProm
