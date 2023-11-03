@@ -51,6 +51,12 @@
 #include <Wire.h>
 #include "ubitx.h"
 
+#ifdef UBITX_DISPLAY_TXT_240x320
+  #include <lvgl.h>
+  #include <TFT_eSPI.h>
+  #include "src/ui.h"
+#endif
+
 
 #ifdef USE_I2C_EEPROM
   #include <SparkFun_External_EEPROM.h>  //https://github.com/sparkfun/SparkFun_External_EEPROM_Arduino_Library
@@ -1654,11 +1660,14 @@ void setup()
 
 #endif  
 
-//Serial.println("I am alive");   //mjh
+Serial.begin(38400);
+delay(3000);
+Serial.println("I am alive");   //mjh
 
-//Serial.println("LCD init");   //mjh
+Serial.println("LCD init");   //mjh
 
   LCD_Init();
+Serial.println("returning from LCD init");
 
 //Serial.println("Return from LCD init");   //mjh
   //printLineF(1, FIRMWARE_VERSION_INFO);
@@ -1775,7 +1784,7 @@ void loop(){
   Check_Cat(inTx? 1 : 0);
 
   //for SEND SW Serial
-  #ifdef UBITX_DISPLAY_NEXTION
+  #if defined(UBITX_DISPLAY_NEXTION)  || defined(UBITX_DISPLAY_TXT_240x320) 
     SWS_Process();
   #endif  
 }

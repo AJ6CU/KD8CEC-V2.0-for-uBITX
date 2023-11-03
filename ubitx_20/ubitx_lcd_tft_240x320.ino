@@ -33,9 +33,6 @@
 //========================================================================
 #ifdef UBITX_DISPLAY_TXT_240x320
 
-#include <lvgl.h>
-#include <TFT_eSPI.h>
-#include "src/ui.h"
 
 
 /*Change to your screen resolution*/
@@ -66,7 +63,7 @@ void my_touchpad_read( lv_indev_drv_t * indev_driver, lv_indev_data_t * data )
 {
     uint16_t touchX = 0, touchY = 0;
 
-    bool touched = false;//tft.getTouch( &touchX, &touchY, 600 );
+    bool touched = tft.getTouch( &touchX, &touchY, 600 );
 
     if( !touched )
     {
@@ -85,7 +82,10 @@ void my_touchpad_read( lv_indev_drv_t * indev_driver, lv_indev_data_t * data )
 
 
 void LCDTFT240x320_Init()
+
 {
+    // Serial.begin(38400);
+    // Serial.println("in LCDTFT240x320_Init");
     lv_init();
 
     tft.begin();          /* TFT init */
@@ -115,6 +115,7 @@ void LCDTFT240x320_Init()
 
 
     ui_init();
+    // Serial.println(" exiting");
 
 }
 
