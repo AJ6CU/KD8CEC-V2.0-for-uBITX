@@ -110,7 +110,7 @@ void LCDTFT240x320_Init()
     indev_drv.read_cb = my_touchpad_read;
     lv_indev_drv_register( &indev_drv );
 
-    uint16_t calData[5] = { 286, 3534, 283, 3600, 6 };
+    uint16_t calData[5] = { 286, 3534, 283, 3600, 1 };
     tft.setTouch(calData);
 
 
@@ -260,81 +260,78 @@ char c[30], b[30];
 
 
 //===================================================================
-//Begin of Nextion LCD Protocol
 //
-// v0~v9, va~vz : Numeric (Transceiver -> Nextion LCD)
-// s0~s9  : String (Text) (Transceiver -> Nextion LCD)
-// vlSendxxx, vloxxx: Reserve for Nextion (Nextion LCD -> Transceiver)
+// Local variables to track what is on the Display right now
 //
 //===================================================================
 // #define CMD_NOW_DISP      '0' //c0
 // char L_nowdisp = -1;          //Sended nowdisp
 
 // #define CMD_VFO_TYPE      'v' //cv
-// char L_vfoActive;             //vfoActive
+char L_vfoActive;             //vfoActive
 
 // #define CMD_CURR_FREQ     'c' //vc
-// unsigned long L_vfoCurr;      //vfoA
+unsigned long L_vfoCurr;      //vfoA
 // #define CMD_CURR_MODE     'c' //cc
-// byte L_vfoCurr_mode;          //vfoA_mode
+byte L_vfoCurr_mode;          //vfoA_mode
 
 // #define CMD_VFOA_FREQ     'a' //va
-// unsigned long L_vfoA;         //vfoA
+unsigned long L_vfoA;         //vfoA
 // #define CMD_VFOA_MODE     'a' //ca
-// byte L_vfoA_mode;             //vfoA_mode
+byte L_vfoA_mode;             //vfoA_mode
 
 // #define CMD_VFOB_FREQ     'b' //vb
-// unsigned long L_vfoB;         //vfoB
+unsigned long L_vfoB;         //vfoB
 // #define CMD_VFOB_MODE     'b' //cb
-// byte L_vfoB_mode;             //vfoB_mode
+byte L_vfoB_mode;             //vfoB_mode
 
 // #define CMD_IS_RIT        'r' //cr
-// char L_ritOn;
+char L_ritOn;
 // #define CMD_RIT_FREQ      'r' //vr
-// unsigned long L_ritTxFrequency; //ritTxFrequency
+unsigned long L_ritTxFrequency; //ritTxFrequency
 
 // #define CMD_IS_TX         't' //ct
-// char L_inTx;
+char L_inTx;
 
 // #define CMD_IS_DIALLOCK   'l' //cl
-// byte L_isDialLock;            //byte isDialLock
+byte L_isDialLock;            //byte isDialLock
 
 // #define CMD_IS_SPLIT      's' //cs
-// byte  L_Split;            //isTxType
+byte  L_Split;            //isTxType
 // #define CMD_IS_TXSTOP     'x' //cx
-// byte  L_TXStop;           //isTxType  //mjh This was assumed to be zero by default??
+byte  L_TXStop;           //isTxType  //mjh This was assumed to be zero by default??
 
 // #define CMD_TUNEINDEX     'n' //cn
-// byte L_tuneStepIndex;     //byte tuneStepIndex
+byte L_tuneStepIndex;     //byte tuneStepIndex
 
 // #define CMD_SMETER        'p' //cs
-// byte L_scaledSMeter;      //scaledSMeter
+byte L_scaledSMeter;      //scaledSMeter
 
 // #define CMD_SIDE_TONE     't' //vt
-// unsigned long L_sideTone; //sideTone
+unsigned long L_sideTone; //sideTone
 // #define CMD_KEY_TYPE      'k' //ck
-// byte L_cwKeyType = -1;          //L_cwKeyType 0: straight, 1 : iambica, 2: iambicb
+byte L_cwKeyType = -1;          //L_cwKeyType 0: straight, 1 : iambica, 2: iambicb
 
 // #define CMD_CW_SPEED      's' //vs
-// unsigned int L_cwSpeed;   //cwSpeed
+unsigned int L_cwSpeed;   //cwSpeed
 
 // #define CMD_CW_DELAY      'y' //vy
-// byte L_cwDelayTime=-1;       //cwDelayTime
+byte L_cwDelayTime=-1;       //cwDelayTime
 
 // #define CMD_CW_STARTDELAY 'e' //ve
-// byte L_delayBeforeCWStartTime=-1;  //byte delayBeforeCWStartTime
+byte L_delayBeforeCWStartTime=-1;  //byte delayBeforeCWStartTime
 
 // #define CMD_ATT_LEVEL     'f' //vf
-// byte L_attLevel;
+byte L_attLevel;
 
-// byte L_isIFShift;             //1 = ifShift, 2 extend
 // #define CMD_IS_IFSHIFT    'i' //ci
+byte L_isIFShift;             //1 = ifShift, 2 extend
 
-// int L_ifShiftValue;
 // #define CMD_IFSHIFT_VALUE 'i' //vi
+int L_ifShiftValue;
 
-// byte L_sdrModeOn;
 // #define CMD_SDR_MODE      'j' //cj
+byte L_sdrModeOn;
 
 // #define CMD_UBITX_INFO     'm' //cm  Complete Send uBITX Information
 
@@ -349,20 +346,20 @@ char c[30], b[30];
 
 
 // #define CMD_IS_CW_SHIFT_DISPLAY 'h' //ch
-// byte L_isShiftDisplayCWFreq;  //byte isShiftDisplayCWFreq
+byte L_isShiftDisplayCWFreq;  //byte isShiftDisplayCWFreq
 
 // #define CMD_CW_SHIFT_ADJUST     'h' //vh
-// int L_shiftDisplayAdjustVal;        //int shiftDisplayAdjustVal
+int L_shiftDisplayAdjustVal;        //int shiftDisplayAdjustVal
 
 // //0:CW Display Shift Confirm, 1 : IFshift save
 // #define CMD_COMM_OPTION     'o'     //vo
-// byte L_commonOption0;         //byte commonOption0
+byte L_commonOption0;         //byte commonOption0
 
 // //0:Line Toggle, 1 : Always display Callsign, 2 : scroll display, 3 : s.meter
 // #define CMD_DISP_OPTION1    'p'   //vp
-// byte L_displayOption1;            //byte displayOption1
+byte L_displayOption1;            //byte displayOption1
 // #define CMD_DISP_OPTION2    'q'   //vq
-// byte L_displayOption2;            //byte displayOption2 (Reserve)
+byte L_displayOption2;            //byte displayOption2 (Reserve)
 
 // #define CMD_TEXT_LINE0      '0'   //s0
 // #define CMD_TEXT_LINE1      '1'   //s1
@@ -641,28 +638,111 @@ void printLine2ClearAndUpdate(){
 //==================================================================================
 //Begin of User Interface Routines
 //==================================================================================
-//Main Display for Nextion LCD
-//unsigned long 
-// byte nowPageIndex = 0;
+//originally designed for Nextion, adopted for TFT
 
-// //sendType == 1 not check different 
-// void sendUIData(int sendType)
-// {
-//   char nowActiveVFO = vfoActive == VFO_A ? 0 : 1;
+void toggleVFO(lv_event_t * e)
+{
+	char *currentVFO;
+	currentVFO = lv_label_get_text(ui_currentVFO);
+ 
+	if (!strcmp(currentVFO, "VFO A") ){
+		lv_label_set_text(ui_currentVFO, "VFO B");
+    vfoActive = VFO_B;
+
+	}
+
+	else {
+		lv_label_set_text(ui_currentVFO, "VFO A");
+    vfoActive = VFO_A;
+
+	}
+}
+
+void formatNumber(long f, char *buf) {
+// add period separators. Used generally for displaying frequencies
+
+  utoa(f, buf,  DEC);
+
+  int f_Length = strlen(buf);
+  if (f < 1000)    //no separators required, just return the buffer
+    return;
+  else {
+    for ( int i = f_Length+1; i > f_Length-4; i--)
+      buf[i+1] = buf[i];
+    buf[f_Length-3] = '.';
+
+    // Now check on whether there is another separator to insert
+    if (f > 999999)     { // two need to be inserted
+      f_Length = strlen(buf);    // need to reset because we already inserted one separator
+      for ( int i = f_Length+1; i > f_Length-8; i--)
+        buf[i+1] = buf[i];
+      buf[f_Length-7] = '.';
+    }
+  }    
+}
+
+//unsigned long 
+byte nowPageIndex = 0;
+
+// sendType == 1 not check different 
+void sendUIData(int sendType)
+{
+  Serial.begin(38400);
+  // Serial.println("in sendUIData");
+  char nowActiveVFO = vfoActive == VFO_A ? 0 : 1;
+  char tmpBuffer[15]; 
 
 //   //#define CMD_VFO_TYPE      'v' //cv
-//   if (L_vfoActive != nowActiveVFO)
-//   {
-//     L_vfoActive = nowActiveVFO;
-//     SendCommand1Num(CMD_VFO_TYPE, L_vfoActive);
-//   }
+  if (L_vfoActive != nowActiveVFO)
+  {
+    
+    L_vfoActive = nowActiveVFO;
+
+    formatNumber(L_vfoCurr, tmpBuffer);
+    lv_label_set_text(ui_inactiveFreq,tmpBuffer);
+
+    if(L_vfoActive == 0 ) {            // a zero means VFO A is active
+      // Serial.println("switching active vfo to A");
+      // Serial.print("vfoA="); Serial.println(vfoA);
+      // Serial.print("frequency="); Serial.println(frequency);
+      vfoB = frequency;
+      frequency = vfoA;
+      L_vfoCurr = frequency;
+
+    } else {         //Switch to VFO B
+      // Serial.println("switching active vfo to B");
+      // Serial.print("vfoB="); Serial.println(vfoB);
+      // Serial.print("frequency="); Serial.println(frequency);
+      vfoA = frequency;
+      frequency = vfoB;
+      L_vfoCurr = frequency;
+
+    }
+
+    formatNumber(L_vfoCurr, tmpBuffer);
+    lv_label_set_text(ui_activeFreq,tmpBuffer);
+    
+
+
+    // SendCommand1Num(CMD_VFO_TYPE, L_vfoActive);
+  }
 
 //   //#define CMD_CURR_FREQ     'c' //vc
-//   if (L_vfoCurr != frequency)
-//   {
-//     L_vfoCurr = frequency;
-//     SendCommandUL(CMD_CURR_FREQ, frequency);
-//   }
+
+  if (L_vfoCurr != frequency)
+  {
+    // Serial.println("local and freq are not equal");
+    // Serial.print("local frq="); Serial.println(L_vfoCurr);
+    // Serial.print("frequency="); Serial.println(frequency);
+    L_vfoCurr = frequency;
+
+    formatNumber(frequency, tmpBuffer);
+
+    lv_label_set_text(ui_activeFreq,tmpBuffer);
+  } else
+        // {Serial.println("local and freq are equal");
+        // Serial.print("local frq="); Serial.println(L_vfoCurr);
+        // Serial.print("frequency="); Serial.println(frequency);}
 
 //   //#define CMD_CURR_MODE     'c' //cc
 //   byte vfoCurr_mode = modeToByte();
@@ -697,11 +777,11 @@ void printLine2ClearAndUpdate(){
 
 //   //#define CMD_VFOA_FREQ     'a' //va
 //   //VFOA
-//   if (L_vfoA != vfoA)
-//   {
-//     L_vfoA = vfoA;
-//     SendCommandUL(CMD_VFOA_FREQ, L_vfoA);
-//   }
+  if (L_vfoA != vfoA)
+  {
+    L_vfoA = vfoA;
+    // SendCommandUL(CMD_VFOA_FREQ, L_vfoA);
+  }
 
 //   //#define CMD_VFOA_MODE     'a' //ca
 //   if (L_vfoA_mode != vfoA_mode)
@@ -712,11 +792,11 @@ void printLine2ClearAndUpdate(){
 
 //   //#define CMD_VFOB_FREQ     'b' //vb
 //   //VFOB
-//   if (L_vfoB != vfoB)
-//   {
-//     L_vfoB = vfoB;
-//     SendCommandUL(CMD_VFOB_FREQ, L_vfoB);
-//   }
+  if (L_vfoB != vfoB)
+  {
+    L_vfoB = vfoB;
+    // SendCommandUL(CMD_VFOB_FREQ, L_vfoB);
+  }
 
 //   //#define CMD_VFOB_MODE     'b' //cb
 //   if (L_vfoB_mode != vfoB_mode)
@@ -856,10 +936,10 @@ void printLine2ClearAndUpdate(){
 //     L_sdrModeOn = sdrModeOn;
 //     SendCommand1Num(CMD_SDR_MODE, L_sdrModeOn);
 //   }
-// }
+}
 
 void updateDisplay() {
-//   sendUIData(0);  //UI 
+  sendUIData(0);  //UI 
 }
 
 // //****************************************************************
@@ -1328,7 +1408,7 @@ void idle_process()
 //     checkCountSMeter = 0; //Reset Latency time
 //   } //end of S-Meter
 
-//   sendUIData(1);
+  sendUIData(1);
 }
 
 //When boot time, send data

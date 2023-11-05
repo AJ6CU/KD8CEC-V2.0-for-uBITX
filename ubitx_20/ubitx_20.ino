@@ -1660,14 +1660,14 @@ void setup()
 
 #endif  
 
-Serial.begin(38400);
-delay(3000);
-Serial.println("I am alive");   //mjh
+// Serial.begin(38400);
+// delay(3000);
+// Serial.println("I am alive");   //mjh
 
-Serial.println("LCD init");   //mjh
+// Serial.println("LCD init");   //mjh
 
   LCD_Init();
-Serial.println("returning from LCD init");
+// Serial.println("returning from LCD init");
 
 //Serial.println("Return from LCD init");   //mjh
   //printLineF(1, FIRMWARE_VERSION_INFO);
