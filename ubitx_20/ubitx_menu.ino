@@ -125,6 +125,27 @@ void menuBand(int btn){
   FrequencyToVFO(1);
   menuClearExit(500);
 }
+// Convert mode# to a string
+
+char *modeToString(uint8_t theMode) {
+  switch (theMode) {
+    case 2:
+      return("LSB");
+      break;
+    case 3:
+      return("USB");
+      break;
+    case 4:
+      return("CWL");
+      break;
+    case 5:
+      return("CWU");
+      break;
+    default:
+      return("ERR");
+      break;
+  }
+}
 
 //Convert Mode, Number by KD8CEC
 //0: default, 1:not use, 2:LSB, 3:USB, 4:CWL, 5:CWU, 6:FM
@@ -391,6 +412,8 @@ void menuVfoToggle(int btn)
   }
   else {
       FrequencyToVFO(1);
+      Serial.print("In menuVfoToggle, vfoActive="); Serial.println(vfoActive,HEX);
+      Serial.print("in menuVFOToggle, frequency="); Serial.println(frequency);
     
       if (vfoActive == VFO_B){
         vfoActive = VFO_A;
@@ -408,7 +431,7 @@ void menuVfoToggle(int btn)
       ritDisable();
       setFrequency(frequency);
 
-#ifdef UBITX_DISPLAY_NEXTION
+#if defined(UBITX_DISPLAY_NEXTION) || defined(UBITX_DISPLAY_TXT_240x320)
     menuOn = 0;
 #else
     //Only Clear And Delay for Character LCD

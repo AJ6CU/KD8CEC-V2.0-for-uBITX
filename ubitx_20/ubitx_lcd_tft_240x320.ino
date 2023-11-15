@@ -36,13 +36,18 @@
 
 
 /*Change to your screen resolution*/
+
+// static const uint16_t screenWidth  = 480;
+// static const uint16_t screenHeight = 320;
 static const uint16_t screenWidth  = 320;
 static const uint16_t screenHeight = 240;
 
 static lv_disp_draw_buf_t draw_buf;
 static lv_color_t buf[ screenWidth * screenHeight / 10 ];
 
-TFT_eSPI tft = TFT_eSPI(screenWidth, screenHeight); /* TFT instance */
+TFT_eSPI tft = TFT_eSPI(screenHeight,screenWidth ); /* TFT instance */
+// TFT_eSPI tft = TFT_eSPI(screenWidth, screenHeight); /* TFT instance */
+
 
 /* Display flushing */
 void my_disp_flush( lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *color_p )
@@ -65,6 +70,8 @@ void my_touchpad_read( lv_indev_drv_t * indev_driver, lv_indev_data_t * data )
 
     bool touched = tft.getTouch( &touchX, &touchY, 600 );
 
+
+ 
     if( !touched )
     {
         data->state = LV_INDEV_STATE_REL;
@@ -77,6 +84,12 @@ void my_touchpad_read( lv_indev_drv_t * indev_driver, lv_indev_data_t * data )
         data->point.x = touchX;
         data->point.y = touchY;
 
+        // Serial.print( "Data x " );
+        // Serial.println( touchX );
+
+        // Serial.print( "Data y " );
+        // Serial.println( touchY );
+
     }
 }
 
@@ -84,12 +97,13 @@ void my_touchpad_read( lv_indev_drv_t * indev_driver, lv_indev_data_t * data )
 void LCDTFT240x320_Init()
 
 {
-    // Serial.begin(38400);
+    //Serial.begin(38400);
     // Serial.println("in LCDTFT240x320_Init");
     lv_init();
 
     tft.begin();          /* TFT init */
-    tft.setRotation( 3 ); /* Landscape orientation, flipped */
+    tft.setRotation( 1 ); /* Landscape orientation, flipped */
+
 
     lv_disp_draw_buf_init( &draw_buf, buf, NULL, screenWidth * screenHeight / 10 );
 
@@ -110,12 +124,11 @@ void LCDTFT240x320_Init()
     indev_drv.read_cb = my_touchpad_read;
     lv_indev_drv_register( &indev_drv );
 
-    uint16_t calData[5] = { 286, 3534, 283, 3600, 1 };
+    uint16_t calData[5] = { 380, 3518, 291, 3465, 7 };
     tft.setTouch(calData);
 
 
     ui_init();
-    // Serial.println(" exiting");
 
 }
 
@@ -636,27 +649,143 @@ void printLine2ClearAndUpdate(){
 // //==================================================================================
 
 //==================================================================================
-//Begin of User Interface Routines
+//Begin of User Interface Callbacks
 //==================================================================================
 //originally designed for Nextion, adopted for TFT
 
-void toggleVFO(lv_event_t * e)
+
+
+void toggleStopButton(lv_event_t * e)
 {
-	char *currentVFO;
+	;
+}
+
+
+
+void toggleVFOClicked(lv_event_t * e)
+{
+	Serial.println("vfo toggled");
+  char *currentVFO, *currentMode;
+  char tmpBuffer[15];
 	currentVFO = lv_label_get_text(ui_currentVFO);
+  currentMode = lv_label_get_text(ui_modeSelectLabel);
+
+
+  Serial.print("currentVFO="); Serial.println(currentVFO);
+  Serial.print("currentMode="); Serial.println(currentMode);
+
+
  
 	if (!strcmp(currentVFO, "VFO A") ){
 		lv_label_set_text(ui_currentVFO, "VFO B");
-    vfoActive = VFO_B;
-
 	}
 
 	else {
 		lv_label_set_text(ui_currentVFO, "VFO A");
-    vfoActive = VFO_A;
-
 	}
+
+  formatNumber(frequency, tmpBuffer);
+  lv_label_set_text(ui_inactiveFreq,tmpBuffer);   
+  lv_label_set_text(ui_inactiveMode,modeToString(modeToByte())); 
+
+
+  Serial.print("before toggle, mode ="); Serial.println(modeToString(modeToByte()));
+  Serial.print("before toggle, vfoa ="); Serial.println(vfoA);
+  Serial.print("before toggle, vfob ="); Serial.println(vfoB);
+  Serial.print("before toggle, frequency ="); Serial.println(frequency);
+
+  menuVfoToggle(1); //Vfo Toggle 
+
+  Serial.print("after toggle, mode ="); Serial.println(modeToString(modeToByte()));
+  Serial.print("after toggle, vfoa ="); Serial.println(vfoA);
+  Serial.print("after toggle, vfob ="); Serial.println(vfoB);
+  Serial.print("after toggle, frequency ="); Serial.println(frequency);
+
+
+  lv_label_set_text(ui_modeSelectLabel,modeToString(modeToByte()));   // update displayed mode  
+  formatNumber(frequency, tmpBuffer);
+  lv_label_set_text(ui_activeFreq,tmpBuffer); 
+
+
 }
+
+
+
+void bandDownClicked(lv_event_t * e)
+{
+	uint8_t currentBandIndex;
+  if (tuneTXType == 2 || tuneTXType == 3 || tuneTXType == 102 || tuneTXType == 103) 
+  {  //only ham band move save frequency
+    currentBandIndex = getIndexHambanBbyFreq(frequency);
+    
+    if (currentBandIndex >= 0) 
+    {
+      saveBandFreqByIndex(frequency, modeToByte(), currentBandIndex);
+    }
+  }
+  
+  setNextHamBandFreq(frequency, -1);  // go down one band
+  lv_label_set_text(ui_modeSelectLabel,modeToString(modeToByte()));
+}
+
+
+void bandUpClicked(lv_event_t * e)
+{
+  uint8_t currentBandIndex;
+  if (tuneTXType == 2 || tuneTXType == 3 || tuneTXType == 102 || tuneTXType == 103) 
+  {  //only ham band move save frequency
+    currentBandIndex = getIndexHambanBbyFreq(frequency);
+    
+    if (currentBandIndex >= 0) 
+    {
+      saveBandFreqByIndex(frequency, modeToByte(), currentBandIndex);
+    }
+  }
+  setNextHamBandFreq(frequency, +1);
+  lv_label_set_text(ui_modeSelectLabel,modeToString(modeToByte()));
+  
+}
+
+void updateMode(uint8_t newMode)
+{
+  byteToMode(newMode,0);     // 2 is mode for LSB, 0 says dont set by frequency
+  if (L_vfoCurr_mode != newMode)
+  {
+    L_vfoCurr_mode = newMode;
+  }
+
+}
+void setModeLSB(lv_event_t * e)
+{
+  updateMode(2);                  // 2 is mode for LSB, 0 says dont set by frequency
+}
+
+void setModeUSB(lv_event_t * e)
+{
+  updateMode(3);                  // 3 is mode for USB, 0 says dont set by frequency
+}
+
+void setModeCWL(lv_event_t * e)
+{
+  updateMode(4);                  // 4 is mode for CWL, 0 says dont set by frequency
+}
+
+void setModeCWU(lv_event_t * e)
+{
+  updateMode(5);                  //  is mode for CWU, 0 says dont set by frequency
+}
+
+
+void toggleLockButton(lv_event_t * e)
+{
+	;
+}
+
+void toggleSDRButton(lv_event_t * e)
+{
+	;
+}
+
 
 void formatNumber(long f, char *buf) {
 // add period separators. Used generally for displaying frequencies
@@ -687,59 +816,61 @@ byte nowPageIndex = 0;
 // sendType == 1 not check different 
 void sendUIData(int sendType)
 {
-  Serial.begin(38400);
+  //Serial.begin(38400);
   // Serial.println("in sendUIData");
   char nowActiveVFO = vfoActive == VFO_A ? 0 : 1;
   char tmpBuffer[15]; 
 
 //   //#define CMD_VFO_TYPE      'v' //cv
-  if (L_vfoActive != nowActiveVFO)
-  {
+  // if (L_vfoActive != nowActiveVFO)
+  // {
     
-    L_vfoActive = nowActiveVFO;
+    // L_vfoActive = nowActiveVFO;
 
-    formatNumber(L_vfoCurr, tmpBuffer);
-    lv_label_set_text(ui_inactiveFreq,tmpBuffer);
+    // formatNumber(L_vfoCurr, tmpBuffer);
 
-    if(L_vfoActive == 0 ) {            // a zero means VFO A is active
-      // Serial.println("switching active vfo to A");
-      // Serial.print("vfoA="); Serial.println(vfoA);
-      // Serial.print("frequency="); Serial.println(frequency);
-      vfoB = frequency;
-      frequency = vfoA;
-      L_vfoCurr = frequency;
+    // if(L_vfoActive == 0 ) {            // a zero means VFO A is active
+    //   Serial.println("switching active vfo to A");
+    //   Serial.print("current frequency="); Serial.println(frequency);
+    //   Serial.print("vfoA="); Serial.println(vfoA);
+    //   Serial.print("vfoB="); Serial.println(vfoB);
 
-    } else {         //Switch to VFO B
-      // Serial.println("switching active vfo to B");
-      // Serial.print("vfoB="); Serial.println(vfoB);
-      // Serial.print("frequency="); Serial.println(frequency);
-      vfoA = frequency;
-      frequency = vfoB;
-      L_vfoCurr = frequency;
+    //   vfoB = frequency;
+    //   frequency = vfoA;
+    //   L_vfoCurr = frequency;
+    //   Serial.print("new frequency="); Serial.println(frequency);
 
-    }
+    // } else {         //Switch to VFO B
+    //   Serial.println("switching active vfo to B");
+    //   Serial.print("vfoB="); Serial.println(vfoB);
+    //   Serial.print("frequency="); Serial.println(frequency);
+    //   vfoA = frequency;
+    //   frequency = vfoB;
+    //   L_vfoCurr = frequency;
 
-    formatNumber(L_vfoCurr, tmpBuffer);
-    lv_label_set_text(ui_activeFreq,tmpBuffer);
+    // }
+
+    // formatNumber(frequency, tmpBuffer);
+    // lv_label_set_text(ui_activeFreq,tmpBuffer);
     
 
 
     // SendCommand1Num(CMD_VFO_TYPE, L_vfoActive);
-  }
+  // }
 
 //   //#define CMD_CURR_FREQ     'c' //vc
 
   if (L_vfoCurr != frequency)
   {
-    // Serial.println("local and freq are not equal");
-    // Serial.print("local frq="); Serial.println(L_vfoCurr);
-    // Serial.print("frequency="); Serial.println(frequency);
+    Serial.println("local and freq are not equal");
+    Serial.print("local frq="); Serial.println(L_vfoCurr);
+    Serial.print("frequency="); Serial.println(frequency);
     L_vfoCurr = frequency;
 
     formatNumber(frequency, tmpBuffer);
 
     lv_label_set_text(ui_activeFreq,tmpBuffer);
-  } else
+  } // else
         // {Serial.println("local and freq are equal");
         // Serial.print("local frq="); Serial.println(L_vfoCurr);
         // Serial.print("frequency="); Serial.println(frequency);}
@@ -777,11 +908,11 @@ void sendUIData(int sendType)
 
 //   //#define CMD_VFOA_FREQ     'a' //va
 //   //VFOA
-  if (L_vfoA != vfoA)
-  {
-    L_vfoA = vfoA;
-    // SendCommandUL(CMD_VFOA_FREQ, L_vfoA);
-  }
+  // if (L_vfoA != vfoA)
+  // {
+  //   L_vfoA = vfoA;
+  //   // SendCommandUL(CMD_VFOA_FREQ, L_vfoA);
+  // }
 
 //   //#define CMD_VFOA_MODE     'a' //ca
 //   if (L_vfoA_mode != vfoA_mode)
@@ -792,11 +923,11 @@ void sendUIData(int sendType)
 
 //   //#define CMD_VFOB_FREQ     'b' //vb
 //   //VFOB
-  if (L_vfoB != vfoB)
-  {
-    L_vfoB = vfoB;
-    // SendCommandUL(CMD_VFOB_FREQ, L_vfoB);
-  }
+  // if (L_vfoB != vfoB)
+  // {
+  //   L_vfoB = vfoB;
+  //   // SendCommandUL(CMD_VFOB_FREQ, L_vfoB);
+  // }
 
 //   //#define CMD_VFOB_MODE     'b' //cb
 //   if (L_vfoB_mode != vfoB_mode)
@@ -1043,6 +1174,10 @@ void SWS_Process(void)
  
 {
     lv_timer_handler(); /* let the GUI do its work */
+    // setFrequency(frequency);
+    // SetCarrierFreq();
+    // updateDisplay(); 
+
 }
 
 //  old stuff that was done
@@ -1374,7 +1509,7 @@ void SWS_Process(void)
 //       setFrequency(frequency);
 //       SetCarrierFreq();
 //       updateDisplay(); 
-//     }
+// //     }
 //   }
 
 // }

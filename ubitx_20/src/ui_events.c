@@ -4,9 +4,3 @@
 // Project name: simpletest2
 
 
-
-
-void toggleVFO(lv_event_t * e)
-{
-	// Your code here
-}

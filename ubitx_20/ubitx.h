@@ -50,8 +50,8 @@
 //Ubitx BOARD Version   - Select one by uncommenting only it
 //#define UBITX_BOARD_VERSION 3      //v1 ~ v4 : 4, v5: 5, 6
 //#define UBITX_BOARD_VERSION 4
-#define UBITX_BOARD_VERSION 5
-//#define UBITX_BOARD_VERSION 6
+//#define UBITX_BOARD_VERSION 5
+#define UBITX_BOARD_VERSION 6
 
 //Define which PROCESSOR is used
 //#define NANO  
@@ -59,9 +59,9 @@
 //#define NANO33IOT
 //#define NANOBLE
 //#define NANORP2040
-//#define TEENSY
+#define TEENSY
 //#define TEENSY41
-#define RASPBERRYPIPICO
+//#define RASPBERRYPIPICO
 
 //Depending on the type of LCD mounted on the uBITX, uncomment one of the options below.
 //You must select only one.
@@ -130,7 +130,7 @@
   #define PROCESSOR 6
   #define INTEGERS_ARE_32_BIT
   #define USE_I2C_EEPROM
-  //#define USE_DIGITAL_ENCODER 
+  #define USE_DIGITAL_ENCODER 
   #define FUNCTIONS_ALL               //All features enabled
 
 #elif defined(RASPBERRYPIPICO)
