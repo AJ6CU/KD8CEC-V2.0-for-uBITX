@@ -170,7 +170,7 @@ byte sideToneSub = 0;
 
 //DialLock
 byte isDialLock = 0;  //000000[0]vfoB [0]vfoA 0Bit : A, 1Bit : B
-byte isTxType = 0;    //000000[0 - isSplit] [0 - isTXStop]
+byte isTxType = 0;    //000000[0 - isSplit] [0 - isTXStop], a 1 in isTXSTop implies a TX Stop is in place.
 long arTuneStep[5];
 byte tuneStepIndex; //default Value 0, start Offset is 0 because of check new user
 
@@ -741,7 +741,7 @@ void checkButton(){
   if (keyStatus == FKEY_PRESS)  //Menu Key
   {
     //for touch screen
-#ifdef UBITX_DISPLAY_NEXTION
+#ifdef GUI_UX
     SetSWActivePage(1);
     doMenu();
 
@@ -1680,7 +1680,7 @@ void setup()
 //Serial.println("Init ports");   //mjh
   initPorts();     
 
-#ifdef UBITX_DISPLAY_NEXTION
+#ifdef GUI_UX
 //  if (userCallsignLength > 0 && ((userCallsignLength & 0x80) == 0x80)) 
 //  {
     userCallsignLength = userCallsignLength & 0x7F;
@@ -1712,7 +1712,7 @@ void setup()
   saveCheckFreq = frequency;  //for auto save frequency
   setFrequency(vfoA);
   
-#ifdef UBITX_DISPLAY_NEXTION
+#ifdef GUI_UX
   SendUbitxData();
 #endif
 
@@ -1784,7 +1784,7 @@ void loop(){
   Check_Cat(inTx? 1 : 0);
 
   //for SEND SW Serial
-  #if defined(UBITX_DISPLAY_NEXTION)  || defined(UBITX_DISPLAY_TXT_240x320) 
+  #ifdef GUI_UX
     SWS_Process();
   #endif  
 }

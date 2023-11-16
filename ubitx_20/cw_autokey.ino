@@ -343,7 +343,7 @@ void controlAutoCW(){
               displayScrolStep = 0;
           }
 
-#ifdef UBITX_DISPLAY_NEXTION
+#ifdef GUI_UX  ///needs to handle tft
           //Not need Scroll
           //Display_AutoKeyTextIndex(selectedCWTextIndex);
           SendCommand1Num('w', selectedCWTextIndex);                                              //Index

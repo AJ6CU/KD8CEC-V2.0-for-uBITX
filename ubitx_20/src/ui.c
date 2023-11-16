@@ -122,7 +122,6 @@ if ( event_code == LV_EVENT_CLICKED) {
       _ui_flag_modify( ui_modeSelectPanel, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
 }
 if ( event_code == LV_EVENT_CLICKED) {
-      _ui_state_modify( ui_txStopButton, LV_STATE_CHECKED, _UI_MODIFY_STATE_TOGGLE);
       toggleStopButton( e );
 }
 }
@@ -177,7 +176,6 @@ if ( event_code == LV_EVENT_CLICKED) {
       _ui_flag_modify( ui_modeSelectPanel, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
 }
 if ( event_code == LV_EVENT_CLICKED) {
-      _ui_state_modify( ui_lockDisplayButton, LV_STATE_CHECKED, _UI_MODIFY_STATE_TOGGLE);
       toggleLockButton( e );
 }
 }
@@ -187,7 +185,6 @@ if ( event_code == LV_EVENT_CLICKED) {
       _ui_flag_modify( ui_modeSelectPanel, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
 }
 if ( event_code == LV_EVENT_CLICKED) {
-      _ui_state_modify( ui_spkToggleButton, LV_STATE_CHECKED, _UI_MODIFY_STATE_TOGGLE);
       toggleSDRButton( e );
 }
 }
@@ -212,7 +209,6 @@ if ( event_code == LV_EVENT_CLICKED) {
 void ui_event_LSBModeButton( lv_event_t * e) {
     lv_event_code_t event_code = lv_event_get_code(e);lv_obj_t * target = lv_event_get_target(e);
 if ( event_code == LV_EVENT_CLICKED) {
-      _ui_label_set_property(ui_modeSelectLabel, _UI_LABEL_PROPERTY_TEXT, "LSB");
       setModeLSB( e );
 }
 if ( event_code == LV_EVENT_CLICKED) {
@@ -223,7 +219,6 @@ void ui_event_USBModeButton( lv_event_t * e) {
     lv_event_code_t event_code = lv_event_get_code(e);lv_obj_t * target = lv_event_get_target(e);
 if ( event_code == LV_EVENT_CLICKED) {
       setModeUSB( e );
-      _ui_label_set_property(ui_modeSelectLabel, _UI_LABEL_PROPERTY_TEXT, "USB");
 }
 if ( event_code == LV_EVENT_CLICKED) {
       _ui_flag_modify( ui_modeSelectPanel, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
@@ -232,7 +227,6 @@ if ( event_code == LV_EVENT_CLICKED) {
 void ui_event_CWLModeButton( lv_event_t * e) {
     lv_event_code_t event_code = lv_event_get_code(e);lv_obj_t * target = lv_event_get_target(e);
 if ( event_code == LV_EVENT_CLICKED) {
-      _ui_label_set_property(ui_modeSelectLabel, _UI_LABEL_PROPERTY_TEXT, "CWL");
       setModeCWL( e );
 }
 if ( event_code == LV_EVENT_CLICKED) {
@@ -242,7 +236,6 @@ if ( event_code == LV_EVENT_CLICKED) {
 void ui_event_CWUModeButton( lv_event_t * e) {
     lv_event_code_t event_code = lv_event_get_code(e);lv_obj_t * target = lv_event_get_target(e);
 if ( event_code == LV_EVENT_CLICKED) {
-      _ui_label_set_property(ui_modeSelectLabel, _UI_LABEL_PROPERTY_TEXT, "CWU");
       _ui_flag_modify( ui_modeSelectPanel, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
       setModeCWU( e );
 }

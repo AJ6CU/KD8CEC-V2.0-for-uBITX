@@ -127,8 +127,8 @@ void menuBand(int btn){
 }
 // Convert mode# to a string
 
-char *modeToString(uint8_t theMode) {
-  switch (theMode) {
+char *modeToString() {
+  switch (modeToByte()) {
     case 2:
       return("LSB");
       break;
@@ -412,8 +412,6 @@ void menuVfoToggle(int btn)
   }
   else {
       FrequencyToVFO(1);
-      Serial.print("In menuVfoToggle, vfoActive="); Serial.println(vfoActive,HEX);
-      Serial.print("in menuVFOToggle, frequency="); Serial.println(frequency);
     
       if (vfoActive == VFO_B){
         vfoActive = VFO_A;
@@ -431,7 +429,7 @@ void menuVfoToggle(int btn)
       ritDisable();
       setFrequency(frequency);
 
-#if defined(UBITX_DISPLAY_NEXTION) || defined(UBITX_DISPLAY_TXT_240x320)
+#ifdef GUI_UX
     menuOn = 0;
 #else
     //Only Clear And Delay for Character LCD
@@ -462,7 +460,7 @@ void menuSplitOnOff(int btn){
         printLineF2(F("SPT On"));
       }
 
-#ifdef UBITX_DISPLAY_NEXTION
+#ifdef GUI_UX
     menuOn = 0;
 #else
 //Only Clear And Delay for Character LCD
@@ -490,7 +488,7 @@ void menuTxOnOff(int btn, byte optionType){
         printLineF2(F("TX ON"));
       }
 
-#ifdef UBITX_DISPLAY_NEXTION
+#ifdef GUI_UX
     menuOn = 0;
 #else
     //Only Clear And Delay for Character LCD
@@ -529,7 +527,7 @@ void menuSDROnOff(int btn)
     setFrequency(frequency);
     SetCarrierFreq();
 
-#ifdef UBITX_DISPLAY_NEXTION
+#ifdef GUI_UX
     menuOn = 0;
 #else
     //Only Clear And Delay for Character LCD
@@ -729,7 +727,7 @@ int getValueByKnob(int valueType, int targetValue, int minKnobValue, int maxKnob
           else 
             attLevel = targetValue;
 
-#ifdef UBITX_DISPLAY_NEXTION
+#ifdef GUI_UX
   menuOn=2;
   updateDisplay();
 #endif
@@ -793,7 +791,7 @@ void menuCWSpeed(int btn){
   cwSpeed = 1200 / wpm;
   EEPROMTYPE.put(CW_SPEED, cwSpeed);
   //menuClearExit(1000);
-#ifdef UBITX_DISPLAY_NEXTION
+#ifdef GUI_UX
     menuOn = 0;
 #else
     //Only Clear And Delay for Character LCD
@@ -827,7 +825,7 @@ void menuSetupCwTone(int btn){
 
     //delay_background(2000, 0);
     //menuClearExit(0);
-#ifdef UBITX_DISPLAY_NEXTION
+#ifdef GUI_UX
     menuOn = 0;
 #else
     //Only Clear And Delay for Character LCD
@@ -852,7 +850,7 @@ void menuSetupCwDelay(int btn){
     cwDelayTime = tmpCWDelay / 10;
     EEPROMTYPE.put(CW_DELAY, cwDelayTime);
    //menuClearExit(1000);
-#ifdef UBITX_DISPLAY_NEXTION
+#ifdef GUI_UX
     menuOn = 0;
 #else
     //Only Clear And Delay for Character LCD
@@ -880,7 +878,7 @@ void menuSetupTXCWInterval(int btn){
    EEPROMTYPE.put(CW_START, delayBeforeCWStartTime);
    //menuClearExit(1000);
 
-#ifdef UBITX_DISPLAY_NEXTION
+#ifdef GUI_UX
     menuOn = 0;
 #else
     //Only Clear And Delay for Character LCD
@@ -918,7 +916,7 @@ void menuIFSSetup(int btn){
       //Store IF Shiift
       EEPROMTYPE.put(IF_SHIFTVALUE, ifShiftValue);
       //menuClearExit(0);
-#ifdef UBITX_DISPLAY_NEXTION
+#ifdef GUI_UX
     menuOn = 0;
 #else
     //Only Clear And Delay for Character LCD
@@ -951,7 +949,7 @@ void menuATTSetup(int btn){
       }
       //menuClearExit(0);
 
-#ifdef UBITX_DISPLAY_NEXTION
+#ifdef GUI_UX
       menuOn = 0;
 #else
       //Only Clear And Delay for Character LCD
@@ -1008,7 +1006,7 @@ void menuSelectMode(int btn){
     SetCarrierFreq();
     setFrequency(frequency);
     //menuClearExit(500);
-#ifdef UBITX_DISPLAY_NEXTION
+#ifdef GUI_UX
     menuOn = 0;
 #else
     //Only Clear And Delay for Character LCD
@@ -1047,7 +1045,7 @@ void menuSetupKeyType(int btn){
     }
     
     //menuClearExit(1000);
-#ifdef UBITX_DISPLAY_NEXTION
+#ifdef GUI_UX
     menuOn = 0;
 #else
     //Only Clear And Delay for Character LCD
@@ -1476,7 +1474,7 @@ void menuSetup(int btn){
     modeCalibrate = ! modeCalibrate;
     //menuClearExit(1000);
 
-#ifdef UBITX_DISPLAY_NEXTION
+#ifdef GUI_UX
     menuOn = 0;
 #else
     //Only Clear And Delay for Character LCD
@@ -1513,7 +1511,7 @@ void menuRitToggle(int btn){
       }
       
       //menuClearExit(500);
-#ifdef UBITX_DISPLAY_NEXTION
+#ifdef GUI_UX
       menuOn = 0;
 #else
       //Only Clear And Delay for Character LCD

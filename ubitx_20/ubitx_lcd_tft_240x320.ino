@@ -286,7 +286,7 @@ char L_vfoActive;             //vfoActive
 // #define CMD_CURR_FREQ     'c' //vc
 unsigned long L_vfoCurr;      //vfoA
 // #define CMD_CURR_MODE     'c' //cc
-byte L_vfoCurr_mode;          //vfoA_mode
+// byte L_vfoCurr_mode;          //vfoA_mode
 
 // #define CMD_VFOA_FREQ     'a' //va
 unsigned long L_vfoA;         //vfoA
@@ -541,8 +541,9 @@ void SendTextLineStr(uint8_t lineNumber, const char* sendValue)
 //   SendTextLineBuff(lineNumber);
 // }
 
-// void SendEEPromData(char varIndex, int16_t eepromStartIndex, int16_t eepromEndIndex, char offsetTtype) 
-// {
+// Not clear if needed or useful for tft
+void SendEEPromData(char varIndex, int16_t eepromStartIndex, int16_t eepromEndIndex, char offsetTtype) 
+{
 //   SendHeader(SWS_HEADER_STR_TYPE, varIndex);
   
 //   for (int i = eepromStartIndex; i <= eepromEndIndex; i++)
@@ -551,26 +552,27 @@ void SendTextLineStr(uint8_t lineNumber, const char* sendValue)
 //   }
 
 //   SendCommandETX(STR_ETX);
-// }
+}
 
+// not clear if this is necessary in tft
 // uint8_t softBuff1Num[14] = {'p', 'm', '.', 'c', '0', '.', 'v', 'a', 'l', '=', 0, 0xFF, 0xFF, 0xFF};
-// void SendCommand1Num(char varType, char sendValue) //0~9 : Mode, nowDisp, ActiveVFO, IsDialLock, IsTxtType, IsSplitType
-// {
+void SendCommand1Num(char varType, char sendValue) //0~9 : Mode, nowDisp, ActiveVFO, IsDialLock, IsTxtType, IsSplitType
+{
 //   softBuff1Num[4] = varType;
 //   softBuff1Num[10] = sendValue + 0x30;
 
 //   for (int i = 0; i < 14; i++)
 //     SERIALPORTWRITE(softBuff1Num[i]);
-// }
+}
 
-// void SetSWActivePage(char newPageIndex)
-// {
+void SetSWActivePage(char newPageIndex)   //sets active page in Nextion, equivalent for tft???
+{
 //     if (L_nowdisp != newPageIndex)
 //     {
 //       L_nowdisp = newPageIndex;
 //       SendCommand1Num(CMD_NOW_DISP, L_nowdisp);
 //     }
-// }
+}
 // //===================================================================
 // //End of Nextion LCD Protocol
 // //===================================================================
@@ -657,55 +659,54 @@ void printLine2ClearAndUpdate(){
 
 void toggleStopButton(lv_event_t * e)
 {
-	;
+
+  menuTxOnOff(1, 0x01);     // Toggle stop state
+
+  if (isTxType & 0x01)    // a 1 in indicates TX STOP in place
+    lv_obj_add_state( ui_txStopButton, LV_STATE_CHECKED);  // This puts button in pressed state
+
+  else
+    lv_obj_clear_state( ui_txStopButton, LV_STATE_CHECKED);
 }
 
 
 
 void toggleVFOClicked(lv_event_t * e)
+/*
+* Called by the UX when the VFO toggle button is clicked
+*/
 {
-	Serial.println("vfo toggled");
-  char *currentVFO, *currentMode;
-  char tmpBuffer[15];
-	currentVFO = lv_label_get_text(ui_currentVFO);
-  currentMode = lv_label_get_text(ui_modeSelectLabel);
-
-
-  Serial.print("currentVFO="); Serial.println(currentVFO);
-  Serial.print("currentMode="); Serial.println(currentMode);
-
-
- 
-	if (!strcmp(currentVFO, "VFO A") ){
+  char tmpBuffer[15];       //used for converting the frequency to xx.xxx.xxx from a number
+	//
+	// First update the UX labels. 
+  // If we were in VFO A, the new label on the button will be VFO B
+  // If we were in VFO B, the new label on the button will be VFO A
+  //
+  if (vfoActive == VFO_A )
 		lv_label_set_text(ui_currentVFO, "VFO B");
-	}
-
-	else {
+	else
 		lv_label_set_text(ui_currentVFO, "VFO A");
-	}
+
+  //
+  // The current frequency and mode will become the inactive one.
+  // Update the inactive labels with the current values
+  //
+
 
   formatNumber(frequency, tmpBuffer);
   lv_label_set_text(ui_inactiveFreq,tmpBuffer);   
-  lv_label_set_text(ui_inactiveMode,modeToString(modeToByte())); 
+  lv_label_set_text(ui_inactiveMode,modeToString()); 
 
+  menuVfoToggle(1); //the is the original routine that does the toggling
 
-  Serial.print("before toggle, mode ="); Serial.println(modeToString(modeToByte()));
-  Serial.print("before toggle, vfoa ="); Serial.println(vfoA);
-  Serial.print("before toggle, vfob ="); Serial.println(vfoB);
-  Serial.print("before toggle, frequency ="); Serial.println(frequency);
+  //
+  // Now update the displayed frequency and mode in the UX after the swap
+  //
 
-  menuVfoToggle(1); //Vfo Toggle 
-
-  Serial.print("after toggle, mode ="); Serial.println(modeToString(modeToByte()));
-  Serial.print("after toggle, vfoa ="); Serial.println(vfoA);
-  Serial.print("after toggle, vfob ="); Serial.println(vfoB);
-  Serial.print("after toggle, frequency ="); Serial.println(frequency);
-
-
-  lv_label_set_text(ui_modeSelectLabel,modeToString(modeToByte()));   // update displayed mode  
   formatNumber(frequency, tmpBuffer);
   lv_label_set_text(ui_activeFreq,tmpBuffer); 
 
+  lv_label_set_text(ui_modeSelectLabel,modeToString());   // update displayed mode  
 
 }
 
@@ -714,6 +715,7 @@ void toggleVFOClicked(lv_event_t * e)
 void bandDownClicked(lv_event_t * e)
 {
 	uint8_t currentBandIndex;
+  char tmpBuffer[15];
   if (tuneTXType == 2 || tuneTXType == 3 || tuneTXType == 102 || tuneTXType == 103) 
   {  //only ham band move save frequency
     currentBandIndex = getIndexHambanBbyFreq(frequency);
@@ -725,13 +727,17 @@ void bandDownClicked(lv_event_t * e)
   }
   
   setNextHamBandFreq(frequency, -1);  // go down one band
-  lv_label_set_text(ui_modeSelectLabel,modeToString(modeToByte()));
+
+  formatNumber(frequency, tmpBuffer);
+  lv_label_set_text(ui_activeFreq,tmpBuffer); 
+  lv_label_set_text(ui_modeSelectLabel,modeToString());
 }
 
 
 void bandUpClicked(lv_event_t * e)
 {
   uint8_t currentBandIndex;
+  char tmpBuffer[15];
   if (tuneTXType == 2 || tuneTXType == 3 || tuneTXType == 102 || tuneTXType == 103) 
   {  //only ham band move save frequency
     currentBandIndex = getIndexHambanBbyFreq(frequency);
@@ -742,21 +748,24 @@ void bandUpClicked(lv_event_t * e)
     }
   }
   setNextHamBandFreq(frequency, +1);
-  lv_label_set_text(ui_modeSelectLabel,modeToString(modeToByte()));
+  
+  formatNumber(frequency, tmpBuffer);
+  lv_label_set_text(ui_activeFreq,tmpBuffer); 
+
+  lv_label_set_text(ui_modeSelectLabel,modeToString());
   
 }
 
-void updateMode(uint8_t newMode)
-{
-  byteToMode(newMode,0);     // 2 is mode for LSB, 0 says dont set by frequency
-  if (L_vfoCurr_mode != newMode)
-  {
-    L_vfoCurr_mode = newMode;
-  }
-
+//
+// Convenience routine to set new mode on radio and update the label
+//
+void updateMode(uint8_t newmode){
+  byteToMode(newmode,0);
+  lv_label_set_text(ui_modeSelectLabel,modeToString());
 }
+
 void setModeLSB(lv_event_t * e)
-{
+{              
   updateMode(2);                  // 2 is mode for LSB, 0 says dont set by frequency
 }
 
@@ -772,18 +781,48 @@ void setModeCWL(lv_event_t * e)
 
 void setModeCWU(lv_event_t * e)
 {
-  updateMode(5);                  //  is mode for CWU, 0 says dont set by frequency
+  updateMode(5);                  // 5 is mode for CWU, 0 says dont set by frequency
 }
 
 
 void toggleLockButton(lv_event_t * e)
 {
-	;
+  if (vfoActive == VFO_A) {
+    setDialLock((isDialLock & 0x01) == 0x01 ? 0 : 1, 0); //Bit 0==1 indicates VFO_A is locked
+    //
+    // If now locked, change the state to show its locked
+    //
+    if(isDialLock & 0x01)
+      lv_obj_add_state( ui_lockDisplayButton, LV_STATE_CHECKED);  // This puts button in pressed state (locked)
+    else
+      lv_obj_clear_state( ui_lockDisplayButton, LV_STATE_CHECKED);
+
+  }
+  else {          //In VFO B
+    setDialLock((isDialLock & 0x02) == 0x02 ? 0 : 1, 0); //Bit 2 ==1 indicates VFO_B is locked
+    //
+    // If now locked, change the state to show its locked
+    //
+    if(isDialLock & 0x02)
+      lv_obj_add_state( ui_lockDisplayButton, LV_STATE_CHECKED);  // This puts button in pressed state
+    else
+      lv_obj_clear_state( ui_lockDisplayButton, LV_STATE_CHECKED);
+  }
+
 }
 
 void toggleSDRButton(lv_event_t * e)
 {
-	;
+	menuSDROnOff(1);
+  // Now update the UX. Highight the button if SDR is on, also make sure Label is correct
+  if (sdrModeOn) {   // a 1 in indicates we just went into SDR mode
+    lv_obj_add_state( ui_spkToggleButton, LV_STATE_CHECKED);  // This puts button in pressed state
+    lv_label_set_text(ui_spkToggleLabel,"SDR");
+  }
+  else {
+    lv_obj_clear_state( ui_spkToggleButton, LV_STATE_CHECKED);
+    lv_label_set_text(ui_spkToggleLabel,"SPK");
+  }
 }
 
 
@@ -814,11 +853,10 @@ void formatNumber(long f, char *buf) {
 byte nowPageIndex = 0;
 
 // sendType == 1 not check different 
-void sendUIData(int sendType)
+void sendUIData(int sendType)            // Probably should be merged into updatedisplay
 {
   //Serial.begin(38400);
-  // Serial.println("in sendUIData");
-  char nowActiveVFO = vfoActive == VFO_A ? 0 : 1;
+  // char nowActiveVFO = vfoActive == VFO_A ? 0 : 1;
   char tmpBuffer[15]; 
 
 //   //#define CMD_VFO_TYPE      'v' //cv
@@ -860,11 +898,11 @@ void sendUIData(int sendType)
 
 //   //#define CMD_CURR_FREQ     'c' //vc
 
-  if (L_vfoCurr != frequency)
+  if (L_vfoCurr != frequency) 
   {
-    Serial.println("local and freq are not equal");
-    Serial.print("local frq="); Serial.println(L_vfoCurr);
-    Serial.print("frequency="); Serial.println(frequency);
+    // Serial.println("local and freq are not equal");
+    // Serial.print("local frq="); Serial.println(L_vfoCurr);
+    // Serial.print("frequency="); Serial.println(frequency);
     L_vfoCurr = frequency;
 
     formatNumber(frequency, tmpBuffer);

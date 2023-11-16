@@ -200,12 +200,14 @@
   #define UBITXDISPLAY 5
   #define USE_I2C_LCD
 #elif defined(UBITX_DISPLAY_NEXTION)        //NEXTION LCD
+  #define GUI_UX
   #define UBITXDISPLAY 6
   #define NEXTIONBAUD 9600                  //must match that in tft file
   #undef ENABLE_ADCMONITOR
   #undef FACTORY_RECOVERY_BOOTUP  
   //#define UBITX_DISPLAY_NEXTION_SAFE      //Only EEProm Write 770~775
-#elif defined(UBITX_DISPLAY_TXT_240x320)        //NEXTION LCD
+#elif defined(UBITX_DISPLAY_TXT_240x320)        //TFT LCD
+  #define GUI_UX
   #define UBITXDISPLAY 7
   #undef ENABLE_ADCMONITOR
   #undef FACTORY_RECOVERY_BOOTUP  
