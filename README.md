@@ -25,7 +25,7 @@ The code appears to mostly work (see Issues on Github). The S-Meter and SWR have
 
 Building this from source will require the following "non-standard libraries"
 
-- RotaryEncoder 1.5.3 (must if you are compiling for Pico, optional to replace digital pins for the analogreads) - https://github.com/AJ6CU/uBITX-Settings-Editor/tree/main/uBITX_Settings_Editor
+- RotaryEncoder 1.5.3 (Mathertel) (must if you are compiling for Pico, optional to replace digital pins for the analogreads) https://github.com/mathertel/RotaryEncoder
 - SparkFun_External_EEPROM (v1.0.12 or better) //https://github.com/sparkfun/SparkFun_External_EEPROM_Arduino_Library
 
 Board Support Packages:
