@@ -59,9 +59,9 @@
 //#define NANO33IOT
 //#define NANOBLE
 //#define NANORP2040
-#define TEENSY
+//#define TEENSY
 //#define TEENSY41
-//#define RASPBERRYPIPICO
+#define RASPBERRYPIPICO
 
 //Depending on the type of LCD mounted on the uBITX, uncomment one of the options below.
 //You must select only one.

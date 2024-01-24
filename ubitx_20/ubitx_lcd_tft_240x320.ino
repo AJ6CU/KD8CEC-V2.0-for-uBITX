@@ -26,6 +26,7 @@
 
 **************************************************************************/
 #include "ubitx.h"
+
 // #include "ubitx_lcd.h"
 
 //======================================================================== 
@@ -97,9 +98,11 @@ void my_touchpad_read( lv_indev_drv_t * indev_driver, lv_indev_data_t * data )
 void LCDTFT240x320_Init()
 
 {
-    //Serial.begin(38400);
+    // Serial.begin(38400);
     // Serial.println("in LCDTFT240x320_Init");
+
     lv_init();
+    // Serial.println("returned from LCDTFT240x320_Init");
 
     tft.begin();          /* TFT init */
     tft.setRotation( 1 ); /* Landscape orientation, flipped */
@@ -124,11 +127,17 @@ void LCDTFT240x320_Init()
     indev_drv.read_cb = my_touchpad_read;
     lv_indev_drv_register( &indev_drv );
 
-    uint16_t calData[5] = { 380, 3518, 291, 3465, 7 };
+    uint16_t calData[5] = { 383, 3490, 332, 3344, 7 };
     tft.setTouch(calData);
 
-
+    // Serial.println("calling ui_init");
     ui_init();
+    // Serial.println("returned from ui_init");
+    
+    // fix code generation problem
+    //
+    lv_dropdown_set_dir(ui_tuneRateSelection, LV_DIR_LEFT);
+    // Serial.println("exiting LCDTFT240x320_init");
 
 }
 
@@ -824,6 +833,69 @@ void toggleSDRButton(lv_event_t * e)
     lv_label_set_text(ui_spkToggleLabel,"SPK");
   }
 }
+
+void splitButtonClicked(lv_event_t * e)
+{
+  //
+  // Toggle split state
+  //
+	menuSplitOnOff(10);
+  //
+  // Set the stte in the UX to indicate that split is on (or off), 1=on, 0 = off
+  //
+  if(splitOn)
+    lv_obj_add_state( ui_splitButton, LV_STATE_CHECKED);  // This puts button in pressed state (locked)
+  else
+    lv_obj_clear_state( ui_splitButton, LV_STATE_CHECKED);
+}
+
+void ritButtonClicked(lv_event_t * e)
+{
+	//
+  //  Toggle state of RIT
+  //
+  menuRitToggle(1);
+  
+  //
+  // Set the stte in the UX to indicate that RIT is on (or off), 1=on, 0 = off
+  //
+  if(ritOn)
+    lv_obj_add_state( ui_ritButton, LV_STATE_CHECKED);  // This puts button in pressed state (locked)
+  else
+    lv_obj_clear_state( ui_ritButton, LV_STATE_CHECKED);
+}
+
+void ifsButtonClicked(lv_event_t * e)
+{
+//
+//  toggle state of ifshift
+ 
+  isIFShift = isIFShift ? 0 : 1;  //Toggle
+
+  //
+  // Set the stte in the UX to indicate that isIFShift is on (or off), 1=on, 0 = off
+  //
+  if(isIFShift)
+    lv_obj_add_state( ui_ifsButton, LV_STATE_CHECKED);  // This puts button in pressed state (locked)
+  else
+    lv_obj_clear_state( ui_ifsButton, LV_STATE_CHECKED);
+}
+
+void attButtonClicked(lv_event_t * e)
+{
+   Serial.print("attLevel ="); Serial.println(attLevel, HEX);
+	// attLevel = swr_buffer[commandStartIndex + 4];
+}
+
+void tuneRateSelectionClicked(lv_event_t * e)
+{
+	
+  //
+  //  New tune step was selected in UX, update internal variable to reflect this.
+  //
+  tuneStepIndex = lv_dropdown_get_selected(ui_tuneRateSelection)+1;
+}
+
 
 
 void formatNumber(long f, char *buf) {
@@ -1587,6 +1659,34 @@ void idle_process()
 //When boot time, send data
 void SendUbitxData(void)
 {
+
+    //
+    // After EEPROM read in, this is run to transfer data to UX
+    //
+    
+    char tmpBuffer[10];     // used for conversion from int
+
+    //
+    //  update firmware version on screen
+    //
+    lv_label_set_text(ui_firmwareVersion,(char *)(FIRMWARE_VERSION_INFO));
+
+    //
+    //  This code loads the tune rate selection box
+    //
+    lv_dropdown_clear_options( ui_tuneRateSelection);
+
+    for (int i =0; i<5; i++) {
+      itoa(arTuneStep[i],tmpBuffer,10);
+      lv_dropdown_add_option( ui_tuneRateSelection, tmpBuffer, i);
+
+    }
+
+    lv_dropdown_set_selected( ui_tuneRateSelection, tuneStepIndex-1);
+
+  
+
+  
   // //Wait for ready other device (LCD, DSP and more)
   // //delay(500);
   // delay_background(500, 2);

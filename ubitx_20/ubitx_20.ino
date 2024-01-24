@@ -1158,7 +1158,7 @@ void initSettings(){
   //read the settings from the eeprom and restore them
   //if the readings are off, then set defaults
   //for original source Section ===========================
-//Serial.println("In InitSettings");   //mjh
+// Serial.println("In InitSettings");   //mjh
 //
 // Get size of EEPROM
 //
@@ -1166,9 +1166,9 @@ void initSettings(){
   eepromSize = EEPROMTYPE.length(); // Limits max eepromSize
   if (eepromSize > MAXEEPROMSIZE)
     eepromSize = MAXEEPROMSIZE;
-
+// Serial.print("got eepromsize=");Serial.println(eepromSize);
   EEPROMTYPE.get(MASTER_CAL, calibration); 
-//Serial.println("getting USB_CAL");   //mjh
+// Serial.println("getting USB_CAL");   //mjh
   EEPROMTYPE.get(USB_CAL, usbCarrier);
   EEPROMTYPE.get(VFO_A, vfoA);
   EEPROMTYPE.get(VFO_B, vfoB);
@@ -1182,15 +1182,15 @@ void initSettings(){
 //#endif
 
 
- /*
-  Serial.print("MASTER_CAL="); Serial.print(calibration);Serial.println("*");
-  Serial.print("USB_CAL="); Serial.print(usbCarrier);Serial.println("*");
-  Serial.print("VFO_AL="); Serial.print(vfoA);Serial.println("*");
-  Serial.print("VFO_B="); Serial.print(vfoB);Serial.println("*");
-  Serial.print("CW_SIDETONE="); Serial.print(sideTone);Serial.println("*");
-  Serial.print("CW_SPEED="); Serial.print(cwSpeed);Serial.println("*");
+ 
+  // Serial.print("MASTER_CAL="); Serial.print(calibration);Serial.println("*");
+  // Serial.print("USB_CAL="); Serial.print(usbCarrier);Serial.println("*");
+  // Serial.print("VFO_AL="); Serial.print(vfoA);Serial.println("*");
+  // Serial.print("VFO_B="); Serial.print(vfoB);Serial.println("*");
+  // Serial.print("CW_SIDETONE="); Serial.print(sideTone);Serial.println("*");
+  // Serial.print("CW_SPEED="); Serial.print(cwSpeed);Serial.println("*");
 
-*/
+
 
 
   
@@ -1285,7 +1285,7 @@ void initSettings(){
     else
       keyerControl |= IAMBICB;
   }
-  //Serial.println(" getting display options");  //mjh
+  // Serial.println(" getting display options");  //mjh
   EEPROMTYPE.get(COMMON_OPTION0, commonOption0);
   EEPROMTYPE.get(DISPLAY_OPTION1, displayOption1);
   EEPROMTYPE.get(DISPLAY_OPTION2, displayOption2);
@@ -1673,11 +1673,11 @@ void setup()
   //printLineF(1, FIRMWARE_VERSION_INFO);
   DisplayVersionInfo(FIRMWARE_VERSION_INFO);
 
-//Serial.println("Init_Cat");   //mjh
+// Serial.println("Init_Cat");   //mjh
   Init_Cat(38400, SERIAL_8N1);
-//Serial.println("Init Settings");   //mjh
+// Serial.println("Init Settings");   //mjh
   initSettings();
-//Serial.println("Init ports");   //mjh
+// Serial.println("Init ports");   //mjh
   initPorts();     
 
 #ifdef GUI_UX
@@ -1703,10 +1703,10 @@ void setup()
   if (btnDown())
     factory_Recovery();
 #endif
-//Serial.println(" init Oscillators");   //mjh
+// Serial.println(" init Oscillators");   //mjh
   byteToMode(vfoA_mode, 0);
   initOscillators();
-//Serial.println(" return from init oscillators");   //mjh
+// Serial.println(" return from init oscillators");   //mjh
 
   frequency = vfoA;
   saveCheckFreq = frequency;  //for auto save frequency
@@ -1716,9 +1716,9 @@ void setup()
   SendUbitxData();
 #endif
 
-//Serial.println("updating display");         //mjh  
+// Serial.println("updating display");         //mjh  
   updateDisplay();
-//Serial.println("return from updating display"); //mjh)
+// Serial.println("return from updating display"); //mjh)
 
 #ifdef ENABLE_FACTORYALIGN
   if (btnDown())
