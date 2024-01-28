@@ -20629,8 +20629,7 @@
                     "InheritedType": 4
                   }
                 ],
-                "saved_objtypeKey": "PANEL",
-                "tree_closed": true
+                "saved_objtypeKey": "PANEL"
               },
               {
                 "guid": "GUID17699899-58377S8392307",
@@ -20667,6 +20666,7 @@
                       },
                       {
                         "nid": -665880130,
+                        "flags": 1048576,
                         "strtype": "OBJECT/Transform",
                         "InheritedType": 1
                       },
@@ -20698,7 +20698,6 @@
                       },
                       {
                         "nid": 1299658693,
-                        "flags": 1048576,
                         "strtype": "OBJECT/Flags",
                         "InheritedType": 1
                       },
@@ -20794,7 +20793,6 @@
                       },
                       {
                         "nid": 1608263920,
-                        "flags": 1048576,
                         "strtype": "OBJECT/States",
                         "InheritedType": 1
                       },
@@ -20885,15 +20883,16 @@
                             "strval": "DEFAULT",
                             "childs": [
                               {
-                                "nid": -855028262,
-                                "strtype": "_style/Padding",
-                                "intarray": [
-                                  20,
-                                  10,
-                                  0,
-                                  0
-                                ],
-                                "InheritedType": 7
+                                "nid": 1121682438,
+                                "strtype": "_style/Bg_Image",
+                                "strval": "assets\\att.png",
+                                "InheritedType": 5
+                              },
+                              {
+                                "nid": 641831539,
+                                "strtype": "_style/Blend_opacity",
+                                "integer": 125,
+                                "InheritedType": 6
                               }
                             ],
                             "InheritedType": 1
@@ -20906,7 +20905,27 @@
                       },
                       {
                         "part": "lv.PART.INDICATOR",
-                        "childs": [],
+                        "childs": [
+                          {
+                            "nid": -1730608455,
+                            "strtype": "_style/StyleState",
+                            "strval": "DEFAULT",
+                            "childs": [
+                              {
+                                "nid": 1460677325,
+                                "strtype": "_style/Bg_Color",
+                                "intarray": [
+                                  107,
+                                  44,
+                                  1,
+                                  255
+                                ],
+                                "InheritedType": 7
+                              }
+                            ],
+                            "InheritedType": 1
+                          }
+                        ],
                         "nid": 688368982,
                         "strtype": "SLIDER/Style_indicator",
                         "strval": "lv.PART.INDICATOR, Rectangle",
@@ -20923,7 +20942,46 @@
                               {
                                 "nid": -831439268,
                                 "strtype": "_style/Bg_Radius",
-                                "integer": 1,
+                                "InheritedType": 6
+                              },
+                              {
+                                "nid": -1156844005,
+                                "strtype": "_style/Bg_Color",
+                                "intarray": [
+                                  107,
+                                  44,
+                                  1,
+                                  0
+                                ],
+                                "InheritedType": 7
+                              },
+                              {
+                                "nid": -1576764161,
+                                "strtype": "_style/Bg_Image",
+                                "strval": "assets\\vertical20p.png",
+                                "InheritedType": 5
+                              },
+                              {
+                                "nid": -1999203722,
+                                "strtype": "_style/Bg_Image_opa",
+                                "integer": 255,
+                                "InheritedType": 6
+                              },
+                              {
+                                "nid": -364410512,
+                                "strtype": "_style/Bg_Image_Recolor",
+                                "intarray": [
+                                  107,
+                                  44,
+                                  1,
+                                  0
+                                ],
+                                "InheritedType": 7
+                              },
+                              {
+                                "nid": 217124529,
+                                "strtype": "_style/Blend_opacity",
+                                "integer": 255,
                                 "InheritedType": 6
                               }
                             ],
@@ -25095,9 +25153,9 @@
     "theme_dark": false,
     "theme_color1": 5,
     "theme_color2": 0,
-    "uiExportFolderPath": "",
-    "projectExportFolderPath": "C:\\Users\\markj\\Documents\\GitHub\\ubitx\\ubitx_20",
-    "backup_cnt": 1045,
+    "uiExportFolderPath": "C:\\Users\\markj\\Documents\\GitHub\\KD8CEC-V2.0-for-uBITX\\ubitx_20\\src",
+    "projectExportFolderPath": "C:\\Users\\markj\\Documents\\GitHub\\KD8CEC-V2.0-for-uBITX\\ubitx_20\\src",
+    "backup_cnt": 1068,
     "autosave_cnt": 0,
     "lvgl_version": "8.3.6",
     "callfuncsexport": "C_FILE",
