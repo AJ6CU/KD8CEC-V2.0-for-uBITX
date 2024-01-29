@@ -126,7 +126,7 @@ extern lv_obj_t * ui_settings_panel;
 extern lv_obj_t * ui_Label1;
 extern lv_obj_t * ui____initial_actions0;
 
-LV_IMG_DECLARE(ui_img_att_png);    // assets\att.png
+LV_IMG_DECLARE(ui_img_att120x53_png);    // assets\att120x53.png
 LV_IMG_DECLARE(ui_img_vertical20p_png);    // assets\vertical20p.png
 LV_IMG_DECLARE(ui_img_verticalfilled50_png);    // assets\verticalfilled50.png
 

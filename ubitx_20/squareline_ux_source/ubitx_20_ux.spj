@@ -20666,7 +20666,6 @@
                       },
                       {
                         "nid": -665880130,
-                        "flags": 1048576,
                         "strtype": "OBJECT/Transform",
                         "InheritedType": 1
                       },
@@ -20675,8 +20674,8 @@
                         "flags": 17,
                         "strtype": "OBJECT/Position",
                         "intarray": [
-                          3,
-                          24
+                          2,
+                          7
                         ],
                         "InheritedType": 7
                       },
@@ -20685,8 +20684,8 @@
                         "flags": 17,
                         "strtype": "OBJECT/Size",
                         "intarray": [
-                          140,
-                          25
+                          120,
+                          53
                         ],
                         "InheritedType": 7
                       },
@@ -20885,7 +20884,7 @@
                               {
                                 "nid": 1121682438,
                                 "strtype": "_style/Bg_Image",
-                                "strval": "assets\\att.png",
+                                "strval": "assets\\att120x53.png",
                                 "InheritedType": 5
                               },
                               {
@@ -20983,6 +20982,17 @@
                                 "strtype": "_style/Blend_opacity",
                                 "integer": 255,
                                 "InheritedType": 6
+                              },
+                              {
+                                "nid": -353773770,
+                                "strtype": "_style/Padding",
+                                "intarray": [
+                                  -10,
+                                  0,
+                                  0,
+                                  0
+                                ],
+                                "InheritedType": 7
                               }
                             ],
                             "InheritedType": 1
@@ -21331,7 +21341,7 @@
                     "strtype": "OBJECT/Size",
                     "intarray": [
                       100,
-                      40
+                      68
                     ],
                     "InheritedType": 7
                   },
@@ -25155,7 +25165,7 @@
     "theme_color2": 0,
     "uiExportFolderPath": "C:\\Users\\markj\\Documents\\GitHub\\KD8CEC-V2.0-for-uBITX\\ubitx_20\\src",
     "projectExportFolderPath": "C:\\Users\\markj\\Documents\\GitHub\\KD8CEC-V2.0-for-uBITX\\ubitx_20\\src",
-    "backup_cnt": 1068,
+    "backup_cnt": 1069,
     "autosave_cnt": 0,
     "lvgl_version": "8.3.6",
     "callfuncsexport": "C_FILE",

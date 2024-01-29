@@ -746,7 +746,7 @@ void ui_Screen1_screen_init(void)
     lv_obj_set_style_bg_opa(ui_Bar2, 255, LV_PART_INDICATOR | LV_STATE_DEFAULT);
 
     ui_keySettingsPanel = lv_obj_create(ui_fullScreenPanel);
-    lv_obj_set_height(ui_keySettingsPanel, 40);
+    lv_obj_set_height(ui_keySettingsPanel, 68);
     lv_obj_set_width(ui_keySettingsPanel, lv_pct(100));
     lv_obj_set_x(ui_keySettingsPanel, 2);
     lv_obj_set_y(ui_keySettingsPanel, -17);
@@ -768,12 +768,12 @@ void ui_Screen1_screen_init(void)
     lv_obj_set_style_border_side(ui_keySettingsPanel, LV_BORDER_SIDE_NONE, LV_PART_SCROLLBAR | LV_STATE_DEFAULT);
 
     ui_Slider1 = lv_slider_create(ui_keySettingsPanel);
-    lv_obj_set_width(ui_Slider1, 140);
-    lv_obj_set_height(ui_Slider1, 25);
-    lv_obj_set_x(ui_Slider1, 3);
-    lv_obj_set_y(ui_Slider1, 24);
+    lv_obj_set_width(ui_Slider1, 120);
+    lv_obj_set_height(ui_Slider1, 53);
+    lv_obj_set_x(ui_Slider1, 2);
+    lv_obj_set_y(ui_Slider1, 7);
     lv_obj_set_align(ui_Slider1, LV_ALIGN_CENTER);
-    lv_obj_set_style_bg_img_src(ui_Slider1, &ui_img_att_png, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_img_src(ui_Slider1, &ui_img_att120x53_png, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_opa(ui_Slider1, 125, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     lv_obj_set_style_bg_color(ui_Slider1, lv_color_hex(0x6B2C01), LV_PART_INDICATOR | LV_STATE_DEFAULT);
@@ -787,6 +787,10 @@ void ui_Screen1_screen_init(void)
     lv_obj_set_style_bg_img_recolor(ui_Slider1, lv_color_hex(0x6B2C01), LV_PART_KNOB | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_img_recolor_opa(ui_Slider1, 0, LV_PART_KNOB | LV_STATE_DEFAULT);
     lv_obj_set_style_opa(ui_Slider1, 255, LV_PART_KNOB | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui_Slider1, -10, LV_PART_KNOB | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui_Slider1, 0, LV_PART_KNOB | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui_Slider1, 0, LV_PART_KNOB | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui_Slider1, 0, LV_PART_KNOB | LV_STATE_DEFAULT);
 
     ui_Slider2 = lv_slider_create(ui_keySettingsPanel);
     lv_obj_set_width(ui_Slider2, 140);
