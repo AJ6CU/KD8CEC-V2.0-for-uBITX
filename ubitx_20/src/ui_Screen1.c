@@ -746,7 +746,7 @@ void ui_Screen1_screen_init(void)
     lv_obj_set_style_bg_opa(ui_Bar2, 255, LV_PART_INDICATOR | LV_STATE_DEFAULT);
 
     ui_keySettingsPanel = lv_obj_create(ui_fullScreenPanel);
-    lv_obj_set_height(ui_keySettingsPanel, 60);
+    lv_obj_set_height(ui_keySettingsPanel, 55);
     lv_obj_set_width(ui_keySettingsPanel, lv_pct(100));
     lv_obj_set_x(ui_keySettingsPanel, 2);
     lv_obj_set_y(ui_keySettingsPanel, -17);
@@ -760,7 +760,7 @@ void ui_Screen1_screen_init(void)
     lv_obj_set_style_border_width(ui_keySettingsPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_left(ui_keySettingsPanel, 25, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_right(ui_keySettingsPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_top(ui_keySettingsPanel, 15, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui_keySettingsPanel, 10, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_bottom(ui_keySettingsPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_row(ui_keySettingsPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_column(ui_keySettingsPanel, 30, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -787,6 +787,10 @@ void ui_Screen1_screen_init(void)
     lv_obj_set_style_bg_color(ui_Slider1, lv_color_hex(0x000000), LV_PART_KNOB | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_Slider1, 0, LV_PART_KNOB | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_img_src(ui_Slider1, &ui_img_indicator_png, LV_PART_KNOB | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui_Slider1, 2, LV_PART_KNOB | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui_Slider1, 22, LV_PART_KNOB | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui_Slider1, 4, LV_PART_KNOB | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui_Slider1, 2, LV_PART_KNOB | LV_STATE_DEFAULT);
 
     ui_Slider2 = lv_slider_create(ui_keySettingsPanel);
     lv_obj_set_width(ui_Slider2, 140);
@@ -811,7 +815,7 @@ void ui_Screen1_screen_init(void)
     lv_obj_set_style_border_width(ui_cwSettingsPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_left(ui_cwSettingsPanel, 40, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_right(ui_cwSettingsPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_top(ui_cwSettingsPanel, 10, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui_cwSettingsPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_bottom(ui_cwSettingsPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_row(ui_cwSettingsPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_column(ui_cwSettingsPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
