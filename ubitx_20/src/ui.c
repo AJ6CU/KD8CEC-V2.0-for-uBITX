@@ -110,8 +110,8 @@ lv_obj_t * ui_cwSidetoneUnits;
 lv_obj_t * ui_settings_panel;
 lv_obj_t * ui_Label1;
 lv_obj_t * ui____initial_actions0;
-const lv_img_dsc_t * ui_imgset_verticalfilled[1] = {&ui_img_verticalfilled50_png};
 const lv_img_dsc_t * ui_imgset_att120x[1] = {&ui_img_att120x53_png};
+const lv_img_dsc_t * ui_imgset_verticalfilled[1] = {&ui_img_verticalfilled50_png};
 
 ///////////////////// TEST LVGL SETTINGS ////////////////////
 #if LV_COLOR_DEPTH != 16

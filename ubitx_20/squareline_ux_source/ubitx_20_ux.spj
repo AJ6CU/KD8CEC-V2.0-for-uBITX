@@ -20674,8 +20674,8 @@
                         "flags": 17,
                         "strtype": "OBJECT/Position",
                         "intarray": [
-                          2,
-                          7
+                          41,
+                          -15
                         ],
                         "InheritedType": 7
                       },
@@ -20684,7 +20684,7 @@
                         "flags": 17,
                         "strtype": "OBJECT/Size",
                         "intarray": [
-                          125,
+                          100,
                           25
                         ],
                         "InheritedType": 7
@@ -20931,7 +20931,32 @@
                       },
                       {
                         "part": "lv.PART.INDICATOR",
-                        "childs": [],
+                        "childs": [
+                          {
+                            "nid": 189704049,
+                            "strtype": "_style/StyleState",
+                            "strval": "DEFAULT",
+                            "childs": [
+                              {
+                                "nid": 1986990736,
+                                "strtype": "_style/Bg_Radius",
+                                "InheritedType": 6
+                              },
+                              {
+                                "nid": 398306433,
+                                "strtype": "_style/Bg_Color",
+                                "intarray": [
+                                  0,
+                                  0,
+                                  0,
+                                  0
+                                ],
+                                "InheritedType": 7
+                              }
+                            ],
+                            "InheritedType": 1
+                          }
+                        ],
                         "nid": 688368982,
                         "strtype": "SLIDER/Style_indicator",
                         "strval": "lv.PART.INDICATOR, Rectangle",
@@ -20961,17 +20986,6 @@
                                 "strtype": "_style/Bg_Image",
                                 "strval": "assets\\indicator.png",
                                 "InheritedType": 5
-                              },
-                              {
-                                "nid": -353773770,
-                                "strtype": "_style/Padding",
-                                "intarray": [
-                                  0,
-                                  65,
-                                  0,
-                                  0
-                                ],
-                                "InheritedType": 7
                               }
                             ],
                             "InheritedType": 1
@@ -21555,7 +21569,7 @@
                             "nid": -1928276217,
                             "strtype": "_style/Padding",
                             "intarray": [
-                              0,
+                              25,
                               0,
                               15,
                               0
@@ -21567,7 +21581,7 @@
                             "strtype": "_style/Padding_RowCol",
                             "intarray": [
                               0,
-                              20
+                              30
                             ],
                             "InheritedType": 7
                           }
@@ -25144,7 +25158,7 @@
     "theme_color2": 0,
     "uiExportFolderPath": "C:\\Users\\markj\\Documents\\GitHub\\KD8CEC-V2.0-for-uBITX\\ubitx_20\\src",
     "projectExportFolderPath": "C:\\Users\\markj\\Documents\\GitHub\\KD8CEC-V2.0-for-uBITX\\ubitx_20\\src",
-    "backup_cnt": 1071,
+    "backup_cnt": 1099,
     "autosave_cnt": 0,
     "lvgl_version": "8.3.6",
     "callfuncsexport": "C_FILE",
