@@ -20684,15 +20684,15 @@
                         "flags": 17,
                         "strtype": "OBJECT/Size",
                         "intarray": [
-                          100,
-                          25
+                          80,
+                          40
                         ],
                         "InheritedType": 7
                       },
                       {
                         "nid": -1056860197,
                         "strtype": "OBJECT/Align",
-                        "strval": "CENTER",
+                        "strval": "TOP_LEFT",
                         "InheritedType": 3
                       },
                       {
@@ -20986,6 +20986,17 @@
                                 "strtype": "_style/Bg_Image",
                                 "strval": "assets\\indicator.png",
                                 "InheritedType": 5
+                              },
+                              {
+                                "nid": -1055292858,
+                                "strtype": "_style/Padding",
+                                "intarray": [
+                                  2,
+                                  22,
+                                  4,
+                                  2
+                                ],
+                                "InheritedType": 7
                               }
                             ],
                             "InheritedType": 1
@@ -21334,7 +21345,7 @@
                     "strtype": "OBJECT/Size",
                     "intarray": [
                       100,
-                      50
+                      60
                     ],
                     "InheritedType": 7
                   },
@@ -25156,9 +25167,9 @@
     "theme_dark": false,
     "theme_color1": 5,
     "theme_color2": 0,
-    "uiExportFolderPath": "C:\\Users\\markj\\Documents\\GitHub\\KD8CEC-V2.0-for-uBITX\\ubitx_20\\src",
+    "uiExportFolderPath": "C:\\Users\\markj\\Documents\\GitHub\\ubitx\\ubitx_20\\src",
     "projectExportFolderPath": "C:\\Users\\markj\\Documents\\GitHub\\KD8CEC-V2.0-for-uBITX\\ubitx_20\\src",
-    "backup_cnt": 1099,
+    "backup_cnt": 1100,
     "autosave_cnt": 0,
     "lvgl_version": "8.3.6",
     "callfuncsexport": "C_FILE",
