@@ -20684,8 +20684,8 @@
                         "flags": 17,
                         "strtype": "OBJECT/Size",
                         "intarray": [
-                          120,
-                          53
+                          125,
+                          25
                         ],
                         "InheritedType": 7
                       },
@@ -20882,16 +20882,43 @@
                             "strval": "DEFAULT",
                             "childs": [
                               {
+                                "nid": 1231085251,
+                                "strtype": "_style/Bg_Radius",
+                                "InheritedType": 6
+                              },
+                              {
+                                "nid": -340333295,
+                                "strtype": "_style/Bg_Color",
+                                "intarray": [
+                                  0,
+                                  0,
+                                  0,
+                                  255
+                                ],
+                                "InheritedType": 7
+                              },
+                              {
                                 "nid": 1121682438,
                                 "strtype": "_style/Bg_Image",
-                                "strval": "assets\\att120x53.png",
+                                "strval": "assets\\att-graph.png",
                                 "InheritedType": 5
                               },
                               {
-                                "nid": 641831539,
-                                "strtype": "_style/Blend_opacity",
-                                "integer": 125,
+                                "nid": -1323852948,
+                                "strtype": "_style/Bg_Image_opa",
+                                "integer": 255,
                                 "InheritedType": 6
+                              },
+                              {
+                                "nid": 2032634579,
+                                "strtype": "_style/Bg_Image_Recolor",
+                                "intarray": [
+                                  255,
+                                  255,
+                                  255,
+                                  255
+                                ],
+                                "InheritedType": 7
                               }
                             ],
                             "InheritedType": 1
@@ -20904,27 +20931,7 @@
                       },
                       {
                         "part": "lv.PART.INDICATOR",
-                        "childs": [
-                          {
-                            "nid": -1730608455,
-                            "strtype": "_style/StyleState",
-                            "strval": "DEFAULT",
-                            "childs": [
-                              {
-                                "nid": 1460677325,
-                                "strtype": "_style/Bg_Color",
-                                "intarray": [
-                                  107,
-                                  44,
-                                  1,
-                                  255
-                                ],
-                                "InheritedType": 7
-                              }
-                            ],
-                            "InheritedType": 1
-                          }
-                        ],
+                        "childs": [],
                         "nid": 688368982,
                         "strtype": "SLIDER/Style_indicator",
                         "strval": "lv.PART.INDICATOR, Rectangle",
@@ -20939,17 +20946,12 @@
                             "strval": "DEFAULT",
                             "childs": [
                               {
-                                "nid": -831439268,
-                                "strtype": "_style/Bg_Radius",
-                                "InheritedType": 6
-                              },
-                              {
                                 "nid": -1156844005,
                                 "strtype": "_style/Bg_Color",
                                 "intarray": [
-                                  107,
-                                  44,
-                                  1,
+                                  0,
+                                  0,
+                                  0,
                                   0
                                 ],
                                 "InheritedType": 7
@@ -20957,38 +20959,15 @@
                               {
                                 "nid": -1576764161,
                                 "strtype": "_style/Bg_Image",
-                                "strval": "assets\\vertical20p.png",
+                                "strval": "assets\\indicator.png",
                                 "InheritedType": 5
-                              },
-                              {
-                                "nid": -1999203722,
-                                "strtype": "_style/Bg_Image_opa",
-                                "integer": 255,
-                                "InheritedType": 6
-                              },
-                              {
-                                "nid": -364410512,
-                                "strtype": "_style/Bg_Image_Recolor",
-                                "intarray": [
-                                  107,
-                                  44,
-                                  1,
-                                  0
-                                ],
-                                "InheritedType": 7
-                              },
-                              {
-                                "nid": 217124529,
-                                "strtype": "_style/Blend_opacity",
-                                "integer": 255,
-                                "InheritedType": 6
                               },
                               {
                                 "nid": -353773770,
                                 "strtype": "_style/Padding",
                                 "intarray": [
-                                  -10,
                                   0,
+                                  65,
                                   0,
                                   0
                                 ],
@@ -21341,7 +21320,7 @@
                     "strtype": "OBJECT/Size",
                     "intarray": [
                       100,
-                      68
+                      50
                     ],
                     "InheritedType": 7
                   },
@@ -25165,7 +25144,7 @@
     "theme_color2": 0,
     "uiExportFolderPath": "C:\\Users\\markj\\Documents\\GitHub\\KD8CEC-V2.0-for-uBITX\\ubitx_20\\src",
     "projectExportFolderPath": "C:\\Users\\markj\\Documents\\GitHub\\KD8CEC-V2.0-for-uBITX\\ubitx_20\\src",
-    "backup_cnt": 1069,
+    "backup_cnt": 1071,
     "autosave_cnt": 0,
     "lvgl_version": "8.3.6",
     "callfuncsexport": "C_FILE",
