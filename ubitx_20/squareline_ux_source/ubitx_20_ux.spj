@@ -25668,7 +25668,7 @@
                                       {
                                         "nid": 1634873,
                                         "strtype": "_style/Bg_Image",
-                                        "strval": "assets\\att-graph.png",
+                                        "strval": "assets\\ifs-graph.png",
                                         "InheritedType": 5
                                       },
                                       {
@@ -25752,7 +25752,7 @@
                                       {
                                         "nid": 1145638320,
                                         "strtype": "_style/Bg_Image",
-                                        "strval": "assets\\indicator.png",
+                                        "strval": "assets\\ifsindicator.png",
                                         "InheritedType": 5
                                       }
                                     ],
@@ -29030,7 +29030,7 @@
     "theme_color2": 0,
     "uiExportFolderPath": "C:\\Users\\markj\\Documents\\GitHub\\KD8CEC-V2.0-for-uBITX\\ubitx_20\\src",
     "projectExportFolderPath": "C:\\Users\\markj\\Documents\\GitHub\\KD8CEC-V2.0-for-uBITX\\ubitx_20\\src",
-    "backup_cnt": 1130,
+    "backup_cnt": 1131,
     "autosave_cnt": 0,
     "lvgl_version": "8.3.6",
     "callfuncsexport": "C_FILE",
