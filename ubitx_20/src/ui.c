@@ -96,17 +96,28 @@ lv_obj_t * ui_Label19;
 lv_obj_t * ui_Label20;
 lv_obj_t * ui_Panel10;
 lv_obj_t * ui_Bar2;
-void ui_event_keySettingsPanel(lv_event_t * e);
-lv_obj_t * ui_keySettingsPanel;
-lv_obj_t * ui_Slider1;
-lv_obj_t * ui_Slider2;
+void ui_event_bottomPanel(lv_event_t * e);
+lv_obj_t * ui_bottomPanel;
 lv_obj_t * ui_cwSettingsPanel;
+lv_obj_t * ui_cwInfoCol1Panel;
 lv_obj_t * ui_cwInfoLabel;
-lv_obj_t * ui_cwKeyType;
 lv_obj_t * ui_cwKeySpeed;
-lv_obj_t * ui_cwKeySpeedUnits;
 lv_obj_t * ui_cwSidetone;
+lv_obj_t * ui_cwInforCol2Panel;
+lv_obj_t * ui_cwKeyType;
+lv_obj_t * ui_cwKeySpeedUnits;
 lv_obj_t * ui_cwSidetoneUnits;
+lv_obj_t * ui_ATT_IFS_Panel;
+lv_obj_t * ui_ATTPanel;
+lv_obj_t * ui_ATTgraph;
+lv_obj_t * ui_ATTGraphLabels;
+lv_obj_t * ui_ATTGraphLabel;
+lv_obj_t * ui_ATTValueLabel;
+lv_obj_t * ui_IFSPanel;
+lv_obj_t * ui_IFSgraph;
+lv_obj_t * ui_IFSGraphLabels;
+lv_obj_t * ui_IFSGraphLabel;
+lv_obj_t * ui_IFSValueLabel;
 lv_obj_t * ui_settings_panel;
 lv_obj_t * ui_Label1;
 lv_obj_t * ui____initial_actions0;
@@ -359,7 +370,7 @@ void ui_event_tuneRateSelection(lv_event_t * e)
         tuneRateSelectionClicked(e);
     }
 }
-void ui_event_keySettingsPanel(lv_event_t * e)
+void ui_event_bottomPanel(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
     lv_obj_t * target = lv_event_get_target(e);
