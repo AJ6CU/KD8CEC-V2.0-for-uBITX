@@ -773,7 +773,7 @@ void ui_Screen1_screen_init(void)
     lv_obj_set_style_border_side(ui_bottomPanel, LV_BORDER_SIDE_NONE, LV_PART_SCROLLBAR | LV_STATE_DEFAULT);
 
     ui_cwSettingsPanel = lv_obj_create(ui_bottomPanel);
-    lv_obj_set_width(ui_cwSettingsPanel, 105);
+    lv_obj_set_width(ui_cwSettingsPanel, 100);
     lv_obj_set_height(ui_cwSettingsPanel, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_flex_flow(ui_cwSettingsPanel, LV_FLEX_FLOW_ROW);
     lv_obj_set_flex_align(ui_cwSettingsPanel, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START);
@@ -873,7 +873,7 @@ void ui_Screen1_screen_init(void)
     lv_obj_set_style_pad_column(ui_cwSidetone, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_cwInforCol2Panel = lv_obj_create(ui_cwSettingsPanel);
-    lv_obj_set_width(ui_cwInforCol2Panel, 70);
+    lv_obj_set_width(ui_cwInforCol2Panel, 65);
     lv_obj_set_height(ui_cwInforCol2Panel, LV_SIZE_CONTENT);    /// 100
     lv_obj_set_flex_flow(ui_cwInforCol2Panel, LV_FLEX_FLOW_COLUMN);
     lv_obj_set_flex_align(ui_cwInforCol2Panel, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START);
@@ -936,7 +936,7 @@ void ui_Screen1_screen_init(void)
     lv_obj_set_style_pad_column(ui_cwSidetoneUnits, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_ATT_IFS_Panel = lv_obj_create(ui_bottomPanel);
-    lv_obj_set_width(ui_ATT_IFS_Panel, 200);
+    lv_obj_set_width(ui_ATT_IFS_Panel, 205);
     lv_obj_set_height(ui_ATT_IFS_Panel, 60);
     lv_obj_set_align(ui_ATT_IFS_Panel, LV_ALIGN_CENTER);
     lv_obj_set_flex_flow(ui_ATT_IFS_Panel, LV_FLEX_FLOW_ROW);
@@ -951,7 +951,7 @@ void ui_Screen1_screen_init(void)
     lv_obj_set_style_pad_top(ui_ATT_IFS_Panel, 5, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_bottom(ui_ATT_IFS_Panel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_row(ui_ATT_IFS_Panel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_column(ui_ATT_IFS_Panel, 5, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_column(ui_ATT_IFS_Panel, 10, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_ATTPanel = lv_obj_create(ui_ATT_IFS_Panel);
     lv_obj_set_width(ui_ATTPanel, 100);
@@ -1050,7 +1050,7 @@ void ui_Screen1_screen_init(void)
     lv_obj_set_style_pad_top(ui_IFSPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_bottom(ui_IFSPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_row(ui_IFSPanel, 5, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_column(ui_IFSPanel, 5, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_column(ui_IFSPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_IFSgraph = lv_slider_create(ui_IFSPanel);
     lv_slider_set_range(ui_IFSgraph, -2000, 2000);

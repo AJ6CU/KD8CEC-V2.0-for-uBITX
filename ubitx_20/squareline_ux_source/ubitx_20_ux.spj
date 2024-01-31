@@ -23102,7 +23102,7 @@
                             "flags": 49,
                             "strtype": "OBJECT/Size",
                             "intarray": [
-                              70,
+                              65,
                               100
                             ],
                             "InheritedType": 7
@@ -23427,7 +23427,7 @@
                         "flags": 49,
                         "strtype": "OBJECT/Size",
                         "intarray": [
-                          105,
+                          100,
                           1
                         ],
                         "InheritedType": 7
@@ -24107,7 +24107,7 @@
                               {
                                 "disabled": false,
                                 "nid": 362605540,
-                                "strtype": "SLIDER/EventHandler",
+                                "strtype": "_event/EventHandler",
                                 "strval": "VALUE_CHANGED",
                                 "childs": [
                                   {
@@ -24130,7 +24130,7 @@
                                   },
                                   {
                                     "nid": 1352658216,
-                                    "strtype": "_custom/action",
+                                    "strtype": "_event/action",
                                     "strval": "SET TEXT VALUE FROM SLIDER",
                                     "childs": [
                                       {
@@ -25522,7 +25522,7 @@
                                 "flags": 97,
                                 "strtype": "OBJECT/Size",
                                 "intarray": [
-                                  80,
+                                  109,
                                   1
                                 ],
                                 "InheritedType": 7
@@ -25758,6 +25758,17 @@
                                           255
                                         ],
                                         "InheritedType": 7
+                                      },
+                                      {
+                                        "nid": 1904645605,
+                                        "strtype": "_style/Padding",
+                                        "intarray": [
+                                          0,
+                                          0,
+                                          0,
+                                          0
+                                        ],
+                                        "InheritedType": 7
                                       }
                                     ],
                                     "InheritedType": 1
@@ -25838,7 +25849,7 @@
                               {
                                 "disabled": false,
                                 "nid": 1885253383,
-                                "strtype": "SLIDER/EventHandler",
+                                "strtype": "_event/EventHandler",
                                 "strval": "VALUE_CHANGED",
                                 "childs": [
                                   {
@@ -25861,7 +25872,7 @@
                                   },
                                   {
                                     "nid": 2043600385,
-                                    "strtype": "_custom/action",
+                                    "strtype": "_event/action",
                                     "strval": "SET TEXT VALUE FROM SLIDER",
                                     "childs": [
                                       {
@@ -27183,7 +27194,7 @@
                                     "strtype": "_style/Padding_RowCol",
                                     "intarray": [
                                       5,
-                                      5
+                                      0
                                     ],
                                     "InheritedType": 7
                                   }
@@ -27254,7 +27265,7 @@
                         "flags": 17,
                         "strtype": "OBJECT/Size",
                         "intarray": [
-                          200,
+                          205,
                           60
                         ],
                         "InheritedType": 7
@@ -27502,7 +27513,7 @@
                                 "strtype": "_style/Padding_RowCol",
                                 "intarray": [
                                   0,
-                                  5
+                                  10
                                 ],
                                 "InheritedType": 7
                               }
@@ -29172,7 +29183,7 @@
     "theme_color2": 0,
     "uiExportFolderPath": "C:\\Users\\markj\\Documents\\GitHub\\KD8CEC-V2.0-for-uBITX\\ubitx_20\\src",
     "projectExportFolderPath": "C:\\Users\\markj\\Documents\\GitHub\\KD8CEC-V2.0-for-uBITX\\ubitx_20\\src",
-    "backup_cnt": 1136,
+    "backup_cnt": 1137,
     "autosave_cnt": 0,
     "lvgl_version": "8.3.6",
     "callfuncsexport": "C_FILE",
