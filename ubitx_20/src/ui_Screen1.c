@@ -951,7 +951,7 @@ void ui_Screen1_screen_init(void)
     lv_obj_set_style_pad_top(ui_ATT_IFS_Panel, 5, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_bottom(ui_ATT_IFS_Panel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_row(ui_ATT_IFS_Panel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_column(ui_ATT_IFS_Panel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_column(ui_ATT_IFS_Panel, 5, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_ATTPanel = lv_obj_create(ui_ATT_IFS_Panel);
     lv_obj_set_width(ui_ATTPanel, 100);
@@ -1049,8 +1049,8 @@ void ui_Screen1_screen_init(void)
     lv_obj_set_style_pad_right(ui_IFSPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_top(ui_IFSPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_bottom(ui_IFSPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_row(ui_IFSPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_column(ui_IFSPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_row(ui_IFSPanel, 5, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_column(ui_IFSPanel, 5, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_IFSgraph = lv_slider_create(ui_IFSPanel);
     lv_slider_set_range(ui_IFSgraph, -2000, 2000);
@@ -1062,7 +1062,7 @@ void ui_Screen1_screen_init(void)
     lv_obj_set_style_radius(ui_IFSgraph, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(ui_IFSgraph, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_IFSgraph, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_img_src(ui_IFSgraph, &ui_img_436403744, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_img_src(ui_IFSgraph, &ui_img_2028451397, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_img_opa(ui_IFSgraph, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_img_recolor(ui_IFSgraph, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_img_recolor_opa(ui_IFSgraph, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -1073,7 +1073,7 @@ void ui_Screen1_screen_init(void)
 
     lv_obj_set_style_bg_color(ui_IFSgraph, lv_color_hex(0x000000), LV_PART_KNOB | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_IFSgraph, 0, LV_PART_KNOB | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_img_src(ui_IFSgraph, &ui_img_indicator_png, LV_PART_KNOB | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_img_src(ui_IFSgraph, &ui_img_ifsindicator_png, LV_PART_KNOB | LV_STATE_DEFAULT);
 
     ui_IFSGraphLabels = lv_obj_create(ui_IFSPanel);
     lv_obj_set_width(ui_IFSGraphLabels, 100);
@@ -1150,6 +1150,8 @@ void ui_Screen1_screen_init(void)
     lv_obj_add_event_cb(ui_attButton, ui_event_attButton, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_tuneRateSelection, ui_event_tuneRateSelection, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_SMeterPanel, ui_event_SMeterPanel, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_ATTgraph, ui_event_ATTgraph, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_IFSgraph, ui_event_IFSgraph, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_bottomPanel, ui_event_bottomPanel, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_fullScreenPanel, ui_event_fullScreenPanel, LV_EVENT_ALL, NULL);
 

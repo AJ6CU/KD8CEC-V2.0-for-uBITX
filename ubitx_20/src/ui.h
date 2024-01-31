@@ -124,11 +124,13 @@ extern lv_obj_t * ui_cwKeySpeedUnits;
 extern lv_obj_t * ui_cwSidetoneUnits;
 extern lv_obj_t * ui_ATT_IFS_Panel;
 extern lv_obj_t * ui_ATTPanel;
+void ui_event_ATTgraph(lv_event_t * e);
 extern lv_obj_t * ui_ATTgraph;
 extern lv_obj_t * ui_ATTGraphLabels;
 extern lv_obj_t * ui_ATTGraphLabel;
 extern lv_obj_t * ui_ATTValueLabel;
 extern lv_obj_t * ui_IFSPanel;
+void ui_event_IFSgraph(lv_event_t * e);
 extern lv_obj_t * ui_IFSgraph;
 extern lv_obj_t * ui_IFSGraphLabels;
 extern lv_obj_t * ui_IFSGraphLabel;
@@ -139,6 +141,8 @@ extern lv_obj_t * ui____initial_actions0;
 
 LV_IMG_DECLARE(ui_img_436403744);    // assets\att-graph.png
 LV_IMG_DECLARE(ui_img_indicator_png);    // assets\indicator.png
+LV_IMG_DECLARE(ui_img_2028451397);    // assets\ifs-graph.png
+LV_IMG_DECLARE(ui_img_ifsindicator_png);    // assets\ifsindicator.png
 LV_IMG_DECLARE(ui_img_att120x53_png);    // assets\att120x53.png
 LV_IMG_DECLARE(ui_img_verticalfilled50_png);    // assets\verticalfilled50.png
 

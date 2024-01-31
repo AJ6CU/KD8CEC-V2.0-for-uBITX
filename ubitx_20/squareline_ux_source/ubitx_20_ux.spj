@@ -24103,6 +24103,77 @@
                                 "strtype": "SLIDER/Style_knob",
                                 "strval": "lv.PART.KNOB, Rectangle, Pad",
                                 "InheritedType": 11
+                              },
+                              {
+                                "disabled": false,
+                                "nid": 362605540,
+                                "strtype": "SLIDER/EventHandler",
+                                "strval": "VALUE_CHANGED",
+                                "childs": [
+                                  {
+                                    "nid": -2078223685,
+                                    "strtype": "_custom/name",
+                                    "strval": "Event2",
+                                    "InheritedType": 10
+                                  },
+                                  {
+                                    "nid": -1656168970,
+                                    "strtype": "_custom/condition_C",
+                                    "strval": "",
+                                    "InheritedType": 10
+                                  },
+                                  {
+                                    "nid": 939097291,
+                                    "strtype": "_custom/condition_P",
+                                    "strval": "",
+                                    "InheritedType": 10
+                                  },
+                                  {
+                                    "nid": 1352658216,
+                                    "strtype": "_custom/action",
+                                    "strval": "SET TEXT VALUE FROM SLIDER",
+                                    "childs": [
+                                      {
+                                        "nid": 1299816192,
+                                        "strtype": "SET TEXT VALUE FROM SLIDER/Name",
+                                        "strval": "SET TEXT VALUE FROM SLIDER",
+                                        "InheritedType": 10
+                                      },
+                                      {
+                                        "nid": 1179961583,
+                                        "strtype": "SET TEXT VALUE FROM SLIDER/Call",
+                                        "strval": "SetTextValueSlider( <{Target}>, event_struct.get_target(), \"<{Prefix}>\", \"<{Postfix}>\")",
+                                        "InheritedType": 10
+                                      },
+                                      {
+                                        "nid": -1858198510,
+                                        "strtype": "SET TEXT VALUE FROM SLIDER/CallC",
+                                        "strval": "_ui_slider_set_text_value( <{Target}>, target, \"<{Prefix}>\", \"<{Postfix}>\");",
+                                        "InheritedType": 10
+                                      },
+                                      {
+                                        "nid": 735674852,
+                                        "strtype": "SET TEXT VALUE FROM SLIDER/Target",
+                                        "strval": "GUID97458532-910860S87331",
+                                        "InheritedType": 9
+                                      },
+                                      {
+                                        "nid": -1373559169,
+                                        "strtype": "SET TEXT VALUE FROM SLIDER/Prefix",
+                                        "strval": "",
+                                        "InheritedType": 10
+                                      },
+                                      {
+                                        "nid": -1586840716,
+                                        "strtype": "SET TEXT VALUE FROM SLIDER/Postfix",
+                                        "strval": "",
+                                        "InheritedType": 10
+                                      }
+                                    ],
+                                    "InheritedType": 10
+                                  }
+                                ],
+                                "InheritedType": 4
                               }
                             ],
                             "saved_objtypeKey": "SLIDER"
@@ -25763,6 +25834,77 @@
                                 "strtype": "SLIDER/Style_knob",
                                 "strval": "lv.PART.KNOB, Rectangle, Pad",
                                 "InheritedType": 11
+                              },
+                              {
+                                "disabled": false,
+                                "nid": 1885253383,
+                                "strtype": "SLIDER/EventHandler",
+                                "strval": "VALUE_CHANGED",
+                                "childs": [
+                                  {
+                                    "nid": -601444399,
+                                    "strtype": "_custom/name",
+                                    "strval": "Event1",
+                                    "InheritedType": 10
+                                  },
+                                  {
+                                    "nid": -1440302067,
+                                    "strtype": "_custom/condition_C",
+                                    "strval": "",
+                                    "InheritedType": 10
+                                  },
+                                  {
+                                    "nid": 103993532,
+                                    "strtype": "_custom/condition_P",
+                                    "strval": "",
+                                    "InheritedType": 10
+                                  },
+                                  {
+                                    "nid": 2043600385,
+                                    "strtype": "_custom/action",
+                                    "strval": "SET TEXT VALUE FROM SLIDER",
+                                    "childs": [
+                                      {
+                                        "nid": -1218013514,
+                                        "strtype": "SET TEXT VALUE FROM SLIDER/Name",
+                                        "strval": "SET TEXT VALUE FROM SLIDER",
+                                        "InheritedType": 10
+                                      },
+                                      {
+                                        "nid": -1498275061,
+                                        "strtype": "SET TEXT VALUE FROM SLIDER/Call",
+                                        "strval": "SetTextValueSlider( <{Target}>, event_struct.get_target(), \"<{Prefix}>\", \"<{Postfix}>\")",
+                                        "InheritedType": 10
+                                      },
+                                      {
+                                        "nid": -139295910,
+                                        "strtype": "SET TEXT VALUE FROM SLIDER/CallC",
+                                        "strval": "_ui_slider_set_text_value( <{Target}>, target, \"<{Prefix}>\", \"<{Postfix}>\");",
+                                        "InheritedType": 10
+                                      },
+                                      {
+                                        "nid": 243430196,
+                                        "strtype": "SET TEXT VALUE FROM SLIDER/Target",
+                                        "strval": "GUID95397244-920402S148331",
+                                        "InheritedType": 9
+                                      },
+                                      {
+                                        "nid": -1105833713,
+                                        "strtype": "SET TEXT VALUE FROM SLIDER/Prefix",
+                                        "strval": "",
+                                        "InheritedType": 10
+                                      },
+                                      {
+                                        "nid": -770822565,
+                                        "strtype": "SET TEXT VALUE FROM SLIDER/Postfix",
+                                        "strval": "",
+                                        "InheritedType": 10
+                                      }
+                                    ],
+                                    "InheritedType": 10
+                                  }
+                                ],
+                                "InheritedType": 4
                               }
                             ],
                             "saved_objtypeKey": "SLIDER"
@@ -27040,8 +27182,8 @@
                                     "nid": 1819953287,
                                     "strtype": "_style/Padding_RowCol",
                                     "intarray": [
-                                      0,
-                                      0
+                                      5,
+                                      5
                                     ],
                                     "InheritedType": 7
                                   }
@@ -27360,7 +27502,7 @@
                                 "strtype": "_style/Padding_RowCol",
                                 "intarray": [
                                   0,
-                                  0
+                                  5
                                 ],
                                 "InheritedType": 7
                               }
@@ -29030,7 +29172,7 @@
     "theme_color2": 0,
     "uiExportFolderPath": "C:\\Users\\markj\\Documents\\GitHub\\KD8CEC-V2.0-for-uBITX\\ubitx_20\\src",
     "projectExportFolderPath": "C:\\Users\\markj\\Documents\\GitHub\\KD8CEC-V2.0-for-uBITX\\ubitx_20\\src",
-    "backup_cnt": 1131,
+    "backup_cnt": 1136,
     "autosave_cnt": 0,
     "lvgl_version": "8.3.6",
     "callfuncsexport": "C_FILE",

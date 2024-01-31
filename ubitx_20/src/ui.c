@@ -109,11 +109,13 @@ lv_obj_t * ui_cwKeySpeedUnits;
 lv_obj_t * ui_cwSidetoneUnits;
 lv_obj_t * ui_ATT_IFS_Panel;
 lv_obj_t * ui_ATTPanel;
+void ui_event_ATTgraph(lv_event_t * e);
 lv_obj_t * ui_ATTgraph;
 lv_obj_t * ui_ATTGraphLabels;
 lv_obj_t * ui_ATTGraphLabel;
 lv_obj_t * ui_ATTValueLabel;
 lv_obj_t * ui_IFSPanel;
+void ui_event_IFSgraph(lv_event_t * e);
 lv_obj_t * ui_IFSgraph;
 lv_obj_t * ui_IFSGraphLabels;
 lv_obj_t * ui_IFSGraphLabel;
@@ -376,6 +378,22 @@ void ui_event_bottomPanel(lv_event_t * e)
     lv_obj_t * target = lv_event_get_target(e);
     if(event_code == LV_EVENT_CLICKED) {
         _ui_flag_modify(ui_modeSelectPanel, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
+    }
+}
+void ui_event_ATTgraph(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_VALUE_CHANGED) {
+        _ui_slider_set_text_value(ui_ATTValueLabel, target, "", "");
+    }
+}
+void ui_event_IFSgraph(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_VALUE_CHANGED) {
+        _ui_slider_set_text_value(ui_IFSValueLabel, target, "", "");
     }
 }
 
