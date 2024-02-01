@@ -24027,6 +24027,17 @@
                                           255
                                         ],
                                         "InheritedType": 7
+                                      },
+                                      {
+                                        "nid": -54084090,
+                                        "strtype": "_style/Padding",
+                                        "intarray": [
+                                          10,
+                                          10,
+                                          0,
+                                          0
+                                        ],
+                                        "InheritedType": 7
                                       }
                                     ],
                                     "InheritedType": 1
@@ -24092,7 +24103,7 @@
                                       {
                                         "nid": -1576764161,
                                         "strtype": "_style/Bg_Image",
-                                        "strval": "assets\\indicator.png",
+                                        "strval": "assets\\vertical20p.png",
                                         "InheritedType": 5
                                       }
                                     ],
@@ -24244,7 +24255,6 @@
                                   },
                                   {
                                     "nid": 436358590,
-                                    "flags": 1048576,
                                     "strtype": "OBJECT/Flags",
                                     "InheritedType": 1
                                   },
@@ -24257,7 +24267,7 @@
                                   {
                                     "nid": -960126796,
                                     "strtype": "OBJECT/Clickable",
-                                    "strval": "False",
+                                    "strval": "True",
                                     "InheritedType": 2
                                   },
                                   {
@@ -24382,7 +24392,6 @@
                                   },
                                   {
                                     "nid": -1186346440,
-                                    "flags": 1048576,
                                     "strtype": "OBJECT/States",
                                     "InheritedType": 1
                                   },
@@ -24496,6 +24505,77 @@
                                     "strtype": "LABEL/Recolor",
                                     "strval": "False",
                                     "InheritedType": 2
+                                  },
+                                  {
+                                    "disabled": false,
+                                    "nid": -739633071,
+                                    "strtype": "LABEL/EventHandler",
+                                    "strval": "CLICKED",
+                                    "childs": [
+                                      {
+                                        "nid": 719187124,
+                                        "strtype": "_custom/name",
+                                        "strval": "Event8",
+                                        "InheritedType": 10
+                                      },
+                                      {
+                                        "nid": -1971163336,
+                                        "strtype": "_custom/condition_C",
+                                        "strval": "",
+                                        "InheritedType": 10
+                                      },
+                                      {
+                                        "nid": 1347122460,
+                                        "strtype": "_custom/condition_P",
+                                        "strval": "",
+                                        "InheritedType": 10
+                                      },
+                                      {
+                                        "nid": 1280603459,
+                                        "strtype": "_custom/action",
+                                        "strval": "LABEL_PROPERTY",
+                                        "childs": [
+                                          {
+                                            "nid": -1524049194,
+                                            "strtype": "LABEL_PROPERTY/Name",
+                                            "strval": "LABEL_PROPERTY",
+                                            "InheritedType": 10
+                                          },
+                                          {
+                                            "nid": -430199233,
+                                            "strtype": "LABEL_PROPERTY/Call",
+                                            "strval": "SetLabelProperty(<{Target}>, '<{Property}>', '<{Value}>')",
+                                            "InheritedType": 10
+                                          },
+                                          {
+                                            "nid": 193174145,
+                                            "strtype": "LABEL_PROPERTY/CallC",
+                                            "strval": "_ui_label_set_property(<{Target}>, _UI_LABEL_PROPERTY_<{Property}>, \"<{Value}>\");",
+                                            "InheritedType": 10
+                                          },
+                                          {
+                                            "nid": 45684054,
+                                            "strtype": "LABEL_PROPERTY/Target",
+                                            "strval": "GUID97458532-910860S87331",
+                                            "InheritedType": 9
+                                          },
+                                          {
+                                            "nid": 1242290172,
+                                            "strtype": "LABEL_PROPERTY/Property",
+                                            "strval": "Text",
+                                            "InheritedType": 3
+                                          },
+                                          {
+                                            "nid": -1684743118,
+                                            "strtype": "LABEL_PROPERTY/Value",
+                                            "strval": "0",
+                                            "InheritedType": 10
+                                          }
+                                        ],
+                                        "InheritedType": 10
+                                      }
+                                    ],
+                                    "InheritedType": 4
                                   }
                                 ],
                                 "saved_objtypeKey": "LABEL"
@@ -24562,7 +24642,6 @@
                                   },
                                   {
                                     "nid": 737966162,
-                                    "flags": 1048576,
                                     "strtype": "OBJECT/Flags",
                                     "InheritedType": 1
                                   },
@@ -24575,7 +24654,7 @@
                                   {
                                     "nid": -155318134,
                                     "strtype": "OBJECT/Clickable",
-                                    "strval": "False",
+                                    "strval": "True",
                                     "InheritedType": 2
                                   },
                                   {
@@ -24700,7 +24779,6 @@
                                   },
                                   {
                                     "nid": 1755596055,
-                                    "flags": 1048576,
                                     "strtype": "OBJECT/States",
                                     "InheritedType": 1
                                   },
@@ -24814,6 +24892,77 @@
                                     "strtype": "LABEL/Recolor",
                                     "strval": "False",
                                     "InheritedType": 2
+                                  },
+                                  {
+                                    "disabled": false,
+                                    "nid": -853576630,
+                                    "strtype": "LABEL/EventHandler",
+                                    "strval": "CLICKED",
+                                    "childs": [
+                                      {
+                                        "nid": 1973151970,
+                                        "strtype": "_custom/name",
+                                        "strval": "Event7",
+                                        "InheritedType": 10
+                                      },
+                                      {
+                                        "nid": -2031565395,
+                                        "strtype": "_custom/condition_C",
+                                        "strval": "",
+                                        "InheritedType": 10
+                                      },
+                                      {
+                                        "nid": -1840056566,
+                                        "strtype": "_custom/condition_P",
+                                        "strval": "",
+                                        "InheritedType": 10
+                                      },
+                                      {
+                                        "nid": -1751958858,
+                                        "strtype": "_custom/action",
+                                        "strval": "LABEL_PROPERTY",
+                                        "childs": [
+                                          {
+                                            "nid": -172525607,
+                                            "strtype": "LABEL_PROPERTY/Name",
+                                            "strval": "LABEL_PROPERTY",
+                                            "InheritedType": 10
+                                          },
+                                          {
+                                            "nid": -1114911526,
+                                            "strtype": "LABEL_PROPERTY/Call",
+                                            "strval": "SetLabelProperty(<{Target}>, '<{Property}>', '<{Value}>')",
+                                            "InheritedType": 10
+                                          },
+                                          {
+                                            "nid": -348075954,
+                                            "strtype": "LABEL_PROPERTY/CallC",
+                                            "strval": "_ui_label_set_property(<{Target}>, _UI_LABEL_PROPERTY_<{Property}>, \"<{Value}>\");",
+                                            "InheritedType": 10
+                                          },
+                                          {
+                                            "nid": -29252573,
+                                            "strtype": "LABEL_PROPERTY/Target",
+                                            "strval": "GUID97458532-910860S87331",
+                                            "InheritedType": 9
+                                          },
+                                          {
+                                            "nid": 1866307665,
+                                            "strtype": "LABEL_PROPERTY/Property",
+                                            "strval": "Text",
+                                            "InheritedType": 3
+                                          },
+                                          {
+                                            "nid": 1962864627,
+                                            "strtype": "LABEL_PROPERTY/Value",
+                                            "strval": "0",
+                                            "InheritedType": 10
+                                          }
+                                        ],
+                                        "InheritedType": 10
+                                      }
+                                    ],
+                                    "InheritedType": 4
                                   }
                                 ],
                                 "saved_objtypeKey": "LABEL",
@@ -25512,17 +25661,17 @@
                                 "flags": 17,
                                 "strtype": "OBJECT/Position",
                                 "intarray": [
-                                  41,
+                                  42,
                                   -15
                                 ],
                                 "InheritedType": 7
                               },
                               {
                                 "nid": -240773519,
-                                "flags": 97,
+                                "flags": 98,
                                 "strtype": "OBJECT/Size",
                                 "intarray": [
-                                  109,
+                                  100,
                                   1
                                 ],
                                 "InheritedType": 7
@@ -25535,7 +25684,6 @@
                               },
                               {
                                 "nid": 2015830764,
-                                "flags": 1048576,
                                 "strtype": "OBJECT/Flags",
                                 "InheritedType": 1
                               },
@@ -25699,7 +25847,7 @@
                               {
                                 "nid": 825771626,
                                 "strtype": "SLIDER/Mode",
-                                "strval": "SYMMETRICAL",
+                                "strval": "NORMAL",
                                 "InheritedType": 3
                               },
                               {
@@ -25763,8 +25911,8 @@
                                         "nid": 1904645605,
                                         "strtype": "_style/Padding",
                                         "intarray": [
-                                          0,
-                                          0,
+                                          10,
+                                          10,
                                           0,
                                           0
                                         ],
@@ -25834,8 +25982,28 @@
                                       {
                                         "nid": 1145638320,
                                         "strtype": "_style/Bg_Image",
-                                        "strval": "assets\\ifsindicator.png",
+                                        "strval": "assets\\vertical20p.png",
                                         "InheritedType": 5
+                                      },
+                                      {
+                                        "nid": 1362586252,
+                                        "strtype": "_style/Padding",
+                                        "intarray": [
+                                          0,
+                                          0,
+                                          0,
+                                          0
+                                        ],
+                                        "InheritedType": 7
+                                      },
+                                      {
+                                        "nid": -650303665,
+                                        "strtype": "_style/Padding_RowCol",
+                                        "intarray": [
+                                          0,
+                                          0
+                                        ],
+                                        "InheritedType": 7
                                       }
                                     ],
                                     "InheritedType": 1
@@ -25986,7 +26154,6 @@
                                   },
                                   {
                                     "nid": 449265531,
-                                    "flags": 1048576,
                                     "strtype": "OBJECT/Flags",
                                     "InheritedType": 1
                                   },
@@ -25999,7 +26166,7 @@
                                   {
                                     "nid": 412787598,
                                     "strtype": "OBJECT/Clickable",
-                                    "strval": "False",
+                                    "strval": "True",
                                     "InheritedType": 2
                                   },
                                   {
@@ -26124,7 +26291,6 @@
                                   },
                                   {
                                     "nid": -137102532,
-                                    "flags": 1048576,
                                     "strtype": "OBJECT/States",
                                     "InheritedType": 1
                                   },
@@ -26244,6 +26410,77 @@
                                     "strtype": "LABEL/Recolor",
                                     "strval": "False",
                                     "InheritedType": 2
+                                  },
+                                  {
+                                    "disabled": false,
+                                    "nid": 1814929898,
+                                    "strtype": "LABEL/EventHandler",
+                                    "strval": "CLICKED",
+                                    "childs": [
+                                      {
+                                        "nid": 1681834521,
+                                        "strtype": "_custom/name",
+                                        "strval": "Event6",
+                                        "InheritedType": 10
+                                      },
+                                      {
+                                        "nid": -465218576,
+                                        "strtype": "_custom/condition_C",
+                                        "strval": "",
+                                        "InheritedType": 10
+                                      },
+                                      {
+                                        "nid": -460062027,
+                                        "strtype": "_custom/condition_P",
+                                        "strval": "",
+                                        "InheritedType": 10
+                                      },
+                                      {
+                                        "nid": -1398144567,
+                                        "strtype": "_custom/action",
+                                        "strval": "LABEL_PROPERTY",
+                                        "childs": [
+                                          {
+                                            "nid": -866895500,
+                                            "strtype": "LABEL_PROPERTY/Name",
+                                            "strval": "LABEL_PROPERTY",
+                                            "InheritedType": 10
+                                          },
+                                          {
+                                            "nid": -1395380875,
+                                            "strtype": "LABEL_PROPERTY/Call",
+                                            "strval": "SetLabelProperty(<{Target}>, '<{Property}>', '<{Value}>')",
+                                            "InheritedType": 10
+                                          },
+                                          {
+                                            "nid": 392315064,
+                                            "strtype": "LABEL_PROPERTY/CallC",
+                                            "strval": "_ui_label_set_property(<{Target}>, _UI_LABEL_PROPERTY_<{Property}>, \"<{Value}>\");",
+                                            "InheritedType": 10
+                                          },
+                                          {
+                                            "nid": -1405582936,
+                                            "strtype": "LABEL_PROPERTY/Target",
+                                            "strval": "GUID95397244-920402S148331",
+                                            "InheritedType": 9
+                                          },
+                                          {
+                                            "nid": -1335738192,
+                                            "strtype": "LABEL_PROPERTY/Property",
+                                            "strval": "Text",
+                                            "InheritedType": 3
+                                          },
+                                          {
+                                            "nid": 344217243,
+                                            "strtype": "LABEL_PROPERTY/Value",
+                                            "strval": "0",
+                                            "InheritedType": 10
+                                          }
+                                        ],
+                                        "InheritedType": 10
+                                      }
+                                    ],
+                                    "InheritedType": 4
                                   }
                                 ],
                                 "saved_objtypeKey": "LABEL"
@@ -26311,7 +26548,6 @@
                                   },
                                   {
                                     "nid": -100446431,
-                                    "flags": 1048576,
                                     "strtype": "OBJECT/Flags",
                                     "InheritedType": 1
                                   },
@@ -26324,7 +26560,7 @@
                                   {
                                     "nid": -1847821512,
                                     "strtype": "OBJECT/Clickable",
-                                    "strval": "False",
+                                    "strval": "True",
                                     "InheritedType": 2
                                   },
                                   {
@@ -26449,7 +26685,6 @@
                                   },
                                   {
                                     "nid": 1858284206,
-                                    "flags": 1048576,
                                     "strtype": "OBJECT/States",
                                     "InheritedType": 1
                                   },
@@ -26563,6 +26798,77 @@
                                     "strtype": "LABEL/Recolor",
                                     "strval": "False",
                                     "InheritedType": 2
+                                  },
+                                  {
+                                    "disabled": false,
+                                    "nid": -1133516853,
+                                    "strtype": "LABEL/EventHandler",
+                                    "strval": "CLICKED",
+                                    "childs": [
+                                      {
+                                        "nid": 2045586405,
+                                        "strtype": "_custom/name",
+                                        "strval": "Event5",
+                                        "InheritedType": 10
+                                      },
+                                      {
+                                        "nid": 1236332908,
+                                        "strtype": "_custom/condition_C",
+                                        "strval": "",
+                                        "InheritedType": 10
+                                      },
+                                      {
+                                        "nid": 1245005082,
+                                        "strtype": "_custom/condition_P",
+                                        "strval": "",
+                                        "InheritedType": 10
+                                      },
+                                      {
+                                        "nid": 2136893342,
+                                        "strtype": "_custom/action",
+                                        "strval": "LABEL_PROPERTY",
+                                        "childs": [
+                                          {
+                                            "nid": 1464997284,
+                                            "strtype": "LABEL_PROPERTY/Name",
+                                            "strval": "LABEL_PROPERTY",
+                                            "InheritedType": 10
+                                          },
+                                          {
+                                            "nid": -1368994724,
+                                            "strtype": "LABEL_PROPERTY/Call",
+                                            "strval": "SetLabelProperty(<{Target}>, '<{Property}>', '<{Value}>')",
+                                            "InheritedType": 10
+                                          },
+                                          {
+                                            "nid": 698820688,
+                                            "strtype": "LABEL_PROPERTY/CallC",
+                                            "strval": "_ui_label_set_property(<{Target}>, _UI_LABEL_PROPERTY_<{Property}>, \"<{Value}>\");",
+                                            "InheritedType": 10
+                                          },
+                                          {
+                                            "nid": 236211148,
+                                            "strtype": "LABEL_PROPERTY/Target",
+                                            "strval": "GUID95397244-920402S148331",
+                                            "InheritedType": 9
+                                          },
+                                          {
+                                            "nid": 1091247782,
+                                            "strtype": "LABEL_PROPERTY/Property",
+                                            "strval": "Text",
+                                            "InheritedType": 3
+                                          },
+                                          {
+                                            "nid": -1262953675,
+                                            "strtype": "LABEL_PROPERTY/Value",
+                                            "strval": "0",
+                                            "InheritedType": 10
+                                          }
+                                        ],
+                                        "InheritedType": 10
+                                      }
+                                    ],
+                                    "InheritedType": 4
                                   }
                                 ],
                                 "saved_objtypeKey": "LABEL",
@@ -26937,10 +27243,10 @@
                           },
                           {
                             "nid": -1086003441,
-                            "flags": 17,
+                            "flags": 22,
                             "strtype": "OBJECT/Size",
                             "intarray": [
-                              100,
+                              1,
                               60
                             ],
                             "InheritedType": 7
@@ -27513,7 +27819,7 @@
                                 "strtype": "_style/Padding_RowCol",
                                 "intarray": [
                                   0,
-                                  10
+                                  5
                                 ],
                                 "InheritedType": 7
                               }
@@ -29183,7 +29489,7 @@
     "theme_color2": 0,
     "uiExportFolderPath": "C:\\Users\\markj\\Documents\\GitHub\\KD8CEC-V2.0-for-uBITX\\ubitx_20\\src",
     "projectExportFolderPath": "C:\\Users\\markj\\Documents\\GitHub\\KD8CEC-V2.0-for-uBITX\\ubitx_20\\src",
-    "backup_cnt": 1137,
+    "backup_cnt": 1225,
     "autosave_cnt": 0,
     "lvgl_version": "8.3.6",
     "callfuncsexport": "C_FILE",

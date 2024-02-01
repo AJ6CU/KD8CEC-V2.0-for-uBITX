@@ -127,23 +127,27 @@ extern lv_obj_t * ui_ATTPanel;
 void ui_event_ATTgraph(lv_event_t * e);
 extern lv_obj_t * ui_ATTgraph;
 extern lv_obj_t * ui_ATTGraphLabels;
+void ui_event_ATTGraphLabel(lv_event_t * e);
 extern lv_obj_t * ui_ATTGraphLabel;
+void ui_event_ATTValueLabel(lv_event_t * e);
 extern lv_obj_t * ui_ATTValueLabel;
 extern lv_obj_t * ui_IFSPanel;
 void ui_event_IFSgraph(lv_event_t * e);
 extern lv_obj_t * ui_IFSgraph;
 extern lv_obj_t * ui_IFSGraphLabels;
+void ui_event_IFSGraphLabel(lv_event_t * e);
 extern lv_obj_t * ui_IFSGraphLabel;
+void ui_event_IFSValueLabel(lv_event_t * e);
 extern lv_obj_t * ui_IFSValueLabel;
 extern lv_obj_t * ui_settings_panel;
 extern lv_obj_t * ui_Label1;
 extern lv_obj_t * ui____initial_actions0;
 
 LV_IMG_DECLARE(ui_img_436403744);    // assets\att-graph.png
-LV_IMG_DECLARE(ui_img_indicator_png);    // assets\indicator.png
+LV_IMG_DECLARE(ui_img_vertical20p_png);    // assets\vertical20p.png
 LV_IMG_DECLARE(ui_img_2028451397);    // assets\ifs-graph.png
-LV_IMG_DECLARE(ui_img_ifsindicator_png);    // assets\ifsindicator.png
 LV_IMG_DECLARE(ui_img_att120x53_png);    // assets\att120x53.png
+LV_IMG_DECLARE(ui_img_1915532332);    // assets\ifs-graph1.png
 LV_IMG_DECLARE(ui_img_verticalfilled50_png);    // assets\verticalfilled50.png
 
 

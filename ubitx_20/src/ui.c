@@ -112,18 +112,23 @@ lv_obj_t * ui_ATTPanel;
 void ui_event_ATTgraph(lv_event_t * e);
 lv_obj_t * ui_ATTgraph;
 lv_obj_t * ui_ATTGraphLabels;
+void ui_event_ATTGraphLabel(lv_event_t * e);
 lv_obj_t * ui_ATTGraphLabel;
+void ui_event_ATTValueLabel(lv_event_t * e);
 lv_obj_t * ui_ATTValueLabel;
 lv_obj_t * ui_IFSPanel;
 void ui_event_IFSgraph(lv_event_t * e);
 lv_obj_t * ui_IFSgraph;
 lv_obj_t * ui_IFSGraphLabels;
+void ui_event_IFSGraphLabel(lv_event_t * e);
 lv_obj_t * ui_IFSGraphLabel;
+void ui_event_IFSValueLabel(lv_event_t * e);
 lv_obj_t * ui_IFSValueLabel;
 lv_obj_t * ui_settings_panel;
 lv_obj_t * ui_Label1;
 lv_obj_t * ui____initial_actions0;
 const lv_img_dsc_t * ui_imgset_att120x[1] = {&ui_img_att120x53_png};
+const lv_img_dsc_t * ui_imgset_2076062131[1] = {&ui_img_1915532332};
 const lv_img_dsc_t * ui_imgset_verticalfilled[1] = {&ui_img_verticalfilled50_png};
 
 ///////////////////// TEST LVGL SETTINGS ////////////////////
@@ -388,12 +393,44 @@ void ui_event_ATTgraph(lv_event_t * e)
         _ui_slider_set_text_value(ui_ATTValueLabel, target, "", "");
     }
 }
+void ui_event_ATTGraphLabel(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_CLICKED) {
+        _ui_label_set_property(ui_ATTValueLabel, _UI_LABEL_PROPERTY_TEXT, "0");
+    }
+}
+void ui_event_ATTValueLabel(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_CLICKED) {
+        _ui_label_set_property(ui_ATTValueLabel, _UI_LABEL_PROPERTY_TEXT, "0");
+    }
+}
 void ui_event_IFSgraph(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
     lv_obj_t * target = lv_event_get_target(e);
     if(event_code == LV_EVENT_VALUE_CHANGED) {
         _ui_slider_set_text_value(ui_IFSValueLabel, target, "", "");
+    }
+}
+void ui_event_IFSGraphLabel(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_CLICKED) {
+        _ui_label_set_property(ui_IFSValueLabel, _UI_LABEL_PROPERTY_TEXT, "0");
+    }
+}
+void ui_event_IFSValueLabel(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_CLICKED) {
+        _ui_label_set_property(ui_IFSValueLabel, _UI_LABEL_PROPERTY_TEXT, "0");
     }
 }
 
