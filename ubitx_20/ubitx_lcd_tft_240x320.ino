@@ -896,6 +896,55 @@ void tuneRateSelectionClicked(lv_event_t * e)
   tuneStepIndex = lv_dropdown_get_selected(ui_tuneRateSelection)+1;
 }
 
+void resetATTClicked(lv_event_t * e)
+{
+	lv_slider_set_value(ui_ATTgraph,0,LV_ANIM_OFF);
+  lv_label_set_text(ui_ATTValueLabel, "0");
+}
+
+void resetIFSClicked(lv_event_t * e)
+{
+	lv_slider_set_value(ui_IFSgraph,0,LV_ANIM_OFF);
+  lv_label_set_text(ui_IFSValueLabel, "0");
+  
+}
+
+void GOTOHometoCWPanelClicked(lv_event_t * e)
+{
+	lv_obj_add_flag(ui_HomePanel, LV_OBJ_FLAG_HIDDEN);
+  lv_obj_clear_flag(ui_CWSettingsPanel,  LV_OBJ_FLAG_HIDDEN);
+  
+}
+
+void GOTOCWtoHomePanelClicked(lv_event_t * e)
+{
+	lv_obj_add_flag(ui_CWSettingsPanel, LV_OBJ_FLAG_HIDDEN);
+  lv_obj_clear_flag(ui_HomePanel,  LV_OBJ_FLAG_HIDDEN);
+  
+}
+
+
+
+void GOTOCWtoVFOPanelClicked(lv_event_t * e)
+{
+	lv_obj_add_flag(ui_CWSettingsPanel, LV_OBJ_FLAG_HIDDEN);
+  lv_obj_clear_flag(ui_VFOTuningPanel,  LV_OBJ_FLAG_HIDDEN);
+  
+}
+
+void GOTOVFOtoCWPanelClicked(lv_event_t * e)
+{
+	lv_obj_add_flag(ui_VFOTuningPanel, LV_OBJ_FLAG_HIDDEN);
+  lv_obj_clear_flag(ui_CWSettingsPanel,  LV_OBJ_FLAG_HIDDEN);
+}
+
+
+void GOTOVFOtoHomePanelClicked(lv_event_t * e)
+{
+	lv_obj_add_flag(ui_VFOTuningPanel, LV_OBJ_FLAG_HIDDEN);
+  lv_obj_clear_flag(ui_HomePanel,  LV_OBJ_FLAG_HIDDEN);
+  
+}
 
 
 void formatNumber(long f, char *buf) {

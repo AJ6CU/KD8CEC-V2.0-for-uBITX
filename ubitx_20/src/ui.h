@@ -27,8 +27,8 @@ extern "C" {
 // SCREEN: ui_Screen1
 void ui_Screen1_screen_init(void);
 extern lv_obj_t * ui_Screen1;
-void ui_event_fullScreenPanel(lv_event_t * e);
-extern lv_obj_t * ui_fullScreenPanel;
+void ui_event_HomePanel(lv_event_t * e);
+extern lv_obj_t * ui_HomePanel;
 extern lv_obj_t * ui_topMenuPanel;
 void ui_event_txStopButton(lv_event_t * e);
 extern lv_obj_t * ui_txStopButton;
@@ -111,21 +111,33 @@ extern lv_obj_t * ui_Label19;
 extern lv_obj_t * ui_Label20;
 extern lv_obj_t * ui_Panel10;
 extern lv_obj_t * ui_Bar2;
+void ui_event_Button1(lv_event_t * e);
+extern lv_obj_t * ui_Button1;
 void ui_event_bottomPanel(lv_event_t * e);
 extern lv_obj_t * ui_bottomPanel;
+void ui_event_cwSettingsPanel(lv_event_t * e);
 extern lv_obj_t * ui_cwSettingsPanel;
+void ui_event_cwInfoCol1Panel(lv_event_t * e);
 extern lv_obj_t * ui_cwInfoCol1Panel;
+void ui_event_cwInfoLabel(lv_event_t * e);
 extern lv_obj_t * ui_cwInfoLabel;
+void ui_event_cwKeySpeed(lv_event_t * e);
 extern lv_obj_t * ui_cwKeySpeed;
+void ui_event_cwSidetone(lv_event_t * e);
 extern lv_obj_t * ui_cwSidetone;
+void ui_event_cwInforCol2Panel(lv_event_t * e);
 extern lv_obj_t * ui_cwInforCol2Panel;
+void ui_event_cwKeyType(lv_event_t * e);
 extern lv_obj_t * ui_cwKeyType;
+void ui_event_cwKeySpeedUnits(lv_event_t * e);
 extern lv_obj_t * ui_cwKeySpeedUnits;
+void ui_event_cwSidetoneUnits(lv_event_t * e);
 extern lv_obj_t * ui_cwSidetoneUnits;
 extern lv_obj_t * ui_ATT_IFS_Panel;
 extern lv_obj_t * ui_ATTPanel;
 void ui_event_ATTgraph(lv_event_t * e);
 extern lv_obj_t * ui_ATTgraph;
+void ui_event_ATTGraphLabels(lv_event_t * e);
 extern lv_obj_t * ui_ATTGraphLabels;
 void ui_event_ATTGraphLabel(lv_event_t * e);
 extern lv_obj_t * ui_ATTGraphLabel;
@@ -134,21 +146,48 @@ extern lv_obj_t * ui_ATTValueLabel;
 extern lv_obj_t * ui_IFSPanel;
 void ui_event_IFSgraph(lv_event_t * e);
 extern lv_obj_t * ui_IFSgraph;
+void ui_event_IFSGraphLabels(lv_event_t * e);
 extern lv_obj_t * ui_IFSGraphLabels;
 void ui_event_IFSGraphLabel(lv_event_t * e);
 extern lv_obj_t * ui_IFSGraphLabel;
 void ui_event_IFSValueLabel(lv_event_t * e);
 extern lv_obj_t * ui_IFSValueLabel;
-extern lv_obj_t * ui_settings_panel;
-extern lv_obj_t * ui_Label1;
+extern lv_obj_t * ui_CWSettingsPanel;
+extern lv_obj_t * ui_CWTitlePanel;
+extern lv_obj_t * ui_CWTitleLabel;
+extern lv_obj_t * ui_CWBodyPanel;
+extern lv_obj_t * ui_CWLeftBodyPanel;
+void ui_event_CWGoBackButton(lv_event_t * e);
+extern lv_obj_t * ui_CWGoBackButton;
+extern lv_obj_t * ui_CWMainBodyPanel;
+extern lv_obj_t * ui_CWRightBodyPanel;
+void ui_event_CWGoForwardButton(lv_event_t * e);
+extern lv_obj_t * ui_CWGoForwardButton;
+extern lv_obj_t * ui_CWFooterPanel;
+void ui_event_CWGoHomeButton(lv_event_t * e);
+extern lv_obj_t * ui_CWGoHomeButton;
+extern lv_obj_t * ui_VFOTuningPanel;
+extern lv_obj_t * ui_VFOTitlePanel;
+extern lv_obj_t * ui_VFOTitleLabel;
+extern lv_obj_t * ui_VFOBodyPanel;
+extern lv_obj_t * ui_VFOLeftBodyPanel;
+void ui_event_VFOGoBackButton(lv_event_t * e);
+extern lv_obj_t * ui_VFOGoBackButton;
+extern lv_obj_t * ui_VFOMainBodyPanel;
+extern lv_obj_t * ui_VFORightBodyPanel;
+extern lv_obj_t * ui_VFOGoForwardButton;
+extern lv_obj_t * ui_VFOFooterPanel;
+void ui_event_VFOGoHomeButton(lv_event_t * e);
+extern lv_obj_t * ui_VFOGoHomeButton;
 extern lv_obj_t * ui____initial_actions0;
 
+LV_IMG_DECLARE(ui_img_rightarrow_png);    // assets\rightarrow.png
 LV_IMG_DECLARE(ui_img_436403744);    // assets\att-graph.png
-LV_IMG_DECLARE(ui_img_vertical20p_png);    // assets\vertical20p.png
+LV_IMG_DECLARE(ui_img_redindicator_png);    // assets\redindicator.png
 LV_IMG_DECLARE(ui_img_2028451397);    // assets\ifs-graph.png
-LV_IMG_DECLARE(ui_img_att120x53_png);    // assets\att120x53.png
-LV_IMG_DECLARE(ui_img_1915532332);    // assets\ifs-graph1.png
-LV_IMG_DECLARE(ui_img_verticalfilled50_png);    // assets\verticalfilled50.png
+LV_IMG_DECLARE(ui_img_greenindicator_png);    // assets\greenindicator.png
+LV_IMG_DECLARE(ui_img_leftarrow_png);    // assets\leftarrow.png
+LV_IMG_DECLARE(ui_img_homebutton_png);    // assets\homebutton.png
 
 
 

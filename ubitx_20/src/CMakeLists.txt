@@ -3,11 +3,12 @@ SET(SOURCES ui_Screen1.c
     ui_comp_hook.c
     ui_helpers.c
     ui_events.c
+    ui_img_rightarrow_png.c
     ui_img_436403744.c
-    ui_img_vertical20p_png.c
+    ui_img_redindicator_png.c
     ui_img_2028451397.c
-    ui_img_att120x53_png.c
-    ui_img_1915532332.c
-    ui_img_verticalfilled50_png.c)
+    ui_img_greenindicator_png.c
+    ui_img_leftarrow_png.c
+    ui_img_homebutton_png.c)
 
 add_library(ui ${SOURCES})

@@ -70,3 +70,51 @@ def attButtonClicked(event_struct):
 def tuneRateSelectionClicked(event_struct):
     return
 
+
+def resetATTClicked(event_struct):
+    return
+
+
+def resetIFSClicked(event_struct):
+    return
+
+
+def moveToCWPanelClicked(event_struct):
+    return
+
+
+def GOTOCWPanelClicked(event_struct):
+    return
+
+
+def GOTOHomeClicked(event_struct):
+    return
+
+
+def GOTOVFOClicked(event_struct):
+    return
+
+
+def GOTOHomePanelClicked(event_struct):
+    return
+
+
+def GOTOHometoCWPanelClicked(event_struct):
+    return
+
+
+def GOTOCWtoHomePanelClicked(event_struct):
+    return
+
+
+def GOTOCWtoVFOPanelClicked(event_struct):
+    return
+
+
+def GOTOVFOtoCWPanelClicked(event_struct):
+    return
+
+
+def GOTOVFOtoHomePanelClicked(event_struct):
+    return
+

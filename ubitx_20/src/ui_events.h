@@ -25,6 +25,13 @@ void ritButtonClicked(lv_event_t * e);
 void ifsButtonClicked(lv_event_t * e);
 void attButtonClicked(lv_event_t * e);
 void tuneRateSelectionClicked(lv_event_t * e);
+void GOTOHometoCWPanelClicked(lv_event_t * e);
+void resetATTClicked(lv_event_t * e);
+void resetIFSClicked(lv_event_t * e);
+void GOTOCWtoHomePanelClicked(lv_event_t * e);
+void GOTOCWtoVFOPanelClicked(lv_event_t * e);
+void GOTOVFOtoCWPanelClicked(lv_event_t * e);
+void GOTOVFOtoHomePanelClicked(lv_event_t * e);
 
 #ifdef __cplusplus
 } /*extern "C"*/
