@@ -1,0 +1,4 @@
+After eTFT upgrade add the following line to User_Setup_Select.h
+
+#include <../TFT_eSPI_Setups/SetupCustom_Pico_ILI9341.h>
+
