@@ -22760,7 +22760,7 @@
                               {
                                 "nid": -20811180,
                                 "strtype": "OBJECT/Name",
-                                "strval": "cwKeyType",
+                                "strval": "cwKeyTypeLabel",
                                 "InheritedType": 10
                               },
                               {
@@ -23018,7 +23018,7 @@
                               {
                                 "nid": 154089469,
                                 "strtype": "LABEL/Text",
-                                "strval": "iambic-a",
+                                "strval": "iambicA",
                                 "InheritedType": 10
                               },
                               {
@@ -29822,8 +29822,7 @@
                 "InheritedType": 4
               }
             ],
-            "saved_objtypeKey": "PANEL",
-            "tree_closed": true
+            "saved_objtypeKey": "PANEL"
           },
           {
             "guid": "GUID62643762-1060536S4732313",
@@ -31608,7 +31607,7 @@
                           {
                             "nid": 1305576172,
                             "strtype": "OBJECT/Name",
-                            "strval": "KeyRadioStraight",
+                            "strval": "keyStraightCheckbox",
                             "InheritedType": 10
                           },
                           {
@@ -31990,6 +31989,44 @@
                                   }
                                 ],
                                 "InheritedType": 10
+                              },
+                              {
+                                "nid": 1261677919,
+                                "strtype": "_event/action",
+                                "strval": "CALL FUNCTION",
+                                "childs": [
+                                  {
+                                    "nid": 2126425298,
+                                    "strtype": "CALL FUNCTION/Name",
+                                    "strval": "CALL FUNCTION",
+                                    "InheritedType": 10
+                                  },
+                                  {
+                                    "nid": 538255120,
+                                    "strtype": "CALL FUNCTION/Call",
+                                    "strval": "<{Function_name}>( event_struct )",
+                                    "InheritedType": 10
+                                  },
+                                  {
+                                    "nid": 149165357,
+                                    "strtype": "CALL FUNCTION/CallC",
+                                    "strval": "<{Function_name}>( e );",
+                                    "InheritedType": 10
+                                  },
+                                  {
+                                    "nid": -391132283,
+                                    "strtype": "CALL FUNCTION/Function_name",
+                                    "strval": "setCWKeytoStraight",
+                                    "InheritedType": 10
+                                  },
+                                  {
+                                    "nid": -1295509857,
+                                    "strtype": "CALL FUNCTION/Dont_export_function",
+                                    "strval": "True",
+                                    "InheritedType": 2
+                                  }
+                                ],
+                                "InheritedType": 10
                               }
                             ],
                             "InheritedType": 4
@@ -32077,7 +32114,7 @@
                           {
                             "nid": -1060756409,
                             "strtype": "OBJECT/Name",
-                            "strval": "KeyRadioIambicA",
+                            "strval": "keyIambicACheckbox",
                             "InheritedType": 10
                           },
                           {
@@ -32460,6 +32497,44 @@
                                   }
                                 ],
                                 "InheritedType": 10
+                              },
+                              {
+                                "nid": -551677546,
+                                "strtype": "_event/action",
+                                "strval": "CALL FUNCTION",
+                                "childs": [
+                                  {
+                                    "nid": -1377992479,
+                                    "strtype": "CALL FUNCTION/Name",
+                                    "strval": "CALL FUNCTION",
+                                    "InheritedType": 10
+                                  },
+                                  {
+                                    "nid": 1502764458,
+                                    "strtype": "CALL FUNCTION/Call",
+                                    "strval": "<{Function_name}>( event_struct )",
+                                    "InheritedType": 10
+                                  },
+                                  {
+                                    "nid": -887025841,
+                                    "strtype": "CALL FUNCTION/CallC",
+                                    "strval": "<{Function_name}>( e );",
+                                    "InheritedType": 10
+                                  },
+                                  {
+                                    "nid": 641397095,
+                                    "strtype": "CALL FUNCTION/Function_name",
+                                    "strval": "setCWKeyToIambicA",
+                                    "InheritedType": 10
+                                  },
+                                  {
+                                    "nid": -635340354,
+                                    "strtype": "CALL FUNCTION/Dont_export_function",
+                                    "strval": "True",
+                                    "InheritedType": 2
+                                  }
+                                ],
+                                "InheritedType": 10
                               }
                             ],
                             "InheritedType": 4
@@ -32546,7 +32621,7 @@
                           {
                             "nid": -1730489232,
                             "strtype": "OBJECT/Name",
-                            "strval": "KeyRadioIambicB",
+                            "strval": "keyIambicBCheckbox",
                             "InheritedType": 10
                           },
                           {
@@ -32931,45 +33006,39 @@
                                 "InheritedType": 10
                               },
                               {
-                                "nid": -908859706,
+                                "nid": -874555712,
                                 "strtype": "_event/action",
-                                "strval": "MODIFY STATE",
+                                "strval": "CALL FUNCTION",
                                 "childs": [
                                   {
-                                    "nid": 1511697257,
-                                    "strtype": "MODIFY STATE/Name",
-                                    "strval": "MODIFY STATE",
+                                    "nid": -702248897,
+                                    "strtype": "CALL FUNCTION/Name",
+                                    "strval": "CALL FUNCTION",
                                     "InheritedType": 10
                                   },
                                   {
-                                    "nid": -568105588,
-                                    "strtype": "MODIFY STATE/Call",
-                                    "strval": "ModifyState( <{Object}>, lv.STATE.<{State}>, \"<{Action}>\")",
+                                    "nid": 766443410,
+                                    "strtype": "CALL FUNCTION/Call",
+                                    "strval": "<{Function_name}>( event_struct )",
                                     "InheritedType": 10
                                   },
                                   {
-                                    "nid": 448361587,
-                                    "strtype": "MODIFY STATE/CallC",
-                                    "strval": "_ui_state_modify( <{Object}>, LV_STATE_<{State}>, _UI_MODIFY_STATE_<{Action}>);",
+                                    "nid": -1805989971,
+                                    "strtype": "CALL FUNCTION/CallC",
+                                    "strval": "<{Function_name}>( e );",
                                     "InheritedType": 10
                                   },
                                   {
-                                    "nid": -1381023891,
-                                    "strtype": "MODIFY STATE/Object",
-                                    "strval": "GUID64464201-651379S564333",
-                                    "InheritedType": 9
+                                    "nid": -1027928439,
+                                    "strtype": "CALL FUNCTION/Function_name",
+                                    "strval": "setCWKeyToIambicB",
+                                    "InheritedType": 10
                                   },
                                   {
-                                    "nid": 1769547343,
-                                    "strtype": "MODIFY STATE/State",
-                                    "strval": "CHECKED",
-                                    "InheritedType": 3
-                                  },
-                                  {
-                                    "nid": 174094916,
-                                    "strtype": "MODIFY STATE/Action",
-                                    "strval": "ADD",
-                                    "InheritedType": 3
+                                    "nid": 864081145,
+                                    "strtype": "CALL FUNCTION/Dont_export_function",
+                                    "strval": "True",
+                                    "InheritedType": 2
                                   }
                                 ],
                                 "InheritedType": 10
@@ -34027,7 +34096,7 @@
                                       {
                                         "nid": 967810178,
                                         "strtype": "OBJECT/Name",
-                                        "strval": "Label9",
+                                        "strval": "cwSpeedWPMLabel",
                                         "InheritedType": 10
                                       },
                                       {
@@ -34616,8 +34685,8 @@
                                     "nid": 941663220,
                                     "strtype": "ARC/Range",
                                     "intarray": [
-                                      0,
-                                      40
+                                      1,
+                                      50
                                     ],
                                     "InheritedType": 7
                                   },
@@ -35710,7 +35779,7 @@
                                       {
                                         "nid": 755654721,
                                         "strtype": "OBJECT/Name",
-                                        "strval": "Label11",
+                                        "strval": "cwTXStartDelayLabel",
                                         "InheritedType": 10
                                       },
                                       {
@@ -36300,7 +36369,7 @@
                                     "strtype": "ARC/Range",
                                     "intarray": [
                                       0,
-                                      40
+                                      2000
                                     ],
                                     "InheritedType": 7
                                   },
@@ -37358,7 +37427,7 @@
                                       {
                                         "nid": -29159273,
                                         "strtype": "OBJECT/Name",
-                                        "strval": "Label13",
+                                        "strval": "cwSidetoneLabel",
                                         "InheritedType": 10
                                       },
                                       {
@@ -37947,8 +38016,8 @@
                                     "nid": 1881274139,
                                     "strtype": "ARC/Range",
                                     "intarray": [
-                                      0,
-                                      40
+                                      400,
+                                      800
                                     ],
                                     "InheritedType": 7
                                   },
@@ -39012,7 +39081,7 @@
                                       {
                                         "nid": -1237019291,
                                         "strtype": "OBJECT/Name",
-                                        "strval": "Label15",
+                                        "strval": "cwTXEndDelayLabel",
                                         "InheritedType": 10
                                       },
                                       {
@@ -39602,7 +39671,7 @@
                                     "strtype": "ARC/Range",
                                     "intarray": [
                                       0,
-                                      40
+                                      2000
                                     ],
                                     "InheritedType": 7
                                   },
@@ -49317,7 +49386,7 @@
     "theme_color2": 0,
     "uiExportFolderPath": "C:\\Users\\markj\\Documents\\GitHub\\KD8CEC-V2.0-for-uBITX\\ubitx_20\\src",
     "projectExportFolderPath": "C:\\Users\\markj\\Documents\\GitHub\\KD8CEC-V2.0-for-uBITX\\ubitx_20\\src",
-    "backup_cnt": 1301,
+    "backup_cnt": 1334,
     "autosave_cnt": 0,
     "lvgl_version": "8.3.6",
     "callfuncsexport": "C_FILE",

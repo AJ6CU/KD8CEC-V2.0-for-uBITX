@@ -118,3 +118,15 @@ def GOTOVFOtoCWPanelClicked(event_struct):
 def GOTOVFOtoHomePanelClicked(event_struct):
     return
 
+
+def setCWKeytoStraight(event_struct):
+    return
+
+
+def setCWKeyToIambicA(event_struct):
+    return
+
+
+def setCWKeyToIambicB(event_struct):
+    return
+

@@ -947,6 +947,30 @@ void GOTOVFOtoHomePanelClicked(lv_event_t * e)
 }
 
 
+
+void setCWKeytoStraight (lv_event_t * e)
+{
+  cwKeyType = 0;   // Straight
+  lv_label_set_text(ui_cwKeyTypeLabel, "straight");
+  EEPROMTYPE.put(CW_KEY_TYPE, cwKeyType);
+}
+
+void setCWKeyToIambicA (lv_event_t * e)
+{
+  cwKeyType = 1;   // iambic A
+  lv_label_set_text(ui_cwKeyTypeLabel, "iambicA");
+  EEPROMTYPE.put(CW_KEY_TYPE, cwKeyType);
+}
+
+void setCWKeyToIambicB (lv_event_t * e)
+{
+  cwKeyType = 2;   // iambic B
+  lv_label_set_text(ui_cwKeyTypeLabel, "iambicB");
+  EEPROMTYPE.put(CW_KEY_TYPE, cwKeyType);
+}
+
+
+
 void formatNumber(long f, char *buf) {
 // add period separators. Used generally for displaying frequencies
 
@@ -1177,6 +1201,21 @@ void sendUIData(int sendType)            // Probably should be merged into updat
 //     L_cwKeyType = cwKeyType;
 //     SendCommand1Num(CMD_KEY_TYPE, L_cwKeyType);  
 //   }
+    // Load key type saved in EEPROM
+    // switch (cwKeyType) {
+    //   case 0:       //straight key
+    //     lv_label_set_text(ui_cwKeyTypeLabel, "straight");
+    //     break;
+    //   case 1:       //iambic A key
+    //     lv_label_set_text(ui_cwKeyTypeLabel, "iambicA");
+    //     break;
+    //   case 2:
+    //   default:
+    //     lv_label_set_text(ui_cwKeyTypeLabel, "iambicaB");
+    //     break;
+
+    // }
+
 
 //   //#define CMD_CW_SPEED      's' //vs
 //   if (L_cwSpeed != cwSpeed)
@@ -1732,6 +1771,40 @@ void SendUbitxData(void)
     }
 
     lv_dropdown_set_selected( ui_tuneRateSelection, tuneStepIndex-1);
+
+    switch (cwKeyType) {
+
+      case 1:       //iambic A key
+        lv_label_set_text(ui_cwKeyTypeLabel, "iambicA");
+
+        lv_obj_add_state(ui_keyIambicACheckbox, LV_STATE_CHECKED);   /*Make the checkbox checked*/
+        lv_obj_clear_state(ui_keyStraightCheckbox, LV_STATE_CHECKED); /*Make the checkbox unchecked*/
+        lv_obj_clear_state(ui_keyIambicBCheckbox, LV_STATE_CHECKED); /*Make the checkbox unchecked*/ 
+        break;
+
+      case 2:     //iambic B Key
+        lv_label_set_text(ui_cwKeyTypeLabel, "iambicB");
+
+        
+        lv_obj_add_state(ui_keyIambicBCheckbox, LV_STATE_CHECKED);   /*Make the checkbox checked*/
+        lv_obj_clear_state(ui_keyStraightCheckbox, LV_STATE_CHECKED); /*Make the checkbox unchecked*/
+        lv_obj_clear_state(ui_keyIambicACheckbox, LV_STATE_CHECKED); /*Make the checkbox unchecked*/ 
+        break;
+
+      case 0:       //straight key
+      default:
+        lv_label_set_text(ui_cwKeyTypeLabel, "straight");
+        
+        lv_obj_add_state(ui_keyStraightCheckbox, LV_STATE_CHECKED);   /*Make the checkbox checked*/
+        lv_obj_clear_state(ui_keyIambicACheckbox, LV_STATE_CHECKED); /*Make the checkbox unchecked*/
+        lv_obj_clear_state(ui_keyIambicBCheckbox, LV_STATE_CHECKED); /*Make the checkbox unchecked*/ 
+        break;
+
+    }
+
+    itoa(1200/cwSpeed, tmpBuffer,10);
+    lv_label_set_text(ui_cwSpeedWPMLabel,tmpBuffer);
+    lv_label_set_text(ui_cwKeySpeed, tmpBuffer);
 
   
 

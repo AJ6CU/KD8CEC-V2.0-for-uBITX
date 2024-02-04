@@ -112,8 +112,8 @@ void ui_event_cwSidetone(lv_event_t * e);
 lv_obj_t * ui_cwSidetone;
 void ui_event_cwInforCol2Panel(lv_event_t * e);
 lv_obj_t * ui_cwInforCol2Panel;
-void ui_event_cwKeyType(lv_event_t * e);
-lv_obj_t * ui_cwKeyType;
+void ui_event_cwKeyTypeLabel(lv_event_t * e);
+lv_obj_t * ui_cwKeyTypeLabel;
 void ui_event_cwKeySpeedUnits(lv_event_t * e);
 lv_obj_t * ui_cwKeySpeedUnits;
 void ui_event_cwSidetoneUnits(lv_event_t * e);
@@ -147,34 +147,34 @@ lv_obj_t * ui_CWGoForwardButton;
 lv_obj_t * ui_Panel2;
 lv_obj_t * ui_Label1;
 lv_obj_t * ui_Panel3;
-void ui_event_KeyRadioStraight(lv_event_t * e);
-lv_obj_t * ui_KeyRadioStraight;
-void ui_event_KeyRadioIambicA(lv_event_t * e);
-lv_obj_t * ui_KeyRadioIambicA;
-void ui_event_KeyRadioIambicB(lv_event_t * e);
-lv_obj_t * ui_KeyRadioIambicB;
+void ui_event_keyStraightCheckbox(lv_event_t * e);
+lv_obj_t * ui_keyStraightCheckbox;
+void ui_event_keyIambicACheckbox(lv_event_t * e);
+lv_obj_t * ui_keyIambicACheckbox;
+void ui_event_keyIambicBCheckbox(lv_event_t * e);
+lv_obj_t * ui_keyIambicBCheckbox;
 lv_obj_t * ui_CWBodyPanel;
 lv_obj_t * ui_CWMainBodyPanel;
 lv_obj_t * ui_Panel11;
 lv_obj_t * ui_Panel13;
 lv_obj_t * ui_Label10;
 lv_obj_t * ui_Arc1;
-lv_obj_t * ui_Label9;
+lv_obj_t * ui_cwSpeedWPMLabel;
 lv_obj_t * ui_Label17;
 lv_obj_t * ui_Panel12;
 lv_obj_t * ui_Label12;
 lv_obj_t * ui_Arc2;
-lv_obj_t * ui_Label11;
+lv_obj_t * ui_cwTXStartDelayLabel;
 lv_obj_t * ui_Label18;
 lv_obj_t * ui_Panel14;
 lv_obj_t * ui_Label14;
 lv_obj_t * ui_Arc3;
-lv_obj_t * ui_Label13;
+lv_obj_t * ui_cwSidetoneLabel;
 lv_obj_t * ui_Label21;
 lv_obj_t * ui_Panel15;
 lv_obj_t * ui_Label16;
 lv_obj_t * ui_Arc4;
-lv_obj_t * ui_Label15;
+lv_obj_t * ui_cwTXEndDelayLabel;
 lv_obj_t * ui_Label22;
 lv_obj_t * ui_Panel4;
 lv_obj_t * ui_Panel5;
@@ -514,7 +514,7 @@ void ui_event_cwInforCol2Panel(lv_event_t * e)
         GOTOHometoCWPanelClicked(e);
     }
 }
-void ui_event_cwKeyType(lv_event_t * e)
+void ui_event_cwKeyTypeLabel(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
     lv_obj_t * target = lv_event_get_target(e);
@@ -618,41 +618,43 @@ void ui_event_CWGoForwardButton(lv_event_t * e)
         GOTOCWtoVFOPanelClicked(e);
     }
 }
-void ui_event_KeyRadioStraight(lv_event_t * e)
+void ui_event_keyStraightCheckbox(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
     lv_obj_t * target = lv_event_get_target(e);
     if(event_code == LV_EVENT_VALUE_CHANGED &&  lv_obj_has_state(target, LV_STATE_CHECKED)) {
-        _ui_state_modify(ui_KeyRadioIambicA, LV_STATE_CHECKED, _UI_MODIFY_STATE_REMOVE);
-        _ui_state_modify(ui_KeyRadioIambicB, LV_STATE_CHECKED, _UI_MODIFY_STATE_REMOVE);
+        _ui_state_modify(ui_keyIambicACheckbox, LV_STATE_CHECKED, _UI_MODIFY_STATE_REMOVE);
+        _ui_state_modify(ui_keyIambicBCheckbox, LV_STATE_CHECKED, _UI_MODIFY_STATE_REMOVE);
+        setCWKeytoStraight(e);
     }
     if(event_code == LV_EVENT_VALUE_CHANGED &&  !lv_obj_has_state(target, LV_STATE_CHECKED)) {
-        _ui_state_modify(ui_KeyRadioStraight, LV_STATE_CHECKED, _UI_MODIFY_STATE_ADD);
+        _ui_state_modify(ui_keyStraightCheckbox, LV_STATE_CHECKED, _UI_MODIFY_STATE_ADD);
     }
 }
-void ui_event_KeyRadioIambicA(lv_event_t * e)
+void ui_event_keyIambicACheckbox(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
     lv_obj_t * target = lv_event_get_target(e);
     if(event_code == LV_EVENT_VALUE_CHANGED &&  lv_obj_has_state(target, LV_STATE_CHECKED)) {
-        _ui_state_modify(ui_KeyRadioStraight, LV_STATE_CHECKED, _UI_MODIFY_STATE_REMOVE);
-        _ui_state_modify(ui_KeyRadioIambicB, LV_STATE_CHECKED, _UI_MODIFY_STATE_REMOVE);
+        _ui_state_modify(ui_keyStraightCheckbox, LV_STATE_CHECKED, _UI_MODIFY_STATE_REMOVE);
+        _ui_state_modify(ui_keyIambicBCheckbox, LV_STATE_CHECKED, _UI_MODIFY_STATE_REMOVE);
+        setCWKeyToIambicA(e);
     }
     if(event_code == LV_EVENT_VALUE_CHANGED &&  !lv_obj_has_state(target, LV_STATE_CHECKED)) {
-        _ui_state_modify(ui_KeyRadioIambicA, LV_STATE_CHECKED, _UI_MODIFY_STATE_ADD);
+        _ui_state_modify(ui_keyIambicACheckbox, LV_STATE_CHECKED, _UI_MODIFY_STATE_ADD);
     }
 }
-void ui_event_KeyRadioIambicB(lv_event_t * e)
+void ui_event_keyIambicBCheckbox(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
     lv_obj_t * target = lv_event_get_target(e);
     if(event_code == LV_EVENT_VALUE_CHANGED &&  lv_obj_has_state(target, LV_STATE_CHECKED)) {
-        _ui_state_modify(ui_KeyRadioStraight, LV_STATE_CHECKED, _UI_MODIFY_STATE_REMOVE);
-        _ui_state_modify(ui_KeyRadioIambicA, LV_STATE_CHECKED, _UI_MODIFY_STATE_REMOVE);
-        _ui_state_modify(ui_KeyRadioIambicB, LV_STATE_CHECKED, _UI_MODIFY_STATE_ADD);
+        _ui_state_modify(ui_keyStraightCheckbox, LV_STATE_CHECKED, _UI_MODIFY_STATE_REMOVE);
+        _ui_state_modify(ui_keyIambicACheckbox, LV_STATE_CHECKED, _UI_MODIFY_STATE_REMOVE);
+        setCWKeyToIambicB(e);
     }
     if(event_code == LV_EVENT_VALUE_CHANGED &&  !lv_obj_has_state(target, LV_STATE_CHECKED)) {
-        _ui_state_modify(ui_KeyRadioIambicB, LV_STATE_CHECKED, _UI_MODIFY_STATE_ADD);
+        _ui_state_modify(ui_keyIambicBCheckbox, LV_STATE_CHECKED, _UI_MODIFY_STATE_ADD);
     }
 }
 void ui_event_CWGoHomeButton(lv_event_t * e)
