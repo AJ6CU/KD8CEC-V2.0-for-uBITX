@@ -33,6 +33,8 @@ void GOTOCWtoVFOPanelClicked(lv_event_t * e);
 void setCWKeytoStraight(lv_event_t * e);
 void setCWKeyToIambicA(lv_event_t * e);
 void setCWKeyToIambicB(lv_event_t * e);
+void cwWPMArcValueChanged(lv_event_t * e);
+void cwsideToneArcValueChanged(lv_event_t * e);
 void GOTOVFOtoCWPanelClicked(lv_event_t * e);
 void GOTOVFOtoHomePanelClicked(lv_event_t * e);
 

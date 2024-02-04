@@ -130,3 +130,15 @@ def setCWKeyToIambicA(event_struct):
 def setCWKeyToIambicB(event_struct):
     return
 
+
+def cwArcValueChanged(event_struct):
+    return
+
+
+def cwWPMArcValueChanged(event_struct):
+    return
+
+
+def cwsideToneArcValueChanged(event_struct):
+    return
+

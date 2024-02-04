@@ -969,6 +969,58 @@ void setCWKeyToIambicB (lv_event_t * e)
   EEPROMTYPE.put(CW_KEY_TYPE, cwKeyType);
 }
 
+void cwWPMArcValueChanged  (lv_event_t * e)
+// 
+//  This function updates the label for the cw arc and the speed on front page when value changed
+//  It also updates the variable "cwSpeed" which is the internal variable that holds the speed of a
+//  dot in ms.  After value is updated, the EEPROM is rewritten.
+//
+{
+    int tmpcwSpeed;
+    char tmpBuffer[15]; 
+
+    tmpcwSpeed = cwSpeed;
+    cwSpeed = 1200/lv_arc_get_value(ui_wpmArc);
+
+    //this check is mainly here to prevent unnecessory rewriting the eeprom
+
+    if (tmpcwSpeed != cwSpeed) {          
+    
+      itoa(1200/cwSpeed, tmpBuffer,10);
+      lv_label_set_text(ui_cwSpeedWPMLabel,tmpBuffer);
+      lv_label_set_text(ui_cwKeySpeed, tmpBuffer);
+
+      EEPROMTYPE.put(CW_SPEED, cwSpeed);
+    }
+}
+
+void cwsideToneArcValueChanged  (lv_event_t * e)
+// 
+//  This function updates the label for the cw sidetone arc (and label) as well as the reporting
+//  value on the front page.
+//  It also updates the variable "sideTone" which is the internal variable that holds the speed of a
+//  dot in ms.  After value is updated, the EEPROM is rewritten.
+//
+{
+    int tmpsideTone;
+    char tmpBuffer[15]; 
+
+    tmpsideTone = sideTone;
+    sideTone = lv_arc_get_value(ui_sideToneArc) * 10;     //ux set so only can define sidetones in 10hz
+
+    //this check is mainly here to prevent unnecessory rewriting the eeprom
+
+    if (tmpsideTone != sideTone) {          
+    
+      itoa(sideTone, tmpBuffer,10);
+      lv_label_set_text(ui_cwSideToneLabel,tmpBuffer);
+      lv_label_set_text(ui_cwSideTone, tmpBuffer);
+
+      EEPROMTYPE.put(CW_SIDETONE, sideTone);
+    }
+}
+
+
 
 
 void formatNumber(long f, char *buf) {
@@ -1801,10 +1853,26 @@ void SendUbitxData(void)
         break;
 
     }
-
+    //
+    //  cwSpeed is the current rate of the "dot" in ms. Needs to be converted to wpm
+    //  Need to update the label on the home page that contains CW wpm
+    //  Also need to update the cw setting page to reflect the current wpm
+    //
     itoa(1200/cwSpeed, tmpBuffer,10);
     lv_label_set_text(ui_cwSpeedWPMLabel,tmpBuffer);
     lv_label_set_text(ui_cwKeySpeed, tmpBuffer);
+    lv_arc_set_value(ui_wpmArc, 1200/cwSpeed);
+
+    //
+    //  sideTone is in HZ
+    //  Need to update the label on the home page that contains sidetone frequency
+    //  Also need to update the cw setting page to reflect the current sidetone
+    //
+   
+    itoa(sideTone, tmpBuffer,10);
+    lv_label_set_text(ui_cwSideToneLabel,tmpBuffer);
+    lv_label_set_text(ui_cwSideTone, tmpBuffer);
+    lv_arc_set_value(ui_sideToneArc, sideTone/10);      //UX set so sidetone can only be set in 10hz increments
 
   
 

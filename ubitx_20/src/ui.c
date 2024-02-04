@@ -108,8 +108,8 @@ void ui_event_cwInfoLabel(lv_event_t * e);
 lv_obj_t * ui_cwInfoLabel;
 void ui_event_cwKeySpeed(lv_event_t * e);
 lv_obj_t * ui_cwKeySpeed;
-void ui_event_cwSidetone(lv_event_t * e);
-lv_obj_t * ui_cwSidetone;
+void ui_event_cwSideTone(lv_event_t * e);
+lv_obj_t * ui_cwSideTone;
 void ui_event_cwInforCol2Panel(lv_event_t * e);
 lv_obj_t * ui_cwInforCol2Panel;
 void ui_event_cwKeyTypeLabel(lv_event_t * e);
@@ -158,7 +158,8 @@ lv_obj_t * ui_CWMainBodyPanel;
 lv_obj_t * ui_Panel11;
 lv_obj_t * ui_Panel13;
 lv_obj_t * ui_Label10;
-lv_obj_t * ui_Arc1;
+void ui_event_wpmArc(lv_event_t * e);
+lv_obj_t * ui_wpmArc;
 lv_obj_t * ui_cwSpeedWPMLabel;
 lv_obj_t * ui_Label17;
 lv_obj_t * ui_Panel12;
@@ -168,8 +169,9 @@ lv_obj_t * ui_cwTXStartDelayLabel;
 lv_obj_t * ui_Label18;
 lv_obj_t * ui_Panel14;
 lv_obj_t * ui_Label14;
-lv_obj_t * ui_Arc3;
-lv_obj_t * ui_cwSidetoneLabel;
+void ui_event_sideToneArc(lv_event_t * e);
+lv_obj_t * ui_sideToneArc;
+lv_obj_t * ui_cwSideToneLabel;
 lv_obj_t * ui_Label21;
 lv_obj_t * ui_Panel15;
 lv_obj_t * ui_Label16;
@@ -498,7 +500,7 @@ void ui_event_cwKeySpeed(lv_event_t * e)
         GOTOHometoCWPanelClicked(e);
     }
 }
-void ui_event_cwSidetone(lv_event_t * e)
+void ui_event_cwSideTone(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
     lv_obj_t * target = lv_event_get_target(e);
@@ -655,6 +657,22 @@ void ui_event_keyIambicBCheckbox(lv_event_t * e)
     }
     if(event_code == LV_EVENT_VALUE_CHANGED &&  !lv_obj_has_state(target, LV_STATE_CHECKED)) {
         _ui_state_modify(ui_keyIambicBCheckbox, LV_STATE_CHECKED, _UI_MODIFY_STATE_ADD);
+    }
+}
+void ui_event_wpmArc(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_VALUE_CHANGED) {
+        cwWPMArcValueChanged(e);
+    }
+}
+void ui_event_sideToneArc(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_VALUE_CHANGED) {
+        cwsideToneArcValueChanged(e);
     }
 }
 void ui_event_CWGoHomeButton(lv_event_t * e)
