@@ -771,6 +771,7 @@ void bandUpClicked(lv_event_t * e)
 void updateMode(uint8_t newmode){
   byteToMode(newmode,0);
   lv_label_set_text(ui_modeSelectLabel,modeToString());
+  lv_label_set_text(ui_VFOmodeSelectLabel,modeToString());
 }
 
 void setModeLSB(lv_event_t * e)
@@ -923,11 +924,27 @@ void GOTOCWtoHomePanelClicked(lv_event_t * e)
   
 }
 
+void setRollersFromVFO() {
 
+
+  lv_roller_set_selected(ui_Roller1,(frequency/10)        % 10,LV_ANIM_OFF);
+  lv_roller_set_selected(ui_Roller2,(frequency/100)       % 10,LV_ANIM_OFF);
+  lv_roller_set_selected(ui_Roller3,(frequency/1000)      % 10,LV_ANIM_OFF);
+  lv_roller_set_selected(ui_Roller4,(frequency/10000)     % 10,LV_ANIM_OFF);
+  lv_roller_set_selected(ui_Roller5,(frequency/100000)    % 10,LV_ANIM_OFF);
+  lv_roller_set_selected(ui_Roller6,(frequency/1000000)   % 10,LV_ANIM_OFF);
+  lv_roller_set_selected(ui_Roller7,(frequency/10000000)  % 10,LV_ANIM_OFF);
+
+}
 
 void GOTOCWtoVFOPanelClicked(lv_event_t * e)
 {
-	lv_obj_add_flag(ui_CWSettingsPanel, LV_OBJ_FLAG_HIDDEN);
+  //  first set the roller dials for the existing frequency and then make
+  //  vfo panel active
+  
+    setRollersFromVFO();
+  
+  lv_obj_add_flag(ui_CWSettingsPanel, LV_OBJ_FLAG_HIDDEN);
   lv_obj_clear_flag(ui_VFOTuningPanel,  LV_OBJ_FLAG_HIDDEN);
   
 }
@@ -938,6 +955,16 @@ void GOTOVFOtoCWPanelClicked(lv_event_t * e)
   lv_obj_clear_flag(ui_CWSettingsPanel,  LV_OBJ_FLAG_HIDDEN);
 }
 
+void GOTOHOMEtoVFOPanelClicked(lv_event_t * e){
+  
+  //  first set the roller dials for the existing frequency and then make
+  //  vfo panel active
+  
+  setRollersFromVFO();
+
+  lv_obj_add_flag(ui_HomePanel, LV_OBJ_FLAG_HIDDEN);
+  lv_obj_clear_flag(ui_VFOTuningPanel,  LV_OBJ_FLAG_HIDDEN); 
+}
 
 void GOTOVFOtoHomePanelClicked(lv_event_t * e)
 {
@@ -1020,9 +1047,95 @@ void cwsideToneArcValueChanged  (lv_event_t * e)
     }
 }
 
+void cwTXStartDelayArcValueChanged  (lv_event_t * e) 
+{
+  uint8_t tmpTXStartDelay;
+  char tmpBuffer[15];
+
+  tmpTXStartDelay = delayBeforeCWStartTime;
+  delayBeforeCWStartTime = lv_arc_get_value(ui_cwTXStartDelayArc);
+
+  if (tmpTXStartDelay != delayBeforeCWStartTime) {          
+    itoa(delayBeforeCWStartTime*2, tmpBuffer,10);
+    lv_label_set_text(ui_cwTXStartDelayLabel,tmpBuffer);
+  
+    EEPROMTYPE.put(CW_START, delayBeforeCWStartTime);
+  }
+}
 
 
 
+void cwTXEndDelayArcValueChanged  (lv_event_t * e) 
+{
+  uint8_t tmpTXEndDelay;
+  char tmpBuffer[15];
+
+  tmpTXEndDelay = cwDelayTime;
+  cwDelayTime = lv_arc_get_value(ui_cwTXEndDelayArc);
+
+  if (tmpTXEndDelay != cwDelayTime) { 
+
+    itoa(cwDelayTime *10, tmpBuffer,10);
+    lv_label_set_text(ui_cwTXEndDelayLabel,tmpBuffer);
+
+    EEPROMTYPE.put(CW_DELAY, cwDelayTime);
+  }
+
+}
+
+
+
+void vfoRoller1Changed(lv_event_t * e)
+{
+
+  frequency = (frequency - ((frequency/10) % 10)*10) + (lv_roller_get_selected(ui_Roller1)*10);
+  
+}
+
+void vfoRoller2Changed(lv_event_t * e)
+{
+
+  frequency = (frequency - ((frequency/100) % 10)*100) + (lv_roller_get_selected(ui_Roller2)*100);
+  
+}
+
+void vfoRoller3Changed(lv_event_t * e)
+{
+
+  frequency = (frequency - ((frequency/1000) % 10)*1000) + (lv_roller_get_selected(ui_Roller3)*1000);
+  
+}
+
+void vfoRoller4Changed(lv_event_t * e)
+{
+
+  frequency = (frequency - ((frequency/10000) % 10)*10000) + (lv_roller_get_selected(ui_Roller4)*10000);
+  
+}
+
+void vfoRoller5Changed(lv_event_t * e)
+{
+
+  frequency = (frequency - ((frequency/100000) % 10)*100000) + (lv_roller_get_selected(ui_Roller5)*100000);
+  
+}
+
+void vfoRoller6Changed(lv_event_t * e)
+{
+
+  frequency = (frequency - ((frequency/1000000) % 10)*1000000) + (lv_roller_get_selected(ui_Roller6)*1000000);
+  
+}
+
+void vfoRoller7Changed(lv_event_t * e)
+{
+
+  frequency = (frequency - ((frequency/10000000) % 10)*10000000) + (lv_roller_get_selected(ui_Roller7)*10000000);
+  
+}
+
+   
+    
 void formatNumber(long f, char *buf) {
 // add period separators. Used generally for displaying frequencies
 
@@ -1873,6 +1986,23 @@ void SendUbitxData(void)
     lv_label_set_text(ui_cwSideToneLabel,tmpBuffer);
     lv_label_set_text(ui_cwSideTone, tmpBuffer);
     lv_arc_set_value(ui_sideToneArc, sideTone/10);      //UX set so sidetone can only be set in 10hz increments
+
+    //
+    //  Set the delay from start of TX to the initial cw sending
+    //
+    
+    itoa(delayBeforeCWStartTime*2, tmpBuffer,10);
+    lv_label_set_text(ui_cwTXStartDelayLabel,tmpBuffer);
+    lv_arc_set_value(ui_cwTXStartDelayArc, delayBeforeCWStartTime);     // CW start delay is stored at half to save eeprom space
+
+    //
+    //  Set the delay from end of cw to return to RX
+    //
+    
+    itoa(cwDelayTime *10, tmpBuffer,10);
+    lv_label_set_text(ui_cwTXEndDelayLabel,tmpBuffer);
+    lv_arc_set_value(ui_cwTXEndDelayArc, cwDelayTime);     // CW return to RX is stored at 1/10 to save eeprom space
+
 
   
 

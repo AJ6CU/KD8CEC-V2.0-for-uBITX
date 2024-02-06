@@ -745,7 +745,7 @@ void sendUIData(int sendType)
   }
 
   //#define CMD_CW_STARTDELAY 'e' //ve
-  if (L_delayBeforeCWStartTime != delayBeforeCWStartTime)
+  if (L_delayBeforeCWStartTime != CWStartTime)
   {
     L_delayBeforeCWStartTime = delayBeforeCWStartTime;
     SendCommandL(CMD_CW_STARTDELAY, L_delayBeforeCWStartTime);

@@ -49,6 +49,7 @@ lv_obj_t * ui_TXButton;
 lv_obj_t * ui_TXButtonLabel;
 void ui_event_activeVFOPanel(lv_event_t * e);
 lv_obj_t * ui_activeVFOPanel;
+void ui_event_activeFreq(lv_event_t * e);
 lv_obj_t * ui_activeFreq;
 lv_obj_t * ui_modeSelectPanel;
 void ui_event_LSBModeButton(lv_event_t * e);
@@ -164,7 +165,8 @@ lv_obj_t * ui_cwSpeedWPMLabel;
 lv_obj_t * ui_Label17;
 lv_obj_t * ui_Panel12;
 lv_obj_t * ui_Label12;
-lv_obj_t * ui_Arc2;
+void ui_event_cwTXStartDelayArc(lv_event_t * e);
+lv_obj_t * ui_cwTXStartDelayArc;
 lv_obj_t * ui_cwTXStartDelayLabel;
 lv_obj_t * ui_Label18;
 lv_obj_t * ui_Panel14;
@@ -175,7 +177,8 @@ lv_obj_t * ui_cwSideToneLabel;
 lv_obj_t * ui_Label21;
 lv_obj_t * ui_Panel15;
 lv_obj_t * ui_Label16;
-lv_obj_t * ui_Arc4;
+void ui_event_cwTXEndDelayArc(lv_event_t * e);
+lv_obj_t * ui_cwTXEndDelayArc;
 lv_obj_t * ui_cwTXEndDelayLabel;
 lv_obj_t * ui_Label22;
 lv_obj_t * ui_Panel4;
@@ -192,17 +195,49 @@ void ui_event_CWGoHomeButton(lv_event_t * e);
 lv_obj_t * ui_CWGoHomeButton;
 lv_obj_t * ui_VFOTuningPanel;
 lv_obj_t * ui_VFOTitlePanel;
-lv_obj_t * ui_VFOTitleLabel;
-lv_obj_t * ui_VFOBodyPanel;
-lv_obj_t * ui_VFOLeftBodyPanel;
 void ui_event_VFOGoBackButton(lv_event_t * e);
 lv_obj_t * ui_VFOGoBackButton;
-lv_obj_t * ui_VFOMainBodyPanel;
-lv_obj_t * ui_VFORightBodyPanel;
+lv_obj_t * ui_VFOTitleLabel;
 lv_obj_t * ui_VFOGoForwardButton;
+lv_obj_t * ui_VFOBodyPanel;
+lv_obj_t * ui_Panel16;
+void ui_event_Roller7(lv_event_t * e);
+lv_obj_t * ui_Roller7;
+void ui_event_Roller6(lv_event_t * e);
+lv_obj_t * ui_Roller6;
+lv_obj_t * ui_Label30;
+void ui_event_Roller5(lv_event_t * e);
+lv_obj_t * ui_Roller5;
+void ui_event_Roller4(lv_event_t * e);
+lv_obj_t * ui_Roller4;
+void ui_event_Roller3(lv_event_t * e);
+lv_obj_t * ui_Roller3;
+lv_obj_t * ui_Label29;
+void ui_event_Roller2(lv_event_t * e);
+lv_obj_t * ui_Roller2;
+void ui_event_Roller1(lv_event_t * e);
+lv_obj_t * ui_Roller1;
+lv_obj_t * ui_Roller0;
+lv_obj_t * ui_Panel17;
+void ui_event_VFOmodeSelectButton(lv_event_t * e);
+lv_obj_t * ui_VFOmodeSelectButton;
+lv_obj_t * ui_VFOmodeSelectLabel;
+void ui_event_ImgButton1(lv_event_t * e);
+lv_obj_t * ui_ImgButton1;
+lv_obj_t * ui_VFOmodeSelectPanel;
+void ui_event_VFOLSBModeButton(lv_event_t * e);
+lv_obj_t * ui_VFOLSBModeButton;
+lv_obj_t * ui_VFOLSBModeLabel;
+void ui_event_VFOUSBModeButton(lv_event_t * e);
+lv_obj_t * ui_VFOUSBModeButton;
+lv_obj_t * ui_VFOUSBModeLabel;
+void ui_event_VFOCWLModeButton(lv_event_t * e);
+lv_obj_t * ui_VFOCWLModeButton;
+lv_obj_t * ui_VFOCWLModeLabel;
+void ui_event_VFOCWUModeButton(lv_event_t * e);
+lv_obj_t * ui_VFOCWUModeButton;
+lv_obj_t * ui_VFOCWUModeLabel;
 lv_obj_t * ui_VFOFooterPanel;
-void ui_event_VFOGoHomeButton(lv_event_t * e);
-lv_obj_t * ui_VFOGoHomeButton;
 lv_obj_t * ui____initial_actions0;
 
 ///////////////////// TEST LVGL SETTINGS ////////////////////
@@ -336,6 +371,15 @@ void ui_event_activeVFOPanel(lv_event_t * e)
     lv_obj_t * target = lv_event_get_target(e);
     if(event_code == LV_EVENT_CLICKED) {
         _ui_flag_modify(ui_modeSelectPanel, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
+        GOTOHOMEtoVFOPanelClicked(e);
+    }
+}
+void ui_event_activeFreq(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_CLICKED) {
+        GOTOHOMEtoVFOPanelClicked(e);
     }
 }
 void ui_event_LSBModeButton(lv_event_t * e)
@@ -667,12 +711,28 @@ void ui_event_wpmArc(lv_event_t * e)
         cwWPMArcValueChanged(e);
     }
 }
+void ui_event_cwTXStartDelayArc(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_VALUE_CHANGED) {
+        cwTXStartDelayArcValueChanged(e);
+    }
+}
 void ui_event_sideToneArc(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
     lv_obj_t * target = lv_event_get_target(e);
     if(event_code == LV_EVENT_VALUE_CHANGED) {
         cwsideToneArcValueChanged(e);
+    }
+}
+void ui_event_cwTXEndDelayArc(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_VALUE_CHANGED) {
+        cwTXEndDelayArcValueChanged(e);
     }
 }
 void ui_event_CWGoHomeButton(lv_event_t * e)
@@ -691,12 +751,121 @@ void ui_event_VFOGoBackButton(lv_event_t * e)
         GOTOVFOtoCWPanelClicked(e);
     }
 }
-void ui_event_VFOGoHomeButton(lv_event_t * e)
+void ui_event_Roller7(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_VALUE_CHANGED) {
+        vfoRoller7Changed(e);
+    }
+}
+void ui_event_Roller6(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_VALUE_CHANGED) {
+        vfoRoller6Changed(e);
+    }
+}
+void ui_event_Roller5(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_VALUE_CHANGED) {
+        vfoRoller5Changed(e);
+    }
+}
+void ui_event_Roller4(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_VALUE_CHANGED) {
+        vfoRoller4Changed(e);
+    }
+}
+void ui_event_Roller3(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_VALUE_CHANGED) {
+        vfoRoller3Changed(e);
+    }
+}
+void ui_event_Roller2(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_VALUE_CHANGED) {
+        vfoRoller2Changed(e);
+    }
+}
+void ui_event_Roller1(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_VALUE_CHANGED) {
+        vfoRoller1Changed(e);
+    }
+}
+void ui_event_VFOmodeSelectButton(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_CLICKED) {
+        _ui_flag_modify(ui_VFOmodeSelectPanel, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_TOGGLE);
+    }
+}
+void ui_event_ImgButton1(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
     lv_obj_t * target = lv_event_get_target(e);
     if(event_code == LV_EVENT_CLICKED) {
         GOTOVFOtoHomePanelClicked(e);
+    }
+}
+void ui_event_VFOLSBModeButton(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_CLICKED) {
+        setModeLSB(e);
+    }
+    if(event_code == LV_EVENT_CLICKED) {
+        _ui_flag_modify(ui_VFOmodeSelectPanel, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
+    }
+}
+void ui_event_VFOUSBModeButton(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_CLICKED) {
+        setModeUSB(e);
+    }
+    if(event_code == LV_EVENT_CLICKED) {
+        _ui_flag_modify(ui_VFOmodeSelectPanel, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
+    }
+}
+void ui_event_VFOCWLModeButton(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_CLICKED) {
+        setModeCWL(e);
+    }
+    if(event_code == LV_EVENT_CLICKED) {
+        _ui_flag_modify(ui_VFOmodeSelectPanel, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
+    }
+}
+void ui_event_VFOCWUModeButton(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_CLICKED) {
+        _ui_flag_modify(ui_VFOmodeSelectPanel, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
+        setModeCWU(e);
+    }
+    if(event_code == LV_EVENT_CLICKED) {
+        _ui_flag_modify(ui_VFOmodeSelectPanel, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
     }
 }
 

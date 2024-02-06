@@ -142,3 +142,51 @@ def cwWPMArcValueChanged(event_struct):
 def cwsideToneArcValueChanged(event_struct):
     return
 
+
+def cwTXStartDelayArcValueChanged(event_struct):
+    return
+
+
+def cwTXEndDelayArc(event_struct):
+    return
+
+
+def cwTXEndDelayArcValueChanged(event_struct):
+    return
+
+
+def vfoRoller0Changed(event_struct):
+    return
+
+
+def vfoRoller1Changed(event_struct):
+    return
+
+
+def vfoRoller2Changed(event_struct):
+    return
+
+
+def vfoRoller3Changed(event_struct):
+    return
+
+
+def vfoRoller4Changed(event_struct):
+    return
+
+
+def vfoRoller5Changed(event_struct):
+    return
+
+
+def vfoRoller6Changed(event_struct):
+    return
+
+
+def vfoRoller7Changed(event_struct):
+    return
+
+
+def GOTOHOMEtoVFOPanelClicked(event_struct):
+    return
+
