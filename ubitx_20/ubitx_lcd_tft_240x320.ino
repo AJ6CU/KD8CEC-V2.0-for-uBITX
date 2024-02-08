@@ -912,15 +912,20 @@ void resetIFSClicked(lv_event_t * e)
 
 void GOTOHometoCWPanelClicked(lv_event_t * e)
 {
-	lv_obj_add_flag(ui_HomePanel, LV_OBJ_FLAG_HIDDEN);
-  lv_obj_clear_flag(ui_CWSettingsPanel,  LV_OBJ_FLAG_HIDDEN);
+	// lv_obj_add_flag(ui_HomePanel, LV_OBJ_FLAG_HIDDEN);
+  // lv_obj_clear_flag(ui_CWSettingsPanel,  LV_OBJ_FLAG_HIDDEN);
   
+  lv_scr_load(ui_CWSettings);
+  // lv_obj_clean(ui_Home);
+
 }
 
 void GOTOCWtoHomePanelClicked(lv_event_t * e)
 {
-	lv_obj_add_flag(ui_CWSettingsPanel, LV_OBJ_FLAG_HIDDEN);
-  lv_obj_clear_flag(ui_HomePanel,  LV_OBJ_FLAG_HIDDEN);
+	// lv_obj_add_flag(ui_CWSettingsPanel, LV_OBJ_FLAG_HIDDEN);
+  // lv_obj_clear_flag(ui_HomePanel,  LV_OBJ_FLAG_HIDDEN);
+  lv_scr_load(ui_Home);
+  // lv_obj_clean(ui_CWSettings);
   
 }
 
@@ -944,15 +949,19 @@ void GOTOCWtoVFOPanelClicked(lv_event_t * e)
   
     setRollersFromVFO();
   
-  lv_obj_add_flag(ui_CWSettingsPanel, LV_OBJ_FLAG_HIDDEN);
-  lv_obj_clear_flag(ui_VFOTuningPanel,  LV_OBJ_FLAG_HIDDEN);
+  // lv_obj_add_flag(ui_CWSettingsPanel, LV_OBJ_FLAG_HIDDEN);
+  // lv_obj_clear_flag(ui_VFOTuningPanel,  LV_OBJ_FLAG_HIDDEN);
+  lv_scr_load(ui_VFO);
+  // lv_obj_clean(ui_CWSettings);
   
 }
 
 void GOTOVFOtoCWPanelClicked(lv_event_t * e)
 {
-	lv_obj_add_flag(ui_VFOTuningPanel, LV_OBJ_FLAG_HIDDEN);
-  lv_obj_clear_flag(ui_CWSettingsPanel,  LV_OBJ_FLAG_HIDDEN);
+	lv_scr_load(ui_CWSettings);
+  // lv_obj_clean(ui_VFO);
+  // lv_obj_add_flag(ui_VFOTuningPanel, LV_OBJ_FLAG_HIDDEN);
+  // lv_obj_clear_flag(ui_CWSettingsPanel,  LV_OBJ_FLAG_HIDDEN);
 }
 
 void GOTOHOMEtoVFOPanelClicked(lv_event_t * e){
@@ -962,14 +971,19 @@ void GOTOHOMEtoVFOPanelClicked(lv_event_t * e){
   
   setRollersFromVFO();
 
-  lv_obj_add_flag(ui_HomePanel, LV_OBJ_FLAG_HIDDEN);
-  lv_obj_clear_flag(ui_VFOTuningPanel,  LV_OBJ_FLAG_HIDDEN); 
+  lv_scr_load(ui_VFO);
+  //lv_obj_clean(ui_Home);
+
+  // lv_obj_add_flag(ui_HomePanel, LV_OBJ_FLAG_HIDDEN);
+  // lv_obj_clear_flag(ui_VFOTuningPanel,  LV_OBJ_FLAG_HIDDEN); 
 }
 
 void GOTOVFOtoHomePanelClicked(lv_event_t * e)
 {
-	lv_obj_add_flag(ui_VFOTuningPanel, LV_OBJ_FLAG_HIDDEN);
-  lv_obj_clear_flag(ui_HomePanel,  LV_OBJ_FLAG_HIDDEN);
+	// lv_obj_add_flag(ui_VFOTuningPanel, LV_OBJ_FLAG_HIDDEN);
+  // lv_obj_clear_flag(ui_HomePanel,  LV_OBJ_FLAG_HIDDEN);
+  lv_scr_load(ui_Home);
+  //lv_obj_clean(ui_VFO);
   
 }
 

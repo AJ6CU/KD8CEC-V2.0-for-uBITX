@@ -30,7 +30,6 @@ void GOTOHometoCWPanelClicked(lv_event_t * e);
 void resetATTClicked(lv_event_t * e);
 void resetIFSClicked(lv_event_t * e);
 void GOTOCWtoHomePanelClicked(lv_event_t * e);
-void GOTOCWtoVFOPanelClicked(lv_event_t * e);
 void setCWKeytoStraight(lv_event_t * e);
 void setCWKeyToIambicA(lv_event_t * e);
 void setCWKeyToIambicB(lv_event_t * e);
@@ -38,7 +37,7 @@ void cwWPMArcValueChanged(lv_event_t * e);
 void cwTXStartDelayArcValueChanged(lv_event_t * e);
 void cwsideToneArcValueChanged(lv_event_t * e);
 void cwTXEndDelayArcValueChanged(lv_event_t * e);
-void GOTOVFOtoCWPanelClicked(lv_event_t * e);
+void GOTOVFOtoHomePanelClicked(lv_event_t * e);
 void vfoRoller7Changed(lv_event_t * e);
 void vfoRoller6Changed(lv_event_t * e);
 void vfoRoller5Changed(lv_event_t * e);
@@ -46,7 +45,6 @@ void vfoRoller4Changed(lv_event_t * e);
 void vfoRoller3Changed(lv_event_t * e);
 void vfoRoller2Changed(lv_event_t * e);
 void vfoRoller1Changed(lv_event_t * e);
-void GOTOVFOtoHomePanelClicked(lv_event_t * e);
 
 #ifdef __cplusplus
 } /*extern "C"*/

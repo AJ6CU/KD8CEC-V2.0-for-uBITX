@@ -24,9 +24,9 @@ extern "C" {
 
 #include "ui_helpers.h"
 #include "ui_events.h"
-// SCREEN: ui_Screen1
-void ui_Screen1_screen_init(void);
-extern lv_obj_t * ui_Screen1;
+// SCREEN: ui_Home
+void ui_Home_screen_init(void);
+extern lv_obj_t * ui_Home;
 void ui_event_HomePanel(lv_event_t * e);
 extern lv_obj_t * ui_HomePanel;
 extern lv_obj_t * ui_topMenuPanel;
@@ -112,8 +112,6 @@ extern lv_obj_t * ui_Label19;
 extern lv_obj_t * ui_Label20;
 extern lv_obj_t * ui_Panel10;
 extern lv_obj_t * ui_Bar2;
-void ui_event_Button1(lv_event_t * e);
-extern lv_obj_t * ui_Button1;
 void ui_event_bottomPanel(lv_event_t * e);
 extern lv_obj_t * ui_bottomPanel;
 void ui_event_cwSettingsPanel(lv_event_t * e);
@@ -153,13 +151,13 @@ void ui_event_IFSGraphLabel(lv_event_t * e);
 extern lv_obj_t * ui_IFSGraphLabel;
 void ui_event_IFSValueLabel(lv_event_t * e);
 extern lv_obj_t * ui_IFSValueLabel;
+// SCREEN: ui_CWSettings
+void ui_CWSettings_screen_init(void);
+extern lv_obj_t * ui_CWSettings;
 extern lv_obj_t * ui_CWSettingsPanel;
-extern lv_obj_t * ui_CWTitlePanel;
-void ui_event_CWGoBackButton(lv_event_t * e);
-extern lv_obj_t * ui_CWGoBackButton;
 extern lv_obj_t * ui_CWTitleLabel;
-void ui_event_CWGoForwardButton(lv_event_t * e);
-extern lv_obj_t * ui_CWGoForwardButton;
+void ui_event_ImgButton3(lv_event_t * e);
+extern lv_obj_t * ui_ImgButton3;
 extern lv_obj_t * ui_Panel2;
 extern lv_obj_t * ui_Label1;
 extern lv_obj_t * ui_Panel3;
@@ -169,9 +167,6 @@ void ui_event_keyIambicACheckbox(lv_event_t * e);
 extern lv_obj_t * ui_keyIambicACheckbox;
 void ui_event_keyIambicBCheckbox(lv_event_t * e);
 extern lv_obj_t * ui_keyIambicBCheckbox;
-extern lv_obj_t * ui_CWBodyPanel;
-extern lv_obj_t * ui_CWMainBodyPanel;
-extern lv_obj_t * ui_Panel11;
 extern lv_obj_t * ui_Panel13;
 extern lv_obj_t * ui_Label10;
 void ui_event_wpmArc(lv_event_t * e);
@@ -196,25 +191,13 @@ void ui_event_cwTXEndDelayArc(lv_event_t * e);
 extern lv_obj_t * ui_cwTXEndDelayArc;
 extern lv_obj_t * ui_cwTXEndDelayLabel;
 extern lv_obj_t * ui_Label22;
-extern lv_obj_t * ui_Panel4;
-extern lv_obj_t * ui_Panel5;
-extern lv_obj_t * ui_Label3;
-extern lv_obj_t * ui_Label4;
-extern lv_obj_t * ui_Label5;
-extern lv_obj_t * ui_Panel6;
-extern lv_obj_t * ui_Label6;
-extern lv_obj_t * ui_Label7;
-extern lv_obj_t * ui_Label8;
-extern lv_obj_t * ui_CWFooterPanel;
-void ui_event_CWGoHomeButton(lv_event_t * e);
-extern lv_obj_t * ui_CWGoHomeButton;
+// SCREEN: ui_VFO
+void ui_VFO_screen_init(void);
+extern lv_obj_t * ui_VFO;
 extern lv_obj_t * ui_VFOTuningPanel;
-extern lv_obj_t * ui_VFOTitlePanel;
-void ui_event_VFOGoBackButton(lv_event_t * e);
-extern lv_obj_t * ui_VFOGoBackButton;
 extern lv_obj_t * ui_VFOTitleLabel;
-extern lv_obj_t * ui_VFOGoForwardButton;
-extern lv_obj_t * ui_VFOBodyPanel;
+void ui_event_ImgButton1(lv_event_t * e);
+extern lv_obj_t * ui_ImgButton1;
 extern lv_obj_t * ui_Panel16;
 void ui_event_Roller7(lv_event_t * e);
 extern lv_obj_t * ui_Roller7;
@@ -233,12 +216,9 @@ extern lv_obj_t * ui_Roller2;
 void ui_event_Roller1(lv_event_t * e);
 extern lv_obj_t * ui_Roller1;
 extern lv_obj_t * ui_Roller0;
-extern lv_obj_t * ui_Panel17;
 void ui_event_VFOmodeSelectButton(lv_event_t * e);
 extern lv_obj_t * ui_VFOmodeSelectButton;
 extern lv_obj_t * ui_VFOmodeSelectLabel;
-void ui_event_ImgButton1(lv_event_t * e);
-extern lv_obj_t * ui_ImgButton1;
 extern lv_obj_t * ui_VFOmodeSelectPanel;
 void ui_event_VFOLSBModeButton(lv_event_t * e);
 extern lv_obj_t * ui_VFOLSBModeButton;
@@ -252,15 +232,12 @@ extern lv_obj_t * ui_VFOCWLModeLabel;
 void ui_event_VFOCWUModeButton(lv_event_t * e);
 extern lv_obj_t * ui_VFOCWUModeButton;
 extern lv_obj_t * ui_VFOCWUModeLabel;
-extern lv_obj_t * ui_VFOFooterPanel;
 extern lv_obj_t * ui____initial_actions0;
 
-LV_IMG_DECLARE(ui_img_rightarrow_png);    // assets\rightarrow.png
 LV_IMG_DECLARE(ui_img_436403744);    // assets\att-graph.png
 LV_IMG_DECLARE(ui_img_redindicator_png);    // assets\redindicator.png
 LV_IMG_DECLARE(ui_img_2028451397);    // assets\ifs-graph.png
 LV_IMG_DECLARE(ui_img_greenindicator_png);    // assets\greenindicator.png
-LV_IMG_DECLARE(ui_img_leftarrow_png);    // assets\leftarrow.png
 LV_IMG_DECLARE(ui_img_homebutton_png);    // assets\homebutton.png
 
 

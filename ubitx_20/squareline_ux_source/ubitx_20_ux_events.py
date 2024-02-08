@@ -190,3 +190,19 @@ def vfoRoller7Changed(event_struct):
 def GOTOHOMEtoVFOPanelClicked(event_struct):
     return
 
+
+def GOTOHOMEtoVFOMem(event_struct):
+    return
+
+
+def VFObringUpKeyboard(event_struct):
+    return
+
+
+def VFOMemUnhideKeyboard(event_struct):
+    return
+
+
+def VFOMemHideKeyboard(event_struct):
+    return
+
