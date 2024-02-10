@@ -206,3 +206,47 @@ def VFOMemUnhideKeyboard(event_struct):
 def VFOMemHideKeyboard(event_struct):
     return
 
+
+def vfoDigit2Inc(event_struct):
+    return
+
+
+def vfoDigit1Inc(event_struct):
+    return
+
+
+def vfoDigit3Inc(event_struct):
+    return
+
+
+def vfoDigit4Inc(event_struct):
+    return
+
+
+def vfoDigit5Inc(event_struct):
+    return
+
+
+def vfoDigit6Inc(event_struct):
+    return
+
+
+def vfoDigit8Inc(event_struct):
+    return
+
+
+def vfoDigitDec(event_struct):
+    return
+
+
+def vfoDigitInc(event_struct):
+    return
+
+
+def GOTOVFOPanelClicked(event_struct):
+    return
+
+
+def updateFrequency(event_struct):
+    return
+

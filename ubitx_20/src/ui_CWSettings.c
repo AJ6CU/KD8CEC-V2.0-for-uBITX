@@ -37,7 +37,7 @@ void ui_CWSettings_screen_init(void)
     lv_obj_set_style_text_color(ui_CWTitleLabel, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_CWTitleLabel, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(ui_CWTitleLabel, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui_CWTitleLabel, &lv_font_montserrat_14, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_CWTitleLabel, &lv_font_montserrat_20, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_left(ui_CWTitleLabel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_right(ui_CWTitleLabel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_top(ui_CWTitleLabel, 5, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -47,8 +47,8 @@ void ui_CWSettings_screen_init(void)
     lv_imgbtn_set_src(ui_ImgButton3, LV_IMGBTN_STATE_RELEASED, NULL, &ui_img_homebutton_png, NULL);
     lv_obj_set_height(ui_ImgButton3, 28);
     lv_obj_set_width(ui_ImgButton3, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_x(ui_ImgButton3, -140);
-    lv_obj_set_y(ui_ImgButton3, -98);
+    lv_obj_set_x(ui_ImgButton3, -137);
+    lv_obj_set_y(ui_ImgButton3, 101);
     lv_obj_set_align(ui_ImgButton3, LV_ALIGN_CENTER);
 
     ui_Panel2 = lv_obj_create(ui_CWSettings);
@@ -78,6 +78,7 @@ void ui_CWSettings_screen_init(void)
     lv_label_set_text(ui_Label1, "Key:");
     lv_obj_set_style_text_color(ui_Label1, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_Label1, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_Label1, &lv_font_montserrat_14, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_radius(ui_Label1, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(ui_Label1, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_Label1, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -233,7 +234,7 @@ void ui_CWSettings_screen_init(void)
     ui_Panel12 = lv_obj_create(ui_CWSettings);
     lv_obj_set_width(ui_Panel12, LV_SIZE_CONTENT);   /// 0
     lv_obj_set_height(ui_Panel12, LV_SIZE_CONTENT);    /// 158
-    lv_obj_set_x(ui_Panel12, -40);
+    lv_obj_set_x(ui_Panel12, -39);
     lv_obj_set_y(ui_Panel12, 57);
     lv_obj_set_align(ui_Panel12, LV_ALIGN_CENTER);
     lv_obj_set_flex_flow(ui_Panel12, LV_FLEX_FLOW_COLUMN);

@@ -16,7 +16,7 @@ void bandDownClicked(lv_event_t * e);
 void bandUpClicked(lv_event_t * e);
 void toggleLockButton(lv_event_t * e);
 void toggleSDRButton(lv_event_t * e);
-void GOTOHOMEtoVFOPanelClicked(lv_event_t * e);
+void GOTOVFOPanelClicked(lv_event_t * e);
 void setModeLSB(lv_event_t * e);
 void setModeUSB(lv_event_t * e);
 void setModeCWL(lv_event_t * e);
@@ -29,7 +29,7 @@ void tuneRateSelectionClicked(lv_event_t * e);
 void GOTOHometoCWPanelClicked(lv_event_t * e);
 void resetATTClicked(lv_event_t * e);
 void resetIFSClicked(lv_event_t * e);
-void GOTOCWtoHomePanelClicked(lv_event_t * e);
+void GOTOHomePanelClicked(lv_event_t * e);
 void setCWKeytoStraight(lv_event_t * e);
 void setCWKeyToIambicA(lv_event_t * e);
 void setCWKeyToIambicB(lv_event_t * e);
@@ -37,14 +37,7 @@ void cwWPMArcValueChanged(lv_event_t * e);
 void cwTXStartDelayArcValueChanged(lv_event_t * e);
 void cwsideToneArcValueChanged(lv_event_t * e);
 void cwTXEndDelayArcValueChanged(lv_event_t * e);
-void GOTOVFOtoHomePanelClicked(lv_event_t * e);
-void vfoRoller7Changed(lv_event_t * e);
-void vfoRoller6Changed(lv_event_t * e);
-void vfoRoller5Changed(lv_event_t * e);
-void vfoRoller4Changed(lv_event_t * e);
-void vfoRoller3Changed(lv_event_t * e);
-void vfoRoller2Changed(lv_event_t * e);
-void vfoRoller1Changed(lv_event_t * e);
+void updateFrequency(lv_event_t * e);
 
 #ifdef __cplusplus
 } /*extern "C"*/

@@ -9,6 +9,7 @@ SET(SOURCES ui_Home.c
     ui_img_redindicator_png.c
     ui_img_2028451397.c
     ui_img_greenindicator_png.c
-    ui_img_homebutton_png.c)
+    ui_img_homebutton_png.c
+    fonts/ui_font_RobertoMonoRegular44.c)
 
 add_library(ui ${SOURCES})

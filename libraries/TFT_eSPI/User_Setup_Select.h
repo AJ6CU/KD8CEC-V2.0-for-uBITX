@@ -89,9 +89,9 @@
 //#include <User_Setups/Setup60_RP2040_ILI9341.h>              // Setup file for RP2040 with SPI ILI9341
 //#include <User_Setups/Setup61_RP2040_ILI9341_PIO_SPI.h>      // Setup file for RP2040 with PIO SPI ILI9341
 //#include <User_Setups/Setup62_RP2040_Nano_Connect_ILI9341.h> // Setup file for RP2040 with SPI ILI9341
-//#include <../TFT_eSPI_Setups/SetupCustom_Teensy_ILI9341.h>
+#include <../TFT_eSPI_Setups/SetupCustom_Teensy_ILI9341.h>
 //#include <../TFT_eSPI_Setups/SetupCustom_Pico_ILI9341.h>
-#include <../TFT_eSPI_Setups/Setup62_RP2040_Nano_Connect_ILI9341.h>  //this one
+//#include <../TFT_eSPI_Setups/Setup62_RP2040_Nano_Connect_ILI9341.h>  //this one
 //#include <../TFT_eSPI_Setups/Setup60_RP2040_RPI_MHS.h>
 
 //#include <User_Setups/Setup66_Seeed_XIAO_Round.h>     // Setup file for Seeed XIAO with GC9A01 240x240

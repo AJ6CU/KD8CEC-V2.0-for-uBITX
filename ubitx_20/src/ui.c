@@ -47,10 +47,10 @@ lv_obj_t * ui_RXButtonLabel;
 void ui_event_TXButton(lv_event_t * e);
 lv_obj_t * ui_TXButton;
 lv_obj_t * ui_TXButtonLabel;
-void ui_event_activeVFOPanel(lv_event_t * e);
-lv_obj_t * ui_activeVFOPanel;
 void ui_event_activeFreq(lv_event_t * e);
 lv_obj_t * ui_activeFreq;
+lv_obj_t * ui_Label4;
+lv_obj_t * ui_Label5;
 lv_obj_t * ui_modeSelectPanel;
 void ui_event_LSBModeButton(lv_event_t * e);
 lv_obj_t * ui_LSBModeButton;
@@ -64,6 +64,13 @@ lv_obj_t * ui_CWLModeLabel;
 void ui_event_CWUModeButton(lv_event_t * e);
 lv_obj_t * ui_CWUModeButton;
 lv_obj_t * ui_CWUModeLabel;
+lv_obj_t * ui_MemPanel;
+void ui_event_memStoreButton(lv_event_t * e);
+lv_obj_t * ui_memStoreButton;
+lv_obj_t * ui_memStoreLabel1;
+void ui_event_memRecallButton(lv_event_t * e);
+lv_obj_t * ui_memRecallButton;
+lv_obj_t * ui_memRecallButton1;
 void ui_event_VFOLowerPanel(lv_event_t * e);
 lv_obj_t * ui_VFOLowerPanel;
 lv_obj_t * ui_VFOInactiveFreqPanel;
@@ -183,44 +190,40 @@ lv_obj_t * ui_Label22;
 // SCREEN: ui_VFO
 void ui_VFO_screen_init(void);
 lv_obj_t * ui_VFO;
-lv_obj_t * ui_VFOTuningPanel;
-lv_obj_t * ui_VFOTitleLabel;
-void ui_event_ImgButton1(lv_event_t * e);
-lv_obj_t * ui_ImgButton1;
-lv_obj_t * ui_Panel16;
-void ui_event_Roller7(lv_event_t * e);
-lv_obj_t * ui_Roller7;
-void ui_event_Roller6(lv_event_t * e);
-lv_obj_t * ui_Roller6;
-lv_obj_t * ui_Label30;
-void ui_event_Roller5(lv_event_t * e);
-lv_obj_t * ui_Roller5;
-void ui_event_Roller4(lv_event_t * e);
-lv_obj_t * ui_Roller4;
-void ui_event_Roller3(lv_event_t * e);
-lv_obj_t * ui_Roller3;
-lv_obj_t * ui_Label29;
-void ui_event_Roller2(lv_event_t * e);
-lv_obj_t * ui_Roller2;
-void ui_event_Roller1(lv_event_t * e);
-lv_obj_t * ui_Roller1;
-lv_obj_t * ui_Roller0;
-void ui_event_VFOmodeSelectButton(lv_event_t * e);
-lv_obj_t * ui_VFOmodeSelectButton;
+lv_obj_t * ui_VFOTuningPanel1;
+lv_obj_t * ui_Panel4;
+lv_obj_t * ui_VFOTitleLabel1;
+lv_obj_t * ui_Container2;
+void ui_event_Button2(lv_event_t * e);
+lv_obj_t * ui_Button2;
+lv_obj_t * ui_Label3;
+lv_obj_t * ui_vfoSpinBox;
+void ui_event_vfo0Digit(lv_event_t * e);
+lv_obj_t * ui_vfo0Digit;
+lv_obj_t * ui_decimal1;
+lv_obj_t * ui_decimal2;
+void ui_event_Button3(lv_event_t * e);
+lv_obj_t * ui_Button3;
+lv_obj_t * ui_Label8;
+lv_obj_t * ui_Panel5;
+void ui_event_VFOmodeSelectButton1(lv_event_t * e);
+lv_obj_t * ui_VFOmodeSelectButton1;
 lv_obj_t * ui_VFOmodeSelectLabel;
-lv_obj_t * ui_VFOmodeSelectPanel;
-void ui_event_VFOLSBModeButton(lv_event_t * e);
-lv_obj_t * ui_VFOLSBModeButton;
-lv_obj_t * ui_VFOLSBModeLabel;
-void ui_event_VFOUSBModeButton(lv_event_t * e);
-lv_obj_t * ui_VFOUSBModeButton;
-lv_obj_t * ui_VFOUSBModeLabel;
-void ui_event_VFOCWLModeButton(lv_event_t * e);
-lv_obj_t * ui_VFOCWLModeButton;
-lv_obj_t * ui_VFOCWLModeLabel;
-void ui_event_VFOCWUModeButton(lv_event_t * e);
-lv_obj_t * ui_VFOCWUModeButton;
-lv_obj_t * ui_VFOCWUModeLabel;
+lv_obj_t * ui_vfoModeSelectPanel;
+void ui_event_LSBModeButton1(lv_event_t * e);
+lv_obj_t * ui_LSBModeButton1;
+lv_obj_t * ui_LSBModeLabel1;
+void ui_event_USBModeButton1(lv_event_t * e);
+lv_obj_t * ui_USBModeButton1;
+lv_obj_t * ui_USBModeLabel1;
+void ui_event_CWLModeButton1(lv_event_t * e);
+lv_obj_t * ui_CWLModeButton1;
+lv_obj_t * ui_CWLModeLabel1;
+void ui_event_CWUModeButton1(lv_event_t * e);
+lv_obj_t * ui_CWUModeButton1;
+lv_obj_t * ui_CWUModeLabel1;
+void ui_event_ImgButton2(lv_event_t * e);
+lv_obj_t * ui_ImgButton2;
 lv_obj_t * ui____initial_actions0;
 
 ///////////////////// TEST LVGL SETTINGS ////////////////////
@@ -348,21 +351,12 @@ void ui_event_TXButton(lv_event_t * e)
         _ui_flag_modify(ui_modeSelectPanel, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
     }
 }
-void ui_event_activeVFOPanel(lv_event_t * e)
-{
-    lv_event_code_t event_code = lv_event_get_code(e);
-    lv_obj_t * target = lv_event_get_target(e);
-    if(event_code == LV_EVENT_CLICKED) {
-        _ui_flag_modify(ui_modeSelectPanel, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
-        GOTOHOMEtoVFOPanelClicked(e);
-    }
-}
 void ui_event_activeFreq(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
     lv_obj_t * target = lv_event_get_target(e);
     if(event_code == LV_EVENT_CLICKED) {
-        GOTOHOMEtoVFOPanelClicked(e);
+        GOTOVFOPanelClicked(e);
     }
 }
 void ui_event_LSBModeButton(lv_event_t * e)
@@ -406,6 +400,22 @@ void ui_event_CWUModeButton(lv_event_t * e)
         _ui_flag_modify(ui_modeSelectPanel, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
         setModeCWU(e);
     }
+    if(event_code == LV_EVENT_CLICKED) {
+        _ui_flag_modify(ui_modeSelectPanel, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
+    }
+}
+void ui_event_memStoreButton(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_CLICKED) {
+        _ui_flag_modify(ui_modeSelectPanel, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
+    }
+}
+void ui_event_memRecallButton(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
     if(event_code == LV_EVENT_CLICKED) {
         _ui_flag_modify(ui_modeSelectPanel, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
     }
@@ -627,7 +637,7 @@ void ui_event_ImgButton3(lv_event_t * e)
     lv_event_code_t event_code = lv_event_get_code(e);
     lv_obj_t * target = lv_event_get_target(e);
     if(event_code == LV_EVENT_CLICKED) {
-        GOTOCWtoHomePanelClicked(e);
+        GOTOHomePanelClicked(e);
     }
 }
 void ui_event_keyStraightCheckbox(lv_event_t * e)
@@ -701,79 +711,41 @@ void ui_event_cwTXEndDelayArc(lv_event_t * e)
         cwTXEndDelayArcValueChanged(e);
     }
 }
-void ui_event_ImgButton1(lv_event_t * e)
+void ui_event_Button2(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
     lv_obj_t * target = lv_event_get_target(e);
     if(event_code == LV_EVENT_CLICKED) {
-        GOTOVFOtoHomePanelClicked(e);
+        _ui_spinbox_step(ui_vfoSpinBox, -1);
+        updateFrequency(e);
     }
 }
-void ui_event_Roller7(lv_event_t * e)
-{
-    lv_event_code_t event_code = lv_event_get_code(e);
-    lv_obj_t * target = lv_event_get_target(e);
-    if(event_code == LV_EVENT_VALUE_CHANGED) {
-        vfoRoller7Changed(e);
-    }
-}
-void ui_event_Roller6(lv_event_t * e)
-{
-    lv_event_code_t event_code = lv_event_get_code(e);
-    lv_obj_t * target = lv_event_get_target(e);
-    if(event_code == LV_EVENT_VALUE_CHANGED) {
-        vfoRoller6Changed(e);
-    }
-}
-void ui_event_Roller5(lv_event_t * e)
-{
-    lv_event_code_t event_code = lv_event_get_code(e);
-    lv_obj_t * target = lv_event_get_target(e);
-    if(event_code == LV_EVENT_VALUE_CHANGED) {
-        vfoRoller5Changed(e);
-    }
-}
-void ui_event_Roller4(lv_event_t * e)
-{
-    lv_event_code_t event_code = lv_event_get_code(e);
-    lv_obj_t * target = lv_event_get_target(e);
-    if(event_code == LV_EVENT_VALUE_CHANGED) {
-        vfoRoller4Changed(e);
-    }
-}
-void ui_event_Roller3(lv_event_t * e)
-{
-    lv_event_code_t event_code = lv_event_get_code(e);
-    lv_obj_t * target = lv_event_get_target(e);
-    if(event_code == LV_EVENT_VALUE_CHANGED) {
-        vfoRoller3Changed(e);
-    }
-}
-void ui_event_Roller2(lv_event_t * e)
-{
-    lv_event_code_t event_code = lv_event_get_code(e);
-    lv_obj_t * target = lv_event_get_target(e);
-    if(event_code == LV_EVENT_VALUE_CHANGED) {
-        vfoRoller2Changed(e);
-    }
-}
-void ui_event_Roller1(lv_event_t * e)
-{
-    lv_event_code_t event_code = lv_event_get_code(e);
-    lv_obj_t * target = lv_event_get_target(e);
-    if(event_code == LV_EVENT_VALUE_CHANGED) {
-        vfoRoller1Changed(e);
-    }
-}
-void ui_event_VFOmodeSelectButton(lv_event_t * e)
+void ui_event_vfo0Digit(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
     lv_obj_t * target = lv_event_get_target(e);
     if(event_code == LV_EVENT_CLICKED) {
-        _ui_flag_modify(ui_VFOmodeSelectPanel, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_TOGGLE);
+        _ui_spinbox_step(ui_vfoSpinBox, -1);
     }
 }
-void ui_event_VFOLSBModeButton(lv_event_t * e)
+void ui_event_Button3(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_CLICKED) {
+        _ui_spinbox_step(ui_vfoSpinBox, 1);
+        updateFrequency(e);
+    }
+}
+void ui_event_VFOmodeSelectButton1(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_CLICKED) {
+        _ui_flag_modify(ui_vfoModeSelectPanel, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_TOGGLE);
+    }
+}
+void ui_event_LSBModeButton1(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
     lv_obj_t * target = lv_event_get_target(e);
@@ -781,10 +753,10 @@ void ui_event_VFOLSBModeButton(lv_event_t * e)
         setModeLSB(e);
     }
     if(event_code == LV_EVENT_CLICKED) {
-        _ui_flag_modify(ui_VFOmodeSelectPanel, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
+        _ui_flag_modify(ui_vfoModeSelectPanel, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
     }
 }
-void ui_event_VFOUSBModeButton(lv_event_t * e)
+void ui_event_USBModeButton1(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
     lv_obj_t * target = lv_event_get_target(e);
@@ -792,10 +764,10 @@ void ui_event_VFOUSBModeButton(lv_event_t * e)
         setModeUSB(e);
     }
     if(event_code == LV_EVENT_CLICKED) {
-        _ui_flag_modify(ui_VFOmodeSelectPanel, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
+        _ui_flag_modify(ui_vfoModeSelectPanel, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
     }
 }
-void ui_event_VFOCWLModeButton(lv_event_t * e)
+void ui_event_CWLModeButton1(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
     lv_obj_t * target = lv_event_get_target(e);
@@ -803,19 +775,27 @@ void ui_event_VFOCWLModeButton(lv_event_t * e)
         setModeCWL(e);
     }
     if(event_code == LV_EVENT_CLICKED) {
-        _ui_flag_modify(ui_VFOmodeSelectPanel, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
+        _ui_flag_modify(ui_vfoModeSelectPanel, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
     }
 }
-void ui_event_VFOCWUModeButton(lv_event_t * e)
+void ui_event_CWUModeButton1(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
     lv_obj_t * target = lv_event_get_target(e);
     if(event_code == LV_EVENT_CLICKED) {
-        _ui_flag_modify(ui_VFOmodeSelectPanel, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
+        _ui_flag_modify(ui_vfoModeSelectPanel, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
         setModeCWU(e);
     }
     if(event_code == LV_EVENT_CLICKED) {
-        _ui_flag_modify(ui_VFOmodeSelectPanel, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
+        _ui_flag_modify(ui_vfoModeSelectPanel, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
+    }
+}
+void ui_event_ImgButton2(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_CLICKED) {
+        GOTOHomePanelClicked(e);
     }
 }
 

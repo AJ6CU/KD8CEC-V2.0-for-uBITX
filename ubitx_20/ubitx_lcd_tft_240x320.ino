@@ -701,8 +701,7 @@ void toggleVFOClicked(lv_event_t * e)
   // Update the inactive labels with the current values
   //
 
-
-  formatNumber(frequency, tmpBuffer);
+  utoa(frequency, tmpBuffer,  DEC);
   lv_label_set_text(ui_inactiveFreq,tmpBuffer);   
   lv_label_set_text(ui_inactiveMode,modeToString()); 
 
@@ -712,7 +711,7 @@ void toggleVFOClicked(lv_event_t * e)
   // Now update the displayed frequency and mode in the UX after the swap
   //
 
-  formatNumber(frequency, tmpBuffer);
+  utoa(frequency, tmpBuffer,  DEC);
   lv_label_set_text(ui_activeFreq,tmpBuffer); 
 
   lv_label_set_text(ui_modeSelectLabel,modeToString());   // update displayed mode  
@@ -736,8 +735,7 @@ void bandDownClicked(lv_event_t * e)
   }
   
   setNextHamBandFreq(frequency, -1);  // go down one band
-
-  formatNumber(frequency, tmpBuffer);
+  utoa(frequency, tmpBuffer,  DEC);
   lv_label_set_text(ui_activeFreq,tmpBuffer); 
   lv_label_set_text(ui_modeSelectLabel,modeToString());
 }
@@ -758,7 +756,7 @@ void bandUpClicked(lv_event_t * e)
   }
   setNextHamBandFreq(frequency, +1);
   
-  formatNumber(frequency, tmpBuffer);
+  utoa(frequency, tmpBuffer,  DEC);
   lv_label_set_text(ui_activeFreq,tmpBuffer); 
 
   lv_label_set_text(ui_modeSelectLabel,modeToString());
@@ -920,70 +918,57 @@ void GOTOHometoCWPanelClicked(lv_event_t * e)
 
 }
 
-void GOTOCWtoHomePanelClicked(lv_event_t * e)
-{
-	// lv_obj_add_flag(ui_CWSettingsPanel, LV_OBJ_FLAG_HIDDEN);
-  // lv_obj_clear_flag(ui_HomePanel,  LV_OBJ_FLAG_HIDDEN);
-  lv_scr_load(ui_Home);
-  // lv_obj_clean(ui_CWSettings);
+
+
+// void setRollersFromVFO() {
+
+
+//   lv_roller_set_selected(ui_Roller1,(frequency/10)        % 10,LV_ANIM_OFF);
+//   lv_roller_set_selected(ui_Roller2,(frequency/100)       % 10,LV_ANIM_OFF);
+//   lv_roller_set_selected(ui_Roller3,(frequency/1000)      % 10,LV_ANIM_OFF);
+//   lv_roller_set_selected(ui_Roller4,(frequency/10000)     % 10,LV_ANIM_OFF);
+//   lv_roller_set_selected(ui_Roller5,(frequency/100000)    % 10,LV_ANIM_OFF);
+//   lv_roller_set_selected(ui_Roller6,(frequency/1000000)   % 10,LV_ANIM_OFF);
+//   lv_roller_set_selected(ui_Roller7,(frequency/10000000)  % 10,LV_ANIM_OFF);
+
+// }
+
+// void GOTOCWtoVFOPanelClicked(lv_event_t * e)
+// {
+//   //  first set the roller dials for the existing frequency and then make
+//   //  vfo panel active
   
-}
-
-void setRollersFromVFO() {
-
-
-  lv_roller_set_selected(ui_Roller1,(frequency/10)        % 10,LV_ANIM_OFF);
-  lv_roller_set_selected(ui_Roller2,(frequency/100)       % 10,LV_ANIM_OFF);
-  lv_roller_set_selected(ui_Roller3,(frequency/1000)      % 10,LV_ANIM_OFF);
-  lv_roller_set_selected(ui_Roller4,(frequency/10000)     % 10,LV_ANIM_OFF);
-  lv_roller_set_selected(ui_Roller5,(frequency/100000)    % 10,LV_ANIM_OFF);
-  lv_roller_set_selected(ui_Roller6,(frequency/1000000)   % 10,LV_ANIM_OFF);
-  lv_roller_set_selected(ui_Roller7,(frequency/10000000)  % 10,LV_ANIM_OFF);
-
-}
-
-void GOTOCWtoVFOPanelClicked(lv_event_t * e)
-{
-  //  first set the roller dials for the existing frequency and then make
-  //  vfo panel active
+//     setRollersFromVFO();
   
-    setRollersFromVFO();
+//   // lv_obj_add_flag(ui_CWSettingsPanel, LV_OBJ_FLAG_HIDDEN);
+//   // lv_obj_clear_flag(ui_VFOTuningPanel,  LV_OBJ_FLAG_HIDDEN);
+//   lv_scr_load(ui_VFO);
+//   // lv_obj_clean(ui_CWSettings);
   
-  // lv_obj_add_flag(ui_CWSettingsPanel, LV_OBJ_FLAG_HIDDEN);
-  // lv_obj_clear_flag(ui_VFOTuningPanel,  LV_OBJ_FLAG_HIDDEN);
-  lv_scr_load(ui_VFO);
-  // lv_obj_clean(ui_CWSettings);
-  
-}
+// }
 
-void GOTOVFOtoCWPanelClicked(lv_event_t * e)
-{
-	lv_scr_load(ui_CWSettings);
-  // lv_obj_clean(ui_VFO);
-  // lv_obj_add_flag(ui_VFOTuningPanel, LV_OBJ_FLAG_HIDDEN);
-  // lv_obj_clear_flag(ui_CWSettingsPanel,  LV_OBJ_FLAG_HIDDEN);
-}
+// void GOTOVFOtoCWPanelClicked(lv_event_t * e)
+// {
+// 	lv_scr_load(ui_CWSettings);
+//   // lv_obj_clean(ui_VFO);
+//   // lv_obj_add_flag(ui_VFOTuningPanel, LV_OBJ_FLAG_HIDDEN);
+//   // lv_obj_clear_flag(ui_CWSettingsPanel,  LV_OBJ_FLAG_HIDDEN);
+// }
 
-void GOTOHOMEtoVFOPanelClicked(lv_event_t * e){
+void GOTOVFOPanelClicked(lv_event_t * e){
   
   //  first set the roller dials for the existing frequency and then make
   //  vfo panel active
   
-  setRollersFromVFO();
+  lv_spinbox_set_value(ui_vfoSpinBox, frequency/10);  //last digit in spin box is fixed at zero
 
   lv_scr_load(ui_VFO);
-  //lv_obj_clean(ui_Home);
-
-  // lv_obj_add_flag(ui_HomePanel, LV_OBJ_FLAG_HIDDEN);
-  // lv_obj_clear_flag(ui_VFOTuningPanel,  LV_OBJ_FLAG_HIDDEN); 
+ 
 }
 
-void GOTOVFOtoHomePanelClicked(lv_event_t * e)
+void GOTOHomePanelClicked(lv_event_t * e)
 {
-	// lv_obj_add_flag(ui_VFOTuningPanel, LV_OBJ_FLAG_HIDDEN);
-  // lv_obj_clear_flag(ui_HomePanel,  LV_OBJ_FLAG_HIDDEN);
   lv_scr_load(ui_Home);
-  //lv_obj_clean(ui_VFO);
   
 }
 
@@ -1099,79 +1084,13 @@ void cwTXEndDelayArcValueChanged  (lv_event_t * e)
 
 
 
-void vfoRoller1Changed(lv_event_t * e)
+void updateFrequency(lv_event_t * e)
 {
 
-  frequency = (frequency - ((frequency/10) % 10)*10) + (lv_roller_get_selected(ui_Roller1)*10);
+  frequency = lv_spinbox_get_value(ui_vfoSpinBox)*10;
   
 }
 
-void vfoRoller2Changed(lv_event_t * e)
-{
-
-  frequency = (frequency - ((frequency/100) % 10)*100) + (lv_roller_get_selected(ui_Roller2)*100);
-  
-}
-
-void vfoRoller3Changed(lv_event_t * e)
-{
-
-  frequency = (frequency - ((frequency/1000) % 10)*1000) + (lv_roller_get_selected(ui_Roller3)*1000);
-  
-}
-
-void vfoRoller4Changed(lv_event_t * e)
-{
-
-  frequency = (frequency - ((frequency/10000) % 10)*10000) + (lv_roller_get_selected(ui_Roller4)*10000);
-  
-}
-
-void vfoRoller5Changed(lv_event_t * e)
-{
-
-  frequency = (frequency - ((frequency/100000) % 10)*100000) + (lv_roller_get_selected(ui_Roller5)*100000);
-  
-}
-
-void vfoRoller6Changed(lv_event_t * e)
-{
-
-  frequency = (frequency - ((frequency/1000000) % 10)*1000000) + (lv_roller_get_selected(ui_Roller6)*1000000);
-  
-}
-
-void vfoRoller7Changed(lv_event_t * e)
-{
-
-  frequency = (frequency - ((frequency/10000000) % 10)*10000000) + (lv_roller_get_selected(ui_Roller7)*10000000);
-  
-}
-
-   
-    
-void formatNumber(long f, char *buf) {
-// add period separators. Used generally for displaying frequencies
-
-  utoa(f, buf,  DEC);
-
-  int f_Length = strlen(buf);
-  if (f < 1000)    //no separators required, just return the buffer
-    return;
-  else {
-    for ( int i = f_Length+1; i > f_Length-4; i--)
-      buf[i+1] = buf[i];
-    buf[f_Length-3] = '.';
-
-    // Now check on whether there is another separator to insert
-    if (f > 999999)     { // two need to be inserted
-      f_Length = strlen(buf);    // need to reset because we already inserted one separator
-      for ( int i = f_Length+1; i > f_Length-8; i--)
-        buf[i+1] = buf[i];
-      buf[f_Length-7] = '.';
-    }
-  }    
-}
 
 //unsigned long 
 byte nowPageIndex = 0;
@@ -1183,44 +1102,6 @@ void sendUIData(int sendType)            // Probably should be merged into updat
   // char nowActiveVFO = vfoActive == VFO_A ? 0 : 1;
   char tmpBuffer[15]; 
 
-//   //#define CMD_VFO_TYPE      'v' //cv
-  // if (L_vfoActive != nowActiveVFO)
-  // {
-    
-    // L_vfoActive = nowActiveVFO;
-
-    // formatNumber(L_vfoCurr, tmpBuffer);
-
-    // if(L_vfoActive == 0 ) {            // a zero means VFO A is active
-    //   Serial.println("switching active vfo to A");
-    //   Serial.print("current frequency="); Serial.println(frequency);
-    //   Serial.print("vfoA="); Serial.println(vfoA);
-    //   Serial.print("vfoB="); Serial.println(vfoB);
-
-    //   vfoB = frequency;
-    //   frequency = vfoA;
-    //   L_vfoCurr = frequency;
-    //   Serial.print("new frequency="); Serial.println(frequency);
-
-    // } else {         //Switch to VFO B
-    //   Serial.println("switching active vfo to B");
-    //   Serial.print("vfoB="); Serial.println(vfoB);
-    //   Serial.print("frequency="); Serial.println(frequency);
-    //   vfoA = frequency;
-    //   frequency = vfoB;
-    //   L_vfoCurr = frequency;
-
-    // }
-
-    // formatNumber(frequency, tmpBuffer);
-    // lv_label_set_text(ui_activeFreq,tmpBuffer);
-    
-
-
-    // SendCommand1Num(CMD_VFO_TYPE, L_vfoActive);
-  // }
-
-//   //#define CMD_CURR_FREQ     'c' //vc
 
   if (L_vfoCurr != frequency) 
   {
@@ -1229,7 +1110,7 @@ void sendUIData(int sendType)            // Probably should be merged into updat
     // Serial.print("frequency="); Serial.println(frequency);
     L_vfoCurr = frequency;
 
-    formatNumber(frequency, tmpBuffer);
+    utoa(frequency, tmpBuffer,  DEC);
 
     lv_label_set_text(ui_activeFreq,tmpBuffer);
   } // else
