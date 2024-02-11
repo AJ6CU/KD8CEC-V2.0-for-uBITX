@@ -250,3 +250,7 @@ def GOTOVFOPanelClicked(event_struct):
 def updateFrequency(event_struct):
     return
 
+
+def checkForEnterKey(event_struct):
+    return
+

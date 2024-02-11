@@ -38,6 +38,7 @@ void cwTXStartDelayArcValueChanged(lv_event_t * e);
 void cwsideToneArcValueChanged(lv_event_t * e);
 void cwTXEndDelayArcValueChanged(lv_event_t * e);
 void updateFrequency(lv_event_t * e);
+void checkForEnterKey(lv_event_t * e);
 
 #ifdef __cplusplus
 } /*extern "C"*/

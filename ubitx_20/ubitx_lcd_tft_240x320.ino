@@ -955,12 +955,222 @@ void GOTOHometoCWPanelClicked(lv_event_t * e)
 //   // lv_obj_clear_flag(ui_CWSettingsPanel,  LV_OBJ_FLAG_HIDDEN);
 // }
 
+char *memRoller = {"CH-01\t07.032.000\tCMU\nCH-02\t14.032.000\tCML\nCH-03\t18.032.000\tUSB\nCH-04\t21.032.000\tLSB"};
+void loadMemoryChannels(){
+
+  lv_roller_set_options(ui_memoryRoller, memRoller, LV_ROLLER_MODE_NORMAL);
+
+  const char* current_options = lv_roller_get_options(ui_memoryRoller);
+  char updated_options[100]; // Adjust the size as needed
+  snprintf(updated_options, sizeof(updated_options), "%s", current_options);
+// Replace "Bananan" with a new value (e.g., "Orange")
+  // int index =2;  //third item
+  // strcpy(updated_options + 21*index, "CH-05\t28.076.000\tCWL");
+  // lv_roller_set_options(ui_memoryRoller, updated_options, LV_ROLLER_MODE_NORMAL);
+}
+
+char * formatFrequency(long f) {
+// add period separators. Used generally for displaying frequencies
+  char tmpBuffer[10];
+
+  utoa(f, tmpBuffer,  DEC);
+
+  int f_Length = strlen(tmpBuffer);
+  if (f < 1000)    //no separators required, just return the buffer
+    return *tmpBuffer;
+  else {
+    for ( int i = f_Length+1; i > f_Length-4; i--)
+      tmpBuffer[i+1] = tmpBuffer[i];
+    tmpBuffer[f_Length-3] = '.';
+
+    // Now check on whether there is another separator to insert
+    if (f > 999999)     { // two need to be inserted
+      f_Length = strlen(tmpBuffer);    // need to reset because we already inserted one separator
+      for ( int i = f_Length+1; i > f_Length-8; i--)
+        tmpBuffer[i+1] = tmpBuffer[i];
+      tmpBuffer[f_Length-7] = '.';
+    }
+  } 
+  return *tmpBuffer;   
+}
+
+void checkForEnterKey(lv_event_t * e) {
+  char tmpBuffer[12];
+  lv_obj_t * kb = lv_event_get_target(e);
+  uint32_t btn_id = lv_keyboard_get_selected_btn(kb);
+  const char * txt = lv_keyboard_get_btn_text(kb, btn_id);
+
+  if(strcmp(txt, LV_SYMBOL_NEW_LINE) == 0) {
+      lv_obj_add_flag(ui_enterChannelNamePanel, LV_OBJ_FLAG_HIDDEN);
+      int index = lv_roller_get_selected(ui_memoryRoller);
+
+      const char* current_options = lv_roller_get_options(ui_memoryRoller);
+      char updated_options[100]; // Adjust the size as needed
+      snprintf(updated_options, sizeof(updated_options), "%s", current_options);
+
+      // const char rollerChannelName[5];
+      // const char rollerFrequency[10];
+      // const char rollerMode[6];
+
+      const char* rollerChannelName = lv_textarea_get_text(ui_newChannelTextarea);
+      const char* rollerFrequency = formatFrequency(frequency);
+      const char* rollerMode = lv_label_get_text(ui_modeSelectLabel);
+
+      char newOptionValue [20];
+
+      strncpy(updated_options+(21*index), rollerChannelName,5);
+      strncpy(updated_options+(21*index)+6, rollerFrequency,10);
+      strncpy(updated_options+(21*index)+17, rollerMode,3);
+
+
+      lv_roller_set_options(ui_memoryRoller, updated_options, LV_ROLLER_MODE_NORMAL);
+
+  }
+}
+
+
+
+
+// void menuCHMemory(int btn, byte isMemoryToVfo){
+//   int knob = 0;
+//   int selectChannel = 0;
+//   byte isDisplayInfo = 1;
+//   int moveStep = 0;
+//   unsigned long resultFreq, tmpFreq = 0;
+//   byte loadMode = 0;
+  
+//   if (!btn){
+//     if (isMemoryToVfo == 1)
+//       printLineF2(F("Channel To VFO?"));
+//    else 
+//       printLineF2(F("VFO To Channel?"));
+//   }
+//   else {
+//     delay_background(500, 0);
+
+//     while(!btnDown()){
+//       if (isDisplayInfo == 1) {
+//         //Display Channel info *********************************
+//         memset(c, 0, sizeof(c));
+
+//         if (selectChannel >= 20 || selectChannel <=-1)
+//         {
+//           //strcpy(c, "Exit setup?");
+//           strcpy(c, "Exit?");
+//         }
+//         else
+//         {
+//           //Read Frequency from eeprom
+//           EEPROMTYPE.get(CHANNEL_FREQ + 4 * selectChannel, resultFreq);
+          
+//           loadMode = (byte)(resultFreq >> 29);
+//           resultFreq = resultFreq & 0x1FFFFFFF;
+
+
+//           //display channel description
+//           if (selectChannel < 10 && EEPROMTYPE.read(CHANNEL_DESC + 6 * selectChannel) == 0x03) {  //0x03 is display Chnnel Name
+//             //display Channel Name
+//             for (int i = 0; i < 5; i++)
+//               c[i] = EEPROMTYPE.read(CHANNEL_DESC + 6 * selectChannel + i + 1);
+
+//            c[5] = ':';
+//           }
+//           else {
+//             //Display frequency
+//             //1 LINE : Channel Information : CH00
+//             strcpy(c, "CH");
+//             if (selectChannel < 9)
+//               c[2] = '0';
+              
+// #ifdef INTEGERS_ARE_32_BIT
+//  //           utoa(selectChannel + 1, b, 10);
+//             itoa(selectChannel + 1, b, 10);       //mjh auto cast long to int
+// #else
+//             ltoa(selectChannel + 1, b, 10);
+// #endif                    
+            
+//             strcat(c, b); //append channel Number;
+//             strcat(c, " :"); //append channel Number;
+//           }
+  
+//           //display frequency
+//           tmpFreq = resultFreq;
+//           for (int i = 15; i >= 6; i--) {
+//             if (tmpFreq > 0) {
+//               if (i == 12 || i == 8) c[i] = '.';
+//               else {
+//                 c[i] = tmpFreq % 10 + 0x30;
+//                 tmpFreq /= 10;
+//               }
+//             }
+//             else
+//               c[i] = ' ';
+//           }
+//         }
+
+//         printLine2(c);
+        
+//         isDisplayInfo = 0;
+//       }
+
+//       knob = enc_read();
+
+//       if (knob != 0)
+//       {
+//         moveStep += (knob > 0 ? 1 : -1);
+//         if (moveStep < -3) {
+//           if (selectChannel > -1)
+//             selectChannel--;
+
+//           isDisplayInfo = 1;
+//           moveStep = 0;
+//         }
+//         else if (moveStep > 3) {
+//           if (selectChannel < 20)
+//             selectChannel++;
+            
+//           isDisplayInfo = 1;
+//           moveStep = 0;
+//         }
+//       }
+
+//       Check_Cat(0);  //To prevent disconnections
+//     } //end of while (knob)
+
+//     if (selectChannel < 20 && selectChannel >= 0)
+//     {
+//       if (isMemoryToVfo == 1)
+//       {
+//         if (resultFreq > 3000 && resultFreq < 60000000)
+//         {
+//           byteToMode(loadMode, 1);
+//           setFrequency(resultFreq);
+//         }
+//       }
+//       else
+//       {
+//         //Save current Frequency to Channel (selectChannel)
+//         EEPROMTYPE.put(CHANNEL_FREQ + 4 * selectChannel, (frequency & 0x1FFFFFFF) | (((unsigned long)modeToByte()) << 29) );
+//         printLine2("Saved Frequency");
+//       }
+//     }
+    
+//     menuClearExit(500);
+//   }
+//   currentChannelList
+//   lv_roller_set_options(ui_memoryRoller, options, LV_ROLLER_MODE_NORMAL)
+// }
+
+
+// }
+
 void GOTOVFOPanelClicked(lv_event_t * e){
   
   //  first set the roller dials for the existing frequency and then make
   //  vfo panel active
   
   lv_spinbox_set_value(ui_vfoSpinBox, frequency/10);  //last digit in spin box is fixed at zero
+  loadMemoryChannels();
 
   lv_scr_load(ui_VFO);
  
@@ -1090,6 +1300,8 @@ void updateFrequency(lv_event_t * e)
   frequency = lv_spinbox_get_value(ui_vfoSpinBox)*10;
   
 }
+
+
 
 
 //unsigned long 
