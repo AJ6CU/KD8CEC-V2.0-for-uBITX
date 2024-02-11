@@ -955,10 +955,10 @@ void GOTOHometoCWPanelClicked(lv_event_t * e)
 //   // lv_obj_clear_flag(ui_CWSettingsPanel,  LV_OBJ_FLAG_HIDDEN);
 // }
 
-char *memRoller = {"CH-01\t07.032.000\tCMU\nCH-02\t14.032.000\tCML\nCH-03\t18.032.000\tUSB\nCH-04\t21.032.000\tLSB"};
+const char *memRoller = {"CH-01\t07.032.000\tCMU\nCH-02\t14.032.000\tCML\nCH-03\t18.032.000\tUSB\nCH-04\t21.032.000\tLSB"};
 void loadMemoryChannels(){
 
-  lv_roller_set_options(ui_memoryRoller, memRoller, LV_ROLLER_MODE_NORMAL);
+  lv_roller_set_options(ui_memoryRoller, memRoller, LV_ROLLER_MODE_INFINITE);
 
   const char* current_options = lv_roller_get_options(ui_memoryRoller);
   char updated_options[100]; // Adjust the size as needed
@@ -968,34 +968,69 @@ void loadMemoryChannels(){
   // strcpy(updated_options + 21*index, "CH-05\t28.076.000\tCWL");
   // lv_roller_set_options(ui_memoryRoller, updated_options, LV_ROLLER_MODE_NORMAL);
 }
-
-char * formatFrequency(long f) {
+void formatFrequency(long f, char* buf) {
 // add period separators. Used generally for displaying frequencies
-  char tmpBuffer[10];
-
+  char tmpBuffer[8];
   utoa(f, tmpBuffer,  DEC);
 
   int f_Length = strlen(tmpBuffer);
-  if (f < 1000)    //no separators required, just return the buffer
-    return *tmpBuffer;
-  else {
-    for ( int i = f_Length+1; i > f_Length-4; i--)
-      tmpBuffer[i+1] = tmpBuffer[i];
-    tmpBuffer[f_Length-3] = '.';
+  // Pad leading zeros
+  for (int i=0; i<10; i++) 
+        buf[i] = '0';
+  // Add seperators
+  buf[2] = '.';
+  buf[6] = '.';
 
-    // Now check on whether there is another separator to insert
-    if (f > 999999)     { // two need to be inserted
-      f_Length = strlen(tmpBuffer);    // need to reset because we already inserted one separator
-      for ( int i = f_Length+1; i > f_Length-8; i--)
-        tmpBuffer[i+1] = tmpBuffer[i];
-      tmpBuffer[f_Length-7] = '.';
-    }
-  } 
-  return *tmpBuffer;   
+  //start copying digits into output
+  int pos = 9;
+  for (int i=f_Length; i>0; i--) {
+      if ((pos == 6) || (pos == 2)) {pos--;}
+
+      buf[pos] = tmpBuffer[i-1];
+      pos--;
+  }
 }
+    // buf[0]='0';
+    // buf[1]='7';
+    // buf[2]='.';
+    // buf[3]='0';
+    // buf[4]='3';
+    // buf[5]='2';
+    // buf[6]='.';
+    // buf[7]='9';
+    // buf[8]='9';
+    // buf[9]='0';
+
+
+  
+  // //copy lowest 3 digits into buf and then add a "." seperator
+
+  // for (int i=0; )
+
+  // strncpy(buf[7], tmpBuffer[],10-f_length); 
+
+
+  // if (f < 1000) {  //no separators required, just pad on left and return the buffer
+
+  //   return;
+  // else {
+  //   for ( int i = f_Length+1; i > f_Length-4; i--)
+  //     buf[i+1] = buf[i];
+  //   buf[f_Length-3] = '.';
+
+  //   // Now check on whether there is another separator to insert
+  //   if (f > 999999)     { // two need to be inserted
+  //     f_Length = strlen(buf);    // need to reset because we already inserted one separator
+  //     for ( int i = f_Length+1; i > f_Length-8; i--)
+  //       buf[i+1] = buf[i];
+  //     buf[f_Length-7] = '.';
+  //   }
+  // } 
+  // return *tmpBuffer;   
+// }
 
 void checkForEnterKey(lv_event_t * e) {
-  char tmpBuffer[12];
+  // char tmpBuffer[12];
   lv_obj_t * kb = lv_event_get_target(e);
   uint32_t btn_id = lv_keyboard_get_selected_btn(kb);
   const char * txt = lv_keyboard_get_btn_text(kb, btn_id);
@@ -1009,11 +1044,11 @@ void checkForEnterKey(lv_event_t * e) {
       snprintf(updated_options, sizeof(updated_options), "%s", current_options);
 
       // const char rollerChannelName[5];
-      // const char rollerFrequency[10];
+      char rollerFrequency[10];
       // const char rollerMode[6];
 
       const char* rollerChannelName = lv_textarea_get_text(ui_newChannelTextarea);
-      const char* rollerFrequency = formatFrequency(frequency);
+      formatFrequency(frequency, rollerFrequency);
       const char* rollerMode = lv_label_get_text(ui_modeSelectLabel);
 
       char newOptionValue [20];
@@ -1023,7 +1058,8 @@ void checkForEnterKey(lv_event_t * e) {
       strncpy(updated_options+(21*index)+17, rollerMode,3);
 
 
-      lv_roller_set_options(ui_memoryRoller, updated_options, LV_ROLLER_MODE_NORMAL);
+      lv_roller_set_options(ui_memoryRoller, updated_options, LV_ROLLER_MODE_INFINITE);
+      lv_roller_set_selected(ui_memoryRoller, index, LV_ANIM_OFF);
 
   }
 }

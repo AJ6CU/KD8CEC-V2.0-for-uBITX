@@ -50695,7 +50695,7 @@
                       {
                         "nid": -410040667,
                         "strtype": "ROLLER/Mode",
-                        "strval": "NORMAL",
+                        "strval": "INFINITE",
                         "InheritedType": 3
                       },
                       {
@@ -50740,7 +50740,22 @@
                       },
                       {
                         "part": "lv.PART.SELECTED",
-                        "childs": [],
+                        "childs": [
+                          {
+                            "nid": 265902789,
+                            "strtype": "_style/StyleState",
+                            "strval": "DEFAULT",
+                            "childs": [
+                              {
+                                "nid": -1222815805,
+                                "strtype": "_style/Text_Font",
+                                "strval": "montserrat_20",
+                                "InheritedType": 3
+                              }
+                            ],
+                            "InheritedType": 1
+                          }
+                        ],
                         "nid": -64241219,
                         "strtype": "ROLLER/Style_selected",
                         "strval": "lv.PART.SELECTED, Text, Rectangle",
@@ -51320,7 +51335,7 @@
                       {
                         "disabled": false,
                         "nid": -638694619,
-                        "strtype": "BUTTON/EventHandler",
+                        "strtype": "_event/EventHandler",
                         "strval": "CLICKED",
                         "childs": [
                           {
@@ -51343,7 +51358,7 @@
                           },
                           {
                             "nid": 1904722113,
-                            "strtype": "_custom/action",
+                            "strtype": "_event/action",
                             "strval": "MODIFY FLAG",
                             "childs": [
                               {
@@ -53684,7 +53699,7 @@
                   {
                     "disabled": false,
                     "nid": 1750278445,
-                    "strtype": "TEXTAREA/EventHandler",
+                    "strtype": "_event/EventHandler",
                     "strval": "FOCUSED",
                     "childs": [
                       {
@@ -53707,7 +53722,7 @@
                       },
                       {
                         "nid": 1040391462,
-                        "strtype": "_custom/action",
+                        "strtype": "_event/action",
                         "strval": "MODIFY FLAG",
                         "childs": [
                           {
@@ -54074,7 +54089,7 @@
                   {
                     "disabled": false,
                     "nid": -743931176,
-                    "strtype": "KEYBOARD/EventHandler",
+                    "strtype": "_event/EventHandler",
                     "strval": "CLICKED",
                     "childs": [
                       {
@@ -54097,7 +54112,7 @@
                       },
                       {
                         "nid": -1728385679,
-                        "strtype": "_custom/action",
+                        "strtype": "_event/action",
                         "strval": "CALL FUNCTION",
                         "childs": [
                           {
@@ -54436,7 +54451,7 @@
               {
                 "disabled": false,
                 "nid": 329009238,
-                "strtype": "PANEL/EventHandler",
+                "strtype": "_event/EventHandler",
                 "strval": "CLICKED",
                 "childs": [
                   {
@@ -54459,7 +54474,7 @@
                   },
                   {
                     "nid": -1013457229,
-                    "strtype": "_custom/action",
+                    "strtype": "_event/action",
                     "strval": "MODIFY FLAG",
                     "childs": [
                       {
@@ -54757,7 +54772,7 @@
     "theme_color2": 0,
     "uiExportFolderPath": "C:\\Users\\markj\\Documents\\GitHub\\KD8CEC-V2.0-for-uBITX\\ubitx_20\\src",
     "projectExportFolderPath": "C:\\Users\\markj\\Documents\\GitHub\\KD8CEC-V2.0-for-uBITX\\ubitx_20\\src",
-    "backup_cnt": 1715,
+    "backup_cnt": 1731,
     "autosave_cnt": 0,
     "lvgl_version": "8.3.6",
     "callfuncsexport": "C_FILE",

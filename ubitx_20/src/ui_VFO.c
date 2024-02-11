@@ -378,7 +378,7 @@ void ui_VFO_screen_init(void)
 
     ui_memoryRoller = lv_roller_create(ui_Panel6);
     lv_roller_set_options(ui_memoryRoller, "CH-01	 7.032.000 CWL\nCH-02	 14.032.000 CWU\nCH-03	 7.025.000 CWL",
-                          LV_ROLLER_MODE_NORMAL);
+                          LV_ROLLER_MODE_INFINITE);
     lv_obj_set_height(ui_memoryRoller, 90);
     lv_obj_set_width(ui_memoryRoller, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_x(ui_memoryRoller, -15);
@@ -388,6 +388,8 @@ void ui_VFO_screen_init(void)
     lv_obj_set_style_text_font(ui_memoryRoller, &lv_font_montserrat_14, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(ui_memoryRoller, lv_color_hex(0x696969), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_memoryRoller, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    lv_obj_set_style_text_font(ui_memoryRoller, &lv_font_montserrat_20, LV_PART_SELECTED | LV_STATE_DEFAULT);
 
     ui_Button1 = lv_btn_create(ui_Panel6);
     lv_obj_set_width(ui_Button1, 55);
