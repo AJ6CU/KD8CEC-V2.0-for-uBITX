@@ -426,75 +426,6 @@ void ui_Home_screen_init(void)
     lv_obj_set_style_text_align(ui_CWUModeLabel, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_CWUModeLabel, &lv_font_montserrat_14, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_MemPanel = lv_obj_create(ui_VFOUpperPanel);
-    lv_obj_set_width(ui_MemPanel, 45);
-    lv_obj_set_height(ui_MemPanel, lv_pct(100));
-    lv_obj_set_align(ui_MemPanel, LV_ALIGN_CENTER);
-    lv_obj_set_flex_flow(ui_MemPanel, LV_FLEX_FLOW_ROW_WRAP);
-    lv_obj_set_flex_align(ui_MemPanel, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START);
-    lv_obj_clear_flag(ui_MemPanel, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-    lv_obj_set_style_radius(ui_MemPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_color(ui_MemPanel, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui_MemPanel, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_border_width(ui_MemPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_left(ui_MemPanel, 2, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_right(ui_MemPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_top(ui_MemPanel, 3, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_bottom(ui_MemPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_row(ui_MemPanel, 4, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_column(ui_MemPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-
-    ui_memStoreButton = lv_btn_create(ui_MemPanel);
-    lv_obj_set_height(ui_memStoreButton, 22);
-    lv_obj_set_width(ui_memStoreButton, lv_pct(95));
-    lv_obj_set_align(ui_memStoreButton, LV_ALIGN_CENTER);
-    lv_obj_add_flag(ui_memStoreButton, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
-    lv_obj_clear_flag(ui_memStoreButton, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-    lv_obj_set_style_bg_color(ui_memStoreButton, lv_color_hex(0x2095F6), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui_memStoreButton, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_border_side(ui_memStoreButton, LV_BORDER_SIDE_FULL, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_left(ui_memStoreButton, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_right(ui_memStoreButton, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_top(ui_memStoreButton, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_bottom(ui_memStoreButton, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_row(ui_memStoreButton, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_column(ui_memStoreButton, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-
-    ui_memStoreLabel1 = lv_label_create(ui_memStoreButton);
-    lv_obj_set_width(ui_memStoreLabel1, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_height(ui_memStoreLabel1, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_align(ui_memStoreLabel1, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_memStoreLabel1, "STR");
-    lv_obj_set_style_text_color(ui_memStoreLabel1, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui_memStoreLabel1, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui_memStoreLabel1, &lv_font_montserrat_14, LV_PART_MAIN | LV_STATE_DEFAULT);
-
-    ui_memRecallButton = lv_btn_create(ui_MemPanel);
-    lv_obj_set_height(ui_memRecallButton, 22);
-    lv_obj_set_width(ui_memRecallButton, lv_pct(95));
-    lv_obj_set_align(ui_memRecallButton, LV_ALIGN_CENTER);
-    lv_obj_add_flag(ui_memRecallButton, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
-    lv_obj_clear_flag(ui_memRecallButton, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-    lv_obj_set_style_bg_color(ui_memRecallButton, lv_color_hex(0x2095F6), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui_memRecallButton, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_border_width(ui_memRecallButton, 1, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_border_side(ui_memRecallButton, LV_BORDER_SIDE_FULL, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_left(ui_memRecallButton, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_right(ui_memRecallButton, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_top(ui_memRecallButton, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_bottom(ui_memRecallButton, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_row(ui_memRecallButton, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_column(ui_memRecallButton, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-
-    ui_memRecallButton1 = lv_label_create(ui_memRecallButton);
-    lv_obj_set_width(ui_memRecallButton1, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_height(ui_memRecallButton1, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_align(ui_memRecallButton1, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_memRecallButton1, "RCL");
-    lv_obj_set_style_text_color(ui_memRecallButton1, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui_memRecallButton1, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui_memRecallButton1, &lv_font_montserrat_14, LV_PART_MAIN | LV_STATE_DEFAULT);
-
     ui_VFOLowerPanel = lv_obj_create(ui_VFOPanel);
     lv_obj_set_height(ui_VFOLowerPanel, 20);
     lv_obj_set_width(ui_VFOLowerPanel, lv_pct(100));
@@ -1264,8 +1195,6 @@ void ui_Home_screen_init(void)
     lv_obj_add_event_cb(ui_USBModeButton, ui_event_USBModeButton, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_CWLModeButton, ui_event_CWLModeButton, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_CWUModeButton, ui_event_CWUModeButton, LV_EVENT_ALL, NULL);
-    lv_obj_add_event_cb(ui_memStoreButton, ui_event_memStoreButton, LV_EVENT_ALL, NULL);
-    lv_obj_add_event_cb(ui_memRecallButton, ui_event_memRecallButton, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_VFOLowerPanel, ui_event_VFOLowerPanel, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_splitButton, ui_event_splitButton, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_ritButton, ui_event_ritButton, LV_EVENT_ALL, NULL);
