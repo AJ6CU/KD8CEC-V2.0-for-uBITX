@@ -222,17 +222,18 @@ lv_obj_t * ui_CWLModeLabel1;
 void ui_event_CWUModeButton1(lv_event_t * e);
 lv_obj_t * ui_CWUModeButton1;
 lv_obj_t * ui_CWUModeLabel1;
-void ui_event_ImgButton2(lv_event_t * e);
-lv_obj_t * ui_ImgButton2;
 void ui_event_enterChannelNamePanel(lv_event_t * e);
 lv_obj_t * ui_enterChannelNamePanel;
 lv_obj_t * ui_Label9;
 void ui_event_newChannelTextarea(lv_event_t * e);
 lv_obj_t * ui_newChannelTextarea;
-lv_obj_t * ui_Button5;
+void ui_event_cancelMemStoreButton(lv_event_t * e);
+lv_obj_t * ui_cancelMemStoreButton;
 lv_obj_t * ui_Label11;
 void ui_event_Keyboard1(lv_event_t * e);
 lv_obj_t * ui_Keyboard1;
+void ui_event_ImgButton2(lv_event_t * e);
+lv_obj_t * ui_ImgButton2;
 lv_obj_t * ui____initial_actions0;
 
 ///////////////////// TEST LVGL SETTINGS ////////////////////
@@ -791,14 +792,6 @@ void ui_event_CWUModeButton1(lv_event_t * e)
         _ui_flag_modify(ui_vfoModeSelectPanel, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
     }
 }
-void ui_event_ImgButton2(lv_event_t * e)
-{
-    lv_event_code_t event_code = lv_event_get_code(e);
-    lv_obj_t * target = lv_event_get_target(e);
-    if(event_code == LV_EVENT_CLICKED) {
-        GOTOHomePanelClicked(e);
-    }
-}
 void ui_event_enterChannelNamePanel(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
@@ -815,12 +808,28 @@ void ui_event_newChannelTextarea(lv_event_t * e)
         _ui_flag_modify(ui_Keyboard1, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_REMOVE);
     }
 }
+void ui_event_cancelMemStoreButton(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_CLICKED) {
+        _ui_flag_modify(ui_enterChannelNamePanel, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
+    }
+}
 void ui_event_Keyboard1(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
     lv_obj_t * target = lv_event_get_target(e);
     if(event_code == LV_EVENT_CLICKED) {
         checkForEnterKey(e);
+    }
+}
+void ui_event_ImgButton2(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_CLICKED) {
+        GOTOHomePanelClicked(e);
     }
 }
 

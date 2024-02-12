@@ -233,17 +233,18 @@ extern lv_obj_t * ui_CWLModeLabel1;
 void ui_event_CWUModeButton1(lv_event_t * e);
 extern lv_obj_t * ui_CWUModeButton1;
 extern lv_obj_t * ui_CWUModeLabel1;
-void ui_event_ImgButton2(lv_event_t * e);
-extern lv_obj_t * ui_ImgButton2;
 void ui_event_enterChannelNamePanel(lv_event_t * e);
 extern lv_obj_t * ui_enterChannelNamePanel;
 extern lv_obj_t * ui_Label9;
 void ui_event_newChannelTextarea(lv_event_t * e);
 extern lv_obj_t * ui_newChannelTextarea;
-extern lv_obj_t * ui_Button5;
+void ui_event_cancelMemStoreButton(lv_event_t * e);
+extern lv_obj_t * ui_cancelMemStoreButton;
 extern lv_obj_t * ui_Label11;
 void ui_event_Keyboard1(lv_event_t * e);
 extern lv_obj_t * ui_Keyboard1;
+void ui_event_ImgButton2(lv_event_t * e);
+extern lv_obj_t * ui_ImgButton2;
 extern lv_obj_t * ui____initial_actions0;
 
 LV_IMG_DECLARE(ui_img_436403744);    // assets\att-graph.png

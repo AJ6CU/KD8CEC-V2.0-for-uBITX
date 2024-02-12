@@ -956,17 +956,63 @@ void GOTOHometoCWPanelClicked(lv_event_t * e)
 // }
 
 const char *memRoller = {"CH-01\t07.032.000\tCMU\nCH-02\t14.032.000\tCML\nCH-03\t18.032.000\tUSB\nCH-04\t21.032.000\tLSB"};
+
+
 void loadMemoryChannels(){
+ char channelFreq[10][8];
+ long tmpFreq;
 
-  lv_roller_set_options(ui_memoryRoller, memRoller, LV_ROLLER_MODE_INFINITE);
+ char channelMode[10][3];
+ uint8_t tmpMode;
 
-  const char* current_options = lv_roller_get_options(ui_memoryRoller);
-  char updated_options[100]; // Adjust the size as needed
-  snprintf(updated_options, sizeof(updated_options), "%s", current_options);
-// Replace "Bananan" with a new value (e.g., "Orange")
-  // int index =2;  //third item
-  // strcpy(updated_options + 21*index, "CH-05\t28.076.000\tCWL");
-  // lv_roller_set_options(ui_memoryRoller, updated_options, LV_ROLLER_MODE_NORMAL);
+ char channelName[10][5];
+
+
+ for (int i=0; i<10; i++) {
+  // first get and format frequency and mode
+  EEPROMTYPE.get(CHANNEL_FREQ + 4 * i, tmpFreq);
+
+  tmpMode = byte(tmpFreq >>29);     //mode is hidden in top 3 bits
+  tmpFreq = tmpFreq & 0x1FFFFFFF;   //mask off the mode bits
+
+  formatFrequency(tmpFreq,channelFreq[i]);    // adds periods as seperators
+  
+  switch (tmpMode) {
+    case 1:
+      strcpy(channelMode[i],"DFT");
+    case 2:
+      strcpy(channelMode[i],"LSB");
+      break;
+    case 3:
+      strcpy(channelMode[i],"USB");
+      break;
+    case 4:
+      strcpy(channelMode[i],"CWL");
+      break;
+    case 5:
+      strcpy(channelMode[i],"CWU");
+      break;
+    default:
+     strcpy(channelMode[i],"LSB");
+      break;
+  }
+
+
+          
+//           loadMode = (byte)(resultFreq >> 29);
+//           resultFreq = resultFreq & 0x1FFFFFFF;
+
+ }
+
+//   lv_roller_set_options(ui_memoryRoller, memRoller, LV_ROLLER_MODE_INFINITE);
+
+//   const char* current_options = lv_roller_get_options(ui_memoryRoller);
+//   char updated_options[100]; // Adjust the size as needed
+//   snprintf(updated_options, sizeof(updated_options), "%s", current_options);
+// // Replace "Bananan" with a new value (e.g., "Orange")
+//   // int index =2;  //third item
+//   // strcpy(updated_options + 21*index, "CH-05\t28.076.000\tCWL");
+//   // lv_roller_set_options(ui_memoryRoller, updated_options, LV_ROLLER_MODE_NORMAL);
 }
 void formatFrequency(long f, char* buf) {
 // add period separators. Used generally for displaying frequencies
@@ -990,44 +1036,9 @@ void formatFrequency(long f, char* buf) {
       pos--;
   }
 }
-    // buf[0]='0';
-    // buf[1]='7';
-    // buf[2]='.';
-    // buf[3]='0';
-    // buf[4]='3';
-    // buf[5]='2';
-    // buf[6]='.';
-    // buf[7]='9';
-    // buf[8]='9';
-    // buf[9]='0';
+   
 
 
-  
-  // //copy lowest 3 digits into buf and then add a "." seperator
-
-  // for (int i=0; )
-
-  // strncpy(buf[7], tmpBuffer[],10-f_length); 
-
-
-  // if (f < 1000) {  //no separators required, just pad on left and return the buffer
-
-  //   return;
-  // else {
-  //   for ( int i = f_Length+1; i > f_Length-4; i--)
-  //     buf[i+1] = buf[i];
-  //   buf[f_Length-3] = '.';
-
-  //   // Now check on whether there is another separator to insert
-  //   if (f > 999999)     { // two need to be inserted
-  //     f_Length = strlen(buf);    // need to reset because we already inserted one separator
-  //     for ( int i = f_Length+1; i > f_Length-8; i--)
-  //       buf[i+1] = buf[i];
-  //     buf[f_Length-7] = '.';
-  //   }
-  // } 
-  // return *tmpBuffer;   
-// }
 
 void checkForEnterKey(lv_event_t * e) {
   // char tmpBuffer[12];
@@ -1043,16 +1054,37 @@ void checkForEnterKey(lv_event_t * e) {
       char updated_options[100]; // Adjust the size as needed
       snprintf(updated_options, sizeof(updated_options), "%s", current_options);
 
-      // const char rollerChannelName[5];
+      char rollerChannelName[5];
+      int channelNameLen;
       char rollerFrequency[10];
-      // const char rollerMode[6];
+      
 
-      const char* rollerChannelName = lv_textarea_get_text(ui_newChannelTextarea);
+      const char* rollerChannelptr = lv_textarea_get_text(ui_newChannelTextarea);
+      
+      // The channel name is fixed at 5 characters. Pad right with blanks
+
+      int channelNameLen = strlen(rollerChannelptr);
+      for(int i=0; i<channelNameLen; i++)
+        rollerChannelName[i] = rollerChannelptr[i];
+      if channelNameLen <5)  
+        for(int i =channelNameLen; i<5; i++)
+          rollerChannelName[i] = ' ';
+
+      // get current frequency and have it formated with "." as seperators   
       formatFrequency(frequency, rollerFrequency);
+
+      // get mode
       const char* rollerMode = lv_label_get_text(ui_modeSelectLabel);
 
-      char newOptionValue [20];
-
+      // combine into one string. Existing strings already have \n inserted between options
+      // 0-4 is name
+      // 5 is \n
+      // 6--15 is 10 digit frequency with periods as seperators. 
+      // 16 is \n
+      // 17-19 is mode
+      // btw the last string does not have a \n. that is how lvgl determines tha there is an end to the options
+      // in a roller
+      //
       strncpy(updated_options+(21*index), rollerChannelName,5);
       strncpy(updated_options+(21*index)+6, rollerFrequency,10);
       strncpy(updated_options+(21*index)+17, rollerMode,3);

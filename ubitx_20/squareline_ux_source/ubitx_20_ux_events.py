@@ -254,3 +254,7 @@ def updateFrequency(event_struct):
 def checkForEnterKey(event_struct):
     return
 
+
+def cancelStoreMemory(event_struct):
+    return
+
