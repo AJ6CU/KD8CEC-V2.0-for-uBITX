@@ -848,6 +848,7 @@ void splitButtonClicked(lv_event_t * e)
     lv_obj_clear_state( ui_splitButton, LV_STATE_CHECKED);
 }
 
+
 void ritButtonClicked(lv_event_t * e)
 {
 	//
@@ -908,113 +909,135 @@ void resetIFSClicked(lv_event_t * e)
   
 }
 
-void GOTOHometoCWPanelClicked(lv_event_t * e)
-{
-	// lv_obj_add_flag(ui_HomePanel, LV_OBJ_FLAG_HIDDEN);
-  // lv_obj_clear_flag(ui_CWSettingsPanel,  LV_OBJ_FLAG_HIDDEN);
+void GOTOHometoCWPanelClicked(lv_event_t * e){
   
   lv_scr_load(ui_CWSettings);
-  // lv_obj_clean(ui_Home);
 
 }
 
 
+//
+// When VFO panel is entered, the current channels in the EEPROM memory are loaded into the selector roller
+//
+// Format of roller is Fixed at 21 characters and terminate with a '\n' *except* for the last one
+// bytes      purpose
+// 0-4        Channel name, blanked fill on right. Non-printable are translated to blanks
+// 5          tab for prettiness
+// 6-15       Frequency in format xx.xxx.xxx  With leading zeros as necessary
+// 16         another tab for prettiness
+// 17-19      3 character mode - e.g., USB or CWL
+// 20         /n to indicated end of the data for this line. *NOT* used for last line
+// 
+uint8_t memoryChannelsLoaded = 0;
+void loadMemoryChannels() {
+  //
+  //  Following character arrays are used to store the individual line data before adding it to the roller
+  //
+  char channelFreq[10][10];
+  unsigned long tmpFreq;
 
-// void setRollersFromVFO() {
+  char channelMode[10][3];
+  uint8_t tmpMode;
+
+  char channelName[10][5];
+  char tmpChar;
+
+  //
+  //  This array is used to store all 10 channels and eventually passed to the roller to update available lines
+  //
+  char updated_options[210];
+
+  const char aTab = '\t';           //Fields are selected by tab to better line up and look pretty in roller
+  const char aBackSlashN = '\n';    //Each set of contents of the roller are terminated with a '\n' except for the last one
+  if(memoryChannelsLoaded == 0){
+    memoryChannelsLoaded = 1;
+
+    Serial.begin(115200);
+  //
+  //  Although there are actually 20 channels possible, only presenting the 10 that can have channel names
+  //
+    for (int selectChannel=0; selectChannel<10; selectChannel++) {
+
+      // first get and format frequency and mode
+      EEPROMTYPE.get(CHANNEL_FREQ + 4 * selectChannel, tmpFreq);
+      Serial.println("got freq out of eeprom");
+
+      tmpMode = byte((tmpFreq >>29) & 0x7);     //mode is hidden in top 3 bits
+      tmpFreq = tmpFreq & 0x1FFFFFFF;   //mask off the mode bits
+
+      
+      formatFrequency(tmpFreq,channelFreq[selectChannel]);    // adds periods as seperators
+    
+      switch (tmpMode) {
+        case 1:
+          strcpy(channelMode[selectChannel],"DFT");         // this is the "default" for the band
+        case 2:
+          strcpy(channelMode[selectChannel],"LSB");
+          break;
+        case 3:
+          strcpy(channelMode[selectChannel],"USB");
+          break;
+        case 4:
+          strcpy(channelMode[selectChannel],"CWL");
+          break;
+        case 5:
+          strcpy(channelMode[selectChannel],"CWU");
+          break;
+        default:
+        strcpy(channelMode[selectChannel],"ERR");       // need to check, there is probably a default
+          break;
+      }
+
+      //
+      // Now get Channel name. Blank fill on right. Change unprintables to blanks
+      //
+
+        for (int j = 0; j < 5; j++){
+          tmpChar = EEPROMTYPE.read(CHANNEL_DESC + 6 * selectChannel + j + 1);
+          if (isPrintable(tmpChar))
+            channelName[selectChannel][j] = tmpChar;
+          else
+            channelName[selectChannel][j] = ' ';
+        }
+        Serial.println("got channel name out of eeprom");
 
 
-//   lv_roller_set_selected(ui_Roller1,(frequency/10)        % 10,LV_ANIM_OFF);
-//   lv_roller_set_selected(ui_Roller2,(frequency/100)       % 10,LV_ANIM_OFF);
-//   lv_roller_set_selected(ui_Roller3,(frequency/1000)      % 10,LV_ANIM_OFF);
-//   lv_roller_set_selected(ui_Roller4,(frequency/10000)     % 10,LV_ANIM_OFF);
-//   lv_roller_set_selected(ui_Roller5,(frequency/100000)    % 10,LV_ANIM_OFF);
-//   lv_roller_set_selected(ui_Roller6,(frequency/1000000)   % 10,LV_ANIM_OFF);
-//   lv_roller_set_selected(ui_Roller7,(frequency/10000000)  % 10,LV_ANIM_OFF);
+      //
+      // Now put together a line for the roller
+      //
 
-// }
 
-// void GOTOCWtoVFOPanelClicked(lv_event_t * e)
-// {
-//   //  first set the roller dials for the existing frequency and then make
-//   //  vfo panel active
+        strncpy(updated_options+(21*selectChannel), channelName[selectChannel],5);
+        updated_options[(21*selectChannel)+5] =aTab;
+
+
   
-//     setRollersFromVFO();
-  
-//   // lv_obj_add_flag(ui_CWSettingsPanel, LV_OBJ_FLAG_HIDDEN);
-//   // lv_obj_clear_flag(ui_VFOTuningPanel,  LV_OBJ_FLAG_HIDDEN);
-//   lv_scr_load(ui_VFO);
-//   // lv_obj_clean(ui_CWSettings);
-  
-// }
+        strncpy(updated_options+(21*selectChannel)+6,channelFreq[selectChannel],10);
+        updated_options[(21*selectChannel)+16] =aTab;
 
-// void GOTOVFOtoCWPanelClicked(lv_event_t * e)
-// {
-// 	lv_scr_load(ui_CWSettings);
-//   // lv_obj_clean(ui_VFO);
-//   // lv_obj_add_flag(ui_VFOTuningPanel, LV_OBJ_FLAG_HIDDEN);
-//   // lv_obj_clear_flag(ui_CWSettingsPanel,  LV_OBJ_FLAG_HIDDEN);
-// }
+        strncpy(updated_options+(21*selectChannel)+17, channelMode[selectChannel],3);
 
-const char *memRoller = {"CH-01\t07.032.000\tCMU\nCH-02\t14.032.000\tCML\nCH-03\t18.032.000\tUSB\nCH-04\t21.032.000\tLSB"};
+      //
+      //Each of the options has a "\n" except the last one
+      //
+        if (selectChannel < 9) 
+          updated_options[(21*selectChannel)+20] = aBackSlashN;
 
-
-void loadMemoryChannels(){
- char channelFreq[10][8];
- long tmpFreq;
-
- char channelMode[10][3];
- uint8_t tmpMode;
-
- char channelName[10][5];
-
-
- for (int i=0; i<10; i++) {
-  // first get and format frequency and mode
-  EEPROMTYPE.get(CHANNEL_FREQ + 4 * i, tmpFreq);
-
-  tmpMode = byte(tmpFreq >>29);     //mode is hidden in top 3 bits
-  tmpFreq = tmpFreq & 0x1FFFFFFF;   //mask off the mode bits
-
-  formatFrequency(tmpFreq,channelFreq[i]);    // adds periods as seperators
-  
-  switch (tmpMode) {
-    case 1:
-      strcpy(channelMode[i],"DFT");
-    case 2:
-      strcpy(channelMode[i],"LSB");
-      break;
-    case 3:
-      strcpy(channelMode[i],"USB");
-      break;
-    case 4:
-      strcpy(channelMode[i],"CWL");
-      break;
-    case 5:
-      strcpy(channelMode[i],"CWU");
-      break;
-    default:
-     strcpy(channelMode[i],"LSB");
-      break;
+    }
+      //
+      //  Now update the roller and set the selction to the first memory channel
+      //
+    Serial.println("updating option");  
+    Serial.println(updated_options);  
+    lv_roller_set_options(ui_memoryRoller, updated_options, LV_ROLLER_MODE_NORMAL);
+    Serial.println("updating position of roller");
+    lv_roller_set_selected(ui_memoryRoller, 0, LV_ANIM_OFF);
+    Serial.println("exiting load rollers");
   }
 
-
-          
-//           loadMode = (byte)(resultFreq >> 29);
-//           resultFreq = resultFreq & 0x1FFFFFFF;
-
- }
-
-//   lv_roller_set_options(ui_memoryRoller, memRoller, LV_ROLLER_MODE_INFINITE);
-
-//   const char* current_options = lv_roller_get_options(ui_memoryRoller);
-//   char updated_options[100]; // Adjust the size as needed
-//   snprintf(updated_options, sizeof(updated_options), "%s", current_options);
-// // Replace "Bananan" with a new value (e.g., "Orange")
-//   // int index =2;  //third item
-//   // strcpy(updated_options + 21*index, "CH-05\t28.076.000\tCWL");
-//   // lv_roller_set_options(ui_memoryRoller, updated_options, LV_ROLLER_MODE_NORMAL);
 }
-void formatFrequency(long f, char* buf) {
+
+void formatFrequency(unsigned long f, char* buf) {
 // add period separators. Used generally for displaying frequencies
   char tmpBuffer[8];
   utoa(f, tmpBuffer,  DEC);
@@ -1037,63 +1060,120 @@ void formatFrequency(long f, char* buf) {
   }
 }
    
+//
+//  When the user selects the "Store" button, the following routing is called 
+//  Its purpose is to check whether the "enter" key has been pressed. If so it updates
+//  the roller and then writes the new info to the EEPROM
+//
 
+void storeButtonClicked(lv_event_t * e){
 
+    lv_textarea_set_text(ui_newChannelTextarea,"");
+    //lv_textarea_set_cursor_pos(ui_newChannelTextarea,0);
 
-void checkForEnterKey(lv_event_t * e) {
-  // char tmpBuffer[12];
-  lv_obj_t * kb = lv_event_get_target(e);
-  uint32_t btn_id = lv_keyboard_get_selected_btn(kb);
-  const char * txt = lv_keyboard_get_btn_text(kb, btn_id);
+}
 
+void checkForEnterKey(lv_event_t * e) 
+{
+  char updated_options[210]; 
+  
+  char rollerChannelName[5];    // Used to store the new channel name
+  int channelNameLen;
+  char rollerFrequency[10]; 
+  long unsigned tmpFreq;
+
+  lv_obj_t * kb = lv_event_get_target(e);                   //get a pointer to keyboard object that had the event
+  uint32_t btn_id = lv_keyboard_get_selected_btn(kb);       //this gets the id of the button that was pressed
+  const char * txt = lv_keyboard_get_btn_text(kb, btn_id);  //then the button id and and keyboard id is used to get the text of the key pressed
+
+ 
+ //
+ // First check if a new line has been found. A zero return type indicates a match
   if(strcmp(txt, LV_SYMBOL_NEW_LINE) == 0) {
-      lv_obj_add_flag(ui_enterChannelNamePanel, LV_OBJ_FLAG_HIDDEN);
-      int index = lv_roller_get_selected(ui_memoryRoller);
+    //
+    // User has hit entered, so can hide the keyboard panel
+    //
+    lv_obj_add_flag(ui_enterChannelNamePanel, LV_OBJ_FLAG_HIDDEN);
+    int index = lv_roller_get_selected(ui_memoryRoller);
 
-      const char* current_options = lv_roller_get_options(ui_memoryRoller);
-      char updated_options[100]; // Adjust the size as needed
-      snprintf(updated_options, sizeof(updated_options), "%s", current_options);
+    const char* current_options = lv_roller_get_options(ui_memoryRoller);
 
-      char rollerChannelName[5];
-      int channelNameLen;
-      char rollerFrequency[10];
-      
+    //snprintf(updated_options, sizeof(updated_options), "%s", current_options);
+    strncpy (updated_options, current_options, sizeof(updated_options));
 
-      const char* rollerChannelptr = lv_textarea_get_text(ui_newChannelTextarea);
-      
-      // The channel name is fixed at 5 characters. Pad right with blanks
+    Serial.begin(115200);
+    Serial.println("dumping options"); Serial.println(updated_options);
 
-      int channelNameLen = strlen(rollerChannelptr);
-      for(int i=0; i<channelNameLen; i++)
-        rollerChannelName[i] = rollerChannelptr[i];
-      if channelNameLen <5)  
-        for(int i =channelNameLen; i<5; i++)
-          rollerChannelName[i] = ' ';
+    
 
-      // get current frequency and have it formated with "." as seperators   
-      formatFrequency(frequency, rollerFrequency);
+    const char* rollerChannelptr = lv_textarea_get_text(ui_newChannelTextarea);
+    
+    // The channel name is fixed at 5 characters. Pad right with blanks
 
-      // get mode
-      const char* rollerMode = lv_label_get_text(ui_modeSelectLabel);
+    channelNameLen = strlen(rollerChannelptr);
+    for(int i=0; i<channelNameLen; i++)
+      rollerChannelName[i] = rollerChannelptr[i];
 
-      // combine into one string. Existing strings already have \n inserted between options
-      // 0-4 is name
-      // 5 is \n
-      // 6--15 is 10 digit frequency with periods as seperators. 
-      // 16 is \n
-      // 17-19 is mode
-      // btw the last string does not have a \n. that is how lvgl determines tha there is an end to the options
-      // in a roller
-      //
-      strncpy(updated_options+(21*index), rollerChannelName,5);
-      strncpy(updated_options+(21*index)+6, rollerFrequency,10);
-      strncpy(updated_options+(21*index)+17, rollerMode,3);
+    if (channelNameLen <5)  
+      for(int i = channelNameLen; i<5; i++)
+        rollerChannelName[i] = ' ';
+
+    // get current frequency and have it formated with "." as seperators
+    tmpFreq = frequency; 
+    formatFrequency(frequency, rollerFrequency);
+
+    // get mode
+    const char* rollerMode = lv_label_get_text(ui_modeSelectLabel);
+
+    // combine into one string. Existing strings already have \n inserted between options
+    // 0-4 is name
+    // 5 is \n
+    // 6--15 is 10 digit frequency with periods as seperators. 
+    // 16 is \n
+    // 17-19 is mode
+    // btw the last string does not have a \n. that is how lvgl determines tha there is an end to the options
+    // in a roller
+    //
+    strncpy(updated_options+(21*index), rollerChannelName,5);
+    strncpy(updated_options+(21*index)+6, rollerFrequency,10);
+    strncpy(updated_options+(21*index)+17, rollerMode,3);
+
+    Serial.println("dumping options"); Serial.println(updated_options);
 
 
-      lv_roller_set_options(ui_memoryRoller, updated_options, LV_ROLLER_MODE_INFINITE);
-      lv_roller_set_selected(ui_memoryRoller, index, LV_ANIM_OFF);
+    lv_roller_set_options(ui_memoryRoller, updated_options, LV_ROLLER_MODE_NORMAL);
+    lv_roller_set_selected(ui_memoryRoller, index, LV_ANIM_OFF);
+
+
+    EEPROMTYPE.put(CHANNEL_FREQ + 4 * index, (tmpFreq & 0x1FFFFFFF) | (((unsigned long)modeToByte()) << 29));
+
+     for (int j = 0; j < 5; j++)
+        EEPROMTYPE.write(CHANNEL_DESC + 6 * index + j + 1,rollerChannelName[j]);
+
 
   }
+}
+
+uint8_t VFOautoQSY = 1;
+
+void vfoQSYButtonLoaded() {
+  if(VFOautoQSY) {
+    lv_obj_add_state( ui_QSYButton, LV_STATE_CHECKED);  // This puts button in pressed state (locked)
+    lv_label_set_text(ui_QSYLabel,"Auto\nQSY");
+  }
+  else {
+    lv_obj_clear_state( ui_QSYButton, LV_STATE_CHECKED);
+    lv_label_set_text(ui_QSYLabel,"QSY");
+  }
+
+}
+
+void QSYButtonClicked(lv_event_t * e) {
+  if (VFOautoQSY)
+    VFOautoQSY = 0;
+  else
+    VFOautoQSY = 1;
+  vfoQSYButtonLoaded ();
 }
 
 
@@ -1236,11 +1316,17 @@ void GOTOVFOPanelClicked(lv_event_t * e){
   
   //  first set the roller dials for the existing frequency and then make
   //  vfo panel active
-  
+  Serial.begin(115200);
+  Serial.println("vfo clicked callback called");
   lv_spinbox_set_value(ui_vfoSpinBox, frequency/10);  //last digit in spin box is fixed at zero
+  Serial.println("successful loaded spin box");
   loadMemoryChannels();
+  Serial.println("successful loaded mem channels");
+  vfoQSYButtonLoaded();
+  Serial.println("successful loadedQSYButton");
 
   lv_scr_load(ui_VFO);
+  Serial.println("switched screens");
  
 }
 

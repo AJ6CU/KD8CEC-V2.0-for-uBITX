@@ -258,3 +258,15 @@ def checkForEnterKey(event_struct):
 def cancelStoreMemory(event_struct):
     return
 
+
+def vfoQSYButtonLoaded(event_struct):
+    return
+
+
+def QSYButtonClicked(event_struct):
+    return
+
+
+def storeButtonClicked(event_struct):
+    return
+

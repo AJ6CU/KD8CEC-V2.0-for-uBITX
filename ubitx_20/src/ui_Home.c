@@ -322,7 +322,7 @@ void ui_Home_screen_init(void)
     ui_Label4 = lv_label_create(ui_activeFreq);
     lv_obj_set_width(ui_Label4, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_Label4, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_x(ui_Label4, 27);
+    lv_obj_set_x(ui_Label4, 22);
     lv_obj_set_y(ui_Label4, 0);
     lv_obj_set_align(ui_Label4, LV_ALIGN_CENTER);
     lv_label_set_text(ui_Label4, ".");
@@ -332,7 +332,7 @@ void ui_Home_screen_init(void)
     ui_Label5 = lv_label_create(ui_activeFreq);
     lv_obj_set_width(ui_Label5, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_Label5, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_x(ui_Label5, -53);
+    lv_obj_set_x(ui_Label5, -57);
     lv_obj_set_y(ui_Label5, 0);
     lv_obj_set_align(ui_Label5, LV_ALIGN_CENTER);
     lv_label_set_text(ui_Label5, ".");
@@ -702,7 +702,7 @@ void ui_Home_screen_init(void)
     lv_obj_set_y(ui_Panel8, 0);
     lv_obj_set_align(ui_Panel8, LV_ALIGN_CENTER);
     lv_obj_set_flex_flow(ui_Panel8, LV_FLEX_FLOW_ROW);
-    lv_obj_set_flex_align(ui_Panel8, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START);
+    lv_obj_set_flex_align(ui_Panel8, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_START);
     lv_obj_clear_flag(ui_Panel8, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
     lv_obj_set_style_radius(ui_Panel8, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(ui_Panel8, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -756,25 +756,7 @@ void ui_Home_screen_init(void)
     lv_obj_set_style_pad_row(ui_Label20, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_column(ui_Label20, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_Panel10 = lv_obj_create(ui_Panel8);
-    lv_obj_set_height(ui_Panel10, 30);
-    lv_obj_set_flex_grow(ui_Panel10, 1);
-    lv_obj_set_align(ui_Panel10, LV_ALIGN_CENTER);
-    lv_obj_set_flex_flow(ui_Panel10, LV_FLEX_FLOW_ROW_WRAP);
-    lv_obj_set_flex_align(ui_Panel10, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START);
-    lv_obj_clear_flag(ui_Panel10, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-    lv_obj_set_style_radius(ui_Panel10, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_color(ui_Panel10, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui_Panel10, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_border_width(ui_Panel10, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_left(ui_Panel10, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_right(ui_Panel10, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_top(ui_Panel10, 10, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_bottom(ui_Panel10, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_row(ui_Panel10, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_column(ui_Panel10, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-
-    ui_Bar2 = lv_bar_create(ui_Panel10);
+    ui_Bar2 = lv_bar_create(ui_Panel8);
     lv_bar_set_range(ui_Bar2, 0, 9);
     lv_bar_set_value(ui_Bar2, 2, LV_ANIM_OFF);
     lv_bar_set_start_value(ui_Bar2, 0, LV_ANIM_OFF);
@@ -1178,6 +1160,12 @@ void ui_Home_screen_init(void)
     lv_obj_set_style_text_opa(ui_IFSValueLabel, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(ui_IFSValueLabel, LV_TEXT_ALIGN_LEFT, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_IFSValueLabel, &lv_font_montserrat_14, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_Arc1 = lv_arc_create(ui_Home);
+    lv_obj_set_width(ui_Arc1, 150);
+    lv_obj_set_height(ui_Arc1, 150);
+    lv_obj_set_align(ui_Arc1, LV_ALIGN_CENTER);
+
 
     lv_obj_add_event_cb(ui_txStopButton, ui_event_txStopButton, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_switchVFO, ui_event_switchVFO, LV_EVENT_ALL, NULL);
