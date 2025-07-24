@@ -333,13 +333,16 @@ void WriteEEPRom(void)  //for remove warning
     {
       if (write1Byte == 0x51) //Restart
       {
-        #if defined(NANO33IOT)  || defined(NANOBLE) || defined(NANORP2040) || defined(RASPBERRYPIPICO)
+        #if defined(NANO33IOT)  || defined(NANOBLE) || defined(NANORP2040) 
+        // mjh #if defined(NANO33IOT)  || defined(NANOBLE) || defined(NANORP2040) || defined(RASPBERRYPIPICO)
            NVIC_SystemReset();
         #elif defined(TEENSY) || defined(TEENSY41)
             SCB_AIRCR = 0x05FA0004;
         #elif defined (NANOEVERY)
             CPU_CCP = CCP_IOREG_gc;
             RSTCTRL.SWRR = RSTCTRL_SWRE_bm;
+        #elif defined(RASPBERRYPIPICO)
+            rp2040.reboot();
         #else
             asm volatile ("  jmp 0");
         #endif

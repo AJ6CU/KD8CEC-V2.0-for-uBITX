@@ -50,27 +50,27 @@
 //Ubitx BOARD Version   - Select one by uncommenting only it
 //#define UBITX_BOARD_VERSION 3      //v1 ~ v4 : 4, v5: 5, 6
 //#define UBITX_BOARD_VERSION 4
-#define UBITX_BOARD_VERSION 5
-//#define UBITX_BOARD_VERSION 6
+//#define UBITX_BOARD_VERSION 5
+#define UBITX_BOARD_VERSION 6
 
 //Define which PROCESSOR is used
-#define NANO  
+//#define NANO  
 //#define NANOEVERY
 //#define NANO33IOT
 //#define NANOBLE
 //#define NANORP2040
 //#define TEENSY
 //#define TEENSY41
-//#define RASPBERRYPIPICO
+#define RASPBERRYPIPICO
 
 //Depending on the type of LCD mounted on the uBITX, uncomment one of the options below.
 //You must select only one.
-#define UBITX_DISPLAY_LCD1602P        //LCD mounted on unmodified uBITX (Parallel)
+//#define UBITX_DISPLAY_LCD1602P        //LCD mounted on unmodified uBITX (Parallel)
 //#define UBITX_DISPLAY_LCD1602I        //I2C type 16 x 02 LCD
 //#define UBITX_DISPLAY_LCD1602I_DUAL   //I2C type 16 x02 LCD Dual
 //#define UBITX_DISPLAY_LCD2004P        //24 x 04 LCD (Parallel)
 //#define UBITX_DISPLAY_LCD2004I        //I2C type 24 x 04 LCD
-//#define UBITX_DISPLAY_NEXTION         //NEXTION LCD
+#define UBITX_DISPLAY_NEXTION         //NEXTION LCD
 
 //You Can Select  Analog S-Meter or DSP (I2C) Meter (2nd Nano) Or Leave both Commented out
 //#define USE_I2CSMETER         //This is the option to choose if using a second Nano
