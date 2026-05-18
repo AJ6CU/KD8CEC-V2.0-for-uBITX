@@ -1079,7 +1079,7 @@ void updateExtEEPROM()
     EEPROMTYPE.write(EXT_FIRMWARE_ID_ADDR2, 0x58);
     EEPROMTYPE.write(EXT_FIRMWARE_ID_ADDR3, 0x68);
   }
-  // Write the puclicly visible version number to EEPROM
+  // Write the publically visible version number to EEPROM
   // Note because the define FIRMWARE_VERSION_INFO is defined as a F string, don't need to
   // use the GETDEFINEDVALUE macro
   writeStringToEEPROM(EXT_FIRMWARE_VERSION_INFO, FIRMWARE_VERSION_INFO, 10);
@@ -1108,10 +1108,10 @@ void updateExtEEPROM()
 
   EEPROMTYPE.write(EXT_SERIAL_TYPE, SERIAL_TYPE);         // If 0, using software serial. Otherwise using hardware serial
 
-  EEPROMTYPE.write(EXT_ENCODER_TYPE, ENCODER_TYPE);       // if 0, using traditional analog encoder. 1 Means using encoder attached to Digital pins
-
   EEPROMTYPE.write(EXT_EEPROM_TYPE, EEPROM_TYPE);         // if 0, using the internal EEPROM. A 1 means using external I2C attached EEPROM
 
+  EEPROMTYPE.write(EXT_ENCODER_TYPE, ENCODER_TYPE);       // if 0, using traditional analog encoder. 1 Means using encoder attached to Digital pins
+  
   writeStringToEEPROM(EXT_NEXTIONBAUD, GETDEFINEDVALUE(NEXTIONBAUD), 6);       //write the nextion baud rate to EEPROM.
 
   // Store the pin locations in EEPROM
@@ -1633,6 +1633,7 @@ void setup()
     Wire.setSCL(SCL_PIN);
   #endif
   Wire.begin(); 
+  Wire.setClock(400000);      // Set wire protocol to fast clock instead of slow 100000
   EEPROMTYPE.begin(I2C_EEPROM_ADDR,Wire);
 #endif
 

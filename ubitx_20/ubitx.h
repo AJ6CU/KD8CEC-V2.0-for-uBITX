@@ -199,12 +199,12 @@
   #define USE_I2C_LCD
 #elif defined(UBITX_DISPLAY_NEXTION)        //NEXTION LCD
   #define UBITXDISPLAY 6
-  #define NEXTIONBAUD 9600                  //must match that in tft file
+  #define NEXTIONBAUD 57600   //9600                  //must match that in tft file
   #undef ENABLE_ADCMONITOR
   #undef FACTORY_RECOVERY_BOOTUP  
   //#define UBITX_DISPLAY_NEXTION_SAFE      //Only EEProm Write 770~775
 #endif  
-#define NEXTIONBAUD 9600                    //must match that in tft file. Always defined so can be stored
+#define NEXTIONBAUD 57600   //9600                    //must match that in tft file. Always defined so can be stored
                                             //In extended EEPROM and reported in Settings Manager
 //#ifdef USE_I2C_LCD
   #define I2C_LCD_MASTER_ADDRESS_DEFAULT  0x27     //0x27  //DEFAULT, if Set I2C Address by uBITX Manager, read from EEProm
