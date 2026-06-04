@@ -75,6 +75,7 @@ versions worked, others didn't...
   #define SERIALPORTAVAILABLE sSERIAL.available
   #define SERIALPORTREAD sSERIAL.read
   #define SERIALPORTPRINT sSERIAL.print 
+  #define SERIALPORTFLUSH sSERIAL.flush
 #else
   //#define SERIALPORT Serial1                    //These routines are for the Hardware Serial I/O                 
   #define SERIALPORTBEGIN Serial1.begin
@@ -82,6 +83,7 @@ versions worked, others didn't...
   #define SERIALPORTAVAILABLE Serial1.available
   #define SERIALPORTREAD Serial1.read
   #define SERIALPORTPRINT Serial1.print
+  #define SERIALPORTFLUSH Serial1.flush
 #endif  
 
 
@@ -351,6 +353,9 @@ void SendHeader(char varType, char varIndex)
     for (int i = 0; i < 10; i++)
       SERIALPORTWRITE(softINTHeader[i]);
   }
+#ifndef USE_SOFTWARESERIAL_TINY         // no flush for Tiny SoftwareSerial library
+  SERIALPORTFLUSH();
+#endif
 }
 
 #define INT_ETX 0
@@ -473,7 +478,11 @@ void SendCommand1Num(char varType, char sendValue) //0~9 : Mode, nowDisp, Active
 
   for (int i = 0; i < 14; i++)
     SERIALPORTWRITE(softBuff1Num[i]);
+  #ifndef USE_SOFTWARESERIAL_TINY         // no flush for Tiny SoftwareSerial library
+    SERIALPORTFLUSH();
+  #endif
 }
+
 
 void SetSWActivePage(char newPageIndex)
 {
@@ -815,7 +824,9 @@ void sendResponseData(int protocolType, unsigned long startFreq, unsigned int se
   {
     for (int i = 0; i < 11; i++)
       SERIALPORTWRITE(ResponseHeader[i]);
-      
+    #ifndef USE_SOFTWARESERIAL_TINY         // no flush for Tiny SoftwareSerial library
+      SERIALPORTFLUSH();
+    #endif
     for (k = 0; k < readCount; k ++)
     {
       if (protocolType == RESPONSE_SPECTRUM)

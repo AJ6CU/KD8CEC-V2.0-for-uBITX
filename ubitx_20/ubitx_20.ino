@@ -1719,6 +1719,13 @@ void setup()
 
 }
 
+// void setup1()
+// {
+//   Serial.begin(38400);
+//   delay(2000);
+//   Serial.println("good morning from processor 2");
+// }
+
 //Auto save Frequency and Mode with Protected eeprom life by KD8CEC
 void checkAutoSaveFreqMode()
 {
@@ -1780,3 +1787,8 @@ void loop(){
     SWS_Process();
   #endif  
 }
+
+// void loop1() {
+//   delay (5000);
+//   Serial.println("Processor 2 is still alive");
+// }

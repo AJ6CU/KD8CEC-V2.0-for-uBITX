@@ -73,8 +73,8 @@
 #define UBITX_DISPLAY_NEXTION         //NEXTION LCD
 
 //You Can Select  Analog S-Meter or DSP (I2C) Meter (2nd Nano) Or Leave both Commented out
-//#define USE_I2CSMETER         //This is the option to choose if using a second Nano
-#define USE_ANALOG_SMETER       //Select this option if attaching sensor directly to Radiuno
+#define USE_I2CSMETER         //This is the option to choose if using a second Nano
+// #define USE_ANALOG_SMETER       //Select this option if attaching sensor directly to Radiuno
 
 
 //==============================================================================
